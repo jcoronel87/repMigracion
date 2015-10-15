@@ -175,6 +175,10 @@ public class SadminDataCtrl extends BaseCtrl {
                 if (sadminData.getCodigoCasilleroLocalidad() == null) {
                     sadminData.setCodigoCasilleroLocalidad(new Localidad());
                 }
+                if (sadminData.getProvincia1() != null && sadminData.getCodigoCasilleroLocalidad().getCodigoLocalidad() == null) {
+                    Localidad provincia = localidadServicio.findByCodInternacional(sadminData.getProvincia1());
+                    sadminData.setCodigoCasilleroLocalidad(provincia);
+                }
                 if (sadminData.getTipoPersona() != null) {
                     if (sadminData.getTipoPersona().equals("PNA")) {
                         tipoPersona = "N";
@@ -284,10 +288,12 @@ public class SadminDataCtrl extends BaseCtrl {
                             "Fecha de informe debe ser menor o igual a la fecha de otorgamiento", null));
                     return null;
                 }
-                if (sadminData.getFechaOtorga().after(sadminData.getFechaInscribe())) {
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
-                            "Fecha de otorgamiento debe ser menor o igual a la fecha de inscripción", null));
-                    return null;
+                if (sadminData.getFechaInscribe() != null) {
+                    if (sadminData.getFechaOtorga().after(sadminData.getFechaInscribe())) {
+                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+                                "Fecha de otorgamiento debe ser menor o igual a la fecha de inscripción", null));
+                        return null;
+                    }
                 }
             }
             if (!sadminData.getTipoSolicitud().equals(ConstantesEnum.TIPO_SOLICITUD_CONS_MIN.getDescripcion())) {
@@ -453,9 +459,14 @@ public class SadminDataCtrl extends BaseCtrl {
     public List<SelectItem> getTipoMaterialDetalle() {
         if (tipoMaterialDetalle == null) {
             tipoMaterialDetalle = new ArrayList<>();
-            if (sadminData.getMineral() == null || sadminData.getMineral().equals("MATERIALES DE CONSTRUCCIO") || sadminData.getMineral().equals("MATERIAL DE CONSTRUCCION")) {
+            /*if (sadminData.getMineral() == null || sadminData.getMineral().equals("MATERIALES DE CONSTRUCCIO") || sadminData.getMineral().equals("MATERIAL DE CONSTRUCCION")) {
+                return tipoMaterialDetalle;
+            }*/
+            System.out.println("sadminData.getMineral(): " + sadminData.getMineral());
+            if (sadminData.getMineral() == null || sadminData.getMineral().equals("MATERIALES DE CONSTRUCCIO")) {
                 return tipoMaterialDetalle;
             }
+            System.out.println("sadminData.getMineral(): " + sadminData.getMineral());
             Catalogo catalogoTipoMaterial = catalogoServicio.findByNombre(sadminData.getMineral());
             if (catalogoTipoMaterial != null) {
                 List<CatalogoDetalle> tipMatCatDet = catalogoDetalleServicio.obtenerPorCatalogo(catalogoTipoMaterial.getCodigoCatalogo());

@@ -213,6 +213,11 @@ public class ConcesionMineraCtrl extends BaseCtrl {
                 if (concesionMinera.getCodigoCasilleroLocalidad() == null) {
                     concesionMinera.setCodigoCasilleroLocalidad(new Localidad());
                 }
+                if (concesionMinera.getCodigoProvincia() != null && concesionMinera.getCodigoCasilleroLocalidad().getCodigoLocalidad() == null) {
+                    Localidad provincia = new Localidad();
+                    provincia.setCodigoLocalidad(concesionMinera.getCodigoProvincia().longValue());
+                    concesionMinera.setCodigoCasilleroLocalidad(provincia);
+                }
                 solicitud = solicitudServicio.obtenerPorCodigoArcom(concesionMinera.getCodigoArcom());
                 solicitudAnterior = solicitudServicio.obtenerPorCodigoArcom(concesionMinera.getCodigoArcom());
                 if (solicitud.getTipoPersona() != null) {
@@ -363,7 +368,7 @@ public class ConcesionMineraCtrl extends BaseCtrl {
                 concesionMinera.setCodigoModalidadTrabajo(null);
             }
         }
-        
+
         if (concesionMinera.getCodigoFormaExplotacion() != null) {
             if (concesionMinera.getCodigoFormaExplotacion().getCodigoCatalogoDetalle().equals(1000L)) {
                 concesionMinera.setCodigoFormaExplotacion(null);
@@ -645,8 +650,11 @@ public class ConcesionMineraCtrl extends BaseCtrl {
     public List<SelectItem> getTipoMaterialDetalle() {
         if (tipoMaterialDetalle == null) {
             tipoMaterialDetalle = new ArrayList<>();
-            if (concesionMinera.getTipoMaterial() == null || concesionMinera.getTipoMaterial().toUpperCase().equals("MATERIALES DE CONSTRUCCIO")
+            /*if (concesionMinera.getTipoMaterial() == null || concesionMinera.getTipoMaterial().toUpperCase().equals("MATERIALES DE CONSTRUCCIO")
                     || concesionMinera.getTipoMaterial().toUpperCase().equals("MATERIAL DE CONSTRUCCION")) {
+                return tipoMaterialDetalle;
+            }*/
+            if (concesionMinera.getTipoMaterial() == null || concesionMinera.getTipoMaterial().toUpperCase().equals("MATERIALES DE CONSTRUCCIO")) {
                 return tipoMaterialDetalle;
             }
             System.out.println("concesionMinera.getTipoMaterial(): " + concesionMinera.getTipoMaterial());
@@ -1191,7 +1199,8 @@ public class ConcesionMineraCtrl extends BaseCtrl {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                         "Número de documento no existente", null));
                 System.out.println("personaNatural.getNumeroDocumento(): " + personaNatural.getNumeroDocumento());
-            } /*else {
+            }
+            /*else {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                         "Número de documento existente", null));
             }*/
@@ -1281,7 +1290,8 @@ public class ConcesionMineraCtrl extends BaseCtrl {
             personaJuridica.setRuc(numRuc);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "Número de ruc no existente", null));
-        } /*else {
+        }
+        /*else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "Número de ruc existente", null));
         }*/
@@ -1292,7 +1302,7 @@ public class ConcesionMineraCtrl extends BaseCtrl {
         Usuario us = usuarioDao.obtenerPorLogin(login.getUserName());
         concesionMinera.setDocumentoConcesionarioPrincipal(personaJuridica.getRuc());
         solicitud.setNombreSolicitante(personaJuridica.getNombreLegal());
-        solicitud.setApellidoSolicitante(personaJuridica.getNombreComercial());
+        //solicitud.setApellidoSolicitante(personaJuridica.getNombreComercial());
         solicitud.setTelefonoCelularSolicitante(personaJuridica.getCelular());
         solicitud.setTelefonoConvencionalSolicitante(personaJuridica.getTelefono());
         concesionMinera.setCasilleroJudicial(personaJuridica.getCasilleroJudicial());
