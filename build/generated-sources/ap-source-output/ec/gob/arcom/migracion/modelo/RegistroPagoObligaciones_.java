@@ -1,0 +1,91 @@
+package ec.gob.arcom.migracion.modelo;
+
+import ec.gob.arcom.migracion.modelo.AreaMinera;
+import ec.gob.arcom.migracion.modelo.CatalogoDetalle;
+import ec.gob.arcom.migracion.modelo.ConceptoPago;
+import ec.gob.arcom.migracion.modelo.ConcesionMinera;
+import ec.gob.arcom.migracion.modelo.LicenciaComercializacion;
+import ec.gob.arcom.migracion.modelo.Localidad;
+import ec.gob.arcom.migracion.modelo.ParametroSistema;
+import ec.gob.arcom.migracion.modelo.PlantaBeneficio;
+import ec.gob.arcom.migracion.modelo.RegistroPagoObligaciones;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.Date;
+import javax.annotation.Generated;
+import javax.persistence.metamodel.ListAttribute;
+import javax.persistence.metamodel.SingularAttribute;
+import javax.persistence.metamodel.StaticMetamodel;
+
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2015-10-15T09:46:38")
+@StaticMetamodel(RegistroPagoObligaciones.class)
+public class RegistroPagoObligaciones_ { 
+
+    public static volatile SingularAttribute<RegistroPagoObligaciones, Boolean> tieneDerechoMinero;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, Date> fechaRevisionAnalistaEconomico;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, Serializable> xmlData;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, Date> fechaPresentacion;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, String> documentoPersonaPago;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, Long> codigoRegistro;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, String> apellidoPersonaPago;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, BigDecimal> recaudacionSri;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, Boolean> presentaDocumentos;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, BigInteger> codigoUsuarioDelegado;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, Integer> cantidad;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, Date> fechaCreacion;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, Date> fechaEmisionPago;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, RegistroPagoObligaciones> pagoPadre;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, BigInteger> usuarioModificacion;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, String> entidadTramite;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, String> campoReservado01;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, String> campoReservado02;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, String> campoReservado03;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, String> campoReservado04;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, String> campoReservado05;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, CatalogoDetalle> estadoPago;
+    public static volatile ListAttribute<RegistroPagoObligaciones, RegistroPagoObligaciones> registroPagoObligacionesList;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, BigDecimal> valorSubsanar;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, String> numeroComprobanteBanco;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, ConceptoPago> codigoConceptoPago;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, BigDecimal> valorConceptoPago;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, String> numeroComprobanteArcom;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, BigDecimal> valorPago;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, String> observacionCoordinadorRegional;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, Boolean> aprobadoCoordinadorRegional;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, Boolean> estadoRegistro;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, BigDecimal> valorTotalPago;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, Localidad> lugarEmisionPago;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, String> observacionRecepcionista;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, String> codigosConcesiones;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, BigDecimal> costo;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, BigDecimal> valorAdicional;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, BigInteger> numeroFormulario;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, BigInteger> codigoInforme;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, PlantaBeneficio> codigoPlantaBeneficio;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, Date> fechaRevisionCoordinadorRegional;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, CatalogoDetalle> tipoPago;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, BigDecimal> valorCalculadoArcom;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, ConcesionMinera> codigoConcesion;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, BigInteger> comprobanteElectronico;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, String> codigosPlantas;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, ParametroSistema> codigoPeriodo;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, Boolean> aprobadoAnalistaEconomico;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, Date> fechaModificacion;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, Boolean> subsanarPago;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, String> codigosLicencias;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, BigInteger> codigoImpuesto;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, String> nombrePersonaPago;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, CatalogoDetalle> codigoBanco;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, Long> codigoTipoRegistro;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, LicenciaComercializacion> codigoLicenciaComercializacion;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, BigInteger> usuarioCreacion;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, BigDecimal> valorPagadoUsuario;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, String> descripcionMotivoValorAdicional;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, AreaMinera> codigoArea;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, String> observacionAnalistaEconomico;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, BigInteger> numeroTramite;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, BigInteger> codigoSolicitud;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, CatalogoDetalle> codigoTipoServicio;
+
+}
