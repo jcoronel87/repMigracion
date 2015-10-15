@@ -379,9 +379,13 @@ public class ConcesionMineraDaoEjb extends GenericDaoEjbEl<ConcesionMinera, Long
         }
         if (concesionMinera.getFechaOtorga() != null) {
             sql = sql + "    fecha_otorga = '" + concesionMinera.getFechaOtorga() + "',\n";
+        } else {
+            sql = sql + "    fecha_otorga = null" + ",\n";
         }
         if (concesionMinera.getFechaInscribe() != null) {
             sql = sql + "    fecha_inscribe = '" + concesionMinera.getFechaInscribe() + "',\n";
+        } else {
+            sql = sql + "    fecha_inscribe = null" + ",\n";
         }
         if (concesionMinera.getMae() != null) {
             sql = sql + "    mae = " + concesionMinera.getMae() + " ,\n";
@@ -397,6 +401,8 @@ public class ConcesionMineraDaoEjb extends GenericDaoEjbEl<ConcesionMinera, Long
         }
         if (concesionMinera.getFechaInforme() != null) {
             sql = sql + "    fecha_informe = '" + concesionMinera.getFechaInforme() + "',\n";
+        } else {
+            sql = sql + "    fecha_informe = null" + ",\n";
         }
         if (concesionMinera.getCodigoCasilleroLocalidad() != null) {
             sql = sql + "    codigo_casillero_localidad = " + concesionMinera.getCodigoCasilleroLocalidad().getCodigoLocalidad() + ",\n";

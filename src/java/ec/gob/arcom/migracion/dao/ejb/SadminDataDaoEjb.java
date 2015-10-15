@@ -115,7 +115,13 @@ public class SadminDataDaoEjb extends GenericDaoEjbEl<SadminData, Long> implemen
         StringBuilder sql = new StringBuilder("update catmin.sadmin_data_ set f1 = ").append(sadminData.getF1()).append(", nombre = '").append(sadminData.getNombre()).append("', casillero = '").append(sadminData.getCasillero() != null ? sadminData.getCasillero() : null);
         sql.append("', cod_persona = ").append(sadminData.getCodPersona()).append(", direccion = '").append(sadminData.getDireccion()).append("', telefono = '").append(sadminData.getTelefono()).append("', titular = '");
         sql.append(sadminData.getTitular()).append("', representante_legal = '").append(sadminData.getRepresentanteLegal()).append("', cedula_representante = '").append(sadminData.getCedulaRepresentante()).append("', ");
-        sql.append("plazo = ").append(sadminData.getPlazo()).append(", fecha_informe = '").append(sadminData.getFechaInforme()).append("', zona = ").append(sadminData.getZona()).append(", superficie = ").append(sadminData.getSuperficie());
+        sql.append("plazo = ").append(sadminData.getPlazo());
+        if (sadminData.getFechaInforme() != null) {
+            sql.append(", fecha_informe = '").append(sadminData.getFechaInforme()).append("'");
+        } else {
+            sql.append(", fecha_informe = null");
+        }
+        sql.append(", zona = ").append(sadminData.getZona()).append(", superficie = ").append(sadminData.getSuperficie());
         sql.append(", estado = '").append(sadminData.getEstado()).append("', fase = '").append(sadminData.getFase()).append("', tipo_solicitud = '").append(sadminData.getTipoSolicitud()).append("', metodo_explotacion = '");
         sql.append(sadminData.getMetodoExplotacion()).append("', mae = ").append(sadminData.isMae()).append(", senagua = ").append(sadminData.isSenagua()).append(", obs_actos_adm_previos = '").append(sadminData.getObsActosAdmPrevios());
         sql.append("', sector = '").append(sadminData.getSector()).append("', codigo_regimen = ").append(sadminData.getCodigoRegimen().getCodigoRegimen()).append(", email = '").append(sadminData.getEmail()).append("', tipo_persona = '");
