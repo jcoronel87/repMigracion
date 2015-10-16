@@ -42,11 +42,11 @@
                     </f:facet>
 
                     <p:outputLabel value="Código:"></p:outputLabel>
-                    <p:inputMask id="codArc" mask="9?999999999999999999999999999999999" value="#{concesionMineraCtrl.concesionMinera.codigoArcom}" size="50" 
-                                 readonly="#{!concesionMineraCtrl.existeCodigoArcom}" required="true" requiredMessage="Código requerido" placeHolder="" 
-                                 rendered="#{concesionMineraCtrl.concesionMinera.codigoConcesion == null}" placeholder="" maxlength="9">
+                    <p:inputText id="codArc" value="#{concesionMineraCtrl.concesionMinera.codigoArcom}" size="50" 
+                                 readonly="#{!concesionMineraCtrl.existeCodigoArcom}" required="true" requiredMessage="Código requerido"
+                                 rendered="#{concesionMineraCtrl.concesionMinera.codigoConcesion == null}" maxlength="9">
                         <p:ajax update="panel2 codArc botones" listener="#{concesionMineraCtrl.validarCodigoArcom}" />
-                    </p:inputMask>
+                    </p:inputText>
                     <p:inputMask mask="9?999999999999999999999999999999999" value="#{concesionMineraCtrl.concesionMinera.codigoArcom}" size="50" readonly="true" maxlength="9"
                                  required="true" requiredMessage="Código requerido" placeHolder="" rendered="#{concesionMineraCtrl.concesionMinera.codigoConcesion != null}" />
 
