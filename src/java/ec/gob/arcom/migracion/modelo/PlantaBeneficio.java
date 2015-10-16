@@ -139,8 +139,8 @@ public class PlantaBeneficio implements Serializable {
     @Size(max = 255)
     @Column(name = "campo_reservado_01")
     private String campoReservado01;
-    @Column(name = "xml_data")
-    private Serializable xmlData;
+    //@Column(name = "xml_data")
+    //private Serializable xmlData;
     @Column(name = "estado_registro")
     private Boolean estadoRegistro;
     @Column(name = "fecha_creacion")
@@ -502,13 +502,13 @@ public class PlantaBeneficio implements Serializable {
         this.campoReservado01 = campoReservado01;
     }
 
-    public Serializable getXmlData() {
+    /*public Serializable getXmlData() {
         return xmlData;
     }
 
     public void setXmlData(Serializable xmlData) {
         this.xmlData = xmlData;
-    }
+    }*/
 
     public Boolean getEstadoRegistro() {
         return estadoRegistro;
