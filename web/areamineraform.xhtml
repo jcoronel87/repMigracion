@@ -240,13 +240,36 @@
                         <p:inputTextarea value="#{sadminDataCtrl.sadminData.obsActosAdmPrevios}" cols="47" maxlength="200"/>
 
                         <f:facet name="footer">
-                            <h:panelGroup style="display:block; text-align:center">
-                                <p:commandButton value="Actualizar" action="#{sadminDataCtrl.actualizarRegistro}" update="growl"></p:commandButton>
-                                <p:commandButton value="Cancelar" action="concesionesmineras?faces-redirect=true" immediate="true" update="growl" ></p:commandButton>
+                            <h:panelGroup style="display:block; text-align:center; height: 24px">
+                                <p:outputLabel value=""/>
                             </h:panelGroup>
                         </f:facet>
                     </p:panelGrid>
                 </h:panelGroup>
+                <div align="center">
+                    <h:panelGrid style="text-align:center" columns="3">
+                        <p:commandLink action="#{sadminDataCtrl.actualizarRegistro}" title="Guardar">
+                            <h:panelGrid style="text-align:center">
+                                <h:graphicImage value="resources/images/guardar.png" title="Guardar" style="width: 60px; height: 60px"/>
+                                <h:outputText value="Guardar"/>
+                            </h:panelGrid>
+                        </p:commandLink>
+                        <h:panelGroup>
+                            <p:commandLink id="botonMaquinaria" onclick="PF('dlgMaq').show();" title="Ver maquinaria" immediate="true" update="growl" >
+                                <h:panelGrid style="text-align:center">
+                                    <h:graphicImage value="resources/images/excavadora.png" title="Ver maquinaria" style="width: 60px; height: 60px"/>
+                                    <h:outputText value="Ver maquinaria"/>
+                                </h:panelGrid>
+                            </p:commandLink>
+                        </h:panelGroup>
+                        <p:commandLink action="concesionesmineras?faces-redirect=true" title="Cancelar" immediate="true" update="growl">
+                            <h:panelGrid style="text-align:center">
+                                <h:graphicImage value="resources/images/cancelar.png" title="Cancelar" style="width: 60px; height: 60px"/>
+                                <h:outputText value="Cancelar"/>
+                            </h:panelGrid>
+                        </p:commandLink>
+                    </h:panelGrid>
+                </div>
             </h:form>
             <p:dialog header="Persona Natural" widgetVar="dlgPerNat" modal="true" dynamic="true" resizable="false" draggable="false">
                 <h:form id="form4">
@@ -414,7 +437,7 @@
                             </h:panelGrid>
                         </h:panelGroup>
                     </div>
-                    <p:dataTable id="tablaCoordenadas" var="maq" value="#{sadminDataCtrl.maquinariasPorConcesion}" emptyMessage="No existen registros" scrollable="true">
+                    <p:dataTable id="tablaCoordenadas" var="maq" value="#{sadminDataCtrl.maquinariasPorCodigoSadmin}" emptyMessage="No existen registros" scrollable="true">
                         <p:column headerText="Maquinaria">
                             <h:outputText value="#{maq.codigoTipoMaquinaria.descripcion}" />
                         </p:column>
