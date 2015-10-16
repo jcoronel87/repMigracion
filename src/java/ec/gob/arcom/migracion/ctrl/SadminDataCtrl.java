@@ -126,8 +126,9 @@ public class SadminDataCtrl extends BaseCtrl {
     private PersonaJuridica personaJuridica;
 
     private boolean tipoSolMineriaArtesanal;
-    
+
     private Long codigoMaquinaria;
+    private List<SadminDataMaquinaria> maquinariasPorCodigoSadmin;
 
     public String getCodigoFiltro() {
         return codigoFiltro;
@@ -917,37 +918,56 @@ public class SadminDataCtrl extends BaseCtrl {
     public void setCodigoMaquinaria(Long codigoMaquinaria) {
         this.codigoMaquinaria = codigoMaquinaria;
     }
-    
+
     public void guardarMaquinaria() {
-        /*Usuario us = usuarioDao.obtenerPorLogin(login.getUserName());
+        Usuario us = usuarioDao.obtenerPorLogin(login.getUserName());
         System.out.println("codigoMaquinaria: " + codigoMaquinaria);
         try {
             SadminDataMaquinaria sadminDataMaquinaria = new SadminDataMaquinaria();
             sadminDataMaquinaria.setCodigoArcom(sadminData.getCodigo());
-            sadminDataMaquinaria.setCodigoMaquinaria(codigoMaquinaria);
-            MaquinariaConcesion maquinariaConcesion = new MaquinariaConcesion();
-            ConcesionMinera cm = new ConcesionMinera();
-            cm.setCodigoConcesion(concesionMinera.getCodigoConcesion());
-            maquinariaConcesion.setCodigoConcesion(cm);
-            maquinariaConcesion.setCodigoTipoMaquinaria(new TipoMaquinaria());
-            maquinariaConcesion.getCodigoTipoMaquinaria().setCodigoTipoMaquinaria(codigoMaquinaria);
-            maquinariaConcesion.setUsuarioCreacion(BigInteger.valueOf(-1));
-            maquinariaConcesion.setFechaCreacion(new Date());
-            maquinariaConcesionServicio.create(maquinariaConcesion);
+            sadminDataMaquinaria.setCodigoTipoMaquinaria(new TipoMaquinaria());
+            sadminDataMaquinaria.getCodigoTipoMaquinaria().setCodigoTipoMaquinaria(codigoMaquinaria);
+            System.out.println("sadminDataMaquinaria: " + sadminDataMaquinaria);
+            sadminDataMaquinariaServicio.create(sadminDataMaquinaria);
             Auditoria auditoria = new Auditoria();
             auditoria.setAccion("INSERT");
             auditoria.setFecha(getCurrentTimeStamp());
             auditoria.setUsuario(BigInteger.valueOf(us.getCodigoUsuario()));
-            auditoria.setDetalleAnterior(maquinariaConcesion.toString());
+            auditoria.setDetalleAnterior(sadminDataMaquinaria.toString());
             auditoriaServicio.create(auditoria);
-            maquinariasPorConcesion = null;
-            getMaquinariasPorConcesion();
+            maquinariasPorCodigoSadmin = null;
+            getMaquinariasPorCodigoSadmin();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "Registro guardado correctamente", null));
         } catch (Exception ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
                     "No se pudo guardar el registro", ex.getMessage()));
-        }*/
+        }
+    }
+
+    public List<SadminDataMaquinaria> getMaquinariasPorCodigoSadmin() {
+        if (maquinariasPorCodigoSadmin == null) {
+            maquinariasPorCodigoSadmin = sadminDataMaquinariaServicio.obtenerMaquinariasPorCodigoSadmin(sadminData.getCodigo());
+        }
+        return maquinariasPorCodigoSadmin;
+    }
+
+    public void setMaquinariasPorCodigoSadmin(List<SadminDataMaquinaria> maquinariasPorCodigoSadmin) {
+        this.maquinariasPorCodigoSadmin = maquinariasPorCodigoSadmin;
+    }
+    
+    public void eliminarMaquinaria() {
+        Usuario us = usuarioDao.obtenerPorLogin(login.getUserName());
+        SadminDataMaquinaria sadminDataMaquinariaItem = (SadminDataMaquinaria) getExternalContext().getRequestMap().get("maq");
+        sadminDataMaquinariaServicio.delete(sadminDataMaquinariaItem.getCodigoSadminDataMaq());
+        Auditoria auditoria = new Auditoria();
+        auditoria.setAccion("DELETE");
+        auditoria.setFecha(getCurrentTimeStamp());
+        auditoria.setUsuario(BigInteger.valueOf(us.getCodigoUsuario()));
+        auditoria.setDetalleAnterior(sadminDataMaquinariaItem.toString());
+        auditoriaServicio.create(auditoria);
+        maquinariasPorCodigoSadmin = null;
+        getMaquinariasPorCodigoSadmin();
     }
 
 }
