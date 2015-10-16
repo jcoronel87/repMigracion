@@ -302,12 +302,12 @@
                                         <h:outputText value="Guardar"/>
                                     </h:panelGrid>
                                 </p:commandLink>
-                                <p:commandLink onclick="PF('dlgPerNat').hide();" title="Cancelar" immediate="true">
+                                <!-- <p:commandLink onclick="PF('dlgPerNat').hide();" title="Cancelar" immediate="true">
                                     <h:panelGrid style="text-align:center">
                                         <h:graphicImage value="resources/images/cancelar.png" title="Cancelar" style="width: 60px; height: 60px"/>
                                         <h:outputText value="Cancelar"/>
                                     </h:panelGrid>
-                                </p:commandLink>
+                                </p:commandLink> -->
                             </h:panelGrid>
                         </h:panelGroup>
                     </div>
@@ -379,15 +379,53 @@
                                         <h:outputText value="Guardar"/>
                                     </h:panelGrid>
                                 </p:commandLink>
-                                <p:commandLink onclick="PF('dlgPerJur').hide();" title="Cancelar" immediate="true">
+                                <!-- <p:commandLink onclick="PF('dlgPerJur').hide();" title="Cancelar" immediate="true">
                                     <h:panelGrid style="text-align:center">
                                         <h:graphicImage value="resources/images/cancelar.png" title="Cancelar" style="width: 60px; height: 60px"/>
                                         <h:outputText value="Cancelar"/>
+                                    </h:panelGrid>
+                                </p:commandLink> -->
+                            </h:panelGrid>
+                        </h:panelGroup>
+                    </div>
+                </h:form>
+            </p:dialog>
+            <p:dialog header="Maquinarias" widgetVar="dlgMaq" modal="true" dynamic="true" resizable="true" draggable="false">
+                <h:form id="form3">
+                    <p:growl id="message3" showDetail="true" />
+                    <div align="center">
+                        <h:panelGrid columns="1">
+                            <p:outputLabel value="Tipo de maquinaria:" />
+                            <p:selectOneMenu id="maquinaria" value="#{sadminDataCtrl.codigoMaquinaria}" required="true" requiredMessage="Tipo maquinaria es requerido" style="width: 112%"> 
+                                <f:selectItem itemValue="" itemLabel="--Seleccione una opción--" />
+                                <f:selectItems value="#{selectItemCtrl.tipoMaquinarias}"/>
+                                <f:ajax execute="@form" />
+                            </p:selectOneMenu>
+                        </h:panelGrid>
+                        <p:spacer/>
+                        <h:panelGroup>
+                            <h:panelGrid style="text-align:center" columns="2">
+                                <p:commandLink actionListener="#{sadminDataCtrl.guardarMaquinaria}" title="Guardar" update="@form">
+                                    <h:panelGrid style="text-align:center">
+                                        <h:graphicImage value="resources/images/guardar.png" title="Guardar" style="width: 60px; height: 60px"/>
+                                        <h:outputText value="Guardar"/>
                                     </h:panelGrid>
                                 </p:commandLink>
                             </h:panelGrid>
                         </h:panelGroup>
                     </div>
+                    <p:dataTable id="tablaCoordenadas" var="maq" value="#{sadminDataCtrl.maquinariasPorConcesion}" emptyMessage="No existen registros" scrollable="true">
+                        <p:column headerText="Maquinaria">
+                            <h:outputText value="#{maq.codigoTipoMaquinaria.descripcion}" />
+                        </p:column>
+                        <p:column width="40">
+                            <p:commandLink action="#{sadminDataCtrl.eliminarMaquinaria}" title="Eliminar" immediate="true" update="@form">
+                                <h:panelGrid style="text-align:center">
+                                    <h:graphicImage value="resources/images/delete.png" title="Eliminar" style="width: 25px; height: 25px"/>
+                                </h:panelGrid>
+                            </p:commandLink>
+                        </p:column>
+                    </p:dataTable>
                 </h:form>
             </p:dialog>
         </ui:define>
