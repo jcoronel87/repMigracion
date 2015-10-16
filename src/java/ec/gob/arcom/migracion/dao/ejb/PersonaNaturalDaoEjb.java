@@ -124,6 +124,8 @@ public class PersonaNaturalDaoEjb extends GenericDaoEjbEl<PersonaNatural, String
         }
         sql = sql + "WHERE\n"
                 + "    numero_documento = '" + personaNatural.getNumeroDocumento() + "'";
+        
+        System.out.println("sql actualiza persona: " + sql);
 
         Query query = em.createNativeQuery(sql);
         query.executeUpdate();
