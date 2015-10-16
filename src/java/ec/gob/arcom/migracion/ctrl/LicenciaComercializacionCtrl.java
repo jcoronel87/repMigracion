@@ -189,7 +189,7 @@ public class LicenciaComercializacionCtrl extends BaseCtrl {
                 System.out.println("entra create");
                 licenciaComercializacion.setEstadoRegistro(true);
                 licenciaComercializacion.setFechaCreacion(null);
-                licenciaComercializacion.setUsuarioCreacion(BigInteger.valueOf(-1));
+                licenciaComercializacion.setUsuarioCreacion(BigInteger.valueOf(us.getCodigoUsuario()));
                 licenciaComercializacion.setFechaModificacion(new Date());
                 licenciaComercializacion.setUsuarioModificacion(BigInteger.valueOf(us.getCodigoUsuario()));
                 licenciaComercializacion.setMigrada(true);

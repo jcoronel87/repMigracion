@@ -12,14 +12,18 @@ import ec.gob.arcom.migracion.dao.UsuarioDao;
 import ec.gob.arcom.migracion.modelo.Auditoria;
 import ec.gob.arcom.migracion.modelo.Catalogo;
 import ec.gob.arcom.migracion.modelo.CatalogoDetalle;
+import ec.gob.arcom.migracion.modelo.ConcesionMinera;
 import ec.gob.arcom.migracion.modelo.Fase;
 import ec.gob.arcom.migracion.modelo.Localidad;
 import ec.gob.arcom.migracion.modelo.LocalidadRegional;
+import ec.gob.arcom.migracion.modelo.MaquinariaConcesion;
 import ec.gob.arcom.migracion.modelo.PersonaJuridica;
 import ec.gob.arcom.migracion.modelo.PersonaNatural;
 import ec.gob.arcom.migracion.modelo.Regimen;
 import ec.gob.arcom.migracion.modelo.Regional;
 import ec.gob.arcom.migracion.modelo.SadminData;
+import ec.gob.arcom.migracion.modelo.SadminDataMaquinaria;
+import ec.gob.arcom.migracion.modelo.TipoMaquinaria;
 import ec.gob.arcom.migracion.modelo.Usuario;
 import ec.gob.arcom.migracion.servicio.AuditoriaServicio;
 import ec.gob.arcom.migracion.servicio.CatalogoDetalleServicio;
@@ -31,6 +35,7 @@ import ec.gob.arcom.migracion.servicio.PersonaJuridicaServicio;
 import ec.gob.arcom.migracion.servicio.PersonaNaturalServicio;
 import ec.gob.arcom.migracion.servicio.RegimenServicio;
 import ec.gob.arcom.migracion.servicio.RegionalServicio;
+import ec.gob.arcom.migracion.servicio.SadminDataMaquinariaServicio;
 import ec.gob.arcom.migracion.servicio.SadminDataServicio;
 import ec.gob.arcom.migracion.util.CedulaValidator;
 import java.math.BigInteger;
@@ -82,6 +87,8 @@ public class SadminDataCtrl extends BaseCtrl {
     private PersonaNaturalServicio personaNaturalServicio;
     @EJB
     private PersonaJuridicaServicio personaJuridicaServicio;
+    @EJB
+    private SadminDataMaquinariaServicio sadminDataMaquinariaServicio;
 
     @ManagedProperty(value = "#{loginCtrl}")
     private LoginCtrl login;
@@ -119,6 +126,8 @@ public class SadminDataCtrl extends BaseCtrl {
     private PersonaJuridica personaJuridica;
 
     private boolean tipoSolMineriaArtesanal;
+    
+    private Long codigoMaquinaria;
 
     public String getCodigoFiltro() {
         return codigoFiltro;
@@ -899,6 +908,46 @@ public class SadminDataCtrl extends BaseCtrl {
                 }
             }
         }
+    }
+
+    public Long getCodigoMaquinaria() {
+        return codigoMaquinaria;
+    }
+
+    public void setCodigoMaquinaria(Long codigoMaquinaria) {
+        this.codigoMaquinaria = codigoMaquinaria;
+    }
+    
+    public void guardarMaquinaria() {
+        /*Usuario us = usuarioDao.obtenerPorLogin(login.getUserName());
+        System.out.println("codigoMaquinaria: " + codigoMaquinaria);
+        try {
+            SadminDataMaquinaria sadminDataMaquinaria = new SadminDataMaquinaria();
+            sadminDataMaquinaria.setCodigoArcom(sadminData.getCodigo());
+            sadminDataMaquinaria.setCodigoMaquinaria(codigoMaquinaria);
+            MaquinariaConcesion maquinariaConcesion = new MaquinariaConcesion();
+            ConcesionMinera cm = new ConcesionMinera();
+            cm.setCodigoConcesion(concesionMinera.getCodigoConcesion());
+            maquinariaConcesion.setCodigoConcesion(cm);
+            maquinariaConcesion.setCodigoTipoMaquinaria(new TipoMaquinaria());
+            maquinariaConcesion.getCodigoTipoMaquinaria().setCodigoTipoMaquinaria(codigoMaquinaria);
+            maquinariaConcesion.setUsuarioCreacion(BigInteger.valueOf(-1));
+            maquinariaConcesion.setFechaCreacion(new Date());
+            maquinariaConcesionServicio.create(maquinariaConcesion);
+            Auditoria auditoria = new Auditoria();
+            auditoria.setAccion("INSERT");
+            auditoria.setFecha(getCurrentTimeStamp());
+            auditoria.setUsuario(BigInteger.valueOf(us.getCodigoUsuario()));
+            auditoria.setDetalleAnterior(maquinariaConcesion.toString());
+            auditoriaServicio.create(auditoria);
+            maquinariasPorConcesion = null;
+            getMaquinariasPorConcesion();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "Registro guardado correctamente", null));
+        } catch (Exception ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "No se pudo guardar el registro", ex.getMessage()));
+        }*/
     }
 
 }

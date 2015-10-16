@@ -174,7 +174,7 @@ public class PlantaBeneficioCtrl extends BaseCtrl {
             if (plantaBeneficio.getCodigoPlantaBeneficio() == null) {
                 plantaBeneficio.setEstadoRegistro(true);
                 plantaBeneficio.setFechaCreacion(null);
-                plantaBeneficio.setUsuarioCreacion(BigInteger.valueOf(-1));
+                plantaBeneficio.setUsuarioCreacion(BigInteger.valueOf(us.getCodigoUsuario()));
                 plantaBeneficio.setFechaModificacion(new Date());
                 plantaBeneficio.setUsuarioModificacion(BigInteger.valueOf(us.getCodigoUsuario()));
                 plantaBeneficio.setMigrada(true);
