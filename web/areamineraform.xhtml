@@ -424,6 +424,8 @@
                                 <f:selectItems value="#{selectItemCtrl.tipoMaquinarias}"/>
                                 <f:ajax execute="@form" />
                             </p:selectOneMenu>
+                            <h:outputLabel for="cant" value="Cantidad:" />
+                            <p:spinner id="cant" value="#{sadminDataCtrl.cantidadMaquinaria}" />
                         </h:panelGrid>
                         <p:spacer/>
                         <h:panelGroup>
@@ -440,6 +442,9 @@
                     <p:dataTable id="tablaCoordenadas" var="maq" value="#{sadminDataCtrl.maquinariasPorCodigoSadmin}" emptyMessage="No existen registros" scrollable="true">
                         <p:column headerText="Maquinaria">
                             <h:outputText value="#{maq.codigoTipoMaquinaria.descripcion}" />
+                        </p:column>
+                        <p:column headerText="Cantidad">
+                            <h:outputText value="#{maq.cantidadMaquinaria}" />
                         </p:column>
                         <p:column width="40">
                             <p:commandLink action="#{sadminDataCtrl.eliminarMaquinaria}" title="Eliminar" immediate="true" update="@form">
