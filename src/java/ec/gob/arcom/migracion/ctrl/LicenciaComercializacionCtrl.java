@@ -579,10 +579,10 @@ public class LicenciaComercializacionCtrl extends BaseCtrl {
         licenciaComercializacion.setNumeroDocumento(personaNatural.getNumeroDocumento());
         licenciaComercializacion.setNombre(personaNatural.getNombre());
         licenciaComercializacion.setApellido(personaNatural.getApellido());
-        //licenciaComercializacion.setDireccion(personaNatural.getDireccion());
-        //licenciaComercializacion.setTelefono(personaNatural.getTelefono());
+        licenciaComercializacion.setDireccion(personaNatural.getDireccion());
+        licenciaComercializacion.setTelefono(personaNatural.getTelefono());
         licenciaComercializacion.setCorreoElectronico(personaNatural.getEmail());
-        //licenciaComercializacion.setCasilleroJudicial(personaNatural.getCasilleroJudicial());
+        licenciaComercializacion.setCasilleroJudicial(personaNatural.getCasilleroJudicial());
         PersonaNatural pn = personaNaturalServicio.findByNumeroDocumento(personaNatural.getNumeroDocumento());
         try {
             if (pn == null) {
@@ -679,10 +679,10 @@ public class LicenciaComercializacionCtrl extends BaseCtrl {
         licenciaComercializacion.setNumeroDocumento(personaJuridica.getRuc());
         licenciaComercializacion.setNombre(personaJuridica.getNombreLegal());
         licenciaComercializacion.setApellido(personaJuridica.getNombreComercial());
-        //licenciaComercializacion.setDireccion(personaJuridica.getDireccion());
-        //licenciaComercializacion.setTelefono(personaJuridica.getCelular());
+        licenciaComercializacion.setDireccion(personaJuridica.getDireccion());
+        licenciaComercializacion.setTelefono(personaJuridica.getCelular());
         licenciaComercializacion.setCorreoElectronico(personaJuridica.getEmail());
-        //licenciaComercializacion.setCasilleroJudicial(personaJuridica.getCasilleroJudicial());
+        licenciaComercializacion.setCasilleroJudicial(personaJuridica.getCasilleroJudicial());
         PersonaJuridica pj = personaJuridicaServicio.findByRuc(personaJuridica.getRuc());
         try {
             if (pj == null) {

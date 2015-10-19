@@ -482,9 +482,9 @@ public class PlantaBeneficioCtrl extends BaseCtrl {
         plantaBeneficio.setNumeroDocumentoRepresentanteLegal(personaNatural.getNumeroDocumento());
         plantaBeneficio.setNombreRepresentanteLegal(personaNatural.getNombre());
         plantaBeneficio.setApellidoRepresentanteLegal(personaNatural.getApellido());
-        //plantaBeneficio.setCasilleroJudicial(personaNatural.getCasilleroJudicial());
-        //plantaBeneficio.setTelefonoPlanta(personaNatural.getTelefono());
-        //plantaBeneficio.setDireccionPlanta(personaNatural.getDireccion());
+        plantaBeneficio.setCasilleroJudicial(personaNatural.getCasilleroJudicial());
+        plantaBeneficio.setTelefonoPlanta(personaNatural.getTelefono());
+        plantaBeneficio.setDireccionPlanta(personaNatural.getDireccion());
         plantaBeneficio.setCorreoElectronico(personaNatural.getEmail());
         PersonaNatural pn = personaNaturalServicio.findByNumeroDocumento(personaNatural.getNumeroDocumento());
         try {
@@ -601,9 +601,9 @@ public class PlantaBeneficioCtrl extends BaseCtrl {
         plantaBeneficio.setNumeroDocumentoRepresentanteLegal(personaJuridica.getRuc());
         plantaBeneficio.setNombreRepresentanteLegal(personaJuridica.getNombreLegal());
         plantaBeneficio.setApellidoRepresentanteLegal(personaJuridica.getNombreComercial());
-        //plantaBeneficio.setCasilleroJudicial(personaJuridica.getCasilleroJudicial());
-        //plantaBeneficio.setTelefonoPlanta(personaJuridica.getCelular());
-        //plantaBeneficio.setDireccionPlanta(personaJuridica.getDireccion());
+        plantaBeneficio.setCasilleroJudicial(personaJuridica.getCasilleroJudicial());
+        plantaBeneficio.setTelefonoPlanta(personaJuridica.getCelular());
+        plantaBeneficio.setDireccionPlanta(personaJuridica.getDireccion());
         plantaBeneficio.setCorreoElectronico(personaJuridica.getEmail());
         PersonaJuridica pj = personaJuridicaServicio.findByRuc(personaJuridica.getRuc());
         try {
