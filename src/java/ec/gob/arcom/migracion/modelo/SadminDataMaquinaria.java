@@ -43,6 +43,8 @@ public class SadminDataMaquinaria implements Serializable {
     @JoinColumn(name = "codigo_tipo_maquinaria", referencedColumnName = "codigo_tipo_maquinaria")
     @ManyToOne
     private TipoMaquinaria codigoTipoMaquinaria;
+    @Column(name = "cantidad_maquinaria")
+    private int cantidadMaquinaria;
 
     public SadminDataMaquinaria() {
     }
@@ -80,6 +82,14 @@ public class SadminDataMaquinaria implements Serializable {
         this.codigoTipoMaquinaria = codigoTipoMaquinaria;
     }
 
+    public int getCantidadMaquinaria() {
+        return cantidadMaquinaria;
+    }
+
+    public void setCantidadMaquinaria(int cantidadMaquinaria) {
+        this.cantidadMaquinaria = cantidadMaquinaria;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -103,7 +113,7 @@ public class SadminDataMaquinaria implements Serializable {
     @Override
     public String toString() {
         return "SadminDataMaquinaria{" + "codigoSadminDataMaq=" + codigoSadminDataMaq + ", codigoArcom=" + codigoArcom 
-                + ", codigoTipoMaquinaria=" + (codigoTipoMaquinaria != null ? codigoTipoMaquinaria.getCodigoTipoMaquinaria() : null) + '}';
+                + ", codigoTipoMaquinaria=" + (codigoTipoMaquinaria != null ? codigoTipoMaquinaria.getCodigoTipoMaquinaria() : null) + ", cantidadMaquinaria=" + cantidadMaquinaria + '}';
     }
     
 }

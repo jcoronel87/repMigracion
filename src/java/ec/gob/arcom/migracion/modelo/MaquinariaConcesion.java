@@ -93,6 +93,8 @@ public class MaquinariaConcesion implements Serializable {
     @JoinColumn(name = "codigo_concesion", referencedColumnName = "codigo_concesion")
     @ManyToOne
     private ConcesionMinera codigoConcesion;
+    @Column(name = "cantidad_maquinaria")
+    private int cantidadMaquinaria;
 
     public MaquinariaConcesion() {
     }
@@ -261,6 +263,14 @@ public class MaquinariaConcesion implements Serializable {
         this.codigoConcesion = codigoConcesion;
     }
 
+    public int getCantidadMaquinaria() {
+        return cantidadMaquinaria;
+    }
+
+    public void setCantidadMaquinaria(int cantidadMaquinaria) {
+        this.cantidadMaquinaria = cantidadMaquinaria;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -287,7 +297,7 @@ public class MaquinariaConcesion implements Serializable {
                 + ", modelo=" + modelo + ", numeroSerie=" + numeroSerie + ", motor=" + motor + ", matricula=" + matricula + ", placa=" + placa + ", capacidadCarga=" + capacidadCarga + ", numeroChip=" + numeroChip
                 + ", observacionMaquinaria=" + observacionMaquinaria + ", estadoRegistro=" + estadoRegistro + ", fechaCreacion=" + fechaCreacion + ", usuarioCreacion=" + usuarioCreacion + ", fechaModificacion="
                 + fechaModificacion + ", usuarioModificacion=" + usuarioModificacion + ", codigoTipoMaquinaria=" + (codigoTipoMaquinaria != null ? codigoTipoMaquinaria.getCodigoTipoMaquinaria() : null) 
-                + ", codigoInforme=" + codigoInforme + ", codigoConcesion=" + (codigoConcesion != null ? codigoConcesion.getCodigoConcesion() : null) + '}';
+                + ", codigoInforme=" + codigoInforme + ", codigoConcesion=" + (codigoConcesion != null ? codigoConcesion.getCodigoConcesion() : null) + ", cantidadMaquinaria=" + cantidadMaquinaria + '}';
     }
 
 }
