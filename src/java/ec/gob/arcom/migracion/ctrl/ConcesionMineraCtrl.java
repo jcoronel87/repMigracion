@@ -166,6 +166,7 @@ public class ConcesionMineraCtrl extends BaseCtrl {
     private AreaMinera areaMineraAnterior;
 
     private boolean tipoSolMineriaArtesanal;
+    private int cantidadMaquinaria = 1;
 
     public ConcesionMinera getConcesionMinera() {
         if (concesionMinera == null) {
@@ -992,7 +993,8 @@ public class ConcesionMineraCtrl extends BaseCtrl {
             maquinariaConcesion.setCodigoConcesion(cm);
             maquinariaConcesion.setCodigoTipoMaquinaria(new TipoMaquinaria());
             maquinariaConcesion.getCodigoTipoMaquinaria().setCodigoTipoMaquinaria(codigoMaquinaria);
-            maquinariaConcesion.setUsuarioCreacion(BigInteger.valueOf(-1));
+            maquinariaConcesion.setCantidadMaquinaria(cantidadMaquinaria);
+            maquinariaConcesion.setUsuarioCreacion(BigInteger.valueOf(us.getCodigoUsuario()));
             maquinariaConcesion.setFechaCreacion(new Date());
             maquinariaConcesionServicio.create(maquinariaConcesion);
             Auditoria auditoria = new Auditoria();
@@ -1405,6 +1407,14 @@ public class ConcesionMineraCtrl extends BaseCtrl {
                 }
             }
         }
+    }
+
+    public int getCantidadMaquinaria() {
+        return cantidadMaquinaria;
+    }
+
+    public void setCantidadMaquinaria(int cantidadMaquinaria) {
+        this.cantidadMaquinaria = cantidadMaquinaria;
     }
 
 }

@@ -129,6 +129,7 @@ public class SadminDataCtrl extends BaseCtrl {
 
     private Long codigoMaquinaria;
     private List<SadminDataMaquinaria> maquinariasPorCodigoSadmin;
+    private int cantidadMaquinaria = 1;
 
     public String getCodigoFiltro() {
         return codigoFiltro;
@@ -927,6 +928,7 @@ public class SadminDataCtrl extends BaseCtrl {
             sadminDataMaquinaria.setCodigoArcom(sadminData.getCodigo());
             sadminDataMaquinaria.setCodigoTipoMaquinaria(new TipoMaquinaria());
             sadminDataMaquinaria.getCodigoTipoMaquinaria().setCodigoTipoMaquinaria(codigoMaquinaria);
+            sadminDataMaquinaria.setCantidadMaquinaria(cantidadMaquinaria);
             System.out.println("sadminDataMaquinaria: " + sadminDataMaquinaria);
             sadminDataMaquinariaServicio.create(sadminDataMaquinaria);
             Auditoria auditoria = new Auditoria();
@@ -968,6 +970,14 @@ public class SadminDataCtrl extends BaseCtrl {
         auditoriaServicio.create(auditoria);
         maquinariasPorCodigoSadmin = null;
         getMaquinariasPorCodigoSadmin();
+    }
+
+    public int getCantidadMaquinaria() {
+        return cantidadMaquinaria;
+    }
+
+    public void setCantidadMaquinaria(int cantidadMaquinaria) {
+        this.cantidadMaquinaria = cantidadMaquinaria;
     }
 
 }

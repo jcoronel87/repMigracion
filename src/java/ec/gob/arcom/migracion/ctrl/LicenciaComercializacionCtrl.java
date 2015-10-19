@@ -179,10 +179,15 @@ public class LicenciaComercializacionCtrl extends BaseCtrl {
     public String guardarRegistro() {
         Usuario us = usuarioDao.obtenerPorLogin(login.getUserName());
         System.out.println("licenciaComercializacion.getEstadoLicencia().getCodigoCatalogoDetalle(): " + licenciaComercializacion.getEstadoLicencia().getCodigoCatalogoDetalle());
-        if (licenciaComercializacion.getFechaOtorga().after(licenciaComercializacion.getFechaInscribe())) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
-                    "Fecha de otorgamiento debe ser menor o igual a la fecha de inscripción", null));
-            return null;
+        if (licenciaComercializacion.getFechaOtorga() != null) {
+            if (licenciaComercializacion.getFechaOtorga().after(licenciaComercializacion.getFechaInscribe())) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+                        "Fecha de otorgamiento debe ser menor o igual a la fecha de inscripción", null));
+                return null;
+            }
+        }
+        if (licenciaComercializacion.getCodigoMineralInteres().getCodigoCatalogoDetalle().equals(1000L)) {
+            licenciaComercializacion.setCodigoMineralInteres(null);
         }
         try {
             if (licenciaComercializacion.getCodigoLicenciaComercializacion() == null) {
@@ -646,26 +651,26 @@ public class LicenciaComercializacionCtrl extends BaseCtrl {
             getPersonaJuridica();
             return;
         }
-        if (!CedulaValidator.validacionRUC(personaJuridica.getRuc())) {
+        /*if (!CedulaValidator.validacionRUC(personaJuridica.getRuc())) {
             //personaJuridica.setRuc(null);
             personaJuridica = null;
             getPersonaJuridica();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
                     "Número de ruc inválido", null));
+        } else {*/
+        System.out.println("entra else");
+        personaJuridica = personaJuridicaServicio.findByRuc(personaJuridica.getRuc());
+        System.out.println("personaJuridica: " + personaJuridica);
+        if (personaJuridica == null) {
+            getPersonaJuridica();
+            personaJuridica.setRuc(numRuc);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "Número de ruc no existente", null));
         } else {
-            System.out.println("entra else");
-            personaJuridica = personaJuridicaServicio.findByRuc(personaJuridica.getRuc());
-            System.out.println("personaJuridica: " + personaJuridica);
-            if (personaJuridica == null) {
-                getPersonaJuridica();
-                personaJuridica.setRuc(numRuc);
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                        "Número de ruc no existente", null));
-            } else {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                        "Número de ruc existente", null));
-            }
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "Número de ruc existente", null));
         }
+        //}
     }
 
     public void guardarPersonaJuridica() {
