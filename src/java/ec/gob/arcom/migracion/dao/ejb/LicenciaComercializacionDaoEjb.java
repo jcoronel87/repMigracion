@@ -143,9 +143,13 @@ public class LicenciaComercializacionDaoEjb extends GenericDaoEjbEl<LicenciaCome
         }
         if (licenciaComercializacion.getTelefono() != null) {
             sql = sql + "    telefono = '" + licenciaComercializacion.getTelefono() + "',\n";
+        } else {
+            sql = sql + "    telefono = null" + ",\n";
         }
         if (licenciaComercializacion.getDireccion() != null) {
             sql = sql + "    direccion = '" + licenciaComercializacion.getDireccion() + "',\n";
+        } else {
+            sql = sql + "    direccion = null" + ",\n";
         }
         if (licenciaComercializacion.getCasilleroJudicial() != null) {
             sql = sql + "    casillero_judicial = '" + licenciaComercializacion.getCasilleroJudicial() + "',\n";
@@ -170,6 +174,8 @@ public class LicenciaComercializacionDaoEjb extends GenericDaoEjbEl<LicenciaCome
         }
         if (licenciaComercializacion.getFechaOtorgamientoLicencia() != null) {
             sql = sql + "    fecha_otorgamiento_licencia = '" + licenciaComercializacion.getFechaOtorgamientoLicencia() + "',\n";
+        } else {
+            sql = sql + "    fecha_otorgamiento_licencia = null" + ",\n";
         }
         if (licenciaComercializacion.getObservacionesLicencia() != null) {
             sql = sql + "    observaciones_licencia = '" + licenciaComercializacion.getObservacionesLicencia() + "',\n";
@@ -218,12 +224,18 @@ public class LicenciaComercializacionDaoEjb extends GenericDaoEjbEl<LicenciaCome
         }
         if (licenciaComercializacion.getCodigoMineralInteres() != null && licenciaComercializacion.getCodigoMineralInteres().getCodigoCatalogoDetalle() != null) {
             sql = sql + "    codigo_mineral_interes = " + licenciaComercializacion.getCodigoMineralInteres().getCodigoCatalogoDetalle() + ",\n";
+        } else {
+            sql = sql + "    codigo_mineral_interes = null" + ",\n";
         }
         if (licenciaComercializacion.getCorreoElectronico() != null) {
             sql = sql + "    correo_electronico = '" + licenciaComercializacion.getCorreoElectronico() + "',\n";
+        } else {
+            sql = sql + "    correo_electronico = null" + ",\n";
         }
         if (licenciaComercializacion.getObservaciones() != null) {
             sql = sql + "    observaciones = '" + licenciaComercializacion.getObservaciones() + "',\n";
+        } else {
+            sql = sql + "    observaciones = null" + ",\n";
         }
         if (licenciaComercializacion.getTipoPersona() != null) {
             sql = sql + "    tipo_persona = '" + licenciaComercializacion.getTipoPersona() + "',\n";
