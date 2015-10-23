@@ -12,12 +12,16 @@ import ec.gob.arcom.migracion.dao.UsuarioDao;
 import ec.gob.arcom.migracion.dto.PlantaBeneficioDto;
 import ec.gob.arcom.migracion.modelo.Auditoria;
 import ec.gob.arcom.migracion.modelo.CatalogoDetalle;
+import ec.gob.arcom.migracion.modelo.ConcesionMinera;
+import ec.gob.arcom.migracion.modelo.ConcesionPlantaBeneficio;
+import ec.gob.arcom.migracion.modelo.ConcesionPlantaBeneficioPK;
 import ec.gob.arcom.migracion.modelo.Localidad;
 import ec.gob.arcom.migracion.modelo.PersonaJuridica;
 import ec.gob.arcom.migracion.modelo.PersonaNatural;
 import ec.gob.arcom.migracion.modelo.PlantaBeneficio;
 import ec.gob.arcom.migracion.modelo.Usuario;
 import ec.gob.arcom.migracion.servicio.AuditoriaServicio;
+import ec.gob.arcom.migracion.servicio.ConcesionPlantaBeneficioServicio;
 import ec.gob.arcom.migracion.servicio.LocalidadServicio;
 import ec.gob.arcom.migracion.servicio.PersonaJuridicaServicio;
 import ec.gob.arcom.migracion.servicio.PersonaNaturalServicio;
@@ -58,6 +62,8 @@ public class PlantaBeneficioCtrl extends BaseCtrl {
     private PersonaNaturalServicio personaNaturalServicio;
     @EJB
     private PersonaJuridicaServicio personaJuridicaServicio;
+    @EJB
+    private ConcesionPlantaBeneficioServicio concesionPlantaBeneficioServicio;
     @ManagedProperty(value = "#{loginCtrl}")
     private LoginCtrl login;
 
@@ -86,6 +92,9 @@ public class PlantaBeneficioCtrl extends BaseCtrl {
     private boolean perNatural;
 
     private PersonaJuridica personaJuridica;
+    private String tipoMineria = "pb";
+    private ConcesionMinera cm;
+    private boolean concesionMinera;
 
     public PlantaBeneficio getPlantaBeneficio() {
         if (plantaBeneficio == null) {
@@ -99,6 +108,7 @@ public class PlantaBeneficioCtrl extends BaseCtrl {
                 plantaBeneficio.setEstadoPlanta(new CatalogoDetalle());
                 plantaBeneficio.setCodigoProcedenciaMaterial(new CatalogoDetalle());
                 plantaBeneficio.setTipoPersona("PNA");
+                codigoArcomNull = true;
             } else {
                 plantaBeneficio = plantaBeneficioDao.findByPk(idPlantaBeneficio);
                 plantaBeneficioAnterior = plantaBeneficioDao.findByPk(idPlantaBeneficio);
@@ -119,7 +129,13 @@ public class PlantaBeneficioCtrl extends BaseCtrl {
                 } else {
                     codigoArcomNull = false;
                 }
+                if (plantaBeneficio.isConcesionMinera()) {
+                    tipoMineria = "cm";
+                } else {
+                    tipoMineria = "pb";
+                }
                 existeCodigoArcom = false;
+                concesionMinera = false;
             }
         }
         return plantaBeneficio;
@@ -165,10 +181,15 @@ public class PlantaBeneficioCtrl extends BaseCtrl {
 
     public String guardarRegistro() {
         Usuario us = usuarioDao.obtenerPorLogin(login.getUserName());
-        if (plantaBeneficio.getFechaOtorga().after(plantaBeneficio.getFechaInscribe())) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
-                    "Fecha de otorgamiento debe ser menor o igual a la fecha de inscripción", null));
-            return null;
+        if (plantaBeneficio.getFechaOtorga() != null && plantaBeneficio.getFechaInscribe() != null) {
+            if (plantaBeneficio.getFechaOtorga().after(plantaBeneficio.getFechaInscribe())) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+                        "Fecha de otorgamiento debe ser menor o igual a la fecha de inscripción", null));
+                return null;
+            }
+        }
+        if (plantaBeneficio.getEstadoPlanta().getCodigoCatalogoDetalle() == null) {
+            plantaBeneficio.setEstadoPlanta(null);
         }
         try {
             if (plantaBeneficio.getCodigoPlantaBeneficio() == null) {
@@ -178,7 +199,23 @@ public class PlantaBeneficioCtrl extends BaseCtrl {
                 plantaBeneficio.setFechaModificacion(new Date());
                 plantaBeneficio.setUsuarioModificacion(BigInteger.valueOf(us.getCodigoUsuario()));
                 plantaBeneficio.setMigrada(true);
+                if (tipoMineria.equals("cm")) {
+                    plantaBeneficio.setCodigoArcom(null);
+                }
                 plantaBeneficioServicio.create(plantaBeneficio);
+                if (tipoMineria.equals("cm")) {
+                    ConcesionPlantaBeneficioPK concesionPlantaBeneficioPk = new ConcesionPlantaBeneficioPK();
+                    concesionPlantaBeneficioPk.setCodigoConcesion(cm.getCodigoConcesion());
+                    concesionPlantaBeneficioPk.setCodigoPlantaBeneficio(plantaBeneficio.getCodigoPlantaBeneficio());
+                    ConcesionPlantaBeneficio concesionPlantaBeneficio = new ConcesionPlantaBeneficio();
+                    concesionPlantaBeneficio.setConcesionPlantaBeneficioPK(concesionPlantaBeneficioPk);
+                    concesionPlantaBeneficio.setConcesionMinera(cm);
+                    concesionPlantaBeneficio.setPlantaBeneficio(plantaBeneficio);
+                    concesionPlantaBeneficio.setEstadoRegistro(true);
+                    concesionPlantaBeneficio.setFechaCreacion(new Date());
+                    concesionPlantaBeneficio.setUsuarioCreacion(BigInteger.valueOf(us.getCodigoUsuario()));
+                    concesionPlantaBeneficioServicio.create(concesionPlantaBeneficio);
+                }
                 Auditoria auditoria = new Auditoria();
                 auditoria.setAccion("INSERT");
                 auditoria.setDetalleAnterior(plantaBeneficio.toString());
@@ -319,13 +356,26 @@ public class PlantaBeneficioCtrl extends BaseCtrl {
 
     public void validarCodigoArcom() {
         if (plantaBeneficio.getCodigoArcom() != null) {
-            PlantaBeneficio lc = plantaBeneficioDao.findByCodigoArcom(plantaBeneficio.getCodigoArcom());
-            if (lc == null) {
-                existeCodigoArcom = false;
-            } else {
-                existeCodigoArcom = true;
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
-                        "Código de planta beneficio existente, por favor ingrese uno nuevo", null));
+            if (tipoMineria.equals("pb")) {
+                concesionMinera = false;
+                PlantaBeneficio lc = plantaBeneficioDao.findByCodigoArcom(plantaBeneficio.getCodigoArcom());
+                if (lc == null) {
+                    existeCodigoArcom = false;
+                } else {
+                    existeCodigoArcom = true;
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+                            "Código de planta beneficio existente, por favor ingrese uno nuevo", null));
+                }
+            } else if (tipoMineria.equals("cm")) {
+                concesionMinera = true;
+                cm = plantaBeneficioServicio.buscarPlantaEnConcesion(plantaBeneficio.getCodigoArcom());
+                if (cm == null) {
+                    existeCodigoArcom = true;
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+                            "Código de concesión no existente, por favor ingrese uno nuevo", null));
+                } else {
+                    existeCodigoArcom = false;
+                }
             }
         }
     }
@@ -562,13 +612,13 @@ public class PlantaBeneficioCtrl extends BaseCtrl {
             getPersonaJuridica();
             return;
         }
-        if (!CedulaValidator.validacionRUC(personaJuridica.getRuc())) {
+        /*if (!CedulaValidator.validacionRUC(personaJuridica.getRuc())) {
             //personaJuridica.setRuc(null);
             personaJuridica = null;
             getPersonaJuridica();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
                     "Número de ruc inválido", null));
-        } else {
+        } else {*/
             System.out.println("entra else");
             personaJuridica = personaJuridicaServicio.findByRuc(personaJuridica.getRuc());
             System.out.println("personaJuridica: " + personaJuridica);
@@ -581,7 +631,7 @@ public class PlantaBeneficioCtrl extends BaseCtrl {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                         "Número de ruc existente", null));
             }
-        }
+        //}
     }
 
     public PersonaJuridica getPersonaJuridica() {
@@ -600,7 +650,7 @@ public class PlantaBeneficioCtrl extends BaseCtrl {
 
         plantaBeneficio.setNumeroDocumentoRepresentanteLegal(personaJuridica.getRuc());
         plantaBeneficio.setNombreRepresentanteLegal(personaJuridica.getNombreLegal());
-        plantaBeneficio.setApellidoRepresentanteLegal(personaJuridica.getNombreComercial());
+        //plantaBeneficio.setApellidoRepresentanteLegal(personaJuridica.getNombreComercial());
         plantaBeneficio.setCasilleroJudicial(personaJuridica.getCasilleroJudicial());
         plantaBeneficio.setTelefonoPlanta(personaJuridica.getCelular());
         plantaBeneficio.setDireccionPlanta(personaJuridica.getDireccion());
@@ -674,6 +724,22 @@ public class PlantaBeneficioCtrl extends BaseCtrl {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
                     "Número de cédula inválido", null));
         }
+    }
+
+    public String getTipoMineria() {
+        return tipoMineria;
+    }
+
+    public void setTipoMineria(String tipoMineria) {
+        this.tipoMineria = tipoMineria;
+    }
+
+    public boolean isConcesionMinera() {
+        return concesionMinera;
+    }
+
+    public void setConcesionMinera(boolean concesionMinera) {
+        this.concesionMinera = concesionMinera;
     }
 
 }

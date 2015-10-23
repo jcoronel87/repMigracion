@@ -600,7 +600,7 @@ public class InstrumentoCtrl extends BaseCtrl {
         sujetoMineroPopUpAnterior = sujetoMineroServicio.obtenerPorIdentificacion(identificacionSujetoMinero);
         if (sujetoMineroPopUp == null) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                    "La planta existe pero no pertenece a su regional", null));
+                    "Sujeto minero no existe", null));
         } else {
             instrumento.setDocumentoTitular(sujetoMineroPopUp.getNumeroDocumento());
         }

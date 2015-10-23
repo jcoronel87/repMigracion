@@ -650,7 +650,7 @@ public class SadminDataCtrl extends BaseCtrl {
                 tipSolConcMin = false;
             }
         }
-        muestraModalidadTrabajo();
+        //muestraModalidadTrabajo();
     }
 
     public void validarCedulaPersonaNatural() {

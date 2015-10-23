@@ -28,6 +28,7 @@ import ec.gob.arcom.migracion.modelo.PersonaJuridica;
 import ec.gob.arcom.migracion.modelo.PersonaNatural;
 import ec.gob.arcom.migracion.modelo.Regimen;
 import ec.gob.arcom.migracion.modelo.Regional;
+import ec.gob.arcom.migracion.modelo.Secuencia;
 import ec.gob.arcom.migracion.modelo.Solicitud;
 import ec.gob.arcom.migracion.modelo.SolicitudDetalle;
 import ec.gob.arcom.migracion.modelo.TipoMaquinaria;
@@ -47,6 +48,7 @@ import ec.gob.arcom.migracion.servicio.PersonaJuridicaServicio;
 import ec.gob.arcom.migracion.servicio.PersonaNaturalServicio;
 import ec.gob.arcom.migracion.servicio.RegimenServicio;
 import ec.gob.arcom.migracion.servicio.RegionalServicio;
+import ec.gob.arcom.migracion.servicio.SecuenciaServicio;
 import ec.gob.arcom.migracion.servicio.SolicitudDetalleServicio;
 import ec.gob.arcom.migracion.servicio.SolicitudServicio;
 import ec.gob.arcom.migracion.util.CedulaValidator;
@@ -115,6 +117,8 @@ public class ConcesionMineraCtrl extends BaseCtrl {
     private PersonaNaturalServicio personaNaturalServicio;
     @EJB
     private PersonaJuridicaServicio personaJuridicaServicio;
+    @EJB
+    private SecuenciaServicio secuenciaServicio;
     @ManagedProperty(value = "#{loginCtrl}")
     private LoginCtrl login;
 
@@ -475,11 +479,16 @@ public class ConcesionMineraCtrl extends BaseCtrl {
 
         try {
             if (concesionMinera.getCodigoConcesion() == null) {
-                Long codigoConcesionSiguiente = concesionMineraServicio.obtenerSiguienteCodigoConcesion();
+                //Long codigoConcesionSiguiente = concesionMineraServicio.obtenerSiguienteCodigoConcesion();
+                Secuencia secuenciaConcesion = secuenciaServicio.obtenerPorTabla("CONCESION_MINERA");
+                Long codigoConcesionSiguiente = secuenciaConcesion.getValor();
                 concesionMinera.setCodigoConcesion(codigoConcesionSiguiente);
                 solicitud.setSecuenciaSolicitud(codigoConcesionSiguiente);
                 //mostrarCoordenadas = true;
                 concesionMineraServicio.guardarTodo(concesionMinera, solicitud, areaMinera, us);
+                secuenciaConcesion.setValor(codigoConcesionSiguiente + 1);
+                secuenciaServicio.update(secuenciaConcesion);
+                
                 if (mostrarCoordenadas == false) {
                     mostrarCoordenadas = true;
                 }
