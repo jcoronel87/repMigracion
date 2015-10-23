@@ -8,6 +8,7 @@ package ec.gob.arcom.migracion.dao.ejb;
 import com.saviasoft.persistence.util.dao.eclipselink.GenericDaoEjbEl;
 import ec.gob.arcom.migracion.dao.PlantaBeneficioDao;
 import ec.gob.arcom.migracion.dto.PlantaBeneficioDto;
+import ec.gob.arcom.migracion.modelo.ConcesionMinera;
 import ec.gob.arcom.migracion.modelo.PlantaBeneficio;
 import java.util.ArrayList;
 import java.util.List;
@@ -100,7 +101,8 @@ public class PlantaBeneficioDaoEjb extends GenericDaoEjbEl<PlantaBeneficio, Long
                 + "fecha_otorga,\n"
                 + "fecha_inscribe\n"
                 + "from catmin.planta_beneficio p\n"
-                + "where 1 = 1 and p.codigo_provincia = (select codigo_provincia from catmin.usuario where numero_documento = '" + usuario + "') and migrada = true\n";
+                + "where 1 = 1 and p.codigo_provincia in (select lcr.codigo_localidad from catmin.localidad_regional lcr where lcr.codigo_regional = (select r.codigo_regional from catmin.regional r, catmin.localidad_regional lr, catmin.usuario where numero_documento = '" + usuario +"'\n" +
+"                                 and r.codigo_regional = lr.codigo_regional and lr.codigo_localidad = codigo_provincia)) and migrada = true\n";
         if (codigoArcom != null && !codigoArcom.isEmpty()) {
             sql = sql + "and codigo_arcom like '%" + codigoArcom + "%'\n";
             //sql.concat("and codigo_arcom like '%").concat(codigoArcom).concat("%'\n");
@@ -287,8 +289,8 @@ public class PlantaBeneficioDaoEjb extends GenericDaoEjbEl<PlantaBeneficio, Long
         if (plantaBeneficio.getFechaInscribe() != null) {
             sql = sql + "    fecha_inscribe = '" + plantaBeneficio.getFechaInscribe() + "',\n";
         }
-        sql = sql + "    mae = " + plantaBeneficio.isMae() + ",\n";
-        sql = sql + "    senagua = " + plantaBeneficio.isSenagua() + " ,\n";
+        sql = sql + "    mae = " + plantaBeneficio.getMae() + ",\n";
+        sql = sql + "    senagua = " + plantaBeneficio.getSenagua() + " ,\n";
         if (plantaBeneficio.getObsActoAdministrativo() != null) {
             sql = sql + "    obs_acto_administrativo = '" + plantaBeneficio.getObsActoAdministrativo() + "',\n";
         }
@@ -313,6 +315,19 @@ public class PlantaBeneficioDaoEjb extends GenericDaoEjbEl<PlantaBeneficio, Long
 
         Query query = em.createNativeQuery(sql);
         query.executeUpdate();
+    }
+
+    @Override
+    public ConcesionMinera buscarPlantaEnConcesion(String codigoArcom) {
+        try {
+            String hql = "select cm from ConcesionMinera cm where cm.codigoArcom = :codigoArcom and cm.codigoTipoMineria.codigoTipoMineria = 3";
+            Query query = em.createQuery(hql);
+            query.setParameter("codigoArcom", codigoArcom);
+            ConcesionMinera cm = (ConcesionMinera) query.getSingleResult();
+            return cm;
+        } catch (NoResultException nre) {
+            return null;
+        }
     }
 
 }
