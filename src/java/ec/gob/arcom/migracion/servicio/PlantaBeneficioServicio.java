@@ -7,6 +7,7 @@ package ec.gob.arcom.migracion.servicio;
 
 import com.saviasoft.persistence.util.service.GenericService;
 import ec.gob.arcom.migracion.dto.PlantaBeneficioDto;
+import ec.gob.arcom.migracion.modelo.ConcesionMinera;
 import ec.gob.arcom.migracion.modelo.PlantaBeneficio;
 import java.util.List;
 import javax.ejb.Local;
@@ -25,5 +26,7 @@ public interface PlantaBeneficioServicio extends GenericService<PlantaBeneficio,
     void guardarPlantaBeneficio(PlantaBeneficio plantaBeneficio) throws Exception;
 
     PlantaBeneficio obtenerPorCodigoArcom(String codigoArcom);
+
+    ConcesionMinera buscarPlantaEnConcesion(String codigoArcom);
 
 }
