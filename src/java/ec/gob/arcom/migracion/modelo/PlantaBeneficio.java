@@ -9,7 +9,9 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,9 +21,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
 /**
@@ -33,6 +37,17 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "PlantaBeneficio.findAll", query = "SELECT p FROM PlantaBeneficio p")})
 public class PlantaBeneficio implements Serializable {
+
+    //@Column(name = "xml_data")
+    //private Serializable xmlData;
+    @Column(name = "mae")
+    private Boolean mae;
+    @Column(name = "senagua")
+    private Boolean senagua;
+    @Column(name = "migrada")
+    private Boolean migrada;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "plantaBeneficio")
+    private List<ConcesionPlantaBeneficio> concesionPlantaBeneficioList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -171,10 +186,6 @@ public class PlantaBeneficio implements Serializable {
     @JoinColumn(name = "unidad_peso", referencedColumnName = "codigo_catalogo_detalle")
     @ManyToOne
     private CatalogoDetalle unidadPeso;
-    @Column(name = "mae")
-    private boolean mae;
-    @Column(name = "senagua")
-    private boolean senagua;
     @Column(name = "obs_acto_administrativo")
     private String obsActoAdministrativo;
     @Column(name = "correo_electronico")
@@ -188,8 +199,8 @@ public class PlantaBeneficio implements Serializable {
     private BigInteger plazo;
     @Column(name = "tipo_persona")
     private String tipoPersona;
-    @Column(name = "migrada")
-    private boolean migrada;
+    @Transient
+    private boolean concesionMinera;
 
     public PlantaBeneficio() {
     }
@@ -598,21 +609,6 @@ public class PlantaBeneficio implements Serializable {
         this.unidadPeso = unidadPeso;
     }
 
-    public boolean isMae() {
-        return mae;
-    }
-
-    public void setMae(boolean mae) {
-        this.mae = mae;
-    }
-
-    public boolean isSenagua() {
-        return senagua;
-    }
-
-    public void setSenagua(boolean senagua) {
-        this.senagua = senagua;
-    }
 
     public String getObsActoAdministrativo() {
         return obsActoAdministrativo;
@@ -662,13 +658,6 @@ public class PlantaBeneficio implements Serializable {
         this.tipoPersona = tipoPersona;
     }
 
-    public boolean isMigrada() {
-        return migrada;
-    }
-
-    public void setMigrada(boolean migrada) {
-        this.migrada = migrada;
-    }
 
     @Override
     public int hashCode() {
@@ -705,6 +694,59 @@ public class PlantaBeneficio implements Serializable {
                 + fechaOtorga + ", fechaInscribe=" + fechaInscribe + ", categoriaPlanta=" + (categoriaPlanta != null ? categoriaPlanta.getCodigoCatalogoDetalle() : null) + ", estadoPlanta=" + (estadoPlanta != null ? estadoPlanta.getCodigoCatalogoDetalle() : null)
                 + ", unidadPeso=" + (unidadPeso != null ? unidadPeso.getCodigoCatalogoDetalle() : null) + ", mae=" + mae + ", senagua=" + senagua + ", obsActoAdministrativo=" + obsActoAdministrativo + ", correoElectronico=" + correoElectronico
                 + ", codigoProcedenciaMaterial=" + (codigoProcedenciaMaterial != null ? codigoProcedenciaMaterial.getCodigoCatalogoDetalle() : null) + ", zona=" + zona + ", plazo=" + plazo + ", tipoPersona=" + tipoPersona + ", migrada=" + migrada + '}';
+    }
+
+    /*public Serializable getXmlData() {
+        return xmlData;
+    }
+
+    public void setXmlData(Serializable xmlData) {
+        this.xmlData = xmlData;
+    }*/
+
+    public Boolean getMae() {
+        return mae;
+    }
+
+    public void setMae(Boolean mae) {
+        this.mae = mae;
+    }
+
+    public Boolean getSenagua() {
+        return senagua;
+    }
+
+    public void setSenagua(Boolean senagua) {
+        this.senagua = senagua;
+    }
+
+    public Boolean getMigrada() {
+        return migrada;
+    }
+
+    public void setMigrada(Boolean migrada) {
+        this.migrada = migrada;
+    }
+
+    public List<ConcesionPlantaBeneficio> getConcesionPlantaBeneficioList() {
+        return concesionPlantaBeneficioList;
+    }
+
+    public void setConcesionPlantaBeneficioList(List<ConcesionPlantaBeneficio> concesionPlantaBeneficioList) {
+        this.concesionPlantaBeneficioList = concesionPlantaBeneficioList;
+    }
+
+    public boolean isConcesionMinera() {
+        if (codigoArcom != null) {
+            concesionMinera = false;
+        } else {
+            concesionMinera = true;
+        }
+        return concesionMinera;
+    }
+
+    public void setConcesionMinera(boolean concesionMinera) {
+        this.concesionMinera = concesionMinera;
     }
 
 }

@@ -35,6 +35,9 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Localidad.findAll", query = "SELECT l FROM Localidad l")})
 public class Localidad implements Serializable {
+
+    @OneToMany(mappedBy = "codigoCasilleroLocalidad")
+    private List<ConcesionMinera> concesionMineraList;
     @OneToMany(mappedBy = "lugarEmisionPago")
     private List<RegistroPagoObligaciones> registroPagoObligacionesList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "localidad")
@@ -281,6 +284,14 @@ public class Localidad implements Serializable {
 
     public void setRegistroPagoObligacionesList(List<RegistroPagoObligaciones> registroPagoObligacionesList) {
         this.registroPagoObligacionesList = registroPagoObligacionesList;
+    }
+
+    public List<ConcesionMinera> getConcesionMineraList() {
+        return concesionMineraList;
+    }
+
+    public void setConcesionMineraList(List<ConcesionMinera> concesionMineraList) {
+        this.concesionMineraList = concesionMineraList;
     }
     
 }

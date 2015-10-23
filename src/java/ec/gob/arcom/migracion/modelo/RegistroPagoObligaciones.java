@@ -69,8 +69,8 @@ public class RegistroPagoObligaciones implements Serializable {
     @Size(max = 20)
     @Column(name = "numero_comprobante_arcom")
     private String numeroComprobanteArcom;
-    @Column(name = "xml_data")
-    private Serializable xmlData;
+    //@Column(name = "xml_data")
+    //private Serializable xmlData;
     @Column(name = "codigo_solicitud")
     private BigInteger codigoSolicitud;
     @Column(name = "numero_tramite")
@@ -211,6 +211,9 @@ public class RegistroPagoObligaciones implements Serializable {
     @JoinColumn(name = "codigo_planta_beneficio", referencedColumnName = "codigo_planta_beneficio")
     @ManyToOne
     private PlantaBeneficio codigoPlantaBeneficio;
+    @JoinColumn(name = "codigo_sujeto_minero", referencedColumnName = "codigo_sujeto_minero")
+    @ManyToOne
+    private SujetoMinero codigoSujetoMinero;
     @Transient
     private Long codigoDerechoMinero;
     @Transient
@@ -311,13 +314,13 @@ public class RegistroPagoObligaciones implements Serializable {
         this.numeroComprobanteArcom = numeroComprobanteArcom;
     }
 
-    public Serializable getXmlData() {
+    /*public Serializable getXmlData() {
         return xmlData;
     }
 
     public void setXmlData(Serializable xmlData) {
         this.xmlData = xmlData;
-    }
+    }*/
 
     public BigInteger getCodigoSolicitud() {
         return codigoSolicitud;
@@ -681,7 +684,7 @@ public class RegistroPagoObligaciones implements Serializable {
 
     public ConcesionMinera getCodigoConcesion() {
         if (codigoConcesion != null) {
-            codigoDerechoMinero = codigoConcesion.getCodigoConcesion();
+            codigoDerechoMinero = Long.valueOf(codigoConcesion.getCodigoArcom());
             nombreDerechoMinero = codigoConcesion.getNombreConcesion();
         }
         return codigoConcesion;
@@ -757,7 +760,7 @@ public class RegistroPagoObligaciones implements Serializable {
 
     public LicenciaComercializacion getCodigoLicenciaComercializacion() {
         if (codigoLicenciaComercializacion != null) {
-            codigoDerechoMinero = codigoLicenciaComercializacion.getCodigoLicenciaComercializacion();
+            codigoDerechoMinero = Long.valueOf(codigoLicenciaComercializacion.getCodigoArcom());
             nombreDerechoMinero = codigoLicenciaComercializacion.getNombre();
         }
         return codigoLicenciaComercializacion;
@@ -769,7 +772,7 @@ public class RegistroPagoObligaciones implements Serializable {
 
     public PlantaBeneficio getCodigoPlantaBeneficio() {
         if (codigoPlantaBeneficio != null) {
-            codigoDerechoMinero = codigoPlantaBeneficio.getCodigoPlantaBeneficio();
+            codigoDerechoMinero = Long.valueOf(codigoPlantaBeneficio.getCodigoArcom());
             nombreDerechoMinero = codigoPlantaBeneficio.getNombrePlantaBeneficio();
         }
         return codigoPlantaBeneficio;
@@ -785,6 +788,17 @@ public class RegistroPagoObligaciones implements Serializable {
 
     public void setNombreDerechoMinero(String nombreDerechoMinero) {
         this.nombreDerechoMinero = nombreDerechoMinero;
+    }
+
+    public SujetoMinero getCodigoSujetoMinero() {
+        if (codigoSujetoMinero != null) {
+            codigoDerechoMinero = Long.valueOf(codigoSujetoMinero.getNumeroDocumento());
+        }
+        return codigoSujetoMinero;
+    }
+
+    public void setCodigoSujetoMinero(SujetoMinero codigoSujetoMinero) {
+        this.codigoSujetoMinero = codigoSujetoMinero;
     }
 
     @Override
