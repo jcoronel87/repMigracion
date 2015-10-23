@@ -34,22 +34,27 @@
                         </h:commandLink>
                     </h:panelGroup>
                 </h:panelGrid>
-                <p:panelGrid columns="2" styleClass="panel_grid_center" columnClasses="form-label-width, form-input">
+                <p:panelGrid columns="3" styleClass="panel_grid_center" columnClasses="form-label-width, form-input">
                     <f:facet name="header">
                         <h:panelGroup style="display:block; text-align:center">
                             <p:outputLabel value="DATOS DE LA PLANTA"/>
                         </h:panelGroup>
                     </f:facet>
                     <p:outputLabel value="Código:"></p:outputLabel>
-                    <p:inputMask id="codArc" mask="9?999999999999999999999999999999999" value="#{plantaBeneficioCtrl.plantaBeneficio.codigoArcom}" size="50"
+                    <p:inputMask id="codArc" mask="9?999999999999999999999999999999999" value="#{plantaBeneficioCtrl.plantaBeneficio.codigoArcom}" size="40"
                                  required="true" requiredMessage="Código requerido" placeHolder="" readonly="#{!plantaBeneficioCtrl.existeCodigoArcom}"
                                  rendered="#{plantaBeneficioCtrl.plantaBeneficio.codigoPlantaBeneficio == null}" placeholder="" maxlength="9">
-                        <p:ajax update="panel2 codArc" listener="#{plantaBeneficioCtrl.validarCodigoArcom}" />
+                        <p:ajax update="panel2 codArc" listener="#{plantaBeneficioCtrl.validarCodigoArcom}"/>
                     </p:inputMask>
-                    <p:inputMask mask="9?999999999999999999999999999999999" value="#{plantaBeneficioCtrl.plantaBeneficio.codigoArcom}" size="50" readonly="#{!plantaBeneficioCtrl.codigoArcomNull}"
+                    <p:inputMask mask="9?999999999999999999999999999999999" value="#{plantaBeneficioCtrl.plantaBeneficio.codigoArcom}" size="40" readonly="#{!plantaBeneficioCtrl.codigoArcomNull}"
                                  required="true" requiredMessage="Código requerido" placeHolder="" rendered="#{plantaBeneficioCtrl.plantaBeneficio.codigoPlantaBeneficio != null}" maxlength="9">
-                        <p:ajax update="panel2 codArc" listener="#{plantaBeneficioCtrl.validarCodigoArcom}" />
+                        <p:ajax update="panel2 codArc" listener="#{plantaBeneficioCtrl.validarCodigoArcom}"/>
                     </p:inputMask>
+                    <p:selectOneRadio value="#{plantaBeneficioCtrl.tipoMineria}" disabled="#{!plantaBeneficioCtrl.codigoArcomNull}">
+                        <f:selectItem itemLabel="Plnt. Ben." itemValue="pb" />
+                        <f:selectItem itemLabel="Conc. Min." itemValue="cm" />
+                        <p:ajax update="@form" listener="#{plantaBeneficioCtrl.validarCodigoArcom}"/>
+                    </p:selectOneRadio>
                 </p:panelGrid>
 
                 <h:panelGroup id="panel2">
@@ -83,17 +88,17 @@
                             </h:panelGrid>
                         </h:panelGroup>
 
-                        <p:outputLabel value="Nombre representante legal:"></p:outputLabel>
+                        <p:outputLabel value="Nombre titular:"></p:outputLabel>
                         <p:inputText id="nomTit" value="#{plantaBeneficioCtrl.plantaBeneficio.nombreRepresentanteLegal}" size="50" onkeypress="return acceptText(event)" maxlength="30" readonly="true"/>
 
-                        <p:outputLabel value="Apellido representante legal:"></p:outputLabel>
+                        <p:outputLabel value="Apellido titular:"></p:outputLabel>
                         <p:inputText id="apTit" value="#{plantaBeneficioCtrl.plantaBeneficio.apellidoRepresentanteLegal}" size="50" onkeypress="return acceptText(event)" maxlength="30" readonly="true"/>
 
                         <p:outputLabel value="Correo electrónico:"></p:outputLabel>
-                        <p:inputText id="email" size="50" value="#{plantaBeneficioCtrl.plantaBeneficio.correoElectronico}" required="true" requiredMessage="Correo electrónico es requerido"
+                        <p:inputText id="email" size="50" value="#{plantaBeneficioCtrl.plantaBeneficio.correoElectronico}" 
                                      validatorMessage="Correo electrónico inválido" label="Correo electrónico" maxlength="30" readonly="true">
-                            <f:validateRegex
-                                pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                            <!-- <f:validateRegex
+                                pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" /> -->
                         </p:inputText>
 
                         <p:outputLabel value="Casillero:"></p:outputLabel>
@@ -103,7 +108,7 @@
                         <p:outputLabel value="Teléfono:"></p:outputLabel>
                         <p:inputMask id="tlfn" mask="9?999999999" value="#{plantaBeneficioCtrl.plantaBeneficio.telefonoPlanta}" size="50" placeholder=""
                                      required="true" requiredMessage="Teléfono es requerido" validatorMessage="Teléfono debe tener mínimo 9 dígitos y máximo 10 dígitos">
-                            <f:validateLength minimum="9" maximum="10" />
+                            <f:validateLength minimum="0" maximum="10" />
                         </p:inputMask>
 
                         <p:outputLabel value="Dirección:"></p:outputLabel>
@@ -128,22 +133,37 @@
                         <pe:inputNumber thousandSeparator="," decimalSeparator="." decimalPlaces="2" maxValue="99999999.99" value="#{plantaBeneficioCtrl.plantaBeneficio.capacidadInstalada}" 
                                         required="true" requiredMessage="Capacidad instalada es requerida" style="width: 93%"/>
 
-                        <p:outputLabel value="Fecha otorga:"></p:outputLabel>
-                        <p:calendar id="fecOtorga" readonlyInput="true" placeholder="aaaa-mm-dd" navigator="true"
-                                    value="#{plantaBeneficioCtrl.plantaBeneficio.fechaOtorga}"  
-                                    locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" />
+                        <h:panelGroup id="panelFecOtorga">
+                            <p:outputLabel value="Fecha otorga:" rendered="#{!plantaBeneficioCtrl.concesionMinera}"></p:outputLabel>
+                        </h:panelGroup>
+                        <h:panelGroup id="panelFecOtorga2">
+                            <p:calendar id="fecOtorga" readonlyInput="true" placeholder="aaaa-mm-dd" navigator="true"
+                                        value="#{plantaBeneficioCtrl.plantaBeneficio.fechaOtorga}"  
+                                        locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" 
+                                        rendered="#{!plantaBeneficioCtrl.concesionMinera}"/>
+                        </h:panelGroup>
 
-                        <p:outputLabel value="Fecha inscribe:"></p:outputLabel>
-                        <p:calendar id="fecInscribe" readonlyInput="true" placeholder="aaaa-mm-dd" navigator="true"
-                                    value="#{plantaBeneficioCtrl.plantaBeneficio.fechaInscribe}"  
-                                    locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" />
+                        <h:panelGroup id="panelFecInscribe">
+                            <p:outputLabel value="Fecha inscribe:" rendered="#{!plantaBeneficioCtrl.concesionMinera}"></p:outputLabel>
+                        </h:panelGroup>
+                        <h:panelGroup id="panelFecInscribe2">
+                            <p:calendar id="fecInscribe" readonlyInput="true" placeholder="aaaa-mm-dd" navigator="true"
+                                        value="#{plantaBeneficioCtrl.plantaBeneficio.fechaInscribe}"  
+                                        locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" 
+                                        rendered="#{!plantaBeneficioCtrl.concesionMinera}"/>
+                        </h:panelGroup>
 
-                        <p:outputLabel value="Estado:"></p:outputLabel>
-                        <p:selectOneMenu value="#{plantaBeneficioCtrl.plantaBeneficio.estadoPlanta.codigoCatalogoDetalle}" required="true" requiredMessage="Estado es requerido" style="width: 93%">
-                            <f:selectItem itemValue="" itemLabel="--Seleccione una opción--" />
-                            <f:selectItems value="#{selectItemCtrl.estadosCodigoCatalogo19}" />
-                            <p:ajax process=":form:fecOtorga :form:fecInscribe" update=":form:fecOtorga :form:fecInscribe" />
-                        </p:selectOneMenu>
+                        <h:panelGroup id="estado">
+                            <p:outputLabel value="Estado:" rendered="#{!plantaBeneficioCtrl.concesionMinera}"></p:outputLabel>
+                        </h:panelGroup>
+                        <h:panelGroup id="estado2">
+                            <p:selectOneMenu value="#{plantaBeneficioCtrl.plantaBeneficio.estadoPlanta.codigoCatalogoDetalle}" required="true" requiredMessage="Estado es requerido" style="width: 93%"
+                                             rendered="#{!plantaBeneficioCtrl.concesionMinera}">
+                                <f:selectItem itemValue="" itemLabel="--Seleccione una opción--" />
+                                <f:selectItems value="#{selectItemCtrl.estadosCodigoCatalogo19}" />
+                                <p:ajax process=":form:fecOtorga :form:fecInscribe" update=":form:fecOtorga :form:fecInscribe" />
+                            </p:selectOneMenu>
+                        </h:panelGroup>
 
                         <p:outputLabel value="Procedencia Material:"></p:outputLabel>
                         <p:selectOneMenu value="#{plantaBeneficioCtrl.plantaBeneficio.codigoProcedenciaMaterial.codigoCatalogoDetalle}" required="true" requiredMessage="Estado es requerido" style="width: 93%">
@@ -171,14 +191,27 @@
                             <f:selectItems value="#{plantaBeneficioCtrl.parroquias}"/>
                         </p:selectOneMenu>
 
-                        <h:outputText value="MAE: " />
-                        <p:selectBooleanCheckbox value="#{plantaBeneficioCtrl.plantaBeneficio.mae}" />
+                        <h:panelGroup id="mae">
+                            <h:outputText value="MAE: " rendered="#{!plantaBeneficioCtrl.concesionMinera}"/>
+                        </h:panelGroup>
+                        <h:panelGroup id="mae2">
+                            <p:selectBooleanCheckbox value="#{plantaBeneficioCtrl.plantaBeneficio.mae}" rendered="#{!plantaBeneficioCtrl.concesionMinera}"/>
+                        </h:panelGroup>
 
-                        <h:outputText value="SENAGUA: " />
-                        <p:selectBooleanCheckbox value="#{plantaBeneficioCtrl.plantaBeneficio.senagua}" />
+                        <h:panelGroup id="senagua">
+                            <h:outputText value="SENAGUA: " rendered="#{!plantaBeneficioCtrl.concesionMinera}"/>
+                        </h:panelGroup>
+                        <h:panelGroup id="senagua2">
+                            <p:selectBooleanCheckbox value="#{plantaBeneficioCtrl.plantaBeneficio.senagua}" rendered="#{!plantaBeneficioCtrl.concesionMinera}"/>
+                        </h:panelGroup>
 
-                        <h:outputText value="Observaciones actos administrativos previos" />
-                        <p:inputTextarea value="#{plantaBeneficioCtrl.plantaBeneficio.obsActoAdministrativo}" cols="52" maxlength="500"/>
+                        <h:panelGroup id="obsAdm">
+                            <h:outputText value="Observaciones actos administrativos previos" rendered="#{!plantaBeneficioCtrl.concesionMinera}"/>
+                        </h:panelGroup>
+                        <h:panelGroup id="obsAdm2">
+                            <p:inputTextarea value="#{plantaBeneficioCtrl.plantaBeneficio.obsActoAdministrativo}" cols="52" maxlength="500"
+                                             rendered="#{!plantaBeneficioCtrl.concesionMinera}"/>
+                        </h:panelGroup>
 
                         <f:facet name="footer">
                             <h:panelGroup style="display:block; text-align:center">
@@ -210,13 +243,13 @@
                             <p:outputLabel value="Teléfono celular:"></p:outputLabel>
                             <p:inputMask mask="9?999999999" value="#{plantaBeneficioCtrl.personaNatural.celular}" size="50" placeholder=""
                                          validatorMessage="Teléfono celular debe tener 10 dígitos" >
-                                <f:validateLength minimum="10" maximum="10" />
+                                <f:validateLength minimum="0" maximum="10" />
                             </p:inputMask>
 
                             <p:outputLabel value="Teléfono convencional:"></p:outputLabel>
                             <p:inputMask mask="9?99999999" value="#{plantaBeneficioCtrl.personaNatural.telefono}" size="50" placeholder=""
                                          validatorMessage="Teléfono convencional debe tener 9 dígitos">
-                                <f:validateLength minimum="9" maximum="9" />
+                                <f:validateLength minimum="0" maximum="9" />
                             </p:inputMask>
 
                             <p:outputLabel value="Casillero judicial:"></p:outputLabel>
@@ -227,10 +260,10 @@
                             <p:inputText size="50" value="#{plantaBeneficioCtrl.personaNatural.direccion}" required="true" requiredMessage="Dirección es requerida" maxlength="90"></p:inputText>
 
                             <p:outputLabel value="Correo electrónico:"></p:outputLabel>
-                            <p:inputText size="50" value="#{plantaBeneficioCtrl.personaNatural.email}" required="true" requiredMessage="Correo electrónico es requerido"
+                            <p:inputText size="50" value="#{plantaBeneficioCtrl.personaNatural.email}" 
                                          validatorMessage="Correo electrónico inválido" label="Correo electrónico" maxlength="30">
-                                <f:validateRegex
-                                    pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                                <!-- <f:validateRegex
+                                    pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" /> -->
                             </p:inputText>
                         </h:panelGrid>
                         <p:spacer/>
@@ -275,13 +308,13 @@
                             <p:outputLabel value="Teléfono celular:"></p:outputLabel>
                             <p:inputMask mask="9?999999999" value="#{plantaBeneficioCtrl.personaJuridica.celular}" size="50" placeholder=""
                                          validatorMessage="Teléfono celular debe tener 10 dígitos" >
-                                <f:validateLength minimum="10" maximum="10" />
+                                <f:validateLength minimum="0" maximum="10" />
                             </p:inputMask>
 
                             <p:outputLabel value="Teléfono convencional:"></p:outputLabel>
                             <p:inputMask mask="9?99999999" value="#{plantaBeneficioCtrl.personaJuridica.telefono}" size="50" placeholder=""
                                          validatorMessage="Teléfono convencional debe tener 9 dígitos">
-                                <f:validateLength minimum="9" maximum="9" />
+                                <f:validateLength minimum="0" maximum="9" />
                             </p:inputMask>
 
                             <p:outputLabel value="Casillero judicial:"></p:outputLabel>
@@ -292,10 +325,10 @@
                             <p:inputText size="50" value="#{plantaBeneficioCtrl.personaJuridica.direccion}" required="true" requiredMessage="Dirección es requerida" maxlength="90"></p:inputText>
 
                             <p:outputLabel value="Correo electrónico:"></p:outputLabel>
-                            <p:inputText size="50" value="#{plantaBeneficioCtrl.personaJuridica.email}" required="true" requiredMessage="Correo electrónico es requerido"
+                            <p:inputText size="50" value="#{plantaBeneficioCtrl.personaJuridica.email}" 
                                          validatorMessage="Correo electrónico inválido" label="Correo electrónico" maxlength="30">
-                                <f:validateRegex
-                                    pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                                <!-- <f:validateRegex
+                                    pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" /> -->
                             </p:inputText>
                             <p:outputLabel value="Documento Rep. Legal:"></p:outputLabel>
                             <p:inputMask id="numDoc2" mask="9?999999999999" value="#{plantaBeneficioCtrl.personaJuridica.documentoRepresentanteLegal}" size="50" placeHolder=""

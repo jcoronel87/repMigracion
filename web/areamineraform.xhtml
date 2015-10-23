@@ -148,7 +148,7 @@
                         <p:selectOneMenu value="#{sadminDataCtrl.sadminData.tipoSolicitud}" required="true" requiredMessage="Tipo solicitud es requerido" style="width: 93%">
                             <f:selectItem itemValue="" itemLabel="--Seleccione una opción--" />
                             <f:selectItems value="#{selectItemCtrl.tiposMineria}" />
-                            <p:ajax listener="#{sadminDataCtrl.validarRegimenFase}" update="reg1 reg2 fas1 fas2 modTrab modTrab2"/>
+                            <p:ajax listener="#{sadminDataCtrl.validarRegimenFase}" update="reg1 reg2 fas1 fas2"/>
                         </p:selectOneMenu>
 
                         <h:panelGroup id="reg1">
@@ -180,16 +180,12 @@
                             <f:selectItems value="#{selectItemCtrl.regionales}" />
                         </p:selectOneMenu>
 
-                        <h:panelGroup id="modTrab">
-                            <p:outputLabel value="Modalidad trabajo:" rendered="#{!sadminDataCtrl.tipoSolMineriaArtesanal}"></p:outputLabel>
-                        </h:panelGroup>
-                        <h:panelGroup id="modTrab2">
-                            <p:selectOneMenu value="#{sadminDataCtrl.sadminData.codigoModalidadTrabajo.codigoCatalogoDetalle}" 
-                                             style="width: 93%" rendered="#{!sadminDataCtrl.tipoSolMineriaArtesanal}">
-                                <f:selectItem itemValue="1000" itemLabel="--Seleccione una opción--" />
-                                <f:selectItems value="#{selectItemCtrl.modalidadesTrabajo}" />
-                            </p:selectOneMenu>
-                        </h:panelGroup>
+                        <p:outputLabel value="Modalidad trabajo:"></p:outputLabel>
+                        <p:selectOneMenu value="#{sadminDataCtrl.sadminData.codigoModalidadTrabajo.codigoCatalogoDetalle}" 
+                                         style="width: 93%">
+                            <f:selectItem itemValue="1000" itemLabel="--Seleccione una opción--" />
+                            <f:selectItems value="#{selectItemCtrl.modalidadesTrabajo}" />
+                        </p:selectOneMenu>
 
                         <p:outputLabel value="Provincia:"></p:outputLabel>
                         <p:selectOneMenu id="somProvincia01" value="#{sadminDataCtrl.sadminData.provincia1}" required="true" requiredMessage="Provincia es requerida" style="width: 93%">
