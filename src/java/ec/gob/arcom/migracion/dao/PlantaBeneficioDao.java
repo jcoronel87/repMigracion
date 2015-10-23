@@ -7,6 +7,7 @@ package ec.gob.arcom.migracion.dao;
 
 import com.saviasoft.persistence.util.dao.GenericDao;
 import ec.gob.arcom.migracion.dto.PlantaBeneficioDto;
+import ec.gob.arcom.migracion.modelo.ConcesionMinera;
 import ec.gob.arcom.migracion.modelo.PlantaBeneficio;
 import java.util.List;
 import javax.ejb.Local;
@@ -26,5 +27,7 @@ public interface PlantaBeneficioDao extends GenericDao<PlantaBeneficio, Long> {
     List<PlantaBeneficioDto> obtenerListaPlantas(String codigoArcom, String identificacion, String usuario);
 
     void actualizarPlantaBeneficio(PlantaBeneficio plantaBeneficio) throws Exception;
+
+    ConcesionMinera buscarPlantaEnConcesion(String codigoArcom);
 
 }
