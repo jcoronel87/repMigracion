@@ -10,6 +10,7 @@ import com.saviasoft.persistence.util.service.impl.GenericServiceImpl;
 import ec.gob.arcom.migracion.dao.PlantaBeneficioDao;
 import ec.gob.arcom.migracion.dto.PlantaBeneficioDto;
 import ec.gob.arcom.migracion.modelo.CatalogoDetalle;
+import ec.gob.arcom.migracion.modelo.ConcesionMinera;
 import ec.gob.arcom.migracion.modelo.Localidad;
 import ec.gob.arcom.migracion.modelo.PersonaJuridica;
 import ec.gob.arcom.migracion.modelo.PersonaNatural;
@@ -217,6 +218,11 @@ public class PlantaBeneficioServicioImpl extends GenericServiceImpl<PlantaBenefi
     @Override
     public PlantaBeneficio obtenerPorCodigoArcom(String codigoArcom) {
         return plantaBeneficioDao.findByCodigoArcom(codigoArcom);
+    }
+
+    @Override
+    public ConcesionMinera buscarPlantaEnConcesion(String codigoArcom) {
+        return plantaBeneficioDao.buscarPlantaEnConcesion(codigoArcom);
     }
     
 }
