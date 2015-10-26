@@ -90,20 +90,20 @@
                                      maxlength="30" readonly="true"/>
 
                         <p:outputLabel value="Correo electrónico:"></p:outputLabel>
-                        <p:inputText id="email" size="50" value="#{licenciaComercializacionCtrl.licenciaComercializacion.correoElectronico}" required="true" requiredMessage="Correo electrónico es requerido"
+                        <p:inputText id="email" size="50" value="#{licenciaComercializacionCtrl.licenciaComercializacion.correoElectronico}"
                                      validatorMessage="Correo electrónico inválido" label="Correo electrónico" maxlength="30" readonly="true">
-                            <f:validateRegex
-                                pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+<!--                            <f:validateRegex
+                                pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />-->
                         </p:inputText>
 
                         <p:outputLabel value="Dirección:"></p:outputLabel>
-                        <p:inputText id="dircc" size="50" value="#{licenciaComercializacionCtrl.licenciaComercializacion.direccion}" required="true" requiredMessage="Dirección es requerida"
+                        <p:inputText id="dircc" size="50" value="#{licenciaComercializacionCtrl.licenciaComercializacion.direccion}"
                                      maxlength="90" ></p:inputText>
 
                         <p:outputLabel value="Teléfono:"></p:outputLabel>
                         <p:inputMask id="tlfn" mask="9?999999999" value="#{licenciaComercializacionCtrl.licenciaComercializacion.telefono}" size="50" placeholder=""
                                      validatorMessage="Tel[efono debe tener m[inimo 9 d[igitos y m[aximo 10 dígitos" >
-                            <f:validateLength minimum="9" maximum="10" />
+                            <f:validateLength minimum="0" maximum="10" />
                         </p:inputMask>
 
                         <p:outputLabel value="Casillero judicial:"></p:outputLabel>
@@ -157,7 +157,7 @@
 
                         <p:outputLabel value="Tipo Mineral:"></p:outputLabel>
                         <p:selectOneMenu id="tipoMineral" value="#{licenciaComercializacionCtrl.licenciaComercializacion.codigoMineralInteres.codigoCatalogoDetalle}" style="width: 93%"> 
-                            <f:selectItem itemValue="" itemLabel="--Seleccione una opción--" />
+                            <f:selectItem itemValue="1000" itemLabel="--Seleccione una opción--" />
                             <f:selectItems value="#{licenciaComercializacionCtrl.tipoMaterialDetalle}"/>
                         </p:selectOneMenu>
 
@@ -194,13 +194,13 @@
                             <p:outputLabel value="Teléfono celular:"></p:outputLabel>
                             <p:inputMask mask="9?999999999" value="#{licenciaComercializacionCtrl.personaNatural.celular}" size="50" placeholder=""
                                          validatorMessage="Teléfono celular debe tener 10 dígitos" >
-                                <f:validateLength minimum="10" maximum="10" />
+                                <f:validateLength minimum="0" maximum="10" />
                             </p:inputMask>
 
                             <p:outputLabel value="Teléfono convencional:"></p:outputLabel>
                             <p:inputMask mask="9?99999999" value="#{licenciaComercializacionCtrl.personaNatural.telefono}" size="50" placeholder=""
                                          validatorMessage="Teléfono convencional debe tener 9 dígitos">
-                                <f:validateLength minimum="9" maximum="9" />
+                                <f:validateLength minimum="0" maximum="9" />
                             </p:inputMask>
 
                             <p:outputLabel value="Casillero judicial:"></p:outputLabel>
@@ -208,20 +208,20 @@
                                          maxlength="12" required="true" requiredMessage="Casillero judicial requerido" />
 
                             <p:outputLabel value="Dirección:"></p:outputLabel>
-                            <p:inputText size="50" value="#{licenciaComercializacionCtrl.personaNatural.direccion}" required="true" requiredMessage="Dirección es requerida" maxlength="90"></p:inputText>
+                            <p:inputText size="50" value="#{licenciaComercializacionCtrl.personaNatural.direccion}" maxlength="90"></p:inputText>
 
                             <p:outputLabel value="Correo electrónico:"></p:outputLabel>
-                            <p:inputText size="50" value="#{licenciaComercializacionCtrl.personaNatural.email}" required="true" requiredMessage="Correo electrónico es requerido"
+                            <p:inputText size="50" value="#{licenciaComercializacionCtrl.personaNatural.email}"
                                          validatorMessage="Correo electrónico inválido" label="Correo electrónico" maxlength="30">
-                                <f:validateRegex
-                                    pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+<!--                                <f:validateRegex
+                                    pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />-->
                             </p:inputText>
                         </h:panelGrid>
                         <p:spacer/>
                         <h:panelGroup>
                             <h:panelGrid style="text-align:center" columns="2">
                                 <p:commandLink actionListener="#{licenciaComercializacionCtrl.guardarPersonaNatural}" title="Guardar" 
-                                               update=":form:nomTit :form:apTit :form:email :form:numDoc">
+                                               update=":form:nomTit :form:apTit :form:email :form:numDoc :form:dircc :form:tlfn :form:casJud">
                                     <h:panelGrid style="text-align:center">
                                         <h:graphicImage value="resources/images/guardar.png" title="Guardar" style="width: 60px; height: 60px"/>
                                         <h:outputText value="Guardar"/>
@@ -259,13 +259,13 @@
                             <p:outputLabel value="Teléfono celular:"></p:outputLabel>
                             <p:inputMask mask="9?999999999" value="#{licenciaComercializacionCtrl.personaJuridica.celular}" size="50" placeholder=""
                                          validatorMessage="Teléfono celular debe tener 10 dígitos" >
-                                <f:validateLength minimum="10" maximum="10" />
+                                <f:validateLength minimum="0" maximum="10" />
                             </p:inputMask>
 
                             <p:outputLabel value="Teléfono convencional:"></p:outputLabel>
                             <p:inputMask mask="9?99999999" value="#{licenciaComercializacionCtrl.personaJuridica.telefono}" size="50" placeholder=""
                                          validatorMessage="Teléfono convencional debe tener 9 dígitos">
-                                <f:validateLength minimum="9" maximum="9" />
+                                <f:validateLength minimum="0" maximum="9" />
                             </p:inputMask>
 
                             <p:outputLabel value="Casillero judicial:"></p:outputLabel>
@@ -273,13 +273,13 @@
                                          maxlength="12" required="true" requiredMessage="Casillero judicial requerido" />
 
                             <p:outputLabel value="Dirección:"></p:outputLabel>
-                            <p:inputText size="50" value="#{licenciaComercializacionCtrl.personaJuridica.direccion}" required="true" requiredMessage="Dirección es requerida" maxlength="90"></p:inputText>
+                            <p:inputText size="50" value="#{licenciaComercializacionCtrl.personaJuridica.direccion}" maxlength="90"></p:inputText>
 
                             <p:outputLabel value="Correo electrónico:"></p:outputLabel>
-                            <p:inputText size="50" value="#{licenciaComercializacionCtrl.personaJuridica.email}" required="true" requiredMessage="Correo electrónico es requerido"
+                            <p:inputText size="50" value="#{licenciaComercializacionCtrl.personaJuridica.email}"
                                          validatorMessage="Correo electrónico inválido" label="Correo electrónico" maxlength="30">
-                                <f:validateRegex
-                                    pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+<!--                                <f:validateRegex
+                                    pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />-->
                             </p:inputText>
                             <p:outputLabel value="Documento Rep. Legal:"></p:outputLabel>
                             <p:inputMask id="numDoc2" mask="9?999999999999" value="#{licenciaComercializacionCtrl.personaJuridica.documentoRepresentanteLegal}" size="50" placeHolder=""
@@ -298,7 +298,7 @@
                         <h:panelGroup>
                             <h:panelGrid style="text-align:center" columns="2">
                                 <p:commandLink actionListener="#{licenciaComercializacionCtrl.guardarPersonaJuridica}" title="Guardar" 
-                                               update=":form:nomTit :form:apTit :form:email :form:numDoc">
+                                               update=":form:nomTit :form:apTit :form:email :form:numDoc :form:dircc :form:tlfn :form:casJud">
                                     <h:panelGrid style="text-align:center">
                                         <h:graphicImage value="resources/images/guardar.png" title="Guardar" style="width: 60px; height: 60px"/>
                                         <h:outputText value="Guardar"/>

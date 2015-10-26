@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,6 +19,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -132,6 +134,8 @@ public class LicenciaComercializacion implements Serializable {
     private String tipoPersona;
     @Column(name = "migrada")
     private boolean migrada;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "licenciaComercializacion")
+    private Resolucion resolucion;
 
     public LicenciaComercializacion() {
     }
@@ -426,6 +430,14 @@ public class LicenciaComercializacion implements Serializable {
 
     public void setMigrada(boolean migrada) {
         this.migrada = migrada;
+    }
+
+    public Resolucion getResolucion() {
+        return resolucion;
+    }
+
+    public void setResolucion(Resolucion resolucion) {
+        this.resolucion = resolucion;
     }
 
     @Override

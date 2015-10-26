@@ -22,6 +22,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -201,6 +202,8 @@ public class PlantaBeneficio implements Serializable {
     private String tipoPersona;
     @Transient
     private boolean concesionMinera;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "plantaBeneficio")
+    private Resolucion resolucion;
 
     public PlantaBeneficio() {
     }
@@ -747,6 +750,14 @@ public class PlantaBeneficio implements Serializable {
 
     public void setConcesionMinera(boolean concesionMinera) {
         this.concesionMinera = concesionMinera;
+    }
+
+    public Resolucion getResolucion() {
+        return resolucion;
+    }
+
+    public void setResolucion(Resolucion resolucion) {
+        this.resolucion = resolucion;
     }
 
 }

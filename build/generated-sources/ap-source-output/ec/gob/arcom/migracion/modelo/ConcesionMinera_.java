@@ -2,6 +2,7 @@ package ec.gob.arcom.migracion.modelo;
 
 import ec.gob.arcom.migracion.modelo.AreaMinera;
 import ec.gob.arcom.migracion.modelo.CatalogoDetalle;
+import ec.gob.arcom.migracion.modelo.ConcesionPlantaBeneficio;
 import ec.gob.arcom.migracion.modelo.Fase;
 import ec.gob.arcom.migracion.modelo.Instrumento;
 import ec.gob.arcom.migracion.modelo.Localidad;
@@ -18,7 +19,7 @@ import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2015-10-15T09:46:38")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2015-10-23T19:42:28")
 @StaticMetamodel(ConcesionMinera.class)
 public class ConcesionMinera_ { 
 
@@ -36,6 +37,7 @@ public class ConcesionMinera_ {
     public static volatile SingularAttribute<ConcesionMinera, Date> fechaCreacion;
     public static volatile SingularAttribute<ConcesionMinera, String> obsActosAdmPrevios;
     public static volatile SingularAttribute<ConcesionMinera, Boolean> senagua;
+    public static volatile ListAttribute<ConcesionMinera, ConcesionPlantaBeneficio> concesionPlantaBeneficioList;
     public static volatile SingularAttribute<ConcesionMinera, String> tipoMaterial;
     public static volatile SingularAttribute<ConcesionMinera, BigInteger> usuarioModificacion;
     public static volatile SingularAttribute<ConcesionMinera, String> nombreConcesionarioPrincipal;
@@ -53,8 +55,8 @@ public class ConcesionMinera_ {
     public static volatile SingularAttribute<ConcesionMinera, String> campoReservado09;
     public static volatile SingularAttribute<ConcesionMinera, String> documentoConcesionarioPrincipal;
     public static volatile SingularAttribute<ConcesionMinera, String> casilleroJudicial;
-    public static volatile SingularAttribute<ConcesionMinera, Boolean> aceptaCondiciones;
     public static volatile SingularAttribute<ConcesionMinera, BigInteger> plazoConcesion;
+    public static volatile SingularAttribute<ConcesionMinera, Boolean> aceptaCondiciones;
     public static volatile SingularAttribute<ConcesionMinera, Boolean> estadoRegistro;
     public static volatile SingularAttribute<ConcesionMinera, BigInteger> codigoCanton;
     public static volatile ListAttribute<ConcesionMinera, AreaMinera> areaMineraList;

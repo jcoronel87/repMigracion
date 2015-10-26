@@ -2,6 +2,7 @@ package ec.gob.arcom.migracion.modelo;
 
 import ec.gob.arcom.migracion.modelo.AreaMinera;
 import ec.gob.arcom.migracion.modelo.CatalogoDetalle;
+import ec.gob.arcom.migracion.modelo.ConcesionMinera;
 import ec.gob.arcom.migracion.modelo.LocalidadRegional;
 import ec.gob.arcom.migracion.modelo.PersonaJuridica;
 import ec.gob.arcom.migracion.modelo.PersonaNatural;
@@ -15,7 +16,7 @@ import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2015-10-15T09:46:38")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2015-10-23T19:42:28")
 @StaticMetamodel(Localidad.class)
 public class Localidad_ { 
 
@@ -33,6 +34,7 @@ public class Localidad_ {
     public static volatile SingularAttribute<Localidad, String> nombre;
     public static volatile SingularAttribute<Localidad, String> nemonico;
     public static volatile SingularAttribute<Localidad, Long> codigoLocalidad;
+    public static volatile ListAttribute<Localidad, ConcesionMinera> concesionMineraList;
     public static volatile SingularAttribute<Localidad, Date> fechaCreacion;
     public static volatile SingularAttribute<Localidad, Date> fechaModificacion;
     public static volatile SingularAttribute<Localidad, CatalogoDetalle> tipoLocalidad;

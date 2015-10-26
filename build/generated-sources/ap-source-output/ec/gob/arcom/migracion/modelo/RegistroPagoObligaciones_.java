@@ -9,7 +9,7 @@ import ec.gob.arcom.migracion.modelo.Localidad;
 import ec.gob.arcom.migracion.modelo.ParametroSistema;
 import ec.gob.arcom.migracion.modelo.PlantaBeneficio;
 import ec.gob.arcom.migracion.modelo.RegistroPagoObligaciones;
-import java.io.Serializable;
+import ec.gob.arcom.migracion.modelo.SujetoMinero;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
@@ -18,15 +18,15 @@ import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2015-10-15T09:46:38")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2015-10-23T19:42:28")
 @StaticMetamodel(RegistroPagoObligaciones.class)
 public class RegistroPagoObligaciones_ { 
 
     public static volatile SingularAttribute<RegistroPagoObligaciones, Boolean> tieneDerechoMinero;
     public static volatile SingularAttribute<RegistroPagoObligaciones, Date> fechaRevisionAnalistaEconomico;
-    public static volatile SingularAttribute<RegistroPagoObligaciones, Serializable> xmlData;
     public static volatile SingularAttribute<RegistroPagoObligaciones, Date> fechaPresentacion;
     public static volatile SingularAttribute<RegistroPagoObligaciones, String> documentoPersonaPago;
+    public static volatile SingularAttribute<RegistroPagoObligaciones, SujetoMinero> codigoSujetoMinero;
     public static volatile SingularAttribute<RegistroPagoObligaciones, Long> codigoRegistro;
     public static volatile SingularAttribute<RegistroPagoObligaciones, String> apellidoPersonaPago;
     public static volatile SingularAttribute<RegistroPagoObligaciones, BigDecimal> recaudacionSri;

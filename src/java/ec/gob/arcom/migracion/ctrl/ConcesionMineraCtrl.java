@@ -28,6 +28,7 @@ import ec.gob.arcom.migracion.modelo.PersonaJuridica;
 import ec.gob.arcom.migracion.modelo.PersonaNatural;
 import ec.gob.arcom.migracion.modelo.Regimen;
 import ec.gob.arcom.migracion.modelo.Regional;
+import ec.gob.arcom.migracion.modelo.Resolucion;
 import ec.gob.arcom.migracion.modelo.Secuencia;
 import ec.gob.arcom.migracion.modelo.Solicitud;
 import ec.gob.arcom.migracion.modelo.SolicitudDetalle;
@@ -171,6 +172,7 @@ public class ConcesionMineraCtrl extends BaseCtrl {
 
     private boolean tipoSolMineriaArtesanal;
     private int cantidadMaquinaria = 1;
+    private Resolucion resolucion;
 
     public ConcesionMinera getConcesionMinera() {
         if (concesionMinera == null) {
@@ -1424,6 +1426,14 @@ public class ConcesionMineraCtrl extends BaseCtrl {
 
     public void setCantidadMaquinaria(int cantidadMaquinaria) {
         this.cantidadMaquinaria = cantidadMaquinaria;
+    }
+
+    public Resolucion getResolucion() {
+        return resolucion;
+    }
+
+    public void setResolucion(Resolucion resolucion) {
+        this.resolucion = resolucion;
     }
 
 }

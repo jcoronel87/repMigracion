@@ -35,6 +35,11 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "CatalogoDetalle.findAll", query = "SELECT c FROM CatalogoDetalle c")})
 public class CatalogoDetalle implements Serializable {
+
+    @OneToMany(mappedBy = "tipoResolucion")
+    private Collection<Resolucion> resolucionCollection;
+    @OneToMany(mappedBy = "estadoResolucion")
+    private Collection<Resolucion> resolucionCollection1;
     @OneToMany(mappedBy = "codigoTipoServicio")
     private List<RegistroPagoObligaciones> registroPagoObligacionesList;
     @OneToMany(mappedBy = "estadoPago")
@@ -510,6 +515,22 @@ public class CatalogoDetalle implements Serializable {
 
     public void setParametroSistemaList1(List<ParametroSistema> parametroSistemaList1) {
         this.parametroSistemaList1 = parametroSistemaList1;
+    }
+
+    public Collection<Resolucion> getResolucionCollection() {
+        return resolucionCollection;
+    }
+
+    public void setResolucionCollection(Collection<Resolucion> resolucionCollection) {
+        this.resolucionCollection = resolucionCollection;
+    }
+
+    public Collection<Resolucion> getResolucionCollection1() {
+        return resolucionCollection1;
+    }
+
+    public void setResolucionCollection1(Collection<Resolucion> resolucionCollection1) {
+        this.resolucionCollection1 = resolucionCollection1;
     }
     
 }

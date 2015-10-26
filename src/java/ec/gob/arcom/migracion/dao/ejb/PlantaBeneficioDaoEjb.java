@@ -285,9 +285,13 @@ public class PlantaBeneficioDaoEjb extends GenericDaoEjbEl<PlantaBeneficio, Long
         }
         if (plantaBeneficio.getFechaOtorga() != null) {
             sql = sql + "    fecha_otorga = '" + plantaBeneficio.getFechaOtorga() + "',\n";
-        }
+        } else {
+            sql = sql + "    fecha_otorga = " + null + ",\n";
+        } 
         if (plantaBeneficio.getFechaInscribe() != null) {
             sql = sql + "    fecha_inscribe = '" + plantaBeneficio.getFechaInscribe() + "',\n";
+        } else {
+            sql = sql + "    fecha_inscribe = " + null + ",\n";
         }
         sql = sql + "    mae = " + plantaBeneficio.getMae() + ",\n";
         sql = sql + "    senagua = " + plantaBeneficio.getSenagua() + " ,\n";

@@ -14,6 +14,7 @@ import ec.gob.arcom.migracion.modelo.PersonaJuridica;
 import ec.gob.arcom.migracion.modelo.PersonaNatural;
 import ec.gob.arcom.migracion.modelo.PlantaBeneficio;
 import ec.gob.arcom.migracion.modelo.RegistroPagoObligaciones;
+import ec.gob.arcom.migracion.modelo.Resolucion;
 import ec.gob.arcom.migracion.modelo.SujetoMinero;
 import ec.gob.arcom.migracion.modelo.TipoMaquinaria;
 import java.math.BigInteger;
@@ -24,7 +25,7 @@ import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2015-10-15T09:46:38")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2015-10-23T19:42:28")
 @StaticMetamodel(CatalogoDetalle.class)
 public class CatalogoDetalle_ { 
 
@@ -38,6 +39,7 @@ public class CatalogoDetalle_ {
     public static volatile ListAttribute<CatalogoDetalle, CoordenadaArea> coordenadaAreaList;
     public static volatile SingularAttribute<CatalogoDetalle, String> nombre;
     public static volatile CollectionAttribute<CatalogoDetalle, LicenciaComercializacion> licenciaComercializacionCollection;
+    public static volatile CollectionAttribute<CatalogoDetalle, Resolucion> resolucionCollection;
     public static volatile SingularAttribute<CatalogoDetalle, Date> fechaCreacion;
     public static volatile SingularAttribute<CatalogoDetalle, Date> fechaModificacion;
     public static volatile ListAttribute<CatalogoDetalle, ConcesionMinera> concesionMineraList2;
@@ -59,10 +61,11 @@ public class CatalogoDetalle_ {
     public static volatile CollectionAttribute<CatalogoDetalle, Informe> informeCollection;
     public static volatile SingularAttribute<CatalogoDetalle, String> valor;
     public static volatile SingularAttribute<CatalogoDetalle, String> nemonico;
+    public static volatile CollectionAttribute<CatalogoDetalle, Resolucion> resolucionCollection1;
     public static volatile CollectionAttribute<CatalogoDetalle, TipoMaquinaria> tipoMaquinariaCollection;
     public static volatile ListAttribute<CatalogoDetalle, ParametroSistema> parametroSistemaList;
-    public static volatile ListAttribute<CatalogoDetalle, ConcesionMinera> concesionMineraList;
     public static volatile ListAttribute<CatalogoDetalle, RegistroPagoObligaciones> registroPagoObligacionesList2;
+    public static volatile ListAttribute<CatalogoDetalle, ConcesionMinera> concesionMineraList;
     public static volatile ListAttribute<CatalogoDetalle, RegistroPagoObligaciones> registroPagoObligacionesList1;
     public static volatile ListAttribute<CatalogoDetalle, Instrumento> instrumentoList2;
     public static volatile ListAttribute<CatalogoDetalle, Instrumento> instrumentoList1;

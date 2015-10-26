@@ -10,10 +10,11 @@ import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2015-10-15T09:46:38")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2015-10-23T19:42:28")
 @StaticMetamodel(MaquinariaConcesion.class)
 public class MaquinariaConcesion_ { 
 
+    public static volatile SingularAttribute<MaquinariaConcesion, Integer> cantidadMaquinaria;
     public static volatile SingularAttribute<MaquinariaConcesion, String> descripcionMaquinaria;
     public static volatile SingularAttribute<MaquinariaConcesion, String> numeroChip;
     public static volatile SingularAttribute<MaquinariaConcesion, BigInteger> usuarioModificacion;

@@ -20,6 +20,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -200,6 +201,8 @@ public class ConcesionMinera implements Serializable {
     @JoinColumn(name = "codigo_casillero_localidad", referencedColumnName = "codigo_localidad")
     @ManyToOne
     private Localidad codigoCasilleroLocalidad;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "concesionMinera")
+    private Resolucion resolucion;
 
     public ConcesionMinera() {
     }
@@ -588,6 +591,9 @@ public class ConcesionMinera implements Serializable {
     }
 
     public CatalogoDetalle getCodigoModalidadTrabajo() {
+        if (codigoModalidadTrabajo == null) {
+            codigoModalidadTrabajo = new CatalogoDetalle();
+        }
         return codigoModalidadTrabajo;
     }
 
@@ -729,6 +735,14 @@ public class ConcesionMinera implements Serializable {
 
     public void setConcesionPlantaBeneficioList(List<ConcesionPlantaBeneficio> concesionPlantaBeneficioList) {
         this.concesionPlantaBeneficioList = concesionPlantaBeneficioList;
+    }
+
+    public Resolucion getResolucion() {
+        return resolucion;
+    }
+
+    public void setResolucion(Resolucion resolucion) {
+        this.resolucion = resolucion;
     }
 
 }

@@ -1,15 +1,16 @@
 package ec.gob.arcom.migracion.modelo;
 
 import ec.gob.arcom.migracion.modelo.CatalogoDetalle;
-import java.io.Serializable;
+import ec.gob.arcom.migracion.modelo.ConcesionPlantaBeneficio;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 import javax.annotation.Generated;
+import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2015-10-15T09:46:38")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2015-10-23T19:42:28")
 @StaticMetamodel(PlantaBeneficio.class)
 public class PlantaBeneficio_ { 
 
@@ -17,7 +18,6 @@ public class PlantaBeneficio_ {
     public static volatile SingularAttribute<PlantaBeneficio, BigDecimal> recuperacion;
     public static volatile SingularAttribute<PlantaBeneficio, BigDecimal> capacidadInstalada;
     public static volatile SingularAttribute<PlantaBeneficio, String> campoReservado10;
-    public static volatile SingularAttribute<PlantaBeneficio, Serializable> xmlData;
     public static volatile SingularAttribute<PlantaBeneficio, BigDecimal> tonelajeColas;
     public static volatile SingularAttribute<PlantaBeneficio, BigDecimal> tonelajeTratamiento;
     public static volatile SingularAttribute<PlantaBeneficio, String> tipoPlanta;
@@ -25,8 +25,9 @@ public class PlantaBeneficio_ {
     public static volatile SingularAttribute<PlantaBeneficio, BigDecimal> tonelajeConcentrado;
     public static volatile SingularAttribute<PlantaBeneficio, Date> fechaCreacion;
     public static volatile SingularAttribute<PlantaBeneficio, String> direccionPlanta;
-    public static volatile SingularAttribute<PlantaBeneficio, BigDecimal> longitudRelavera;
     public static volatile SingularAttribute<PlantaBeneficio, Boolean> senagua;
+    public static volatile SingularAttribute<PlantaBeneficio, BigDecimal> longitudRelavera;
+    public static volatile ListAttribute<PlantaBeneficio, ConcesionPlantaBeneficio> concesionPlantaBeneficioList;
     public static volatile SingularAttribute<PlantaBeneficio, BigInteger> codigoParroquida;
     public static volatile SingularAttribute<PlantaBeneficio, BigInteger> usuarioModificacion;
     public static volatile SingularAttribute<PlantaBeneficio, String> relavera;
@@ -64,8 +65,8 @@ public class PlantaBeneficio_ {
     public static volatile SingularAttribute<PlantaBeneficio, BigDecimal> volumenAExplotar;
     public static volatile SingularAttribute<PlantaBeneficio, Date> fechaInscribe;
     public static volatile SingularAttribute<PlantaBeneficio, BigInteger> plazo;
-    public static volatile SingularAttribute<PlantaBeneficio, CatalogoDetalle> categoriaPlanta;
     public static volatile SingularAttribute<PlantaBeneficio, String> codigoArcom;
+    public static volatile SingularAttribute<PlantaBeneficio, CatalogoDetalle> categoriaPlanta;
     public static volatile SingularAttribute<PlantaBeneficio, BigInteger> usuarioCreacion;
     public static volatile SingularAttribute<PlantaBeneficio, String> correoElectronico;
     public static volatile SingularAttribute<PlantaBeneficio, String> obsActoAdministrativo;
