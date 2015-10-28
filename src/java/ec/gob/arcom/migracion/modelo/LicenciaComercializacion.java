@@ -134,8 +134,8 @@ public class LicenciaComercializacion implements Serializable {
     private String tipoPersona;
     @Column(name = "migrada")
     private boolean migrada;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "licenciaComercializacion")
-    private Resolucion resolucion;
+    //@OneToOne(cascade = CascadeType.ALL, mappedBy = "licenciaComercializacion")
+    //private Resolucion resolucion;
 
     public LicenciaComercializacion() {
     }
@@ -432,13 +432,13 @@ public class LicenciaComercializacion implements Serializable {
         this.migrada = migrada;
     }
 
-    public Resolucion getResolucion() {
+    /*public Resolucion getResolucion() {
         return resolucion;
     }
 
     public void setResolucion(Resolucion resolucion) {
         this.resolucion = resolucion;
-    }
+    }*/
 
     @Override
     public int hashCode() {

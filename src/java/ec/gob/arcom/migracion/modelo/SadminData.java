@@ -160,8 +160,11 @@ public class SadminData implements Serializable {
     @JoinColumn(name = "codigo_casillero_localidad", referencedColumnName = "codigo_localidad")
     @ManyToOne
     private Localidad codigoCasilleroLocalidad;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "sadminData")
-    private Resolucion resolucion;
+    //@OneToOne(cascade = CascadeType.ALL, mappedBy = "sadminData")
+    //private Resolucion resolucion;
+    @Column(name = "fecha_inscripcion_sustitucion")
+    @Temporal(TemporalType.DATE)
+    private Date fechaInscripcionSustitucion;
 
     public SadminData() {
     }
@@ -507,6 +510,9 @@ public class SadminData implements Serializable {
     }
 
     public Regimen getCodigoRegimen() {
+        if (codigoRegimen == null) {
+            codigoRegimen = new Regimen();
+        }
         return codigoRegimen;
     }
 
@@ -518,6 +524,9 @@ public class SadminData implements Serializable {
      * @return the codigoModalidadTrabajo
      */
     public CatalogoDetalle getCodigoModalidadTrabajo() {
+        if (codigoModalidadTrabajo == null) {
+            codigoModalidadTrabajo = new CatalogoDetalle();
+        }
         return codigoModalidadTrabajo;
     }
 
@@ -552,14 +561,20 @@ public class SadminData implements Serializable {
         this.codigoCasilleroLocalidad = codigoCasilleroLocalidad;
     }
 
-    public Resolucion getResolucion() {
-        return resolucion;
+    public Date getFechaInscripcionSustitucion() {
+        return fechaInscripcionSustitucion;
     }
 
+    public void setFechaInscripcionSustitucion(Date fechaInscripcionSustitucion) {
+        this.fechaInscripcionSustitucion = fechaInscripcionSustitucion;
+    }
+
+    /*public Resolucion getResolucion() {
+    return resolucion;
+    }
     public void setResolucion(Resolucion resolucion) {
-        this.resolucion = resolucion;
-    }
-
+    this.resolucion = resolucion;
+    }*/
     @Override
     public int hashCode() {
         int hash = 0;

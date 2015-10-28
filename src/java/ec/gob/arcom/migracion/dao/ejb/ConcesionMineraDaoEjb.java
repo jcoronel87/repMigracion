@@ -54,9 +54,9 @@ public class ConcesionMineraDaoEjb extends GenericDaoEjbEl<ConcesionMinera, Long
                 + "                and codigo_provincia = l.codigo_localidad\n"
                 + "                and l.codigo_regional = r.codigo_regional\n"
                 + "                ) \n"
-                + "and codigo not in (select codigo_arcom from catmin.concesion_minera c where c.migrada = true)\n"
-                + "and codigo not in (select codigo_arcom from catmin.licencia_comercializacion l where l.migrada = true)\n"
-                + "and codigo not in (select codigo_arcom from catmin.planta_beneficio p where p.migrada = true)\n"
+                + "and codigo not in (select codigo_arcom from catmin.concesion_minera c where c.migrada = true and codigo_arcom is not null)\n"
+                + "and codigo not in (select codigo_arcom from catmin.licencia_comercializacion l where l.migrada = true and codigo_arcom is not null)\n"
+                + "and codigo not in (select codigo_arcom from catmin.planta_beneficio p where p.migrada = true and codigo_arcom is not null)\n"
                 + "and ('-1' = '" + codigoFiltro + "' or catmin.sadmin_data_.codigo = '" + codigoFiltro + "')\n"
                 + "and ('-1' = '" + cedulaTitularFiltro + "' or catmin.sadmin_data_.cedula___ruc = '" + cedulaTitularFiltro + "')\n"
                 + "and ('-1' = '" + nombreAreaFiltro + "' or lower(catmin.sadmin_data_.nombre) like lower('%" + nombreAreaFiltro + "%'))\n"
@@ -318,6 +318,8 @@ public class ConcesionMineraDaoEjb extends GenericDaoEjbEl<ConcesionMinera, Long
         }
         if (concesionMinera.getCodigoFase() != null && concesionMinera.getCodigoFase().getCodigoFase() != null) {
             sql = sql + "    codigo_fase = " + concesionMinera.getCodigoFase().getCodigoFase() + ",\n";
+        } else {
+            sql = sql + "    codigo_fase = " + null + ",\n";
         }
         if (concesionMinera.getNombreConcesion() != null) {
             sql = sql + "    nombre_concesion = '" + concesionMinera.getNombreConcesion() + "',\n";
@@ -336,6 +338,8 @@ public class ConcesionMineraDaoEjb extends GenericDaoEjbEl<ConcesionMinera, Long
         }
         if (concesionMinera.getCodigoRegimen() != null && concesionMinera.getCodigoRegimen().getCodigoRegimen() != null) {
             sql = sql + "    codigo_regimen = " + concesionMinera.getCodigoRegimen().getCodigoRegimen() + ",\n";
+        } else {
+            sql = sql + "    codigo_regimen = " + null + ",\n";
         }
         if (concesionMinera.getPlazoConcesion() != null) {
             sql = sql + "    plazo_concesion = " + concesionMinera.getPlazoConcesion() + ",\n";
@@ -476,6 +480,16 @@ public class ConcesionMineraDaoEjb extends GenericDaoEjbEl<ConcesionMinera, Long
         }
         if (concesionMinera.getCodigoCasilleroLocalidad() != null) {
             sql = sql + "    codigo_casillero_localidad = " + concesionMinera.getCodigoCasilleroLocalidad().getCodigoLocalidad() + ",\n";
+        }
+        if (concesionMinera.getFechaSustitucion() != null) {
+            sql = sql + "    fecha_sustitucion = '" + concesionMinera.getFechaSustitucion() + "',\n";
+        } else {
+            sql = sql + "    fecha_sustitucion = " + null + ",\n";
+        }
+        if (concesionMinera.getFechaInscripcionSustitucion() != null) {
+            sql = sql + "    fecha_inscripcion_sustitucion = '" + concesionMinera.getFechaInscripcionSustitucion() + "',\n";
+        } else {
+            sql = sql + "    fecha_inscripcion_sustitucion = null ,\n";
         }
         sql = sql + "    migrada = " + concesionMinera.getMigrada() + "\n";
         sql = sql + "WHERE\n";

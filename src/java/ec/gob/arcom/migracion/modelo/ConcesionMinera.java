@@ -201,8 +201,14 @@ public class ConcesionMinera implements Serializable {
     @JoinColumn(name = "codigo_casillero_localidad", referencedColumnName = "codigo_localidad")
     @ManyToOne
     private Localidad codigoCasilleroLocalidad;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "concesionMinera")
-    private Resolucion resolucion;
+    //@OneToOne(cascade = CascadeType.ALL, mappedBy = "concesionMinera")
+    //private Resolucion resolucion;
+    @Column(name = "fecha_sustitucion")
+    @Temporal(TemporalType.DATE)
+    private Date fechaSustitucion;
+    @Column(name = "fecha_inscripcion_sustitucion")
+    @Temporal(TemporalType.DATE)
+    private Date fechaInscripcionSustitucion;
 
     public ConcesionMinera() {
     }
@@ -583,6 +589,9 @@ public class ConcesionMinera implements Serializable {
     }
 
     public CatalogoDetalle getCodigoFormaExplotacion() {
+        if (codigoFormaExplotacion == null) {
+            codigoFormaExplotacion = new CatalogoDetalle();
+        }
         return codigoFormaExplotacion;
     }
 
@@ -737,12 +746,28 @@ public class ConcesionMinera implements Serializable {
         this.concesionPlantaBeneficioList = concesionPlantaBeneficioList;
     }
 
-    public Resolucion getResolucion() {
+    /*public Resolucion getResolucion() {
         return resolucion;
     }
 
     public void setResolucion(Resolucion resolucion) {
         this.resolucion = resolucion;
+    }*/
+
+    public Date getFechaSustitucion() {
+        return fechaSustitucion;
+    }
+
+    public void setFechaSustitucion(Date fechaSustitucion) {
+        this.fechaSustitucion = fechaSustitucion;
+    }
+
+    public Date getFechaInscripcionSustitucion() {
+        return fechaInscripcionSustitucion;
+    }
+
+    public void setFechaInscripcionSustitucion(Date fechaInscripcionSustitucion) {
+        this.fechaInscripcionSustitucion = fechaInscripcionSustitucion;
     }
 
 }

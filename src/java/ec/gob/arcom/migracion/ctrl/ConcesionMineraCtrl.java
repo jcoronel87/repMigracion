@@ -172,7 +172,7 @@ public class ConcesionMineraCtrl extends BaseCtrl {
 
     private boolean tipoSolMineriaArtesanal;
     private int cantidadMaquinaria = 1;
-    private Resolucion resolucion;
+    //private Resolucion resolucion;
 
     public ConcesionMinera getConcesionMinera() {
         if (concesionMinera == null) {
@@ -370,19 +370,31 @@ public class ConcesionMineraCtrl extends BaseCtrl {
         TipoMineria tipoMineria = tipoMineriaDao.findByNemonico(solicitud.getTipoSolicitud());
         CatalogoDetalle codigoZona = catalogoDetalleDao.obtenerPorValor(String.valueOf(solicitud.getZona()));
 
-        if (concesionMinera.getCodigoModalidadTrabajo() != null) {
+        if (concesionMinera.getCodigoRegimen() != null && concesionMinera.getCodigoRegimen().getCodigoRegimen() != null) {
+            if (concesionMinera.getCodigoRegimen().getCodigoRegimen().equals(1000L)) {
+                concesionMinera.setCodigoRegimen(null);
+            }
+        }
+
+        if (concesionMinera.getCodigoFase() != null && concesionMinera.getCodigoFase().getCodigoFase() != null) {
+            if (concesionMinera.getCodigoFase().getCodigoFase().equals(1000L)) {
+                concesionMinera.setCodigoFase(null);
+            }
+        }
+
+        if (concesionMinera.getCodigoModalidadTrabajo() != null && concesionMinera.getCodigoModalidadTrabajo().getCodigoCatalogoDetalle() != null) {
             if (concesionMinera.getCodigoModalidadTrabajo().getCodigoCatalogoDetalle().equals(1000L)) {
                 concesionMinera.setCodigoModalidadTrabajo(null);
             }
         }
 
-        if (concesionMinera.getCodigoFormaExplotacion() != null) {
+        if (concesionMinera.getCodigoFormaExplotacion() != null && concesionMinera.getCodigoFormaExplotacion().getCodigoCatalogoDetalle() != null) {
             if (concesionMinera.getCodigoFormaExplotacion().getCodigoCatalogoDetalle().equals(1000L)) {
                 concesionMinera.setCodigoFormaExplotacion(null);
             }
         }
 
-        if (concesionMinera.getFechaInforme() == null) {
+        /*if (concesionMinera.getFechaInforme() == null) {
             try {
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                 String dateInString = "01/01/1800";
@@ -399,7 +411,8 @@ public class ConcesionMineraCtrl extends BaseCtrl {
                         "Fecha de informe debe ser menor o igual a la fecha de otorgamiento", null));
                 return null;
             }
-        }
+        }*/
+        
         if (concesionMinera.getFechaOtorga() != null) {
             if (concesionMinera.getFechaOtorga().after(concesionMinera.getFechaInscribe())) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
@@ -490,7 +503,7 @@ public class ConcesionMineraCtrl extends BaseCtrl {
                 concesionMineraServicio.guardarTodo(concesionMinera, solicitud, areaMinera, us);
                 secuenciaConcesion.setValor(codigoConcesionSiguiente + 1);
                 secuenciaServicio.update(secuenciaConcesion);
-                
+
                 if (mostrarCoordenadas == false) {
                     mostrarCoordenadas = true;
                 }
@@ -1061,12 +1074,14 @@ public class ConcesionMineraCtrl extends BaseCtrl {
             List<Fase> fasesPorRegimen = null;
             if (concesionMinera.getCodigoRegimen().getCodigoRegimen() != null) {
                 Regimen regimen = regimenServicio.findByPk(concesionMinera.getCodigoRegimen().getCodigoRegimen());
-                if (regimen.getNemonico().equals(ConstantesEnum.GRAN_MINERIA.getNemonico())) {
-                    fasesPorRegimen = faseServicio.obtenerFasesLikeDescripcion(ConstantesEnum.GRAN_MINERIA.getDescripcion());
-                } else if (regimen.getNemonico().equals(ConstantesEnum.MED_MINERIA.getNemonico())) {
-                    fasesPorRegimen = faseServicio.obtenerFasesLikeDescripcion(ConstantesEnum.MED_MINERIA.getDescripcion());
-                } else if (regimen.getNemonico().equals(ConstantesEnum.PEQ_MINERIA.getNemonico())) {
-                    fasesPorRegimen = faseServicio.obtenerFasesLikeDescripcion(ConstantesEnum.PEQ_MINERIA.getDescripcion());
+                if (regimen != null) {
+                    if (regimen.getNemonico().equals(ConstantesEnum.GRAN_MINERIA.getNemonico())) {
+                        fasesPorRegimen = faseServicio.obtenerFasesLikeDescripcion(ConstantesEnum.GRAN_MINERIA.getDescripcion());
+                    } else if (regimen.getNemonico().equals(ConstantesEnum.MED_MINERIA.getNemonico())) {
+                        fasesPorRegimen = faseServicio.obtenerFasesLikeDescripcion(ConstantesEnum.MED_MINERIA.getDescripcion());
+                    } else if (regimen.getNemonico().equals(ConstantesEnum.PEQ_MINERIA.getNemonico())) {
+                        fasesPorRegimen = faseServicio.obtenerFasesLikeDescripcion(ConstantesEnum.PEQ_MINERIA.getDescripcion());
+                    }
                 }
             }
             if (fasesPorRegimen != null) {
@@ -1428,12 +1443,11 @@ public class ConcesionMineraCtrl extends BaseCtrl {
         this.cantidadMaquinaria = cantidadMaquinaria;
     }
 
-    public Resolucion getResolucion() {
+    /*public Resolucion getResolucion() {
         return resolucion;
     }
 
     public void setResolucion(Resolucion resolucion) {
         this.resolucion = resolucion;
-    }
-
+    }*/
 }

@@ -192,21 +192,21 @@
                         </p:selectOneMenu>
 
                         <h:panelGroup id="mae">
-                            <h:outputText value="MAE: " rendered="#{!plantaBeneficioCtrl.concesionMinera}"/>
+                            <h:outputText value="MAE:" rendered="#{!plantaBeneficioCtrl.concesionMinera}"/>
                         </h:panelGroup>
                         <h:panelGroup id="mae2">
                             <p:selectBooleanCheckbox value="#{plantaBeneficioCtrl.plantaBeneficio.mae}" rendered="#{!plantaBeneficioCtrl.concesionMinera}"/>
                         </h:panelGroup>
 
                         <h:panelGroup id="senagua">
-                            <h:outputText value="SENAGUA: " rendered="#{!plantaBeneficioCtrl.concesionMinera}"/>
+                            <h:outputText value="SENAGUA:" rendered="#{!plantaBeneficioCtrl.concesionMinera}"/>
                         </h:panelGroup>
                         <h:panelGroup id="senagua2">
                             <p:selectBooleanCheckbox value="#{plantaBeneficioCtrl.plantaBeneficio.senagua}" rendered="#{!plantaBeneficioCtrl.concesionMinera}"/>
                         </h:panelGroup>
 
                         <h:panelGroup id="obsAdm">
-                            <h:outputText value="Observaciones actos administrativos previos" rendered="#{!plantaBeneficioCtrl.concesionMinera}"/>
+                            <h:outputText value="Observaciones generales:" rendered="#{!plantaBeneficioCtrl.concesionMinera}"/>
                         </h:panelGroup>
                         <h:panelGroup id="obsAdm2">
                             <p:inputTextarea value="#{plantaBeneficioCtrl.plantaBeneficio.obsActoAdministrativo}" cols="52" maxlength="500"
@@ -228,8 +228,8 @@
                     <div align="center">
                         <h:panelGrid columns="2">
                             <p:outputLabel value="Cédula/RUC titular:" />
-                            <p:inputMask id="numDoc" mask="9?999999999999" value="#{plantaBeneficioCtrl.personaNatural.numeroDocumento}" size="50" placeHolder=""
-                                         maxlength="13" required="true" requiredMessage="Cédula/RUC requerido"  >
+                            <p:inputMask id="numDoc" mask="9?999999999" value="#{plantaBeneficioCtrl.personaNatural.numeroDocumento}" size="50" placeHolder=""
+                                         maxlength="10" required="true" requiredMessage="Cédula/RUC requerido">
                                 <p:ajax event="blur" update="@form" listener="#{plantaBeneficioCtrl.validarCedulaPersonaNatural}"  />
                             </p:inputMask>
                             <p:outputLabel value="Nombres del titular:"></p:outputLabel>

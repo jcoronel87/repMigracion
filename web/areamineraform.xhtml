@@ -67,7 +67,7 @@
 
                         <p:outputLabel value="Correo electrónico:"></p:outputLabel>
                         <p:inputText id="email" size="50" value="#{sadminDataCtrl.sadminData.email}" 
-                                     validatorMessage="Correo electrónico inválido" label="Correo electrónico" maxlength="30" readonly="true">
+                                     validatorMessage="Correo electrónico inválido" label="Correo electrónico" maxlength="50" readonly="true">
                             <!--<f:validateRegex
                                 pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />-->
                         </p:inputText>
@@ -109,12 +109,7 @@
                         <p:outputLabel value="Plazo (meses):"></p:outputLabel>
                         <p:inputText id="plazo" placeholder="Plazo en meses" maxlength="4" size="50" value="#{sadminDataCtrl.sadminData.plazo}" 
                                      required="true" requiredMessage="Plazo es requerido" onkeypress="return acceptNum(event)"/>
-
-                        <p:outputLabel value="Fecha informe:"></p:outputLabel>
-                        <p:calendar id="fecInforme" readonlyInput="true" navigator="true"
-                                    value="#{sadminDataCtrl.sadminData.fechaInforme}" placeholder="aaaa-mm-dd"
-                                    locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" />
-
+                        
                         <p:outputLabel value="Fecha otorga:"></p:outputLabel>
                         <p:calendar id="fecOtorga" readonlyInput="true" placeholder="aaaa-mm-dd" navigator="true"
                                     value="#{sadminDataCtrl.sadminData.fechaOtorga}" required="#{sadminDataCtrl.otorgado}" 
@@ -123,6 +118,21 @@
                         <p:outputLabel value="Fecha inscribe:"></p:outputLabel>
                         <p:calendar id="fecInscribe" readonlyInput="true" placeholder="aaaa-mm-dd" navigator="true"
                                     value="#{sadminDataCtrl.sadminData.fechaInscribe}" required="#{sadminDataCtrl.inscrito}"
+                                    locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" />
+                        
+                        <p:outputLabel value="Fecha informe:" rendered="false"></p:outputLabel>
+                        <p:calendar id="fecInforme" readonlyInput="true" navigator="true" rendered="false"
+                                    value="#{sadminDataCtrl.sadminData.fechaInforme}" placeholder="aaaa-mm-dd"
+                                    locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" />
+                        
+                        <p:outputLabel value="Fecha sustitución:"></p:outputLabel>
+                        <p:calendar id="fecSustitucion" readonlyInput="true" navigator="true"
+                                    value="#{sadminDataCtrl.sadminData.fechaSustitucion}" placeholder="aaaa-mm-dd"
+                                    locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" />
+                        
+                        <p:outputLabel value="Fecha inscripciòn sustitución:"></p:outputLabel>
+                        <p:calendar id="fecInscSustitucion" readonlyInput="true" navigator="true"
+                                    value="#{sadminDataCtrl.sadminData.fechaInscripcionSustitucion}" placeholder="aaaa-mm-dd"
                                     locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" />
 
                         <p:outputLabel value="Zona:"></p:outputLabel>
@@ -155,9 +165,9 @@
                             <p:outputLabel value="Régimen:" rendered="#{sadminDataCtrl.tipSolConcMin}"></p:outputLabel>
                         </h:panelGroup>
                         <h:panelGroup id="reg2">
-                            <p:selectOneMenu value="#{sadminDataCtrl.sadminData.codigoRegimen.codigoRegimen}" required="true" requiredMessage="Régimen es requerido" style="width: 93%"
+                            <p:selectOneMenu value="#{sadminDataCtrl.sadminData.codigoRegimen.codigoRegimen}" style="width: 93%"
                                              rendered="#{sadminDataCtrl.tipSolConcMin}">
-                                <f:selectItem itemValue="" itemLabel="--Seleccione una opción--" />
+                                <f:selectItem itemValue="1000" itemLabel="--Seleccione una opción--" />
                                 <f:selectItems value="#{selectItemCtrl.regimenes}" />
                                 <p:ajax listener="#{sadminDataCtrl.obtenerFasePorRegimen}" update="fase" />
                             </p:selectOneMenu>
@@ -167,7 +177,7 @@
                             <p:outputLabel value="Fase:" rendered="#{sadminDataCtrl.tipSolConcMin}"></p:outputLabel>
                         </h:panelGroup>
                         <h:panelGroup id="fas2">
-                            <p:selectOneMenu id="fase" value="#{sadminDataCtrl.sadminData.fase}" required="true" requiredMessage="Fase es requerido" style="width: 93%"
+                            <p:selectOneMenu id="fase" value="#{sadminDataCtrl.sadminData.fase}" style="width: 93%"
                                              rendered="#{sadminDataCtrl.tipSolConcMin}">
                                 <f:selectItem itemValue="" itemLabel="--Seleccione una opción--" />
                                 <f:selectItems value="#{sadminDataCtrl.fases}" />
@@ -226,13 +236,13 @@
                             <f:selectItems value="#{sadminDataCtrl.tipoMaterialDetalle}"/>
                         </p:selectOneMenu>
 
-                        <h:outputText value="MAE: " />
+                        <h:outputText value="MAE:" />
                         <p:selectBooleanCheckbox value="#{sadminDataCtrl.sadminData.mae}" />
 
-                        <h:outputText value="SENAGUA: " />
+                        <h:outputText value="SENAGUA:" />
                         <p:selectBooleanCheckbox value="#{sadminDataCtrl.sadminData.senagua}" />
 
-                        <h:outputText value="Observaciones actos administrativos previos" />
+                        <h:outputText value="Observaciones generales:" />
                         <p:inputTextarea value="#{sadminDataCtrl.sadminData.obsActosAdmPrevios}" cols="47" maxlength="200"/>
 
                         <f:facet name="footer">
@@ -273,8 +283,8 @@
                     <div align="center">
                         <h:panelGrid columns="2">
                             <p:outputLabel value="Cédula/RUC titular:" />
-                            <p:inputMask id="numDoc" mask="9?999999999999" value="#{sadminDataCtrl.personaNatural.numeroDocumento}" size="50" placeHolder=""
-                                         maxlength="13" required="true" requiredMessage="Cédula/RUC requerido"  >
+                            <p:inputMask id="numDoc" mask="9?999999999" value="#{sadminDataCtrl.personaNatural.numeroDocumento}" size="50" placeHolder=""
+                                         maxlength="10" required="true" requiredMessage="Cédula/RUC requerido"  >
                                 <p:ajax event="blur" process=":form4:numDoc" update="@form" listener="#{sadminDataCtrl.validarCedulaPersonaNatural}"  />
                             </p:inputMask>
                             <p:outputLabel value="Nombres del titular:"></p:outputLabel>
@@ -306,7 +316,7 @@
 
                             <p:outputLabel value="Correo electrónico:"></p:outputLabel>
                             <p:inputText size="50" value="#{sadminDataCtrl.personaNatural.email}" required="false"
-                                         validatorMessage="Correo electrónico inválido" label="Correo electrónico" maxlength="30">
+                                         validatorMessage="Correo electrónico inválido" label="Correo electrónico" maxlength="50">
                                 <!--<f:validateRegex
                                     pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />-->
                             </p:inputText>
@@ -371,7 +381,7 @@
 
                             <p:outputLabel value="Correo electrónico:"></p:outputLabel>
                             <p:inputText size="50" value="#{sadminDataCtrl.personaJuridica.email}" 
-                                         validatorMessage="Correo electrónico inválido" label="Correo electrónico" maxlength="30">
+                                         validatorMessage="Correo electrónico inválido" label="Correo electrónico" maxlength="50">
                                 <!--<f:validateRegex
                                     pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" /> -->
                             </p:inputText>
@@ -409,7 +419,7 @@
                     </div>
                 </h:form>
             </p:dialog>
-            <p:dialog header="Maquinarias" widgetVar="dlgMaq" modal="true" dynamic="true" resizable="true" draggable="false">
+            <p:dialog header="Maquinarias" widgetVar="dlgMaq" modal="true" dynamic="true" resizable="true" draggable="false" width="951px" height="424px">
                 <h:form id="form3">
                     <p:growl id="message3" showDetail="true" />
                     <div align="center">

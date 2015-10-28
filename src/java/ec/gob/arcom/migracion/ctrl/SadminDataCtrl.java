@@ -12,11 +12,9 @@ import ec.gob.arcom.migracion.dao.UsuarioDao;
 import ec.gob.arcom.migracion.modelo.Auditoria;
 import ec.gob.arcom.migracion.modelo.Catalogo;
 import ec.gob.arcom.migracion.modelo.CatalogoDetalle;
-import ec.gob.arcom.migracion.modelo.ConcesionMinera;
 import ec.gob.arcom.migracion.modelo.Fase;
 import ec.gob.arcom.migracion.modelo.Localidad;
 import ec.gob.arcom.migracion.modelo.LocalidadRegional;
-import ec.gob.arcom.migracion.modelo.MaquinariaConcesion;
 import ec.gob.arcom.migracion.modelo.PersonaJuridica;
 import ec.gob.arcom.migracion.modelo.PersonaNatural;
 import ec.gob.arcom.migracion.modelo.Regimen;
@@ -258,7 +256,13 @@ public class SadminDataCtrl extends BaseCtrl {
         try {
             //sadminDataServicio.update(sadminData);
             //System.out.println("sadminData.getCodigoModalidadTrabajo().getCodigoCatalogoDetalle(): " + sadminData.getCodigoModalidadTrabajo().getCodigoCatalogoDetalle());
-            if (sadminData.getCodigoModalidadTrabajo() != null) {
+            if (sadminData.getCodigoRegimen() != null && sadminData.getCodigoRegimen().getCodigoRegimen() != null) {
+                if (sadminData.getCodigoRegimen().getCodigoRegimen().equals(1000L)) {
+                    sadminData.setCodigoRegimen(null);
+                }
+            }
+
+            if (sadminData.getCodigoModalidadTrabajo() != null && sadminData.getCodigoModalidadTrabajo().getCodigoCatalogoDetalle() != null) {
                 if (sadminData.getCodigoModalidadTrabajo().getCodigoCatalogoDetalle().equals(1000L)) {
                     sadminData.setCodigoModalidadTrabajo(null);
                 }
@@ -272,7 +276,7 @@ public class SadminDataCtrl extends BaseCtrl {
             sadminData.setRegional(regional.getNombreRegional());
             System.out.println("sadminData: " + sadminData.getFechaInscribe() + " " + sadminData.getFechaOtorga());
 
-            if (sadminData.getFechaInforme() == null) {
+            /*if (sadminData.getFechaInforme() == null) {
                 try {
                     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                     String dateInString = "01/01/1800";
@@ -281,7 +285,7 @@ public class SadminDataCtrl extends BaseCtrl {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }
+            }*/
 
             /*if (sadminData.getFechaOtorga() == null) {
                 try {
@@ -294,11 +298,11 @@ public class SadminDataCtrl extends BaseCtrl {
                 }
             }*/
             if (sadminData.getFechaOtorga() != null) {
-                if (sadminData.getFechaInforme().after(sadminData.getFechaOtorga())) {
+                /*if (sadminData.getFechaInforme().after(sadminData.getFechaOtorga())) {
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
                             "Fecha de informe debe ser menor o igual a la fecha de otorgamiento", null));
                     return null;
-                }
+                }*/
                 if (sadminData.getFechaInscribe() != null) {
                     if (sadminData.getFechaOtorga().after(sadminData.getFechaInscribe())) {
                         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
@@ -539,12 +543,14 @@ public class SadminDataCtrl extends BaseCtrl {
             List<Fase> fasesPorRegimen = null;
             if (sadminData.getCodigoRegimen().getCodigoRegimen() != null) {
                 Regimen regimen = regimenServicio.findByPk(sadminData.getCodigoRegimen().getCodigoRegimen());
-                if (regimen.getNemonico().equals(ConstantesEnum.GRAN_MINERIA.getNemonico())) {
-                    fasesPorRegimen = faseServicio.obtenerFasesLikeDescripcion(ConstantesEnum.GRAN_MINERIA.getDescripcion());
-                } else if (regimen.getNemonico().equals(ConstantesEnum.MED_MINERIA.getNemonico())) {
-                    fasesPorRegimen = faseServicio.obtenerFasesLikeDescripcion(ConstantesEnum.MED_MINERIA.getDescripcion());
-                } else if (regimen.getNemonico().equals(ConstantesEnum.PEQ_MINERIA.getNemonico())) {
-                    fasesPorRegimen = faseServicio.obtenerFasesLikeDescripcion(ConstantesEnum.PEQ_MINERIA.getDescripcion());
+                if (regimen != null) {
+                    if (regimen.getNemonico().equals(ConstantesEnum.GRAN_MINERIA.getNemonico())) {
+                        fasesPorRegimen = faseServicio.obtenerFasesLikeDescripcion(ConstantesEnum.GRAN_MINERIA.getDescripcion());
+                    } else if (regimen.getNemonico().equals(ConstantesEnum.MED_MINERIA.getNemonico())) {
+                        fasesPorRegimen = faseServicio.obtenerFasesLikeDescripcion(ConstantesEnum.MED_MINERIA.getDescripcion());
+                    } else if (regimen.getNemonico().equals(ConstantesEnum.PEQ_MINERIA.getNemonico())) {
+                        fasesPorRegimen = faseServicio.obtenerFasesLikeDescripcion(ConstantesEnum.PEQ_MINERIA.getDescripcion());
+                    }
                 }
             }
             if (fasesPorRegimen != null) {
@@ -957,7 +963,7 @@ public class SadminDataCtrl extends BaseCtrl {
     public void setMaquinariasPorCodigoSadmin(List<SadminDataMaquinaria> maquinariasPorCodigoSadmin) {
         this.maquinariasPorCodigoSadmin = maquinariasPorCodigoSadmin;
     }
-    
+
     public void eliminarMaquinaria() {
         Usuario us = usuarioDao.obtenerPorLogin(login.getUserName());
         SadminDataMaquinaria sadminDataMaquinariaItem = (SadminDataMaquinaria) getExternalContext().getRequestMap().get("maq");

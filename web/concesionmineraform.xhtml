@@ -101,7 +101,7 @@
 
                             <p:outputLabel value="Correo electrónico:"></p:outputLabel>
                             <p:inputText id="email" size="50" value="#{concesionMineraCtrl.solicitud.emailSolicitante}" required="true" requiredMessage="Correo electrónico es requerido"
-                                         validatorMessage="Correo electrónico inválido" label="Correo electrónico" maxlength="30" readonly="true">
+                                         validatorMessage="Correo electrónico inválido" label="Correo electrónico" maxlength="50" readonly="true">
                                 <!-- <f:validateRegex
                                     pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" /> -->
                             </p:inputText>
@@ -156,22 +156,32 @@
                         <p:inputText id="plazo" placeholder="Plazo en meses" maxlength="4" size="50" value="#{concesionMineraCtrl.concesionMinera.plazoConcesion}" 
                                      required="true" requiredMessage="Plazo es requerido" onkeypress="return acceptNum(event)"/>
 
-                        <p:outputLabel value="Fecha informe:" ></p:outputLabel>
-                        <p:calendar id="fecInforme" readonlyInput="true" 
+                        <p:outputLabel value="Fecha informe:" rendered="false"></p:outputLabel>
+                        <p:calendar id="fecInforme" readonlyInput="true" rendered="false"
                                     value="#{concesionMineraCtrl.concesionMinera.fechaInforme}" placeholder="aaaa-mm-dd" navigator="true"
                                     locale="es" pattern="yyyy-MM-dd" effect="fold" style="width: 93%" />
-
+                        
                         <p:outputLabel value="Fecha otorga:"></p:outputLabel>
                         <p:calendar id="fecOtorga" readonlyInput="true" placeholder="aaaa-mm-dd" navigator="true"
                                     value="#{concesionMineraCtrl.concesionMinera.fechaOtorga}" required="#{concesionMineraCtrl.otorgado}"
                                     requiredMessage="Fecha otorgamiento es requerida"
                                     locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" />
-
+                        
                         <p:outputLabel value="Fecha inscribe:"></p:outputLabel>
                         <p:calendar id="fecInscribe" readonlyInput="true" placeholder="aaaa-mm-dd" navigator="true"
                                     value="#{concesionMineraCtrl.concesionMinera.fechaInscribe}" required="#{concesionMineraCtrl.inscrito}"
                                     requiredMessage="Fecha inscripción es requerida"
                                     locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" />
+                        
+                        <p:outputLabel value="Fecha sustitución:"></p:outputLabel>
+                        <p:calendar id="fecSustitucion" readonlyInput="true"
+                                    value="#{concesionMineraCtrl.concesionMinera.fechaSustitucion}" placeholder="aaaa-mm-dd" navigator="true"
+                                    locale="es" pattern="yyyy-MM-dd" effect="fold" style="width: 93%" />
+                        
+                        <p:outputLabel value="Fecha inscripciòn sustitución:"></p:outputLabel>
+                        <p:calendar id="fecInscSustitucion" readonlyInput="true"
+                                    value="#{concesionMineraCtrl.concesionMinera.fechaInscripcionSustitucion}" placeholder="aaaa-mm-dd" navigator="true"
+                                    locale="es" pattern="yyyy-MM-dd" effect="fold" style="width: 93%" />
 
                         <p:outputLabel value="Zona:"></p:outputLabel>
                         <p:selectOneRadio id="console" value="#{concesionMineraCtrl.solicitud.zona}" required="true" requiredMessage="Zona es requerida">
@@ -203,9 +213,9 @@
                             <p:outputLabel value="Régimen:" rendered="#{concesionMineraCtrl.tipSolConcMin}"></p:outputLabel>
                         </h:panelGroup>
                         <h:panelGroup id="reg2">
-                            <p:selectOneMenu value="#{concesionMineraCtrl.concesionMinera.codigoRegimen.codigoRegimen}" required="true" requiredMessage="Régimen es requerido" style="width: 93%"
+                            <p:selectOneMenu value="#{concesionMineraCtrl.concesionMinera.codigoRegimen.codigoRegimen}" style="width: 93%"
                                              rendered="#{concesionMineraCtrl.tipSolConcMin}">
-                                <f:selectItem itemValue="" itemLabel="--Seleccione una opción--" />
+                                <f:selectItem itemValue="1000" itemLabel="--Seleccione una opción--" />
                                 <f:selectItems value="#{selectItemCtrl.regimenes}" />
                                 <p:ajax listener="#{concesionMineraCtrl.obtenerFasePorRegimen}" update="fase" />
                             </p:selectOneMenu>
@@ -215,9 +225,9 @@
                             <p:outputLabel value="Fase:" rendered="#{concesionMineraCtrl.tipSolConcMin}"></p:outputLabel>
                         </h:panelGroup>
                         <h:panelGroup id="fas2">
-                            <p:selectOneMenu id="fase" value="#{concesionMineraCtrl.concesionMinera.codigoFase.codigoFase}" required="true" requiredMessage="Fase es requerida" style="width: 93%"
+                            <p:selectOneMenu id="fase" value="#{concesionMineraCtrl.concesionMinera.codigoFase.codigoFase}" style="width: 93%"
                                              rendered="#{concesionMineraCtrl.tipSolConcMin}">
-                                <f:selectItem itemValue="" itemLabel="--Seleccione una opción--" />
+                                <f:selectItem itemValue="1000" itemLabel="--Seleccione una opción--" />
                                 <f:selectItems value="#{concesionMineraCtrl.fasesCodigoCatalogo}" />
                             </p:selectOneMenu>
                         </h:panelGroup>
@@ -278,7 +288,7 @@
                         <h:outputText value="SENAGUA:" />
                         <p:selectBooleanCheckbox value="#{concesionMineraCtrl.concesionMinera.senagua}" />
 
-                        <h:outputText value="Observaciones actos administrativos previos:" />
+                        <h:outputText value="Observaciones generales:" />
                         <p:inputTextarea value="#{concesionMineraCtrl.concesionMinera.obsActosAdmPrevios}" cols="52" maxlength="500"/>
 
                         <f:facet name="footer">
@@ -323,7 +333,7 @@
                     </h:panelGroup>
                 </div>
             </h:form>
-            <p:dialog header="Coordenadas" widgetVar="dlg" modal="true" dynamic="true" resizable="true" draggable="false">
+            <p:dialog header="Coordenadas" widgetVar="dlg" modal="true" dynamic="true" resizable="true" draggable="false" width="951px" height="424px">
                 <h:form id="form2">
                     <p:growl id="message2" showDetail="true" />
                     <div align="center">
@@ -375,7 +385,7 @@
                     </p:dataTable>
                 </h:form>
             </p:dialog>
-            <p:dialog header="Maquinarias" widgetVar="dlgMaq" modal="true" dynamic="true" resizable="true" draggable="false">
+            <p:dialog header="Maquinarias" widgetVar="dlgMaq" modal="true" dynamic="true" resizable="true" draggable="false" width="951px" height="424px" >
                 <h:form id="form3">
                     <p:growl id="message3" showDetail="true" />
                     <div align="center">
@@ -430,8 +440,8 @@
                     <div align="center">
                         <h:panelGrid columns="2">
                             <p:outputLabel value="Cédula/RUC titular:" />
-                            <p:inputMask id="numDoc" mask="9?999999999999" value="#{concesionMineraCtrl.personaNatural.numeroDocumento}" size="50" placeHolder=""
-                                         maxlength="13" required="true" requiredMessage="Cédula/RUC requerido"  >
+                            <p:inputMask id="numDoc" mask="9?999999999" value="#{concesionMineraCtrl.personaNatural.numeroDocumento}" size="50" placeHolder=""
+                                         maxlength="10" required="true" requiredMessage="Cédula/RUC requerido"  >
                                 <p:ajax event="blur" update="@form" listener="#{concesionMineraCtrl.validarCedulaPersonaNatural}"  />
                             </p:inputMask>
                             <p:outputLabel value="Nombres del titular:"></p:outputLabel>
@@ -463,7 +473,7 @@
 
                             <p:outputLabel value="Correo electrónico:"></p:outputLabel>
                             <p:inputText size="50" value="#{concesionMineraCtrl.personaNatural.email}"
-                                         validatorMessage="Correo electrónico inválido" label="Correo electrónico" maxlength="30">
+                                         validatorMessage="Correo electrónico inválido" label="Correo electrónico" maxlength="50">
                                 <!-- <f:validateRegex
                                     pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" /> -->
                             </p:inputText>
@@ -528,7 +538,7 @@
 
                             <p:outputLabel value="Correo electrónico:"></p:outputLabel>
                             <p:inputText size="50" value="#{concesionMineraCtrl.personaJuridica.email}" 
-                                         validatorMessage="Correo electrónico inválido" label="Correo electrónico" maxlength="30">
+                                         validatorMessage="Correo electrónico inválido" label="Correo electrónico" maxlength="50">
                                 <!-- <f:validateRegex
                                     pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" /> -->
                             </p:inputText>
@@ -556,71 +566,6 @@
                                     </h:panelGrid>
                                 </p:commandLink>
                                 <!-- <p:commandLink onclick="PF('dlgPerJur').hide();" title="Cancelar" immediate="true">
-                                    <h:panelGrid style="text-align:center">
-                                        <h:graphicImage value="resources/images/cancelar.png" title="Cancelar" style="width: 60px; height: 60px"/>
-                                        <h:outputText value="Cancelar"/>
-                                    </h:panelGrid>
-                                </p:commandLink> -->
-                            </h:panelGrid>
-                        </h:panelGroup>
-                    </div>
-                </h:form>
-            </p:dialog>
-            <p:dialog header="Resolución" widgetVar="dlgResolucion" modal="true" dynamic="true" resizable="false" draggable="false">
-                <h:form id="form6">
-                    <p:growl id="message6" showDetail="true" autoUpdate="true"/>
-                    <div align="center">
-                        <h:panelGrid columns="2">
-                            <p:outputLabel value="Cédula/RUC titular:" />
-                            <p:inputMask id="numDoc" mask="9?999999999999" value="#{concesionMineraCtrl.personaNatural.numeroDocumento}" size="50" placeHolder=""
-                                         maxlength="13" required="true" requiredMessage="Cédula/RUC requerido"  >
-                                <p:ajax event="blur" update="@form" listener="#{concesionMineraCtrl.validarCedulaPersonaNatural}"  />
-                            </p:inputMask>
-                            <p:outputLabel value="Nombres del titular:"></p:outputLabel>
-                            <p:inputText value="#{concesionMineraCtrl.personaNatural.nombre}" required="true" requiredMessage="Nombres titular es requerido" size="50" 
-                                         maxlength="60" onkeypress="return acceptText(event)"/>
-
-                            <p:outputLabel value="Apellidos del titular:"></p:outputLabel>
-                            <p:inputText value="#{concesionMineraCtrl.personaNatural.apellido}" required="true" requiredMessage="Nombres titular es requerido" size="50" 
-                                         maxlength="60" onkeypress="return acceptText(event)"/>
-
-                            <p:outputLabel value="Teléfono celular:"></p:outputLabel>
-                            <p:inputMask mask="9?999999999" value="#{concesionMineraCtrl.personaNatural.celular}" size="50" placeholder=""
-                                         validatorMessage="Teléfono celular debe tener 10 dígitos" >
-                                <f:validateLength minimum="0" maximum="10" />
-                            </p:inputMask>
-
-                            <p:outputLabel value="Teléfono convencional:"></p:outputLabel>
-                            <p:inputMask mask="9?99999999" value="#{concesionMineraCtrl.personaNatural.telefono}" size="50" placeholder=""
-                                         validatorMessage="Teléfono convencional debe tener 9 dígitos">
-                                <f:validateLength minimum="0" maximum="9" />
-                            </p:inputMask>
-
-                            <p:outputLabel value="Casillero judicial:"></p:outputLabel>
-                            <p:inputMask mask="9?99999999999" value="#{concesionMineraCtrl.personaNatural.casilleroJudicial}" size="50" placeHolder=""
-                                         maxlength="12" required="true" requiredMessage="Casillero judicial requerido" />
-
-                            <p:outputLabel value="Dirección:"></p:outputLabel>
-                            <p:inputText size="50" value="#{concesionMineraCtrl.personaNatural.direccion}" required="true" requiredMessage="Dirección es requerida" maxlength="90"></p:inputText>
-
-                            <p:outputLabel value="Correo electrónico:"></p:outputLabel>
-                            <p:inputText size="50" value="#{concesionMineraCtrl.personaNatural.email}"
-                                         validatorMessage="Correo electrónico inválido" label="Correo electrónico" maxlength="30">
-                                <!-- <f:validateRegex
-                                    pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" /> -->
-                            </p:inputText>
-                        </h:panelGrid>
-                        <p:spacer/>
-                        <h:panelGroup>
-                            <h:panelGrid style="text-align:center" columns="2">
-                                <p:commandLink actionListener="#{concesionMineraCtrl.guardarPersonaNatural}" title="Guardar" 
-                                               update=":form1:numDoc :form1:nomTit :form1:apTit :form1:email :form1:casJud :form1:dircc :form1:telfCel :form1:telfConv">
-                                    <h:panelGrid style="text-align:center">
-                                        <h:graphicImage value="resources/images/guardar.png" title="Guardar" style="width: 60px; height: 60px"/>
-                                        <h:outputText value="Guardar"/>
-                                    </h:panelGrid>
-                                </p:commandLink>
-                                <!-- <p:commandLink onclick="PF('dlgPerNat').hide();" title="Cancelar" immediate="true">
                                     <h:panelGrid style="text-align:center">
                                         <h:graphicImage value="resources/images/cancelar.png" title="Cancelar" style="width: 60px; height: 60px"/>
                                         <h:outputText value="Cancelar"/>

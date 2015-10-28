@@ -135,8 +135,8 @@
                     <div align="center">
                         <h:panelGrid columns="2">
                             <p:outputLabel value="Cédula/RUC titular:" />
-                            <p:inputMask id="numDoc" mask="9?999999999999" value="#{licenciaComercializacionCtrl.personaNatural.numeroDocumento}" size="50" placeHolder=""
-                                         maxlength="13" required="true" requiredMessage="Cédula/RUC requerido"  >
+                            <p:inputMask id="numDoc" mask="9?999999999" value="#{licenciaComercializacionCtrl.personaNatural.numeroDocumento}" size="50" placeHolder=""
+                                         maxlength="10" required="true" requiredMessage="Cédula/RUC requerido"  >
                                 <p:ajax event="blur" update="@form" listener="#{licenciaComercializacionCtrl.validarCedulaPersonaNatural}"  />
                             </p:inputMask>
                             <p:outputLabel value="Nombres del titular:"></p:outputLabel>
@@ -168,7 +168,7 @@
 
                             <p:outputLabel value="Correo electrónico:"></p:outputLabel>
                             <p:inputText size="50" value="#{licenciaComercializacionCtrl.personaNatural.email}" required="true" requiredMessage="Correo electrónico es requerido"
-                                         validatorMessage="Correo electrónico inválido" label="Correo electrónico" maxlength="30">
+                                         validatorMessage="Correo electrónico inválido" label="Correo electrónico" maxlength="50">
                                 <f:validateRegex
                                     pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
                             </p:inputText>
@@ -233,7 +233,7 @@
 
                             <p:outputLabel value="Correo electrónico:"></p:outputLabel>
                             <p:inputText size="50" value="#{licenciaComercializacionCtrl.personaJuridica.email}" required="true" requiredMessage="Correo electrónico es requerido"
-                                         validatorMessage="Correo electrónico inválido" label="Correo electrónico" maxlength="30">
+                                         validatorMessage="Correo electrónico inválido" label="Correo electrónico" maxlength="50">
                                 <f:validateRegex
                                     pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
                             </p:inputText>

@@ -122,7 +122,13 @@ public class SadminDataDaoEjb extends GenericDaoEjbEl<SadminData, Long> implemen
             sql.append(", fecha_informe = null");
         }
         sql.append(", zona = ").append(sadminData.getZona()).append(", superficie = ").append(sadminData.getSuperficie());
-        sql.append(", estado = '").append(sadminData.getEstado()).append("', fase = '").append(sadminData.getFase()).append("', tipo_solicitud = '").append(sadminData.getTipoSolicitud()).append("', metodo_explotacion = '");
+        sql.append(", estado = '").append(sadminData.getEstado());
+        if (sadminData.getFase() != null) {
+            sql.append("', fase = '").append(sadminData.getFase()).append("'");
+        } else {
+            sql.append("', fase = null");
+        }
+        sql.append(", tipo_solicitud = '").append(sadminData.getTipoSolicitud()).append("', metodo_explotacion = '");
         sql.append(sadminData.getMetodoExplotacion()).append("', mae = ").append(sadminData.isMae()).append(", senagua = ").append(sadminData.isSenagua()).append(", obs_actos_adm_previos = '").append(sadminData.getObsActosAdmPrevios());
         sql.append("', sector = '").append(sadminData.getSector()).append("', codigo_regimen = ").append(sadminData.getCodigoRegimen().getCodigoRegimen()).append(", email = '").append(sadminData.getEmail()).append("', tipo_persona = '");
         sql.append(sadminData.getTipoPersona()).append("' ");
@@ -141,6 +147,16 @@ public class SadminDataDaoEjb extends GenericDaoEjbEl<SadminData, Long> implemen
         sql.append("', tipo_mineral = '").append(sadminData.getTipoMineral()).append("', codigo_modalidad_trabajo = ");
         sql.append(sadminData.getCodigoModalidadTrabajo() != null && sadminData.getCodigoModalidadTrabajo().getCodigoCatalogoDetalle() != null ? sadminData.getCodigoModalidadTrabajo().getCodigoCatalogoDetalle() : null);
         sql.append(", codigo_casillero_localidad = ").append(sadminData.getCodigoCasilleroLocalidad().getCodigoLocalidad());
+        if (sadminData.getFechaSustitucion() != null) {
+            sql.append(", fecha_sustitucion = '").append(sadminData.getFechaSustitucion()).append("'");
+        } else {
+            sql.append(", fecha_sustitucion = null");
+        }
+        if (sadminData.getFechaInscripcionSustitucion() != null) {
+            sql.append(", fecha_inscripcion_sustitucion = '").append(sadminData.getFechaInscripcionSustitucion()).append("'");
+        } else {
+            sql.append(", fecha_inscripcion_sustitucion = null");
+        }
         sql.append(" where codigo = '").append(sadminData.getCodigo()).append("'");
         System.out.println("sql update: " + sql);
         Query query = em.createNativeQuery(sql.toString());

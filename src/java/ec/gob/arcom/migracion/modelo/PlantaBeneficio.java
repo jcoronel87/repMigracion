@@ -202,8 +202,8 @@ public class PlantaBeneficio implements Serializable {
     private String tipoPersona;
     @Transient
     private boolean concesionMinera;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "plantaBeneficio")
-    private Resolucion resolucion;
+    //@OneToOne(cascade = CascadeType.ALL, mappedBy = "plantaBeneficio")
+    //private Resolucion resolucion;
 
     public PlantaBeneficio() {
     }
@@ -752,12 +752,12 @@ public class PlantaBeneficio implements Serializable {
         this.concesionMinera = concesionMinera;
     }
 
-    public Resolucion getResolucion() {
+    /*public Resolucion getResolucion() {
         return resolucion;
     }
 
     public void setResolucion(Resolucion resolucion) {
         this.resolucion = resolucion;
-    }
+    }*/
 
 }

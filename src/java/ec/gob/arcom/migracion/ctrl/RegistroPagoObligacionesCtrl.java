@@ -115,7 +115,7 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
     }
 
     public void guardarRegistroAutoGestion() {
-
+        
     }
 
     public List<RegistroPagoObligaciones> getListaRegistrosAutoGestion() {
