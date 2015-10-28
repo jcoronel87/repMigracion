@@ -395,9 +395,9 @@ public class ConcesionMineraDaoEjb extends GenericDaoEjbEl<ConcesionMinera, Long
         if (concesionMinera.getVolumenDiarioExplotacion() != null) {
             sql = sql + "    volumen_diario_explotacion = " + concesionMinera.getVolumenDiarioExplotacion() + ",\n";
         }
-        if (concesionMinera.getVolumenTotalExplotacion() != null) {
+        //if (concesionMinera.getVolumenTotalExplotacion() != null) {
             sql = sql + "    volumen_total_explotacion = " + concesionMinera.getVolumenTotalExplotacion() + ",\n";
-        }
+        //} 
         if (concesionMinera.getCasilleroJudicial() != null) {
             sql = sql + "    casillero_judicial = '" + concesionMinera.getCasilleroJudicial() + "',\n";
         } else {

@@ -464,20 +464,29 @@ public class ConcesionMineraCtrl extends BaseCtrl {
         solicitud.setUsuarioModificacion(BigInteger.valueOf(us.getCodigoUsuario()));
         solicitud.setMigrada(true);
         CatalogoDetalle estadoArea = new CatalogoDetalle();
-        if (concesionMinera.getEstadoConcesion().getCodigoCatalogoDetalle().equals(ConversionEstadosEnum.CADUCADO.getCodigo4())) {
+        /*if (concesionMinera.getEstadoConcesion().getCodigoCatalogoDetalle().equals(ConversionEstadosEnum.CADUCADO.getCodigo4())) {
             estadoArea.setCodigoCatalogoDetalle(ConversionEstadosEnum.CADUCADO.getCodigo19());
-        }
+        }*/
         if (concesionMinera.getEstadoConcesion().getCodigoCatalogoDetalle().equals(ConversionEstadosEnum.INSCRITA.getCodigo4())) {
             estadoArea.setCodigoCatalogoDetalle(ConversionEstadosEnum.INSCRITA.getCodigo19());
         }
         if (concesionMinera.getEstadoConcesion().getCodigoCatalogoDetalle().equals(ConversionEstadosEnum.OTORGADO.getCodigo4())) {
             estadoArea.setCodigoCatalogoDetalle(ConversionEstadosEnum.OTORGADO.getCodigo19());
         }
-        if (concesionMinera.getEstadoConcesion().getCodigoCatalogoDetalle().equals(ConversionEstadosEnum.SOLICITUD_EXPIRADA.getCodigo4())) {
+        /*if (concesionMinera.getEstadoConcesion().getCodigoCatalogoDetalle().equals(ConversionEstadosEnum.SOLICITUD_EXPIRADA.getCodigo4())) {
             estadoArea.setCodigoCatalogoDetalle(ConversionEstadosEnum.SOLICITUD_EXPIRADA.getCodigo19());
-        }
+        }*/
         if (concesionMinera.getEstadoConcesion().getCodigoCatalogoDetalle().equals(ConversionEstadosEnum.TRAMITE.getCodigo4())) {
             estadoArea.setCodigoCatalogoDetalle(ConversionEstadosEnum.TRAMITE.getCodigo19());
+        }
+        if (concesionMinera.getEstadoConcesion().getCodigoCatalogoDetalle().equals(ConversionEstadosEnum.ACUMULADA.getCodigo4())) {
+            estadoArea.setCodigoCatalogoDetalle(ConversionEstadosEnum.ACUMULADA.getCodigo19());
+        }
+        if (concesionMinera.getEstadoConcesion().getCodigoCatalogoDetalle().equals(ConversionEstadosEnum.ARCHIVADA.getCodigo4())) {
+            estadoArea.setCodigoCatalogoDetalle(ConversionEstadosEnum.ARCHIVADA.getCodigo19());
+        }
+        if (concesionMinera.getEstadoConcesion().getCodigoCatalogoDetalle().equals(ConversionEstadosEnum.SUSPENDIDO.getCodigo4())) {
+            estadoArea.setCodigoCatalogoDetalle(ConversionEstadosEnum.SUSPENDIDO.getCodigo19());
         }
         if (estadoArea.getCodigoCatalogoDetalle() == null) {
             estadoArea = null;

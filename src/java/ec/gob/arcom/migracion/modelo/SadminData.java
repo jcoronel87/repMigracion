@@ -165,6 +165,8 @@ public class SadminData implements Serializable {
     @Column(name = "fecha_inscripcion_sustitucion")
     @Temporal(TemporalType.DATE)
     private Date fechaInscripcionSustitucion;
+    @Column(name = "volumen_total_explotacion")
+    private Double volumenTotalExplotacion;
 
     public SadminData() {
     }
@@ -567,6 +569,14 @@ public class SadminData implements Serializable {
 
     public void setFechaInscripcionSustitucion(Date fechaInscripcionSustitucion) {
         this.fechaInscripcionSustitucion = fechaInscripcionSustitucion;
+    }
+
+    public Double getVolumenTotalExplotacion() {
+        return volumenTotalExplotacion;
+    }
+
+    public void setVolumenTotalExplotacion(Double volumenTotalExplotacion) {
+        this.volumenTotalExplotacion = volumenTotalExplotacion;
     }
 
     /*public Resolucion getResolucion() {

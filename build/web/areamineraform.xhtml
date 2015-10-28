@@ -146,6 +146,10 @@
                         <p:outputLabel value="Superficie (Hectáreas:"></p:outputLabel>
                         <pe:inputNumber thousandSeparator="," decimalSeparator="." decimalPlaces="2" maxValue="99999.99" value="#{sadminDataCtrl.sadminData.superficie}" 
                                         required="true" requiredMessage="Superficie es requerida" style="width: 93%"/>
+                        
+                        <p:outputLabel value="Volumen total (m3):"></p:outputLabel>
+                        <pe:inputNumber thousandSeparator="," decimalSeparator="." decimalPlaces="2" maxValue="999999999.99" value="#{sadminDataCtrl.sadminData.volumenTotalExplotacion}" 
+                                        style="width: 93%"/>
 
                         <p:outputLabel value="Estado:"></p:outputLabel>
                         <p:selectOneMenu value="#{sadminDataCtrl.sadminData.estado}" required="true" requiredMessage="Estado es requerido" style="width: 93%">

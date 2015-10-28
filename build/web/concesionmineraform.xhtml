@@ -159,24 +159,24 @@
                         <p:calendar id="fecInforme" readonlyInput="true" rendered="false"
                                     value="#{concesionMineraCtrl.concesionMinera.fechaInforme}" placeholder="aaaa-mm-dd" navigator="true"
                                     locale="es" pattern="yyyy-MM-dd" effect="fold" style="width: 93%" />
-                        
+
                         <p:outputLabel value="Fecha otorga:"></p:outputLabel>
                         <p:calendar id="fecOtorga" placeholder="aaaa-mm-dd" navigator="true"
                                     value="#{concesionMineraCtrl.concesionMinera.fechaOtorga}" required="#{concesionMineraCtrl.otorgado}"
                                     requiredMessage="Fecha otorgamiento es requerida"
                                     locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" />
-                        
+
                         <p:outputLabel value="Fecha inscribe:"></p:outputLabel>
                         <p:calendar id="fecInscribe" placeholder="aaaa-mm-dd" navigator="true"
                                     value="#{concesionMineraCtrl.concesionMinera.fechaInscribe}" required="#{concesionMineraCtrl.inscrito}"
                                     requiredMessage="Fecha inscripción es requerida"
                                     locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" />
-                        
+
                         <p:outputLabel value="Fecha sustitución:"></p:outputLabel>
                         <p:calendar id="fecSustitucion"
                                     value="#{concesionMineraCtrl.concesionMinera.fechaSustitucion}" placeholder="aaaa-mm-dd" navigator="true"
                                     locale="es" pattern="yyyy-MM-dd" effect="fold" style="width: 93%" />
-                        
+
                         <p:outputLabel value="Fecha inscripciòn sustitución:"></p:outputLabel>
                         <p:calendar id="fecInscSustitucion"
                                     value="#{concesionMineraCtrl.concesionMinera.fechaInscripcionSustitucion}" placeholder="aaaa-mm-dd" navigator="true"
@@ -193,6 +193,10 @@
                         <p:outputLabel value="Superficie (Hectáreas):"></p:outputLabel>
                         <pe:inputNumber thousandSeparator="," decimalSeparator="." decimalPlaces="2" maxValue="99999.99" value="#{concesionMineraCtrl.solicitud.numeroHectareas}" 
                                         required="true" requiredMessage="Superficie es requerida" style="width: 93%"/>
+
+                        <p:outputLabel value="Volumen total (m3):"></p:outputLabel>
+                        <pe:inputNumber thousandSeparator="," decimalSeparator="." decimalPlaces="2" maxValue="9999999999.99" value="#{concesionMineraCtrl.concesionMinera.volumenTotalExplotacion}" 
+                                        style="width: 93%"/>
 
                         <p:outputLabel value="Estado concesión:"></p:outputLabel>
                         <p:selectOneMenu value="#{concesionMineraCtrl.concesionMinera.estadoConcesion.codigoCatalogoDetalle}" required="true" requiredMessage="Estado concesión es requerido" style="width: 93%">

@@ -86,7 +86,9 @@ public class SelectItemCtrl {
                 if (estado.getNemonico().equals(ConstantesEnum.EST_INSCRITO.getNemonico())
                         || estado.getNemonico().equals(ConstantesEnum.EST_TRAMITE.getNemonico())
                         || estado.getNemonico().equals(ConstantesEnum.EST_SUSPENDIDO.getNemonico())
-                        || estado.getNemonico().equals(ConstantesEnum.EST_ARCHIVADA.getNemonico())) {
+                        || estado.getNemonico().equals(ConstantesEnum.EST_ARCHIVADA.getNemonico())
+                        || estado.getNemonico().equals(ConstantesEnum.EST_ACUMULADA.getNemonico())
+                        || estado.getNemonico().equals(ConstantesEnum.EST_OTORGADO.getNemonico())) {
                     estadosCatalogo.add(new SelectItem(estado.getNombre().toUpperCase(), estado.getNombre().toUpperCase()));
                 }
             }
@@ -353,10 +355,13 @@ public class SelectItemCtrl {
             List<CatalogoDetalle> estadosCat = catalogoDetalleServicio.obtenerPorCatalogo(catalogoEstado.getCodigoCatalogo());
 
             for (CatalogoDetalle estado : estadosCat) {
+                System.out.println("estados4: " + estado.getNombre() + " " + estado.getNemonico());
                 if (estado.getNemonico().equals(ConstantesEnum.ESTCONC_INSCRITO.getNemonico())
                         || estado.getNemonico().equals(ConstantesEnum.ESTCONC_TRAMITE.getNemonico())
                         || estado.getNemonico().equals(ConstantesEnum.ESTCONC_SUSPENDIDO.getNemonico())
-                        || estado.getNemonico().equals(ConstantesEnum.ESTCONC_ARCHIVADA.getNemonico())) {
+                        || estado.getNemonico().equals(ConstantesEnum.ESTCONC_ARCHIVADA.getNemonico())
+                        || estado.getNemonico().equals(ConstantesEnum.ESTCONC_ACUMULADA.getNemonico())
+                        || estado.getNemonico().equals(ConstantesEnum.ESTCONC_OTORGADO.getNemonico())) {
                     estadosCodigoCatalogo4.add(new SelectItem(estado.getCodigoCatalogoDetalle(), estado.getNombre().toUpperCase()));
                 }
             }

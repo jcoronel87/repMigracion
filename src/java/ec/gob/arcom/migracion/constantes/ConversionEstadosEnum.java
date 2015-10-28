@@ -13,10 +13,13 @@ public enum ConversionEstadosEnum {
 
     OTORGADO(42L, 242L), INSCRITA(46L, 243L), 
     //NO_OTORGADO(47L, 755L),
-    CADUCADO(44L, 247L), SOLICITUD_EXPIRADA(45L, 248L), TRAMITE(31L, 241L),
+    //CADUCADO(44L, 247L), 
+    //SOLICITUD_EXPIRADA(45L, 248L), 
+    TRAMITE(35L, 241L),
     ARCHIVADA(47L, 246L),
-    SUBSANACION(41L, 755L),
-    SUSPENDIDO(35l, 244L);
+    //SUBSANACION(41L, 755L),
+    SUSPENDIDO(7L, 244L),
+    ACUMULADA(1459L, 1458L);
 
     private ConversionEstadosEnum(Long codigo4, Long codigo19) {
         this.codigo4 = codigo4;
