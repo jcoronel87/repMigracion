@@ -297,12 +297,12 @@ public class SadminDataCtrl extends BaseCtrl {
                     e.printStackTrace();
                 }
             }*/
-            if (sadminData.getFechaOtorga() != null) {
-                /*if (sadminData.getFechaInforme().after(sadminData.getFechaOtorga())) {
+            /*if (sadminData.getFechaOtorga() != null) {
+                if (sadminData.getFechaInforme().after(sadminData.getFechaOtorga())) {
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
                             "Fecha de informe debe ser menor o igual a la fecha de otorgamiento", null));
                     return null;
-                }*/
+                }
                 if (sadminData.getFechaInscribe() != null) {
                     if (sadminData.getFechaOtorga().after(sadminData.getFechaInscribe())) {
                         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
@@ -310,7 +310,7 @@ public class SadminDataCtrl extends BaseCtrl {
                         return null;
                     }
                 }
-            }
+            }*/
             if (!sadminData.getTipoSolicitud().equals(ConstantesEnum.TIPO_SOLICITUD_CONS_MIN.getDescripcion())) {
                 sadminData.getCodigoRegimen().setCodigoRegimen(null);
                 sadminData.setFase(null);

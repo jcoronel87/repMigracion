@@ -413,13 +413,13 @@ public class ConcesionMineraCtrl extends BaseCtrl {
             }
         }*/
         
-        if (concesionMinera.getFechaOtorga() != null) {
+        /*if (concesionMinera.getFechaOtorga() != null) {
             if (concesionMinera.getFechaOtorga().after(concesionMinera.getFechaInscribe())) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
                         "Fecha de otorgamiento debe ser menor o igual a la fecha de inscripción", null));
                 return null;
             }
-        }
+        }*/
 
         if (concesionMinera.getCodigoRegimen() != null && concesionMinera.getCodigoFase() != null) {
             if (!solicitud.getTipoSolicitud().equals(ConstantesEnum.TIPO_SOLICITUD_CONS_MIN.getNemonico())) {

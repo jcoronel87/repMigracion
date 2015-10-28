@@ -179,13 +179,13 @@ public class LicenciaComercializacionCtrl extends BaseCtrl {
     public String guardarRegistro() {
         Usuario us = usuarioDao.obtenerPorLogin(login.getUserName());
         System.out.println("licenciaComercializacion.getEstadoLicencia().getCodigoCatalogoDetalle(): " + licenciaComercializacion.getEstadoLicencia().getCodigoCatalogoDetalle());
-        if (licenciaComercializacion.getFechaOtorga() != null) {
+        /*if (licenciaComercializacion.getFechaOtorga() != null) {
             if (licenciaComercializacion.getFechaOtorga().after(licenciaComercializacion.getFechaInscribe())) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
                         "Fecha de otorgamiento debe ser menor o igual a la fecha de inscripción", null));
                 return null;
             }
-        }
+        }*/
         if (licenciaComercializacion.getCodigoMineralInteres().getCodigoCatalogoDetalle().equals(1000L)) {
             licenciaComercializacion.setCodigoMineralInteres(null);
         }
@@ -193,10 +193,8 @@ public class LicenciaComercializacionCtrl extends BaseCtrl {
             if (licenciaComercializacion.getCodigoLicenciaComercializacion() == null) {
                 System.out.println("entra create");
                 licenciaComercializacion.setEstadoRegistro(true);
-                licenciaComercializacion.setFechaCreacion(null);
+                licenciaComercializacion.setFechaCreacion(new Date());
                 licenciaComercializacion.setUsuarioCreacion(BigInteger.valueOf(us.getCodigoUsuario()));
-                licenciaComercializacion.setFechaModificacion(new Date());
-                licenciaComercializacion.setUsuarioModificacion(BigInteger.valueOf(us.getCodigoUsuario()));
                 licenciaComercializacion.setMigrada(true);
                 licenciaComercializacionServicio.create(licenciaComercializacion);
                 Auditoria auditoria = new Auditoria();

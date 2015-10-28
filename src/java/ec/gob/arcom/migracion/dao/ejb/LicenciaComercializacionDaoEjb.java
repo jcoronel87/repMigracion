@@ -216,9 +216,13 @@ public class LicenciaComercializacionDaoEjb extends GenericDaoEjbEl<LicenciaCome
         }
         if (licenciaComercializacion.getFechaOtorga() != null) {
             sql = sql + "    fecha_otorga = '" + licenciaComercializacion.getFechaOtorga() + "',\n";
+        } else {
+            sql = sql + "    fecha_otorga = null ,\n";
         }
         if (licenciaComercializacion.getFechaInscribe() != null) {
             sql = sql + "    fecha_inscribe = '" + licenciaComercializacion.getFechaInscribe() + "',\n";
+        } else {
+            sql = sql + "    fecha_inscribe = null ,\n";
         }
         if (licenciaComercializacion.getCodigoTipoMineral() != null && licenciaComercializacion.getCodigoTipoMineral().getCodigoCatalogoDetalle() != null) {
             sql = sql + "    codigo_tipo_mineral = " + licenciaComercializacion.getCodigoTipoMineral().getCodigoCatalogoDetalle() + ",\n";

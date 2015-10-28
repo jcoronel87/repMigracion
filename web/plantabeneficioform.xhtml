@@ -137,7 +137,7 @@
                             <p:outputLabel value="Fecha otorga:" rendered="#{!plantaBeneficioCtrl.concesionMinera}"></p:outputLabel>
                         </h:panelGroup>
                         <h:panelGroup id="panelFecOtorga2">
-                            <p:calendar id="fecOtorga" readonlyInput="true" placeholder="aaaa-mm-dd" navigator="true"
+                            <p:calendar id="fecOtorga" placeholder="aaaa-mm-dd" navigator="true"
                                         value="#{plantaBeneficioCtrl.plantaBeneficio.fechaOtorga}"  
                                         locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" 
                                         rendered="#{!plantaBeneficioCtrl.concesionMinera}"/>
@@ -147,7 +147,7 @@
                             <p:outputLabel value="Fecha inscribe:" rendered="#{!plantaBeneficioCtrl.concesionMinera}"></p:outputLabel>
                         </h:panelGroup>
                         <h:panelGroup id="panelFecInscribe2">
-                            <p:calendar id="fecInscribe" readonlyInput="true" placeholder="aaaa-mm-dd" navigator="true"
+                            <p:calendar id="fecInscribe" placeholder="aaaa-mm-dd" navigator="true"
                                         value="#{plantaBeneficioCtrl.plantaBeneficio.fechaInscribe}"  
                                         locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" 
                                         rendered="#{!plantaBeneficioCtrl.concesionMinera}"/>

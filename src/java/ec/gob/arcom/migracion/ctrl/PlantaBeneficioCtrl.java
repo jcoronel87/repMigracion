@@ -181,23 +181,21 @@ public class PlantaBeneficioCtrl extends BaseCtrl {
 
     public String guardarRegistro() {
         Usuario us = usuarioDao.obtenerPorLogin(login.getUserName());
-        if (plantaBeneficio.getFechaOtorga() != null && plantaBeneficio.getFechaInscribe() != null) {
+        /*if (plantaBeneficio.getFechaOtorga() != null && plantaBeneficio.getFechaInscribe() != null) {
             if (plantaBeneficio.getFechaOtorga().after(plantaBeneficio.getFechaInscribe())) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
                         "Fecha de otorgamiento debe ser menor o igual a la fecha de inscripción", null));
                 return null;
             }
-        }
+        }*/
         if (plantaBeneficio.getEstadoPlanta().getCodigoCatalogoDetalle() == null) {
             plantaBeneficio.setEstadoPlanta(null);
         }
         try {
             if (plantaBeneficio.getCodigoPlantaBeneficio() == null) {
                 plantaBeneficio.setEstadoRegistro(true);
-                plantaBeneficio.setFechaCreacion(null);
+                plantaBeneficio.setFechaCreacion(new Date());
                 plantaBeneficio.setUsuarioCreacion(BigInteger.valueOf(us.getCodigoUsuario()));
-                plantaBeneficio.setFechaModificacion(new Date());
-                plantaBeneficio.setUsuarioModificacion(BigInteger.valueOf(us.getCodigoUsuario()));
                 plantaBeneficio.setMigrada(true);
                 if (tipoMineria.equals("cm")) {
                     plantaBeneficio.setCodigoArcom(null);
