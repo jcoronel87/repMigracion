@@ -49,7 +49,6 @@
                     </p:inputText>
                     <p:inputMask mask="9?999999999999999999999999999999999" value="#{concesionMineraCtrl.concesionMinera.codigoArcom}" size="50" readonly="true" maxlength="9"
                                  required="true" requiredMessage="Código requerido" placeHolder="" rendered="#{concesionMineraCtrl.concesionMinera.codigoConcesion != null}" />
-
                 </p:panelGrid>
 
                 <h:panelGroup id="panel2">
@@ -162,24 +161,24 @@
                                     locale="es" pattern="yyyy-MM-dd" effect="fold" style="width: 93%" />
                         
                         <p:outputLabel value="Fecha otorga:"></p:outputLabel>
-                        <p:calendar id="fecOtorga" readonlyInput="true" placeholder="aaaa-mm-dd" navigator="true"
+                        <p:calendar id="fecOtorga" placeholder="aaaa-mm-dd" navigator="true"
                                     value="#{concesionMineraCtrl.concesionMinera.fechaOtorga}" required="#{concesionMineraCtrl.otorgado}"
                                     requiredMessage="Fecha otorgamiento es requerida"
                                     locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" />
                         
                         <p:outputLabel value="Fecha inscribe:"></p:outputLabel>
-                        <p:calendar id="fecInscribe" readonlyInput="true" placeholder="aaaa-mm-dd" navigator="true"
+                        <p:calendar id="fecInscribe" placeholder="aaaa-mm-dd" navigator="true"
                                     value="#{concesionMineraCtrl.concesionMinera.fechaInscribe}" required="#{concesionMineraCtrl.inscrito}"
                                     requiredMessage="Fecha inscripción es requerida"
                                     locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" />
                         
                         <p:outputLabel value="Fecha sustitución:"></p:outputLabel>
-                        <p:calendar id="fecSustitucion" readonlyInput="true"
+                        <p:calendar id="fecSustitucion"
                                     value="#{concesionMineraCtrl.concesionMinera.fechaSustitucion}" placeholder="aaaa-mm-dd" navigator="true"
                                     locale="es" pattern="yyyy-MM-dd" effect="fold" style="width: 93%" />
                         
                         <p:outputLabel value="Fecha inscripciòn sustitución:"></p:outputLabel>
-                        <p:calendar id="fecInscSustitucion" readonlyInput="true"
+                        <p:calendar id="fecInscSustitucion"
                                     value="#{concesionMineraCtrl.concesionMinera.fechaInscripcionSustitucion}" placeholder="aaaa-mm-dd" navigator="true"
                                     locale="es" pattern="yyyy-MM-dd" effect="fold" style="width: 93%" />
 

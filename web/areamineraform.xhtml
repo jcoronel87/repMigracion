@@ -110,28 +110,28 @@
                         <p:inputText id="plazo" placeholder="Plazo en meses" maxlength="4" size="50" value="#{sadminDataCtrl.sadminData.plazo}" 
                                      required="true" requiredMessage="Plazo es requerido" onkeypress="return acceptNum(event)"/>
                         
-                        <p:outputLabel value="Fecha otorga:"></p:outputLabel>
-                        <p:calendar id="fecOtorga" readonlyInput="true" placeholder="aaaa-mm-dd" navigator="true"
-                                    value="#{sadminDataCtrl.sadminData.fechaOtorga}" required="#{sadminDataCtrl.otorgado}" 
-                                    locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" />
-
-                        <p:outputLabel value="Fecha inscribe:"></p:outputLabel>
-                        <p:calendar id="fecInscribe" readonlyInput="true" placeholder="aaaa-mm-dd" navigator="true"
-                                    value="#{sadminDataCtrl.sadminData.fechaInscribe}" required="#{sadminDataCtrl.inscrito}"
-                                    locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" />
-                        
                         <p:outputLabel value="Fecha informe:" rendered="false"></p:outputLabel>
                         <p:calendar id="fecInforme" readonlyInput="true" navigator="true" rendered="false"
                                     value="#{sadminDataCtrl.sadminData.fechaInforme}" placeholder="aaaa-mm-dd"
                                     locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" />
                         
+                        <p:outputLabel value="Fecha otorga:"></p:outputLabel>
+                        <p:calendar id="fecOtorga" placeholder="aaaa-mm-dd" navigator="true"
+                                    value="#{sadminDataCtrl.sadminData.fechaOtorga}" required="#{sadminDataCtrl.otorgado}" 
+                                    locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" />
+
+                        <p:outputLabel value="Fecha inscribe:"></p:outputLabel>
+                        <p:calendar id="fecInscribe" placeholder="aaaa-mm-dd" navigator="true"
+                                    value="#{sadminDataCtrl.sadminData.fechaInscribe}" required="#{sadminDataCtrl.inscrito}"
+                                    locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" />
+                        
                         <p:outputLabel value="Fecha sustitución:"></p:outputLabel>
-                        <p:calendar id="fecSustitucion" readonlyInput="true" navigator="true"
+                        <p:calendar id="fecSustitucion" navigator="true"
                                     value="#{sadminDataCtrl.sadminData.fechaSustitucion}" placeholder="aaaa-mm-dd"
                                     locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" />
                         
                         <p:outputLabel value="Fecha inscripciòn sustitución:"></p:outputLabel>
-                        <p:calendar id="fecInscSustitucion" readonlyInput="true" navigator="true"
+                        <p:calendar id="fecInscSustitucion" navigator="true"
                                     value="#{sadminDataCtrl.sadminData.fechaInscripcionSustitucion}" placeholder="aaaa-mm-dd"
                                     locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" />
 
