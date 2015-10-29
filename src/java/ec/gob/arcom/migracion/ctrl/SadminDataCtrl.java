@@ -287,7 +287,7 @@ public class SadminDataCtrl extends BaseCtrl {
                 }
             }*/
 
-            /*if (sadminData.getFechaOtorga() == null) {
+ /*if (sadminData.getFechaOtorga() == null) {
                 try {
                     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                     String dateInString = "01/01/1800";
@@ -297,7 +297,7 @@ public class SadminDataCtrl extends BaseCtrl {
                     e.printStackTrace();
                 }
             }*/
-            /*if (sadminData.getFechaOtorga() != null) {
+ /*if (sadminData.getFechaOtorga() != null) {
                 if (sadminData.getFechaInforme().after(sadminData.getFechaOtorga())) {
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
                             "Fecha de informe debe ser menor o igual a la fecha de otorgamiento", null));
@@ -552,6 +552,11 @@ public class SadminDataCtrl extends BaseCtrl {
                         fasesPorRegimen = faseServicio.obtenerFasesLikeDescripcion(ConstantesEnum.PEQ_MINERIA.getDescripcion());
                     }
                 }
+                if (sadminData.getCodigoRegimen().getCodigoRegimen().equals(1000L)) {
+                    fasesPorRegimen = faseServicio.obtenerFasesLikeDescripcion("T");
+                }
+            } else {
+                fasesPorRegimen = faseServicio.obtenerFasesLikeDescripcion("T");
             }
             if (fasesPorRegimen != null) {
                 for (Fase f : fasesPorRegimen) {

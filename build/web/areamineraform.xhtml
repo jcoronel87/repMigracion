@@ -106,15 +106,19 @@
                     </p:panelGrid>
 
                     <p:panelGrid columns="2" styleClass="panel_grid_center" columnClasses="form-label-width, form-input">
-                        <p:outputLabel value="Plazo (meses):"></p:outputLabel>
-                        <p:inputText id="plazo" placeholder="Plazo en meses" maxlength="4" size="50" value="#{sadminDataCtrl.sadminData.plazo}" 
-                                     required="true" requiredMessage="Plazo es requerido" onkeypress="return acceptNum(event)"/>
-                        
+                        <p:outputLabel value="Plazo (meses - días):"></p:outputLabel>
+                        <h:panelGrid columns="2">
+                            <p:inputText id="plazo" placeholder="Meses" maxlength="4" size="14" value="#{sadminDataCtrl.sadminData.plazo}" 
+                                         required="true" requiredMessage="Plazo es requerido" onkeypress="return acceptNum(event)"/>
+                            <p:inputText id="dias" placeholder="Días" maxlength="2" size="10" value="#{sadminDataCtrl.sadminData.dias}" 
+                                         onkeypress="return acceptNum(event)"/>
+                        </h:panelGrid>
+
                         <p:outputLabel value="Fecha informe:" rendered="false"></p:outputLabel>
                         <p:calendar id="fecInforme" readonlyInput="true" navigator="true" rendered="false"
                                     value="#{sadminDataCtrl.sadminData.fechaInforme}" placeholder="aaaa-mm-dd"
                                     locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" />
-                        
+
                         <p:outputLabel value="Fecha otorga:"></p:outputLabel>
                         <p:calendar id="fecOtorga" placeholder="aaaa-mm-dd" navigator="true"
                                     value="#{sadminDataCtrl.sadminData.fechaOtorga}" required="#{sadminDataCtrl.otorgado}" 
@@ -124,12 +128,12 @@
                         <p:calendar id="fecInscribe" placeholder="aaaa-mm-dd" navigator="true"
                                     value="#{sadminDataCtrl.sadminData.fechaInscribe}" required="#{sadminDataCtrl.inscrito}"
                                     locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" />
-                        
+
                         <p:outputLabel value="Fecha sustitución:"></p:outputLabel>
                         <p:calendar id="fecSustitucion" navigator="true"
                                     value="#{sadminDataCtrl.sadminData.fechaSustitucion}" placeholder="aaaa-mm-dd"
                                     locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" />
-                        
+
                         <p:outputLabel value="Fecha inscripciòn sustitución:"></p:outputLabel>
                         <p:calendar id="fecInscSustitucion" navigator="true"
                                     value="#{sadminDataCtrl.sadminData.fechaInscripcionSustitucion}" placeholder="aaaa-mm-dd"
@@ -146,9 +150,9 @@
                         <p:outputLabel value="Superficie (Hectáreas:"></p:outputLabel>
                         <pe:inputNumber thousandSeparator="," decimalSeparator="." decimalPlaces="2" maxValue="99999.99" value="#{sadminDataCtrl.sadminData.superficie}" 
                                         required="true" requiredMessage="Superficie es requerida" style="width: 93%"/>
-                        
+
                         <p:outputLabel value="Volumen total (m3):"></p:outputLabel>
-                        <pe:inputNumber thousandSeparator="," decimalSeparator="." decimalPlaces="2" maxValue="999999999.99" value="#{sadminDataCtrl.sadminData.volumenTotalExplotacion}" 
+                        <pe:inputNumber thousandSeparator="," decimalSeparator="." decimalPlaces="2" maxValue="9999999999.99" value="#{sadminDataCtrl.sadminData.volumenTotalExplotacion}" 
                                         style="width: 93%"/>
 
                         <p:outputLabel value="Estado:"></p:outputLabel>

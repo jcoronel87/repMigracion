@@ -167,6 +167,8 @@ public class SadminData implements Serializable {
     private Date fechaInscripcionSustitucion;
     @Column(name = "volumen_total_explotacion")
     private Double volumenTotalExplotacion;
+    @Column(name = "plazo_dias")
+    private Integer dias;
 
     public SadminData() {
     }
@@ -577,6 +579,14 @@ public class SadminData implements Serializable {
 
     public void setVolumenTotalExplotacion(Double volumenTotalExplotacion) {
         this.volumenTotalExplotacion = volumenTotalExplotacion;
+    }
+
+    public Integer getDias() {
+        return dias;
+    }
+
+    public void setDias(Integer dias) {
+        this.dias = dias;
     }
 
     /*public Resolucion getResolucion() {

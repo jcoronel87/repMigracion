@@ -151,9 +151,13 @@
                         </p:panelGrid>
                     </h:panelGroup>
                     <p:panelGrid columns="2" styleClass="panel_grid_center" columnClasses="form-label-width, form-input" rendered="#{!concesionMineraCtrl.existeCodigoArcom}" >
-                        <p:outputLabel value="Plazo (meses):"></p:outputLabel>
-                        <p:inputText id="plazo" placeholder="Plazo en meses" maxlength="4" size="50" value="#{concesionMineraCtrl.concesionMinera.plazoConcesion}" 
-                                     required="true" requiredMessage="Plazo es requerido" onkeypress="return acceptNum(event)"/>
+                        <p:outputLabel value="Plazo (meses - días):"></p:outputLabel>
+                        <h:panelGrid columns="2">
+                            <p:inputText id="plazo" placeholder="Meses" maxlength="4" size="14" value="#{concesionMineraCtrl.concesionMinera.plazoConcesion}" 
+                                         required="true" requiredMessage="Plazo es requerido" onkeypress="return acceptNum(event)"/>
+                            <p:inputText id="dias" placeholder="Días" maxlength="2" size="10" value="#{concesionMineraCtrl.concesionMinera.dias}" 
+                                         onkeypress="return acceptNum(event)"/>
+                        </h:panelGrid>
 
                         <p:outputLabel value="Fecha informe:" rendered="false"></p:outputLabel>
                         <p:calendar id="fecInforme" readonlyInput="true" rendered="false"

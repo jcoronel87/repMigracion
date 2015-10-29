@@ -157,6 +157,8 @@ public class SadminDataDaoEjb extends GenericDaoEjbEl<SadminData, Long> implemen
         } else {
             sql.append(", fecha_inscripcion_sustitucion = null");
         }
+        sql.append(", volumen_total_explotacion = ").append(sadminData.getVolumenTotalExplotacion());
+        sql.append(", plazo_dias = ").append(sadminData.getDias());
         sql.append(" where codigo = '").append(sadminData.getCodigo()).append("'");
         System.out.println("sql update: " + sql);
         Query query = em.createNativeQuery(sql.toString());

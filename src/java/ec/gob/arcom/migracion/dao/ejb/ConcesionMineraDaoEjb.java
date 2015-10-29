@@ -491,6 +491,7 @@ public class ConcesionMineraDaoEjb extends GenericDaoEjbEl<ConcesionMinera, Long
         } else {
             sql = sql + "    fecha_inscripcion_sustitucion = null ,\n";
         }
+        sql = sql + "    plazo_dias = " + concesionMinera.getDias() + ",\n";
         sql = sql + "    migrada = " + concesionMinera.getMigrada() + "\n";
         sql = sql + "WHERE\n";
         sql = sql + "    codigo_concesion = " + concesionMinera.getCodigoConcesion();;

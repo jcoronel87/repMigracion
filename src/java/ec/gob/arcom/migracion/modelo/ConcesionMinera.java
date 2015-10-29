@@ -209,6 +209,8 @@ public class ConcesionMinera implements Serializable {
     @Column(name = "fecha_inscripcion_sustitucion")
     @Temporal(TemporalType.DATE)
     private Date fechaInscripcionSustitucion;
+    @Column(name = "plazo_dias")
+    private Integer dias;
 
     public ConcesionMinera() {
     }
@@ -768,6 +770,14 @@ public class ConcesionMinera implements Serializable {
 
     public void setFechaInscripcionSustitucion(Date fechaInscripcionSustitucion) {
         this.fechaInscripcionSustitucion = fechaInscripcionSustitucion;
+    }
+
+    public Integer getDias() {
+        return dias;
+    }
+
+    public void setDias(Integer dias) {
+        this.dias = dias;
     }
 
 }
