@@ -8,20 +8,25 @@ package ec.gob.arcom.migracion.ctrl;
 import ec.gob.arcom.migracion.constantes.ConstantesEnum;
 import ec.gob.arcom.migracion.ctrl.base.BaseCtrl;
 import ec.gob.arcom.migracion.dao.UsuarioDao;
+import ec.gob.arcom.migracion.modelo.Auditoria;
 import ec.gob.arcom.migracion.modelo.ConceptoPago;
 import ec.gob.arcom.migracion.modelo.ConcesionMinera;
+import static ec.gob.arcom.migracion.modelo.Instrumento_.licenciaComercializacion;
 import ec.gob.arcom.migracion.modelo.LicenciaComercializacion;
 import ec.gob.arcom.migracion.modelo.Localidad;
 import ec.gob.arcom.migracion.modelo.PlantaBeneficio;
 import ec.gob.arcom.migracion.modelo.RegistroPagoObligaciones;
 import ec.gob.arcom.migracion.modelo.SujetoMinero;
 import ec.gob.arcom.migracion.modelo.Usuario;
+import ec.gob.arcom.migracion.servicio.AuditoriaServicio;
 import ec.gob.arcom.migracion.servicio.ConcesionMineraServicio;
 import ec.gob.arcom.migracion.servicio.LicenciaComercializacionServicio;
 import ec.gob.arcom.migracion.servicio.LocalidadServicio;
 import ec.gob.arcom.migracion.servicio.PlantaBeneficioServicio;
 import ec.gob.arcom.migracion.servicio.RegistroPagoObligacionesServicio;
 import ec.gob.arcom.migracion.servicio.SujetoMineroServicio;
+import java.math.BigInteger;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -53,6 +58,8 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
     private UsuarioDao usuarioDao;
     @EJB
     private SujetoMineroServicio sujetoMineroServicio;
+    @EJB
+    private AuditoriaServicio auditoriaServicio;
     @ManagedProperty(value = "#{loginCtrl}")
     private LoginCtrl login;
     private RegistroPagoObligaciones registroPagoObligacionesAutoGestion;
@@ -114,8 +121,45 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
         return "autogestionform?faces-redirect=true&idItem=" + registroPagoObligacionesItem.getCodigoRegistro();
     }
 
-    public void guardarRegistroAutoGestion() {
-        
+    public String guardarRegistroAutoGestion() {
+        Usuario us = usuarioDao.obtenerPorLogin(login.getUserName());
+        try {
+            if (registroPagoObligacionesAutoGestion.getCodigoRegistro()== null) {
+                System.out.println("entra create");
+                registroPagoObligacionesAutoGestion.setEstadoRegistro(true);
+                registroPagoObligacionesAutoGestion.setFechaCreacion(new Date());
+                registroPagoObligacionesAutoGestion.setUsuarioCreacion(BigInteger.valueOf(us.getCodigoUsuario()));
+                registroPagoObligacionesServicio.create(registroPagoObligacionesAutoGestion);
+                Auditoria auditoria = new Auditoria();
+                auditoria.setAccion("INSERT");
+                auditoria.setDetalleAnterior(licenciaComercializacion.toString());
+                auditoria.setDetalleCambios(null);
+                auditoria.setFecha(getCurrentTimeStamp());
+                auditoria.setUsuario(BigInteger.valueOf(us.getCodigoUsuario()));
+                auditoriaServicio.create(auditoria);
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "Registro guardado con éxito", null));
+            } else {
+                System.out.println("entra update");
+                registroPagoObligacionesAutoGestion.setFechaModificacion(new Date());
+                registroPagoObligacionesAutoGestion.setUsuarioModificacion(BigInteger.valueOf(us.getCodigoUsuario()));
+                //registroPagoObligacionesServicio.actualizar(licenciaComercializacion);
+                Auditoria auditoria = new Auditoria();
+                auditoria.setAccion("UPDATE");
+                auditoria.setDetalleAnterior(registroPagoObligacionesAutoGestionAnterior.toString());
+                auditoria.setDetalleCambios(licenciaComercializacion.toString());
+                auditoria.setFecha(getCurrentTimeStamp());
+                auditoria.setUsuario(BigInteger.valueOf(us.getCodigoUsuario()));
+                auditoriaServicio.create(auditoria);
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "Registro actualizado con éxito", null));
+            }
+        } catch (Exception ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "No se pudo guardar el registro", ex.getMessage()));
+            ex.printStackTrace();
+        }
+        return "autogestion";
     }
 
     public List<RegistroPagoObligaciones> getListaRegistrosAutoGestion() {

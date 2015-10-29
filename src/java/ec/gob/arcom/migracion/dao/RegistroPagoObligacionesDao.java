@@ -19,4 +19,6 @@ public interface RegistroPagoObligacionesDao extends GenericDao<RegistroPagoObli
 
     RegistroPagoObligaciones obtenerPorCodigoRegistroPagoObligaciones(Long codigoRegistroPagoObligaciones);
 
+    void actualizarRegistroPagoObligaciones(RegistroPagoObligaciones registroPagoObligaciones) throws Exception;
+
 }
