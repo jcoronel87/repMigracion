@@ -2,42 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/servicio/impl/ResolucionServicioImpl.java</file>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/modelo/SadminData.java</file>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/repMigracion/web/index.xhtml</file>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/repMigracion/web/concesionmineraform.xhtml</file>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/dao/ResolucionDao.java</file>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/modelo/Informe.java</file>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/repMigracion/web/areamineraform.xhtml</file>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/repMigracion/web/licenciacomercializacionform.xhtml</file>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/dao/ejb/SadminDataDaoEjb.java</file>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/modelo/Solicitud.java</file>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/servicio/ResolucionServicio.java</file>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/dao/ejb/FaseDaoEjb.java</file>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/constantes/ConstantesEnum.java</file>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/servicio/impl/FaseServicioImpl.java</file>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/repMigracion/web/autogestionform.xhtml</file>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/dao/ejb/PlantaBeneficioDaoEjb.java</file>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/modelo/PlantaBeneficio.java</file>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/ctrl/ConcesionMineraCtrl.java</file>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/modelo/Resolucion.java</file>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/servicio/impl/CatalogoDetalleServicioImpl.java</file>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/dao/ejb/ConcesionMineraDaoEjb.java</file>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/ctrl/SelectItemCtrl.java</file>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/repMigracion/web/autogestion.xhtml</file>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/modelo/ConcesionMinera.java</file>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/dao/ejb/LicenciaComercializacionDaoEjb.java</file>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/ctrl/RegistroPagoObligacionesCtrl.java</file>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/repMigracion/web/plantabeneficioform.xhtml</file>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/repMigracion/web/plantasbeneficio.xhtml</file>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/ctrl/PlantaBeneficioCtrl.java</file>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/ctrl/SadminDataCtrl.java</file>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/repMigracion/web/instrumentoform.xhtml</file>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/ctrl/LicenciaComercializacionCtrl.java</file>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/dao/ejb/CatalogoDetalleDaoEjb.java</file>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/dao/ejb/ResolucionDaoEjb.java</file>
-            <file>file:/C:/Users/Usuario/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/modelo/LicenciaComercializacion.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

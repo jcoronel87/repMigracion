@@ -277,40 +277,40 @@ public class SadminDataCtrl extends BaseCtrl {
             System.out.println("sadminData: " + sadminData.getFechaInscribe() + " " + sadminData.getFechaOtorga());
 
             /*if (sadminData.getFechaInforme() == null) {
-                try {
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-                    String dateInString = "01/01/1800";
-                    Date date = formatter.parse(dateInString);
-                    sadminData.setFechaInforme(date);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }*/
+             try {
+             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+             String dateInString = "01/01/1800";
+             Date date = formatter.parse(dateInString);
+             sadminData.setFechaInforme(date);
+             } catch (Exception e) {
+             e.printStackTrace();
+             }
+             }*/
 
- /*if (sadminData.getFechaOtorga() == null) {
-                try {
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-                    String dateInString = "01/01/1800";
-                    Date date = formatter.parse(dateInString);
-                    sadminData.setFechaOtorga(date);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }*/
- /*if (sadminData.getFechaOtorga() != null) {
-                if (sadminData.getFechaInforme().after(sadminData.getFechaOtorga())) {
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
-                            "Fecha de informe debe ser menor o igual a la fecha de otorgamiento", null));
-                    return null;
-                }
-                if (sadminData.getFechaInscribe() != null) {
-                    if (sadminData.getFechaOtorga().after(sadminData.getFechaInscribe())) {
-                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
-                                "Fecha de otorgamiento debe ser menor o igual a la fecha de inscripción", null));
-                        return null;
-                    }
-                }
-            }*/
+            /*if (sadminData.getFechaOtorga() == null) {
+             try {
+             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+             String dateInString = "01/01/1800";
+             Date date = formatter.parse(dateInString);
+             sadminData.setFechaOtorga(date);
+             } catch (Exception e) {
+             e.printStackTrace();
+             }
+             }*/
+            /*if (sadminData.getFechaOtorga() != null) {
+             if (sadminData.getFechaInforme().after(sadminData.getFechaOtorga())) {
+             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+             "Fecha de informe debe ser menor o igual a la fecha de otorgamiento", null));
+             return null;
+             }
+             if (sadminData.getFechaInscribe() != null) {
+             if (sadminData.getFechaOtorga().after(sadminData.getFechaInscribe())) {
+             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+             "Fecha de otorgamiento debe ser menor o igual a la fecha de inscripción", null));
+             return null;
+             }
+             }
+             }*/
             if (!sadminData.getTipoSolicitud().equals(ConstantesEnum.TIPO_SOLICITUD_CONS_MIN.getDescripcion())) {
                 sadminData.getCodigoRegimen().setCodigoRegimen(null);
                 sadminData.setFase(null);
@@ -475,8 +475,8 @@ public class SadminDataCtrl extends BaseCtrl {
         if (tipoMaterialDetalle == null) {
             tipoMaterialDetalle = new ArrayList<>();
             /*if (sadminData.getMineral() == null || sadminData.getMineral().equals("MATERIALES DE CONSTRUCCIO") || sadminData.getMineral().equals("MATERIAL DE CONSTRUCCION")) {
-                return tipoMaterialDetalle;
-            }*/
+             return tipoMaterialDetalle;
+             }*/
             System.out.println("sadminData.getMineral(): " + sadminData.getMineral());
             if (sadminData.getMineral() == null || sadminData.getMineral().equals("MATERIALES DE CONSTRUCCIO")) {
                 return tipoMaterialDetalle;
@@ -603,13 +603,11 @@ public class SadminDataCtrl extends BaseCtrl {
 
     public boolean isOtorgado() {
         if (sadminData.getEstado() != null) {
-            if (sadminData.getEstado().equals(ConstantesEnum.EST_OTORGADO.getDescripcion())) {
+            if (sadminData.getEstado().equals(ConstantesEnum.EST_OTORGADO.getDescripcion())
+                    || sadminData.getEstado().equals(ConstantesEnum.EST_INSCRITO.getDescripcion())) {
                 otorgado = true;
             } else {
                 otorgado = false;
-            }
-            if (otorgado) {
-                inscrito = true;
             }
         }
         return otorgado;
@@ -621,8 +619,7 @@ public class SadminDataCtrl extends BaseCtrl {
 
     public boolean isInscrito() {
         if (sadminData.getEstado() != null) {
-            if (sadminData.getEstado().equals(ConstantesEnum.EST_INSCRITO.getDescripcion())
-                    || sadminData.getEstado().equals(ConstantesEnum.EST_OTORGADO.getDescripcion())) {
+            if (sadminData.getEstado().equals(ConstantesEnum.EST_INSCRITO.getDescripcion())) {
                 inscrito = true;
             } else {
                 inscrito = false;
@@ -706,9 +703,9 @@ public class SadminDataCtrl extends BaseCtrl {
                 System.out.println("personaNatural.getNumeroDocumento(): " + personaNatural.getNumeroDocumento());
             }
             /*else {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                        "Número de documento existente", null));
-            }*/
+             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+             "Número de documento existente", null));
+             }*/
         }
     }
 
@@ -773,12 +770,12 @@ public class SadminDataCtrl extends BaseCtrl {
             return;
         }
         /*if (!CedulaValidator.validacionRUC(personaJuridica.getRuc())) {
-            //personaJuridica.setRuc(null);
-            personaJuridica = null;
-            getPersonaJuridica();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
-                    "Número de ruc inválido", null));
-        } else {*/
+         //personaJuridica.setRuc(null);
+         personaJuridica = null;
+         getPersonaJuridica();
+         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+         "Número de ruc inválido", null));
+         } else {*/
         System.out.println("entra else");
         personaJuridica = personaJuridicaServicio.findByRuc(personaJuridica.getRuc());
         System.out.println("personaJuridica: " + personaJuridica);
@@ -789,9 +786,9 @@ public class SadminDataCtrl extends BaseCtrl {
                     "Número de ruc no existente", null));
         }
         /*else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                    "Número de ruc existente", null));
-        }*/
+         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+         "Número de ruc existente", null));
+         }*/
         //}
     }
 

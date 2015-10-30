@@ -395,30 +395,30 @@ public class ConcesionMineraCtrl extends BaseCtrl {
         }
 
         /*if (concesionMinera.getFechaInforme() == null) {
-            try {
-                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-                String dateInString = "01/01/1800";
-                Date date = formatter.parse(dateInString);
-                concesionMinera.setFechaInforme(date);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+         try {
+         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+         String dateInString = "01/01/1800";
+         Date date = formatter.parse(dateInString);
+         concesionMinera.setFechaInforme(date);
+         } catch (Exception e) {
+         e.printStackTrace();
+         }
+         }
 
-        if (concesionMinera.getFechaInicioConcesion() != null) {
-            if (concesionMinera.getFechaInforme().after(concesionMinera.getFechaOtorga())) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
-                        "Fecha de informe debe ser menor o igual a la fecha de otorgamiento", null));
-                return null;
-            }
-        }*/
- /*if (concesionMinera.getFechaOtorga() != null) {
-            if (concesionMinera.getFechaOtorga().after(concesionMinera.getFechaInscribe())) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
-                        "Fecha de otorgamiento debe ser menor o igual a la fecha de inscripción", null));
-                return null;
-            }
-        }*/
+         if (concesionMinera.getFechaInicioConcesion() != null) {
+         if (concesionMinera.getFechaInforme().after(concesionMinera.getFechaOtorga())) {
+         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+         "Fecha de informe debe ser menor o igual a la fecha de otorgamiento", null));
+         return null;
+         }
+         }*/
+        /*if (concesionMinera.getFechaOtorga() != null) {
+         if (concesionMinera.getFechaOtorga().after(concesionMinera.getFechaInscribe())) {
+         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+         "Fecha de otorgamiento debe ser menor o igual a la fecha de inscripción", null));
+         return null;
+         }
+         }*/
         if (concesionMinera.getCodigoRegimen() != null && concesionMinera.getCodigoFase() != null) {
             if (!solicitud.getTipoSolicitud().equals(ConstantesEnum.TIPO_SOLICITUD_CONS_MIN.getNemonico())) {
                 concesionMinera.setCodigoRegimen(null);
@@ -463,8 +463,8 @@ public class ConcesionMineraCtrl extends BaseCtrl {
         solicitud.setMigrada(true);
         CatalogoDetalle estadoArea = new CatalogoDetalle();
         /*if (concesionMinera.getEstadoConcesion().getCodigoCatalogoDetalle().equals(ConversionEstadosEnum.CADUCADO.getCodigo4())) {
-            estadoArea.setCodigoCatalogoDetalle(ConversionEstadosEnum.CADUCADO.getCodigo19());
-        }*/
+         estadoArea.setCodigoCatalogoDetalle(ConversionEstadosEnum.CADUCADO.getCodigo19());
+         }*/
         if (concesionMinera.getEstadoConcesion().getCodigoCatalogoDetalle().equals(ConversionEstadosEnum.INSCRITA.getCodigo4())) {
             estadoArea.setCodigoCatalogoDetalle(ConversionEstadosEnum.INSCRITA.getCodigo19());
         }
@@ -472,8 +472,8 @@ public class ConcesionMineraCtrl extends BaseCtrl {
             estadoArea.setCodigoCatalogoDetalle(ConversionEstadosEnum.OTORGADO.getCodigo19());
         }
         /*if (concesionMinera.getEstadoConcesion().getCodigoCatalogoDetalle().equals(ConversionEstadosEnum.SOLICITUD_EXPIRADA.getCodigo4())) {
-            estadoArea.setCodigoCatalogoDetalle(ConversionEstadosEnum.SOLICITUD_EXPIRADA.getCodigo19());
-        }*/
+         estadoArea.setCodigoCatalogoDetalle(ConversionEstadosEnum.SOLICITUD_EXPIRADA.getCodigo19());
+         }*/
         if (concesionMinera.getEstadoConcesion().getCodigoCatalogoDetalle().equals(ConversionEstadosEnum.TRAMITE.getCodigo4())) {
             estadoArea.setCodigoCatalogoDetalle(ConversionEstadosEnum.TRAMITE.getCodigo19());
         }
@@ -683,9 +683,9 @@ public class ConcesionMineraCtrl extends BaseCtrl {
         if (tipoMaterialDetalle == null) {
             tipoMaterialDetalle = new ArrayList<>();
             /*if (concesionMinera.getTipoMaterial() == null || concesionMinera.getTipoMaterial().toUpperCase().equals("MATERIALES DE CONSTRUCCIO")
-                    || concesionMinera.getTipoMaterial().toUpperCase().equals("MATERIAL DE CONSTRUCCION")) {
-                return tipoMaterialDetalle;
-            }*/
+             || concesionMinera.getTipoMaterial().toUpperCase().equals("MATERIAL DE CONSTRUCCION")) {
+             return tipoMaterialDetalle;
+             }*/
             if (concesionMinera.getTipoMaterial() == null || concesionMinera.getTipoMaterial().toUpperCase().equals("MATERIALES DE CONSTRUCCIO")) {
                 return tipoMaterialDetalle;
             }
@@ -908,7 +908,7 @@ public class ConcesionMineraCtrl extends BaseCtrl {
             auditoriaServicio.create(auditoria2);
             FacesContext
                     .getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                            "Registro guardado correctamente", null));
+                                    "Registro guardado correctamente", null));
         } catch (Exception ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
                     "No se pudo guardar el registro", ex.getMessage()));
@@ -1116,13 +1116,11 @@ public class ConcesionMineraCtrl extends BaseCtrl {
 
     public boolean isOtorgado() {
         if (concesionMinera.getEstadoConcesion().getCodigoCatalogoDetalle() != null) {
-            if (concesionMinera.getEstadoConcesion().getCodigoCatalogoDetalle().equals(ConstantesEnum.EST_OTORGADO.getCodigo())) {
+            if (concesionMinera.getEstadoConcesion().getCodigoCatalogoDetalle().equals(ConstantesEnum.ESTCONC_OTORGADO.getCodigo())
+                    || concesionMinera.getEstadoConcesion().getCodigoCatalogoDetalle().equals(ConstantesEnum.ESTCONC_INSCRITO.getCodigo())) {
                 otorgado = true;
             } else {
                 otorgado = false;
-            }
-            if (otorgado) {
-                inscrito = true;
             }
         }
         return otorgado;
@@ -1134,8 +1132,7 @@ public class ConcesionMineraCtrl extends BaseCtrl {
 
     public boolean isInscrito() {
         if (concesionMinera.getEstadoConcesion().getCodigoCatalogoDetalle() != null) {
-            if (concesionMinera.getEstadoConcesion().getCodigoCatalogoDetalle().equals(ConstantesEnum.EST_INSCRITO.getCodigo())
-                    || concesionMinera.getEstadoConcesion().getCodigoCatalogoDetalle().equals(ConstantesEnum.EST_OTORGADO.getCodigo())) {
+            if (concesionMinera.getEstadoConcesion().getCodigoCatalogoDetalle().equals(ConstantesEnum.ESTCONC_INSCRITO.getCodigo())) {
                 inscrito = true;
             } else {
                 inscrito = false;
@@ -1241,9 +1238,9 @@ public class ConcesionMineraCtrl extends BaseCtrl {
                 System.out.println("personaNatural.getNumeroDocumento(): " + personaNatural.getNumeroDocumento());
             }
             /*else {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                        "Número de documento existente", null));
-            }*/
+             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+             "Número de documento existente", null));
+             }*/
         }
     }
 
@@ -1316,12 +1313,12 @@ public class ConcesionMineraCtrl extends BaseCtrl {
             return;
         }
         /*if (!CedulaValidator.validacionRUC(personaJuridica.getRuc())) {
-            //personaJuridica.setRuc(null);
-            personaJuridica = null;
-            getPersonaJuridica();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
-                    "Número de ruc inválido", null));
-        } else {*/
+         //personaJuridica.setRuc(null);
+         personaJuridica = null;
+         getPersonaJuridica();
+         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+         "Número de ruc inválido", null));
+         } else {*/
         System.out.println("entra else");
         personaJuridica = personaJuridicaServicio.findByRuc(personaJuridica.getRuc());
         System.out.println("personaJuridica: " + personaJuridica);
@@ -1332,9 +1329,9 @@ public class ConcesionMineraCtrl extends BaseCtrl {
                     "Número de ruc no existente", null));
         }
         /*else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                    "Número de ruc existente", null));
-        }*/
+         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+         "Número de ruc existente", null));
+         }*/
         //}
     }
 
@@ -1456,10 +1453,10 @@ public class ConcesionMineraCtrl extends BaseCtrl {
     }
 
     /*public Resolucion getResolucion() {
-        return resolucion;
-    }
+     return resolucion;
+     }
 
-    public void setResolucion(Resolucion resolucion) {
-        this.resolucion = resolucion;
-    }*/
+     public void setResolucion(Resolucion resolucion) {
+     this.resolucion = resolucion;
+     }*/
 }

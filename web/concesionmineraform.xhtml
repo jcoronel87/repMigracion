@@ -47,8 +47,8 @@
                                  rendered="#{concesionMineraCtrl.concesionMinera.codigoConcesion == null}" maxlength="9">
                         <p:ajax update="panel2 codArc botones" listener="#{concesionMineraCtrl.validarCodigoArcom}" />
                     </p:inputText>
-                    <p:inputMask mask="9?999999999999999999999999999999999" value="#{concesionMineraCtrl.concesionMinera.codigoArcom}" size="50" readonly="true" maxlength="9"
-                                 required="true" requiredMessage="Código requerido" placeHolder="" rendered="#{concesionMineraCtrl.concesionMinera.codigoConcesion != null}" />
+                    <p:outputLabel value="#{concesionMineraCtrl.concesionMinera.codigoArcom}" 
+                                 rendered="#{concesionMineraCtrl.concesionMinera.codigoConcesion != null}" />
                 </p:panelGrid>
 
                 <h:panelGroup id="panel2">
@@ -164,13 +164,13 @@
                                     value="#{concesionMineraCtrl.concesionMinera.fechaInforme}" placeholder="aaaa-mm-dd" navigator="true"
                                     locale="es" pattern="yyyy-MM-dd" effect="fold" style="width: 93%" />
 
-                        <p:outputLabel for="fecOtorga" value="Fecha otorga:"></p:outputLabel>
+                        <p:outputLabel id="fecOtorgaLab" for="fecOtorga" value="Fecha otorga:"></p:outputLabel>
                         <p:calendar id="fecOtorga" placeholder="aaaa-mm-dd" navigator="true"
                                     value="#{concesionMineraCtrl.concesionMinera.fechaOtorga}" required="#{concesionMineraCtrl.otorgado}"
                                     requiredMessage="Fecha otorgamiento es requerida"
                                     locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" />
 
-                        <p:outputLabel for="fecInscribe" value="Fecha inscribe:"></p:outputLabel>
+                        <p:outputLabel id="fecInscribeLab" for="fecInscribe" value="Fecha inscribe:"></p:outputLabel>
                         <p:calendar id="fecInscribe" placeholder="aaaa-mm-dd" navigator="true"
                                     value="#{concesionMineraCtrl.concesionMinera.fechaInscribe}" required="#{concesionMineraCtrl.inscrito}"
                                     requiredMessage="Fecha inscripción es requerida"
@@ -206,7 +206,7 @@
                         <p:selectOneMenu id="somEstado" value="#{concesionMineraCtrl.concesionMinera.estadoConcesion.codigoCatalogoDetalle}" required="true" requiredMessage="Estado concesión es requerido" style="width: 93%">
                             <f:selectItem itemValue="" itemLabel="--Seleccione una opción--" />
                             <f:selectItems value="#{selectItemCtrl.estadosCodigoCatalogo4}" />
-                            <p:ajax process=":form1:fecOtorga :form1:fecInscribe" update=":form1:fecOtorga :form1:fecInscribe" />
+                            <p:ajax process=":form1:fecOtorga :form1:fecInscribe" update=":form1:fecOtorgaLab :form1:fecInscribeLab :form1:fecOtorga :form1:fecInscribe" />
                         </p:selectOneMenu>
 
                         <p:outputLabel for="tipoSolic" value="Tipo solicitud:"></p:outputLabel>
