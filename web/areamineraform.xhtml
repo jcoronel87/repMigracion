@@ -43,10 +43,10 @@
 
                         <p:outputLabel for="numDoc" value="Cédula/RUC titular:"></p:outputLabel>
                         <h:panelGrid id="panelPersona" columns="2">
-                            <p:inputMask id="numDoc" mask="9?999999999999" value="#{sadminDataCtrl.sadminData.cedulaRuc}" size="50"
-                                         maxlength="13" placeHolder="" required="true" requiredMessage="Cédula/RUC es requerido" readonly="true">
+                            <p:inputText id="numDoc" value="#{sadminDataCtrl.sadminData.cedulaRuc}" size="50"
+                                         maxlength="13" required="true" requiredMessage="Cédula/RUC es requerido" readonly="#{facesContext.renderResponse}">
                                 <p:ajax update="numDoc" listener="#{sadminDataCtrl.validarCedula}"  />
-                            </p:inputMask>
+                            </p:inputText>
                             <p:commandLink id="botonPersonaNatural" actionListener="#{sadminDataCtrl.llenaPopUpPersonaNatural}" oncomplete="PF('dlgPerNat').show();" 
                                            title="Agregar Persona Natural" immediate="true" rendered="#{sadminDataCtrl.perNatural}">
                                 <h:panelGrid style="text-align:center" rendered="#{sadminDataCtrl.perNatural}">
@@ -121,12 +121,12 @@
 
                         <p:outputLabel for="fecOtorga" value="Fecha otorga:"></p:outputLabel>
                         <p:calendar id="fecOtorga" placeholder="aaaa-mm-dd" navigator="true"
-                                    value="#{sadminDataCtrl.sadminData.fechaOtorga}" required="#{sadminDataCtrl.otorgado}" 
+                                    value="#{sadminDataCtrl.sadminData.fechaOtorga}"  
                                     locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" />
 
                         <p:outputLabel for="fecInscribe" value="Fecha inscribe:"></p:outputLabel>
                         <p:calendar id="fecInscribe" placeholder="aaaa-mm-dd" navigator="true"
-                                    value="#{sadminDataCtrl.sadminData.fechaInscribe}" required="#{sadminDataCtrl.inscrito}"
+                                    value="#{sadminDataCtrl.sadminData.fechaInscribe}" 
                                     locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" />
 
                         <p:outputLabel for="fecSustitucion" value="Fecha sustitución:"></p:outputLabel>
@@ -159,7 +159,7 @@
                         <p:selectOneMenu id="estadoArea" value="#{sadminDataCtrl.sadminData.estado}" required="true" requiredMessage="Estado es requerido" style="width: 93%">
                             <f:selectItem itemValue="" itemLabel="--Seleccione una opción--" />
                             <f:selectItems value="#{selectItemCtrl.estadosCatalogo}" />
-                            <p:ajax process=":form:fecOtorga :form:fecInscribe" update=":form:fecOtorga :form:fecInscribe" />
+                            <p:ajax process=":form:estadoArea :form:fecOtorga :form:fecInscribe" update=":form:fecOtorga :form:fecInscribe" immediate="true"/>
                         </p:selectOneMenu>
 
                         <p:outputLabel for="tipoSolicitud" value="Tipo solicitud:"></p:outputLabel>

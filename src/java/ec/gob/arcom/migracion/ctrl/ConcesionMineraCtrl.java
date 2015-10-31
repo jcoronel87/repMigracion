@@ -370,28 +370,43 @@ public class ConcesionMineraCtrl extends BaseCtrl {
         TipoMineria tipoMineria = tipoMineriaDao.findByNemonico(solicitud.getTipoSolicitud());
         CatalogoDetalle codigoZona = catalogoDetalleDao.obtenerPorValor(String.valueOf(solicitud.getZona()));
 
+        if (concesionMinera.getCodigoRegimen() != null && concesionMinera.getCodigoFase() != null) {
+            if (!solicitud.getTipoSolicitud().equals(ConstantesEnum.TIPO_SOLICITUD_CONS_MIN.getNemonico())) {
+                concesionMinera.setCodigoRegimen(null);
+                concesionMinera.setCodigoFase(null);
+            }
+        }
+        
         if (concesionMinera.getCodigoRegimen() != null && concesionMinera.getCodigoRegimen().getCodigoRegimen() != null) {
             if (concesionMinera.getCodigoRegimen().getCodigoRegimen().equals(1000L)) {
                 concesionMinera.setCodigoRegimen(null);
             }
+        } else {
+            concesionMinera.setCodigoRegimen(null);
         }
 
         if (concesionMinera.getCodigoFase() != null && concesionMinera.getCodigoFase().getCodigoFase() != null) {
             if (concesionMinera.getCodigoFase().getCodigoFase().equals(1000L)) {
                 concesionMinera.setCodigoFase(null);
             }
+        } else {
+            concesionMinera.setCodigoFase(null);
         }
 
         if (concesionMinera.getCodigoModalidadTrabajo() != null && concesionMinera.getCodigoModalidadTrabajo().getCodigoCatalogoDetalle() != null) {
             if (concesionMinera.getCodigoModalidadTrabajo().getCodigoCatalogoDetalle().equals(1000L)) {
                 concesionMinera.setCodigoModalidadTrabajo(null);
             }
+        } else {
+            concesionMinera.setCodigoModalidadTrabajo(null);
         }
 
         if (concesionMinera.getCodigoFormaExplotacion() != null && concesionMinera.getCodigoFormaExplotacion().getCodigoCatalogoDetalle() != null) {
             if (concesionMinera.getCodigoFormaExplotacion().getCodigoCatalogoDetalle().equals(1000L)) {
                 concesionMinera.setCodigoFormaExplotacion(null);
             }
+        } else {
+            concesionMinera.setCodigoFormaExplotacion(null);
         }
 
         /*if (concesionMinera.getFechaInforme() == null) {
@@ -419,12 +434,6 @@ public class ConcesionMineraCtrl extends BaseCtrl {
          return null;
          }
          }*/
-        if (concesionMinera.getCodigoRegimen() != null && concesionMinera.getCodigoFase() != null) {
-            if (!solicitud.getTipoSolicitud().equals(ConstantesEnum.TIPO_SOLICITUD_CONS_MIN.getNemonico())) {
-                concesionMinera.setCodigoRegimen(null);
-                concesionMinera.setCodigoFase(null);
-            }
-        }
 
         solicitud.setNombreArea(concesionMinera.getNombreConcesion());
         solicitud.setCasilleroJudicial(concesionMinera.getCasilleroJudicial());
