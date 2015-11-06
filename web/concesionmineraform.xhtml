@@ -73,7 +73,7 @@
                             <p:outputLabel for="numDoc" value="Cédula/RUC titular:"></p:outputLabel>
                             <h:panelGrid id="panelPersona" columns="2" >
                                 <p:inputMask id="numDoc" mask="9?999999999999" value="#{concesionMineraCtrl.concesionMinera.documentoConcesionarioPrincipal}" size="50" placeHolder=""
-                                             maxlength="13" required="true" requiredMessage="Cédula/RUC requerido" readonly="true" >
+                                             maxlength="13" required="true" requiredMessage="Cédula/RUC requerido" readonly="#{facesContext.renderResponse}" >
                                     <p:ajax update="numDoc" listener="#{concesionMineraCtrl.validarCedula}"  />
                                 </p:inputMask>
                                 <p:commandLink id="botonPersonaNatural" actionListener="#{concesionMineraCtrl.llenaPopUpPersonaNatural}" oncomplete="PF('dlgPerNat').show();" 

@@ -129,6 +129,27 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
                 registroPagoObligacionesAutoGestion.setEstadoRegistro(true);
                 registroPagoObligacionesAutoGestion.setFechaCreacion(new Date());
                 registroPagoObligacionesAutoGestion.setUsuarioCreacion(BigInteger.valueOf(us.getCodigoUsuario()));
+                System.out.println("registroPagoObligacionesAutoGestion.getCodigoDerechoMinero(): " + registroPagoObligacionesAutoGestion.getCodigoDerechoMinero());
+                if (registroPagoObligacionesAutoGestion.getCodigoTipoRegistro().equals(ConstantesEnum.TIPO_SOLICITUD_CONS_MIN.getCodigo())
+                        || registroPagoObligacionesAutoGestion.getCodigoTipoRegistro().equals(ConstantesEnum.TIPO_SOLICITUD_LIB_APR.getCodigo())
+                        || registroPagoObligacionesAutoGestion.getCodigoTipoRegistro().equals(ConstantesEnum.TIPO_SOLICITUD_MIN_ART.getCodigo())) {
+                    System.out.println("entra if concesion");
+                    ConcesionMinera cm = new ConcesionMinera();
+                    cm.setCodigoConcesion(registroPagoObligacionesAutoGestion.getCodigoDerechoMinero());
+                    registroPagoObligacionesAutoGestion.setCodigoConcesion(cm);
+                }
+                if (registroPagoObligacionesAutoGestion.getCodigoTipoRegistro().equals(ConstantesEnum.TIPO_SOLICITUD_LIC_COM.getCodigo())) {
+                    System.out.println("entra if licencia");
+                    LicenciaComercializacion lc = new LicenciaComercializacion();
+                    lc.setCodigoLicenciaComercializacion(registroPagoObligacionesAutoGestion.getCodigoDerechoMinero());
+                    registroPagoObligacionesAutoGestion.setCodigoLicenciaComercializacion(lc);
+                }
+                if (registroPagoObligacionesAutoGestion.getCodigoTipoRegistro().equals(ConstantesEnum.TIPO_SOLICITUD_PLAN_BEN.getCodigo())) {
+                    System.out.println("entra if planta");
+                    PlantaBeneficio pb = new PlantaBeneficio();
+                    pb.setCodigoPlantaBeneficio(registroPagoObligacionesAutoGestion.getCodigoDerechoMinero());
+                    registroPagoObligacionesAutoGestion.setCodigoPlantaBeneficio(pb);
+                }
                 registroPagoObligacionesServicio.create(registroPagoObligacionesAutoGestion);
                 Auditoria auditoria = new Auditoria();
                 auditoria.setAccion("INSERT");

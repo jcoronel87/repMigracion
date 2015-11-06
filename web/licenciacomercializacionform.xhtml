@@ -64,7 +64,7 @@
                         <p:outputLabel for="numDoc" value="Número documento:"></p:outputLabel>
                         <h:panelGrid id="panelPersona" columns="2">
                             <p:inputMask id="numDoc" mask="9?999999999999" value="#{licenciaComercializacionCtrl.licenciaComercializacion.numeroDocumento}" size="50" placeHolder=""
-                                         maxlength="13" required="true" requiredMessage="Número documento requerido" readonly="true">
+                                         maxlength="13" required="true" requiredMessage="Número documento requerido" readonly="#{facesContext.renderResponse}">
                                 <p:ajax update="numDoc" listener="#{licenciaComercializacionCtrl.validarCedula}"  />
                             </p:inputMask>
                             <p:commandLink id="botonPersonaNatural" actionListener="#{licenciaComercializacionCtrl.llenaPopUpPersonaNatural}" oncomplete="PF('dlgPerNat').show();" 

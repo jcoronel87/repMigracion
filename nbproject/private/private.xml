@@ -2,6 +2,24 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/ctrl/ConcesionMineraCtrl.java</file>
+            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/web/concesionmineraform.xhtml</file>
+            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/ctrl/SadminDataCtrl.java</file>
+            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/ctrl/RegistroPagoObligacionesCtrl.java</file>
+            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/web/autogestionform.xhtml</file>
+            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/modelo/ConcesionMinera.java</file>
+            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/constantes/ConstantesEnum.java</file>
+            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/ctrl/LicenciaComercializacionCtrl.java</file>
+            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/web/areamineraform.xhtml</file>
+            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/servicio/impl/ConcesionMineraServicioImpl.java</file>
+            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/modelo/RegistroPagoObligaciones.java</file>
+            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/web/licenciacomercializacionform.xhtml</file>
+            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/modelo/LicenciaComercializacion.java</file>
+            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/dao/ejb/RegistroPagoObligacionesDaoEjb.java</file>
+            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/ctrl/SelectItemCtrl.java</file>
+            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/web/plantabeneficioform.xhtml</file>
+            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/web/index.xhtml</file>
+        </group>
     </open-files>
 </project-private>

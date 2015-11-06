@@ -43,10 +43,10 @@
 
                         <p:outputLabel for="numDoc" value="Cédula/RUC titular:"></p:outputLabel>
                         <h:panelGrid id="panelPersona" columns="2">
-                            <p:inputText id="numDoc" value="#{sadminDataCtrl.sadminData.cedulaRuc}" size="50"
-                                         maxlength="13" required="true" requiredMessage="Cédula/RUC es requerido" readonly="#{facesContext.renderResponse}">
+                            <p:inputMask id="numDoc" mask="9?999999999999" value="#{sadminDataCtrl.sadminData.cedulaRuc}" size="50"
+                                         maxlength="13" placeHolder="" required="true" requiredMessage="Cédula/RUC es requerido" readonly="#{facesContext.renderResponse}">
                                 <p:ajax update="numDoc" listener="#{sadminDataCtrl.validarCedula}"  />
-                            </p:inputText>
+                            </p:inputMask>
                             <p:commandLink id="botonPersonaNatural" actionListener="#{sadminDataCtrl.llenaPopUpPersonaNatural}" oncomplete="PF('dlgPerNat').show();" 
                                            title="Agregar Persona Natural" immediate="true" rendered="#{sadminDataCtrl.perNatural}">
                                 <h:panelGrid style="text-align:center" rendered="#{sadminDataCtrl.perNatural}">

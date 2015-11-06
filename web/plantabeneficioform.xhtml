@@ -70,7 +70,7 @@
                         <h:panelGroup>
                             <h:panelGrid id="panelPersona" columns="2">
                                 <p:inputMask id="numDoc" mask="9?999999999999" value="#{plantaBeneficioCtrl.plantaBeneficio.numeroDocumentoRepresentanteLegal}" size="50"
-                                             maxlength="13" placeHolder="" required="true" requiredMessage="Cédula/RUC es requerido" readonly="true">
+                                             maxlength="13" placeHolder="" required="true" requiredMessage="Cédula/RUC es requerido" readonly="#{facesContext.renderResponse}">
                                     <p:ajax update="numDoc" listener="#{plantaBeneficioCtrl.validaCedula}" />
                                 </p:inputMask>
                                 <p:commandLink id="botonPersonaNatural" actionListener="#{plantaBeneficioCtrl.llenaPopUpPersonaNatural}" oncomplete="PF('dlgPerNat').show();" 

@@ -311,7 +311,7 @@
                                 <p:outputLabel value="#{registroPagoObligacionesCtrl.parroquia.nombre}" />
                             </p:panelGrid>
                             <h:commandButton actionListener="#{registroPagoObligacionesCtrl.seleccionarConcesion}" image="resources/images/select.png" style="width: 150px; height: 150px;" title="Seleccionar">
-                                <p:ajax update=":form:panelCodigo2 panelNomArea2" />
+                                <p:ajax update=":form:panelCodigo2 :form:panelNomArea2" />
                             </h:commandButton>
                         </h:panelGrid>
                         <p:panelGrid columns="2" rendered="#{registroPagoObligacionesCtrl.licenciaComercializacionPopup != null}">
@@ -332,14 +332,14 @@
                                 <p:outputLabel value="Casillero Judicial:" />
                                 <p:outputLabel value="#{registroPagoObligacionesCtrl.licenciaComercializacionPopup.casilleroJudicial}" />
                                 <p:outputLabel value="Provincia:" />
-                                <p:outputLabel value="#{registroPagoObligacionesCtrl.provincia}" />
+                                <p:outputLabel value="#{registroPagoObligacionesCtrl.provincia.nombre}" />
                                 <p:outputLabel value="Cantón:" />
-                                <p:outputLabel value="#{registroPagoObligacionesCtrl.canton}" />
+                                <p:outputLabel value="#{registroPagoObligacionesCtrl.canton.nombre}" />
                                 <p:outputLabel value="Parroquia:" />
-                                <p:outputLabel value="#{registroPagoObligacionesCtrl.parroquia}" />
+                                <p:outputLabel value="#{registroPagoObligacionesCtrl.parroquia.nombre}" />
                             </p:panelGrid>
                             <h:commandButton actionListener="#{registroPagoObligacionesCtrl.seleccionarLicencia}" image="resources/images/select.png" style="width: 150px; height: 150px;" title="Seleccionar">
-                                <p:ajax update=":form:panelCodigo2 panelNomArea2" />
+                                <p:ajax update=":form:panelCodigo2 :form:panelNomArea2" />
                             </h:commandButton>
                         </p:panelGrid>
                         <p:panelGrid columns="2" rendered="#{registroPagoObligacionesCtrl.plantaBeneficioPopup != null}">
@@ -360,14 +360,14 @@
                                 <p:outputLabel value="Casillero Judicial:" />
                                 <p:outputLabel value="#{registroPagoObligacionesCtrl.plantaBeneficioPopup.casilleroJudicial}" />
                                 <p:outputLabel value="Provincia:" />
-                                <p:outputLabel value="#{registroPagoObligacionesCtrl.provincia}" />
+                                <p:outputLabel value="#{registroPagoObligacionesCtrl.provincia.nombre}" />
                                 <p:outputLabel value="Cantón:" />
-                                <p:outputLabel value="#{registroPagoObligacionesCtrl.canton}" />
+                                <p:outputLabel value="#{registroPagoObligacionesCtrl.canton.nombre}" />
                                 <p:outputLabel value="Parroquia:" />
-                                <p:outputLabel value="#{registroPagoObligacionesCtrl.parroquia}" />
+                                <p:outputLabel value="#{registroPagoObligacionesCtrl.parroquia.nombre}" />
                             </p:panelGrid>
                             <h:commandButton actionListener="#{registroPagoObligacionesCtrl.seleccionarPlanta}" image="resources/images/select.png" style="width: 150px; height: 150px;" title="Seleccionar" >
-                                <p:ajax update=":form:panelCodigo2 panelNomArea2" />
+                                <p:ajax update=":form:panelCodigo2 :form:panelNomArea2" />
                             </h:commandButton>
                         </p:panelGrid>
                     </h:panelGroup> 
