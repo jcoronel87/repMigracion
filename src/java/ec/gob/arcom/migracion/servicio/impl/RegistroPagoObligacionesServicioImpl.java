@@ -34,4 +34,9 @@ public class RegistroPagoObligacionesServicioImpl extends GenericServiceImpl<Reg
         return registroPagoObligacionesDao.obtenerPorCodigoRegistroPagoObligaciones(codigoRegistroPagoObligaciones);
     }
 
+    @Override
+    public void actualizarRegistroPagoObligaciones(RegistroPagoObligaciones registroPagoObligaciones) throws Exception {
+        registroPagoObligacionesDao.actualizarRegistroPagoObligaciones(registroPagoObligaciones);
+    }
+
 }

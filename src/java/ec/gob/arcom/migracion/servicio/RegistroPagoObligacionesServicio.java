@@ -18,4 +18,6 @@ public interface RegistroPagoObligacionesServicio extends GenericService<Registr
 
     RegistroPagoObligaciones obtenerPorCodigoRegistroPagoObligaciones(Long codigoRegistroPagoObligaciones);
 
+    void actualizarRegistroPagoObligaciones(RegistroPagoObligaciones registroPagoObligaciones) throws Exception;
+
 }

@@ -99,6 +99,9 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
             } else {
                 registroPagoObligacionesAutoGestion = registroPagoObligacionesServicio.obtenerPorCodigoRegistroPagoObligaciones(idRegistroPagoObligaciones);
                 registroPagoObligacionesAutoGestionAnterior = registroPagoObligacionesServicio.obtenerPorCodigoRegistroPagoObligaciones(idRegistroPagoObligaciones);
+                registroPagoObligacionesAutoGestion.getCodigoConcesion();
+                registroPagoObligacionesAutoGestion.getCodigoLicenciaComercializacion();
+                registroPagoObligacionesAutoGestion.getCodigoPlantaBeneficio();
             }
         }
         return registroPagoObligacionesAutoGestion;
@@ -164,7 +167,7 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
                 System.out.println("entra update");
                 registroPagoObligacionesAutoGestion.setFechaModificacion(new Date());
                 registroPagoObligacionesAutoGestion.setUsuarioModificacion(BigInteger.valueOf(us.getCodigoUsuario()));
-                //registroPagoObligacionesServicio.actualizar(licenciaComercializacion);
+                registroPagoObligacionesServicio.actualizarRegistroPagoObligaciones(registroPagoObligacionesAutoGestion);
                 Auditoria auditoria = new Auditoria();
                 auditoria.setAccion("UPDATE");
                 auditoria.setDetalleAnterior(registroPagoObligacionesAutoGestionAnterior.toString());
