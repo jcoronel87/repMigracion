@@ -149,3 +149,11 @@ h2 {
     /*color:gray;*/
     margin-bottom: 0px; 
 }
+
+.centrado{
+    text-align: center;
+}
+
+h2 {
+    color: white;
+}

@@ -27,7 +27,6 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.model.SelectItem;
-import org.primefaces.model.NestedSelectItem;
 
 /**
  *
@@ -75,6 +74,7 @@ public class SelectItemCtrl {
     private List<SelectItem> tiposSolicitud;
     private List<SelectItem> librosInscripcion;
     private List<SelectItem> conceptosDePago;
+    private List<SelectItem> tiposMaterial;
 
     public List<SelectItem> getEstadosCatalogo() {
         if (estadosCatalogo == null) {
@@ -451,6 +451,23 @@ public class SelectItemCtrl {
 
     public void setConceptosDePago(List<SelectItem> conceptosDePago) {
         this.conceptosDePago = conceptosDePago;
+    }
+
+    public List<SelectItem> getTiposMaterial() {
+        if (tiposMaterial == null) {
+           tiposMaterial = new ArrayList<>();
+            Catalogo catalogoTipoMaterial = catalogoServicio.findByNemonico("MATEXP");
+            List<CatalogoDetalle> tipMatCat = catalogoDetalleServicio.obtenerPorCatalogo(catalogoTipoMaterial.getCodigoCatalogo());
+
+            for (CatalogoDetalle tipMat : tipMatCat) {
+                tiposMaterial.add(new SelectItem(tipMat.getCodigoCatalogoDetalle(), tipMat.getNombre().toUpperCase()));
+            } 
+        }
+        return tiposMaterial;
+    }
+
+    public void setTiposMaterial(List<SelectItem> tiposMaterial) {
+        this.tiposMaterial = tiposMaterial;
     }
 
 }

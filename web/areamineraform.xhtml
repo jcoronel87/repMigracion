@@ -6,13 +6,13 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:pe="http://primefaces.org/ui/extensions">
 
-    <ui:composition template="/templates/basetemplate.xhtml">
+    <ui:composition template="/templates/page-template_pf.xhtml">
         <ui:define name="title">
             <h:outputText value="Actualización de Datos"/>
         </ui:define>
 
         <ui:define name="content">
-            <h2 class="titulo_centrado">AREA MINERA MIGRADA DESDE SADMIN</h2>
+            <h2 class="titulo_centrado" style="width: 55.5%;position: relative;right: -299px;">AREA MINERA MIGRADA DESDE SADMIN</h2>
             <h:form id="form">
 
                 <p:growl id="growl" showDetail="true" showSummary="false" life="8000" autoUpdate="true"/>
@@ -147,7 +147,7 @@
                             <f:selectItem itemLabel="Zona 18" itemValue="18" />
                         </p:selectOneRadio>
 
-                        <p:outputLabel for="superficie" value="Superficie (Hectáreas:"></p:outputLabel>
+                        <p:outputLabel for="superficie" value="Superficie (Hectáreas):"></p:outputLabel>
                         <pe:inputNumber id="superficie" thousandSeparator="," decimalSeparator="." decimalPlaces="2" maxValue="99999.99" value="#{sadminDataCtrl.sadminData.superficie}" 
                                         required="true" requiredMessage="Superficie es requerida" style="width: 93%"/>
 

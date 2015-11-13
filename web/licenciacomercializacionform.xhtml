@@ -6,18 +6,21 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:pe="http://primefaces.org/ui/extensions">
 
-    <ui:composition template="/templates/basetemplate.xhtml">
+    <ui:composition template="/templates/page-template_pf.xhtml">
         <ui:define name="title">
             <h:outputText value="Actualización de Datos"/>
         </ui:define>
 
         <ui:define name="content">
-            <h2 class="titulo_centrado">LICENCIA COMERCIALIZACION</h2>
+            
             <h:form id="form">
 
                 <p:growl id="growl" showDetail="true" showSummary="false" life="8000" autoUpdate="true"/>
                 <h:panelGrid columns="2">
                     <p:outputLabel value="&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                   &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                   &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+                                   &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
                                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
                                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
                                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
@@ -34,6 +37,7 @@
                         </h:commandLink>
                     </h:panelGroup>
                 </h:panelGrid>
+                <h2 class="titulo_centrado" style="width: 55.5%;position: relative;right: -299px;">LICENCIA COMERCIALIZACION</h2>
                 <p:panelGrid columns="2" styleClass="panel_grid_center" columnClasses="form-label-width, form-input">
                     <f:facet name="header">
                         <h:panelGroup style="display:block; text-align:center">

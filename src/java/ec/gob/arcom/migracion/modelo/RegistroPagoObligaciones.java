@@ -36,6 +36,7 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "RegistroPagoObligaciones.findAll", query = "SELECT r FROM RegistroPagoObligaciones r")})
 public class RegistroPagoObligaciones implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -218,6 +219,24 @@ public class RegistroPagoObligaciones implements Serializable {
     private Long codigoDerechoMinero;
     @Transient
     private String nombreDerechoMinero;
+    @Transient
+    private Double superficie;
+    @Transient
+    private BigInteger codigoProvincia;
+    @Transient
+    private BigInteger codigoCanton;
+    @Transient
+    private BigInteger codigoParroquia;
+    @Transient
+    private Long codigoRegimen;
+    @Transient
+    private Long codigoFase;
+    @Transient
+    private Long codigoTipoMineral;
+    @Transient
+    private String numeroRuc;
+    @Transient
+    private String concesionario;
 
     public RegistroPagoObligaciones() {
     }
@@ -243,21 +262,20 @@ public class RegistroPagoObligaciones implements Serializable {
     }
 
     /*public BigInteger getCodigoLicenciaComercializacion() {
-        return codigoLicenciaComercializacion;
-    }
+     return codigoLicenciaComercializacion;
+     }
 
-    public void setCodigoLicenciaComercializacion(BigInteger codigoLicenciaComercializacion) {
-        this.codigoLicenciaComercializacion = codigoLicenciaComercializacion;
-    }
+     public void setCodigoLicenciaComercializacion(BigInteger codigoLicenciaComercializacion) {
+     this.codigoLicenciaComercializacion = codigoLicenciaComercializacion;
+     }
 
-    public BigInteger getCodigoPlantaBeneficio() {
-        return codigoPlantaBeneficio;
-    }
+     public BigInteger getCodigoPlantaBeneficio() {
+     return codigoPlantaBeneficio;
+     }
 
-    public void setCodigoPlantaBeneficio(BigInteger codigoPlantaBeneficio) {
-        this.codigoPlantaBeneficio = codigoPlantaBeneficio;
-    }*/
-
+     public void setCodigoPlantaBeneficio(BigInteger codigoPlantaBeneficio) {
+     this.codigoPlantaBeneficio = codigoPlantaBeneficio;
+     }*/
     public Date getFechaEmisionPago() {
         return fechaEmisionPago;
     }
@@ -315,13 +333,12 @@ public class RegistroPagoObligaciones implements Serializable {
     }
 
     /*public Serializable getXmlData() {
-        return xmlData;
-    }
+     return xmlData;
+     }
 
-    public void setXmlData(Serializable xmlData) {
-        this.xmlData = xmlData;
-    }*/
-
+     public void setXmlData(Serializable xmlData) {
+     this.xmlData = xmlData;
+     }*/
     public BigInteger getCodigoSolicitud() {
         return codigoSolicitud;
     }
@@ -686,6 +703,17 @@ public class RegistroPagoObligaciones implements Serializable {
         if (codigoConcesion != null) {
             codigoDerechoMinero = Long.valueOf(codigoConcesion.getCodigoArcom());
             nombreDerechoMinero = codigoConcesion.getNombreConcesion();
+            superficie = codigoConcesion.getNumeroHectareasConcesion();
+            codigoProvincia = codigoConcesion.getCodigoProvincia();
+            codigoCanton = codigoConcesion.getCodigoCanton();
+            codigoParroquia = codigoConcesion.getCodigoParroquia();
+            if (codigoConcesion.getCodigoRegimen() != null) {
+                codigoRegimen = codigoConcesion.getCodigoRegimen().getCodigoRegimen();
+            }
+            codigoFase = codigoConcesion.getCodigoFase().getCodigoFase();
+            codigoTipoMineral = Long.valueOf(codigoConcesion.getTipoMaterial());
+            numeroRuc = codigoConcesion.getDocumentoConcesionarioPrincipal();
+            concesionario = codigoConcesion.getNombreConcesionarioPrincipal() + " " + codigoConcesion.getApellidoConcesionarioPrincipal();
         }
         return codigoConcesion;
     }
@@ -762,6 +790,17 @@ public class RegistroPagoObligaciones implements Serializable {
         if (codigoLicenciaComercializacion != null) {
             codigoDerechoMinero = Long.valueOf(codigoLicenciaComercializacion.getCodigoArcom());
             nombreDerechoMinero = codigoLicenciaComercializacion.getNombre();
+            //superficie = codigoLicenciaComercializacion.get;
+            codigoProvincia = codigoConcesion.getCodigoProvincia();
+            codigoCanton = codigoConcesion.getCodigoCanton();
+            codigoParroquia = codigoConcesion.getCodigoParroquia();
+            if (codigoConcesion.getCodigoRegimen() != null) {
+                codigoRegimen = codigoConcesion.getCodigoRegimen().getCodigoRegimen();
+            }
+            codigoFase = codigoConcesion.getCodigoFase().getCodigoFase();
+            codigoTipoMineral = Long.valueOf(codigoConcesion.getTipoMaterial());
+            numeroRuc = codigoConcesion.getDocumentoConcesionarioPrincipal();
+            concesionario = codigoConcesion.getNombreConcesionarioPrincipal() + " " + codigoConcesion.getApellidoConcesionarioPrincipal();
         }
         return codigoLicenciaComercializacion;
     }
@@ -801,6 +840,78 @@ public class RegistroPagoObligaciones implements Serializable {
         this.codigoSujetoMinero = codigoSujetoMinero;
     }
 
+    public Double getSuperficie() {
+        return superficie;
+    }
+
+    public void setSuperficie(Double superficie) {
+        this.superficie = superficie;
+    }
+
+    public BigInteger getCodigoProvincia() {
+        return codigoProvincia;
+    }
+
+    public void setCodigoProvincia(BigInteger codigoProvincia) {
+        this.codigoProvincia = codigoProvincia;
+    }
+
+    public BigInteger getCodigoCanton() {
+        return codigoCanton;
+    }
+
+    public void setCodigoCanton(BigInteger codigoCanton) {
+        this.codigoCanton = codigoCanton;
+    }
+
+    public BigInteger getCodigoParroquia() {
+        return codigoParroquia;
+    }
+
+    public void setCodigoParroquia(BigInteger codigoParroquia) {
+        this.codigoParroquia = codigoParroquia;
+    }
+
+    public Long getCodigoRegimen() {
+        return codigoRegimen;
+    }
+
+    public void setCodigoRegimen(Long codigoRegimen) {
+        this.codigoRegimen = codigoRegimen;
+    }
+
+    public Long getCodigoFase() {
+        return codigoFase;
+    }
+
+    public void setCodigoFase(Long codigoFase) {
+        this.codigoFase = codigoFase;
+    }
+
+    public Long getCodigoTipoMineral() {
+        return codigoTipoMineral;
+    }
+
+    public void setCodigoTipoMineral(Long codigoTipoMineral) {
+        this.codigoTipoMineral = codigoTipoMineral;
+    }
+
+    public String getNumeroRuc() {
+        return numeroRuc;
+    }
+
+    public void setNumeroRuc(String numeroRuc) {
+        this.numeroRuc = numeroRuc;
+    }
+
+    public String getConcesionario() {
+        return concesionario;
+    }
+
+    public void setConcesionario(String concesionario) {
+        this.concesionario = concesionario;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -825,5 +936,5 @@ public class RegistroPagoObligaciones implements Serializable {
     public String toString() {
         return "ec.gob.arcom.migracion.modelo.RegistroPagoObligaciones[ codigoRegistro=" + codigoRegistro + " ]";
     }
-    
+
 }
