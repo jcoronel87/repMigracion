@@ -9,6 +9,7 @@ import ec.gob.arcom.migracion.constantes.ConstantesEnum;
 import ec.gob.arcom.migracion.ctrl.base.BaseCtrl;
 import ec.gob.arcom.migracion.dao.UsuarioDao;
 import ec.gob.arcom.migracion.modelo.Auditoria;
+import ec.gob.arcom.migracion.modelo.CatalogoDetalle;
 import ec.gob.arcom.migracion.modelo.ConceptoPago;
 import ec.gob.arcom.migracion.modelo.ConcesionMinera;
 import static ec.gob.arcom.migracion.modelo.Instrumento_.licenciaComercializacion;
@@ -87,11 +88,11 @@ public class PatentesUtilidadesRegaliasCtrl extends BaseCtrl {
     private SujetoMinero sujetoMineroPopUpAnterior;
 
     private String identificacionSujetoMinero;
-    
+
     private List<SelectItem> provincias;
     private List<SelectItem> cantones;
     private List<SelectItem> parroquias;
-    
+
     public RegistroPagoObligaciones getPatentesRegaliasUtilidades() {
         if (patentesRegaliasUtilidades == null) {
             String registroPagoObligacionesId = getHttpServletRequestParam("idItem");
@@ -101,7 +102,8 @@ public class PatentesUtilidadesRegaliasCtrl extends BaseCtrl {
             }
             if (idRegistroPagoObligaciones == null) {
                 patentesRegaliasUtilidades = new RegistroPagoObligaciones();
-                patentesRegaliasUtilidades.setCodigoConceptoPago(new ConceptoPago());
+                //patentesRegaliasUtilidades.setCodigoConceptoPago(new ConceptoPago());
+                patentesRegaliasUtilidades.setCodigoBanco(new CatalogoDetalle());
             } else {
                 patentesRegaliasUtilidades = registroPagoObligacionesServicio.obtenerPorCodigoRegistroPagoObligaciones(idRegistroPagoObligaciones);
                 patentesRegaliasUtilidadesAnterior = registroPagoObligacionesServicio.obtenerPorCodigoRegistroPagoObligaciones(idRegistroPagoObligaciones);
@@ -127,38 +129,18 @@ public class PatentesUtilidadesRegaliasCtrl extends BaseCtrl {
 
     public String editarRegistro() {
         RegistroPagoObligaciones registroPagoObligacionesItem = (RegistroPagoObligaciones) getExternalContext().getRequestMap().get("reg");
-        return "autogestionform?faces-redirect=true&idItem=" + registroPagoObligacionesItem.getCodigoRegistro();
+        return "patentesUtilidadesRegaliasForm?faces-redirect=true&idItem=" + registroPagoObligacionesItem.getCodigoRegistro();
     }
 
-    public String guardarRegistroAutoGestion() {
+    public String guardarRegistro() {
         Usuario us = usuarioDao.obtenerPorLogin(login.getUserName());
         try {
-            if (patentesRegaliasUtilidades.getCodigoRegistro()== null) {
+            if (patentesRegaliasUtilidades.getCodigoRegistro() == null) {
                 System.out.println("entra create");
                 patentesRegaliasUtilidades.setEstadoRegistro(true);
                 patentesRegaliasUtilidades.setFechaCreacion(new Date());
                 patentesRegaliasUtilidades.setUsuarioCreacion(BigInteger.valueOf(us.getCodigoUsuario()));
                 System.out.println("registroPagoObligacionesAutoGestion.getCodigoDerechoMinero(): " + patentesRegaliasUtilidades.getCodigoDerechoMinero());
-                if (patentesRegaliasUtilidades.getCodigoTipoRegistro().equals(ConstantesEnum.TIPO_SOLICITUD_CONS_MIN.getCodigo())
-                        || patentesRegaliasUtilidades.getCodigoTipoRegistro().equals(ConstantesEnum.TIPO_SOLICITUD_LIB_APR.getCodigo())
-                        || patentesRegaliasUtilidades.getCodigoTipoRegistro().equals(ConstantesEnum.TIPO_SOLICITUD_MIN_ART.getCodigo())) {
-                    System.out.println("entra if concesion");
-                    ConcesionMinera cm = new ConcesionMinera();
-                    cm.setCodigoConcesion(patentesRegaliasUtilidades.getCodigoDerechoMinero());
-                    patentesRegaliasUtilidades.setCodigoConcesion(cm);
-                }
-                if (patentesRegaliasUtilidades.getCodigoTipoRegistro().equals(ConstantesEnum.TIPO_SOLICITUD_LIC_COM.getCodigo())) {
-                    System.out.println("entra if licencia");
-                    LicenciaComercializacion lc = new LicenciaComercializacion();
-                    lc.setCodigoLicenciaComercializacion(patentesRegaliasUtilidades.getCodigoDerechoMinero());
-                    patentesRegaliasUtilidades.setCodigoLicenciaComercializacion(lc);
-                }
-                if (patentesRegaliasUtilidades.getCodigoTipoRegistro().equals(ConstantesEnum.TIPO_SOLICITUD_PLAN_BEN.getCodigo())) {
-                    System.out.println("entra if planta");
-                    PlantaBeneficio pb = new PlantaBeneficio();
-                    pb.setCodigoPlantaBeneficio(patentesRegaliasUtilidades.getCodigoDerechoMinero());
-                    patentesRegaliasUtilidades.setCodigoPlantaBeneficio(pb);
-                }
                 registroPagoObligacionesServicio.create(patentesRegaliasUtilidades);
                 Auditoria auditoria = new Auditoria();
                 auditoria.setAccion("INSERT");
@@ -189,7 +171,7 @@ public class PatentesUtilidadesRegaliasCtrl extends BaseCtrl {
                     "No se pudo guardar el registro", ex.getMessage()));
             ex.printStackTrace();
         }
-        return "autogestion";
+        return "patentesUtilidadesRegalias";
     }
 
     public List<RegistroPagoObligaciones> getListaPatentesRegaliasUtilidades() {
@@ -425,8 +407,10 @@ public class PatentesUtilidadesRegaliasCtrl extends BaseCtrl {
             List<Localidad> provinciasCat = localidadServicio.findByLocalidadPadre(BigInteger.valueOf(catalogoProvincia.getCodigoLocalidad()));
 
             for (Localidad provincia : provinciasCat) {
-                provincias.add(new SelectItem(provincia.getCodigoInternacional(), provincia.getNombre().toUpperCase()));
+                provincias.add(new SelectItem(provincia.getCodigoLocalidad(), provincia.getNombre().toUpperCase()));
             }
+            cantones = null;
+            parroquias = null;
         }
         return provincias;
     }
@@ -436,8 +420,8 @@ public class PatentesUtilidadesRegaliasCtrl extends BaseCtrl {
     }
 
     public List<SelectItem> getCantones() {
-        if (cantones == null) {
-            cantones = new ArrayList<>();
+        if (cantones == null || cantones.isEmpty()) {
+            cantones = new ArrayList<>(); 
             if (patentesRegaliasUtilidades.getCodigoProvincia() == null) {
                 return cantones;
             }
@@ -457,7 +441,7 @@ public class PatentesUtilidadesRegaliasCtrl extends BaseCtrl {
     public void setCantones(List<SelectItem> cantones) {
         this.cantones = cantones;
     }
-    
+
     public void cargaCantones() {
         cantones = null;
         parroquias = null;
@@ -467,7 +451,7 @@ public class PatentesUtilidadesRegaliasCtrl extends BaseCtrl {
     }
 
     public List<SelectItem> getParroquias() {
-        if (parroquias == null) {
+        if (parroquias == null || parroquias.isEmpty()) {
             parroquias = new ArrayList<>();
             if (patentesRegaliasUtilidades.getCodigoCanton() == null) {
                 return parroquias;
@@ -488,7 +472,7 @@ public class PatentesUtilidadesRegaliasCtrl extends BaseCtrl {
     public void setParroquias(List<SelectItem> parroquias) {
         this.parroquias = parroquias;
     }
-    
+
     public void cargaParroquias() {
         parroquias = null;
         getParroquias();

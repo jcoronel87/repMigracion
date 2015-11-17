@@ -5,6 +5,7 @@
  */
 package ec.gob.arcom.migracion.modelo;
 
+import ec.gob.arcom.migracion.util.Comunes;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -710,8 +711,12 @@ public class RegistroPagoObligaciones implements Serializable {
             if (codigoConcesion.getCodigoRegimen() != null) {
                 codigoRegimen = codigoConcesion.getCodigoRegimen().getCodigoRegimen();
             }
-            codigoFase = codigoConcesion.getCodigoFase().getCodigoFase();
-            codigoTipoMineral = Long.valueOf(codigoConcesion.getTipoMaterial());
+            if (codigoConcesion.getCodigoFase() != null) {
+                codigoFase = codigoConcesion.getCodigoFase().getCodigoFase();
+            }
+            if (Comunes.isNumeric(codigoConcesion.getTipoMaterial())) {
+                codigoTipoMineral = Long.valueOf(codigoConcesion.getTipoMaterial());
+            }
             numeroRuc = codigoConcesion.getDocumentoConcesionarioPrincipal();
             concesionario = codigoConcesion.getNombreConcesionarioPrincipal() + " " + codigoConcesion.getApellidoConcesionarioPrincipal();
         }
@@ -791,16 +796,16 @@ public class RegistroPagoObligaciones implements Serializable {
             codigoDerechoMinero = Long.valueOf(codigoLicenciaComercializacion.getCodigoArcom());
             nombreDerechoMinero = codigoLicenciaComercializacion.getNombre();
             //superficie = codigoLicenciaComercializacion.get;
-            codigoProvincia = codigoConcesion.getCodigoProvincia();
-            codigoCanton = codigoConcesion.getCodigoCanton();
-            codigoParroquia = codigoConcesion.getCodigoParroquia();
-            if (codigoConcesion.getCodigoRegimen() != null) {
-                codigoRegimen = codigoConcesion.getCodigoRegimen().getCodigoRegimen();
-            }
-            codigoFase = codigoConcesion.getCodigoFase().getCodigoFase();
-            codigoTipoMineral = Long.valueOf(codigoConcesion.getTipoMaterial());
-            numeroRuc = codigoConcesion.getDocumentoConcesionarioPrincipal();
-            concesionario = codigoConcesion.getNombreConcesionarioPrincipal() + " " + codigoConcesion.getApellidoConcesionarioPrincipal();
+            codigoProvincia = codigoLicenciaComercializacion.getCodigoProvincia();
+            codigoCanton = codigoLicenciaComercializacion.getCodigoCanton();
+            codigoParroquia = codigoLicenciaComercializacion.getCodigoParroquida();
+            /*if (codigoConcesion.getCodigoRegimen() != null) {
+             codigoRegimen = codigoConcesion.getCodigoRegimen().getCodigoRegimen();
+             }
+             codigoFase = codigoConcesion.getCodigoFase().getCodigoFase();
+             codigoTipoMineral = Long.valueOf(codigoConcesion.getTipoMaterial());*/
+            numeroRuc = codigoLicenciaComercializacion.getNumeroDocumento();
+            concesionario = codigoLicenciaComercializacion.getNombre() + " " + codigoLicenciaComercializacion.getApellido();
         }
         return codigoLicenciaComercializacion;
     }
@@ -813,6 +818,19 @@ public class RegistroPagoObligaciones implements Serializable {
         if (codigoPlantaBeneficio != null) {
             codigoDerechoMinero = Long.valueOf(codigoPlantaBeneficio.getCodigoArcom());
             nombreDerechoMinero = codigoPlantaBeneficio.getNombrePlantaBeneficio();
+            codigoDerechoMinero = Long.valueOf(codigoPlantaBeneficio.getCodigoArcom());
+            nombreDerechoMinero = codigoPlantaBeneficio.getNombrePlantaBeneficio();
+            //superficie = codigoLicenciaComercializacion.get;
+            codigoProvincia = codigoPlantaBeneficio.getCodigoProvincia();
+            codigoCanton = codigoPlantaBeneficio.getCodigoCanton();
+            codigoParroquia = codigoPlantaBeneficio.getCodigoParroquida();
+            /*if (codigoConcesion.getCodigoRegimen() != null) {
+             codigoRegimen = codigoConcesion.getCodigoRegimen().getCodigoRegimen();
+             }
+             codigoFase = codigoConcesion.getCodigoFase().getCodigoFase();
+             codigoTipoMineral = Long.valueOf(codigoConcesion.getTipoMaterial());*/
+            numeroRuc = codigoPlantaBeneficio.getNumeroDocumentoRepresentanteLegal();
+            concesionario = codigoPlantaBeneficio.getNombreRepresentanteLegal() + " " + codigoPlantaBeneficio.getApellidoRepresentanteLegal();
         }
         return codigoPlantaBeneficio;
     }

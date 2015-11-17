@@ -70,7 +70,7 @@ public class RegistroPagoObligacionesDaoEjb extends GenericDaoEjbEl<RegistroPago
         }
         sql += "fecha_emision_pago = '" + registroPagoObligaciones.getFechaEmisionPago() + "', \n";
         if (registroPagoObligaciones.getCodigoBanco() != null) {
-            sql += "codigo_banco = " + registroPagoObligaciones.getCodigoBanco().getCodigoCatalogo().getCodigoCatalogo() + ", \n";
+            sql += "codigo_banco = " + registroPagoObligaciones.getCodigoBanco().getCodigoCatalogoDetalle() + ", \n";
         } else {
             sql += "codigo_banco = " + null + ", \n";
         }
@@ -190,9 +190,14 @@ public class RegistroPagoObligacionesDaoEjb extends GenericDaoEjbEl<RegistroPago
         sql += "valor_concepto_pago = " + registroPagoObligaciones.getValorConceptoPago() + ", \n";
         sql += "subsanar_pago = " + registroPagoObligaciones.getSubsanarPago() + ", \n";
         sql += "presenta_documentos = " + registroPagoObligaciones.getPresentaDocumentos() + ", \n";
+        if (registroPagoObligaciones.getFechaPresentacion() != null) {
+            sql += "fecha_presentacion = '" + registroPagoObligaciones.getFechaPresentacion() + "', \n";
+        } else {
+            sql += "fecha_presentacion = " + null + ", \n";
+        }
         sql += "codigo_tipo_registro = " + registroPagoObligaciones.getCodigoTipoRegistro() + " \n";
         sql += "WHERE codigo_registro = " + registroPagoObligaciones.getCodigoRegistro();
-        
+
         Query query = em.createNativeQuery(sql);
         query.executeUpdate();
     }

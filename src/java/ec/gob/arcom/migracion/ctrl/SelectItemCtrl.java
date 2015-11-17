@@ -75,6 +75,7 @@ public class SelectItemCtrl {
     private List<SelectItem> librosInscripcion;
     private List<SelectItem> conceptosDePago;
     private List<SelectItem> tiposMaterial;
+    private List<SelectItem> entidadesBancarias;
 
     public List<SelectItem> getEstadosCatalogo() {
         if (estadosCatalogo == null) {
@@ -455,19 +456,36 @@ public class SelectItemCtrl {
 
     public List<SelectItem> getTiposMaterial() {
         if (tiposMaterial == null) {
-           tiposMaterial = new ArrayList<>();
+            tiposMaterial = new ArrayList<>();
             Catalogo catalogoTipoMaterial = catalogoServicio.findByNemonico("MATEXP");
             List<CatalogoDetalle> tipMatCat = catalogoDetalleServicio.obtenerPorCatalogo(catalogoTipoMaterial.getCodigoCatalogo());
 
             for (CatalogoDetalle tipMat : tipMatCat) {
                 tiposMaterial.add(new SelectItem(tipMat.getCodigoCatalogoDetalle(), tipMat.getNombre().toUpperCase()));
-            } 
+            }
         }
         return tiposMaterial;
     }
 
     public void setTiposMaterial(List<SelectItem> tiposMaterial) {
         this.tiposMaterial = tiposMaterial;
+    }
+
+    public List<SelectItem> getEntidadesBancarias() {
+        if (entidadesBancarias == null) {
+            entidadesBancarias = new ArrayList<>();
+            Catalogo catalogoBanco = catalogoServicio.findByNemonico("BANCO");
+            List<CatalogoDetalle> bancoCat = catalogoDetalleServicio.obtenerPorCatalogo(catalogoBanco.getCodigoCatalogo());
+
+            for (CatalogoDetalle banco : bancoCat) {
+                entidadesBancarias.add(new SelectItem(banco.getCodigoCatalogoDetalle(), banco.getNombre().toUpperCase()));
+            }
+        }
+        return entidadesBancarias;
+    }
+
+    public void setEntidadesBancarias(List<SelectItem> entidadesBancarias) {
+        this.entidadesBancarias = entidadesBancarias;
     }
 
 }

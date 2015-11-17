@@ -29,7 +29,7 @@
                                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
                                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;" style="width: 80%"/>
                     <h:panelGroup style="text-align: right; right: -93%;">
-                        <h:commandLink action="patentesRegaliasUtilidades?faces-redirect=true" title="Volver" styleClass="boton_salir" immediate="true">
+                        <h:commandLink action="patentesUtilidadesRegalias?faces-redirect=true" title="Volver" styleClass="boton_salir" immediate="true">
                             <h:panelGrid style="text-align:center">
                                 <h:graphicImage value="resources/images/back57.png" title="Volver" style="width: 50px; height: 50px"/>
                                 <h:outputText value="Volver"/>
@@ -50,18 +50,18 @@
                                          required="true" requiredMessage="Tipo de registro es requerido" style="width: 93%">
                             <f:selectItem itemValue="" itemLabel="--Seleccione una opción--" />
                             <f:selectItems value="#{selectItemCtrl.tiposSolicitud}" />
-                            <p:ajax listener="#{patentesUtilidadesRegaliasCtrl.cambiarPopUp}" />
+                            <p:ajax listener="#{patentesUtilidadesRegaliasCtrl.cambiarPopUp}" immediate="true"/>
                         </p:selectOneMenu>
                         <p:outputLabel value="Código derecho minero:" />
                         <h:panelGrid columns="2">
                             <p:inputText id="codDerMin" value="#{patentesUtilidadesRegaliasCtrl.patentesRegaliasUtilidades.codigoDerechoMinero}"
                                          readonly="true"/>
                             <p:commandLink id="botonBusquedaCodigo" onclick="PF('dlgBusqCod').show();" 
-                                           title="Buscar código">
+                                           title="Buscar código" immediate="true">
                                 <h:panelGrid style="text-align:center">
                                     <h:graphicImage value="resources/images/barcode.png" title="Buscar código" style="width: 40px; height: 40px"/>
                                 </h:panelGrid>
-                                <f:ajax execute="tipRegistro"/>
+                                <f:ajax execute="tipRegistro" immediate="true"/>
                             </p:commandLink>
                         </h:panelGrid>
                         <f:facet name="footer">
@@ -71,87 +71,124 @@
                         </f:facet>
                     </p:panelGrid>
                     <h:panelGrid columns="2">
-                        <p:panelGrid id="panelInf" columns="2" columnClasses="form-label-width, form-input">
+                        <p:panelGrid id="panelInf" columns="2" columnClasses="form-label-width, form-input-bold" style="width: 99%">
                             <f:facet name="header">
                                 <h:panelGroup style="display:block; text-align:center">
                                     <p:outputLabel value="INFORMACION DE AREA"/>
                                 </h:panelGroup>
                             </f:facet>
+
+                            <p:outputLabel for="numDoc" value="Cédula/RUC titular:"></p:outputLabel>
+                            <p:inputMask id="numDoc" mask="9?999999999999" value="#{patentesUtilidadesRegaliasCtrl.patentesRegaliasUtilidades.numeroRuc}" size="25"
+                                         maxlength="13" placeHolder="" disabled="#{facesContext.renderResponse}" >
+                            </p:inputMask>
+
+                            <p:outputLabel for="nomApTit" value="Concesionario:"></p:outputLabel>
+                            <p:inputText id="nomApTit" value="#{patentesUtilidadesRegaliasCtrl.patentesRegaliasUtilidades.concesionario}" 
+                                         size="25" onkeypress="return acceptText(event)"
+                                         maxlength="60" disabled="true" />
+
                             <p:outputLabel for="superficie" value="Superficie (Hectáreas):"></p:outputLabel>
                             <pe:inputNumber id="superficie" thousandSeparator="," decimalSeparator="." decimalPlaces="2" maxValue="99999.99" 
                                             value="#{patentesUtilidadesRegaliasCtrl.patentesRegaliasUtilidades.superficie}" 
-                                            required="true" requiredMessage="Superficie es requerida" style="width: 93%" disabled="true"/>
+                                            style="width: 93%;" disabled="true"/>
 
                             <p:outputLabel for="somProvincia01" value="Provincia:"></p:outputLabel>
                             <p:selectOneMenu id="somProvincia01" value="#{patentesUtilidadesRegaliasCtrl.patentesRegaliasUtilidades.codigoProvincia}" 
-                                             required="true" requiredMessage="Provincia es requerida" style="width: 93%" disabled="true">
+                                             style="width: 93%; font-weight: bolder !important;" disabled="true">
                                 <f:selectItem itemValue="" itemLabel="--Seleccione una opción--" />
                                 <f:selectItems value="#{patentesUtilidadesRegaliasCtrl.provincias}"/>
                             </p:selectOneMenu>
 
                             <p:outputLabel for="somCanton01" value="Cantón:"></p:outputLabel>
                             <p:selectOneMenu id="somCanton01" value="#{patentesUtilidadesRegaliasCtrl.patentesRegaliasUtilidades.codigoCanton}" 
-                                             required="true" requiredMessage="Cantón es requerido" style="width: 93%" disabled="true">
+                                             style="width: 93%;" disabled="true">
                                 <f:selectItem itemValue="" itemLabel="--Seleccione una opción--" />
                                 <f:selectItems value="#{patentesUtilidadesRegaliasCtrl.cantones}"/>
-                                <p:ajax  listener="#{patentesUtilidadesRegaliasCtrl.cargaParroquias}" update="somParroquia01" />
                             </p:selectOneMenu>
 
                             <p:outputLabel for="somParroquia01" value="Parroquia:"></p:outputLabel>
                             <p:selectOneMenu id="somParroquia01" value="#{patentesUtilidadesRegaliasCtrl.patentesRegaliasUtilidades.codigoParroquia}" 
-                                             required="true" requiredMessage="Parroquia es requerida" style="width: 93%" disabled="true">
+                                             style="width: 93%;" disabled="true">
                                 <f:selectItem itemValue="" itemLabel="--Seleccione una opción--" />
                                 <f:selectItems value="#{patentesUtilidadesRegaliasCtrl.parroquias}"/>
                             </p:selectOneMenu>
 
                             <p:outputLabel value="Nombre área:"></p:outputLabel>
                             <p:inputText id="nomArea" value="#{patentesUtilidadesRegaliasCtrl.patentesRegaliasUtilidades.nombreDerechoMinero}" 
-                                         size="50" required="true" requiredMessage="Nombre requerido" onkeypress="return acceptText(event)"
-                                         maxlength="30" disabled="true"/>
+                                         size="25" onkeypress="return acceptText(event)"
+                                         maxlength="30" disabled="true" />
 
                             <p:outputLabel value="Régimen:"></p:outputLabel>
-                            <p:selectOneMenu value="#{patentesUtilidadesRegaliasCtrl.patentesRegaliasUtilidades.codigoRegimen}" style="width: 93%"
-                                             disabled="true">
+                            <p:selectOneMenu value="#{patentesUtilidadesRegaliasCtrl.patentesRegaliasUtilidades.codigoRegimen}" 
+                                             style="width: 93%;" disabled="true">
                                 <f:selectItem itemValue="" itemLabel="--Seleccione una opción--" />
                                 <f:selectItems value="#{selectItemCtrl.regimenes}" />
                             </p:selectOneMenu>
 
                             <p:outputLabel value="Fase:"></p:outputLabel>
-                            <p:selectOneMenu id="fase" value="#{patentesUtilidadesRegaliasCtrl.patentesRegaliasUtilidades.codigoFase}" style="width: 93%"
-                                             disabled="true">
+                            <p:selectOneMenu id="fase" value="#{patentesUtilidadesRegaliasCtrl.patentesRegaliasUtilidades.codigoFase}" 
+                                             style="width: 93%;" disabled="true">
                                 <f:selectItem itemValue="" itemLabel="--Seleccione una opción--" />
                                 <f:selectItems value="#{selectItemCtrl.fasesCodigoCatalogo}" />
                             </p:selectOneMenu>
 
                             <p:outputLabel for="mineral" value="Mineral:"></p:outputLabel>
                             <p:selectOneMenu id="mineral" value="#{patentesUtilidadesRegaliasCtrl.patentesRegaliasUtilidades.codigoTipoMineral}" 
-                                             required="true" requiredMessage="Mineral es requerido" style="width: 93%" disabled="true"> 
+                                             style="width: 93%;" disabled="true"> 
                                 <f:selectItem itemValue="" itemLabel="--Seleccione una opción--" />
                                 <f:selectItems value="#{selectItemCtrl.tiposMaterial}"/>
                             </p:selectOneMenu>
 
-                            <p:outputLabel for="numDoc" value="Cédula/RUC titular:"></p:outputLabel>
-                            <p:inputMask id="numDoc" mask="9?999999999999" value="#{patentesUtilidadesRegaliasCtrl.patentesRegaliasUtilidades.numeroRuc}" size="50"
-                                         maxlength="13" placeHolder="" required="true" requiredMessage="Cédula/RUC es requerido" disabled="#{facesContext.renderResponse}">
-                            </p:inputMask>
-
-                            <p:outputLabel for="nomApTit" value="Concesionario:"></p:outputLabel>
-                            <p:inputText id="nomApTit" value="#{patentesUtilidadesRegaliasCtrl.patentesRegaliasUtilidades.concesionario}" required="true" 
-                                         requiredMessage="Nombres titular es requerido" size="50" onkeypress="return acceptText(event)"
-                                         maxlength="60" disabled="true"/>
                             <f:facet name="footer">
                                 <h:panelGroup style="display:block; text-align:center; height: 24px">
                                     <p:outputLabel value=""/>
                                 </h:panelGroup>
                             </f:facet>
                         </p:panelGrid>
-                        <p:panelGrid columns="2" columnClasses="form-label-width, form-input">
+                        <p:panelGrid columns="2" columnClasses="form-label-width, form-input" style="width: 100%">
                             <f:facet name="header">
                                 <h:panelGroup style="display:block; text-align:center">
                                     <p:outputLabel value="INFORMACION DE PAGO"/>
                                 </h:panelGroup>
                             </f:facet>
 
+                            <p:outputLabel for="valorPagado" value="Valor pagado:"></p:outputLabel>
+                            <pe:inputNumber id="valorPagado" thousandSeparator="," decimalSeparator="." decimalPlaces="2" maxValue="99999.99" 
+                                            value="#{patentesUtilidadesRegaliasCtrl.patentesRegaliasUtilidades.valorPago}" 
+                                            required="true" requiredMessage="Valor pagado es requerido" style="width: 93%"/>
+
+                            <p:outputLabel for="numCompPago" value="Número comprobante pago:"></p:outputLabel>
+                            <p:inputText id="numCompPago" value="#{patentesUtilidadesRegaliasCtrl.patentesRegaliasUtilidades.numeroComprobanteBanco}" 
+                                         required="true" requiredMessage="Número comprobante pago" size="25" 
+                                         maxlength="60" />
+
+                            <p:outputLabel for="fecRecaudacion" value="Fecha recaudación SRI:"></p:outputLabel>
+                            <p:calendar id="fecRecaudacion" placeholder="aaaa-mm-dd" navigator="true"
+                                        value="#{patentesUtilidadesRegaliasCtrl.patentesRegaliasUtilidades.fechaEmisionPago}"  
+                                        locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" />
+
+                            <p:outputLabel for="fecPresentacion" value="Fecha presentación ARCOM:"></p:outputLabel>
+                            <p:calendar id="fecPresentacion" placeholder="aaaa-mm-dd" navigator="true"
+                                        value="#{patentesUtilidadesRegaliasCtrl.patentesRegaliasUtilidades.fechaPresentacion}"  
+                                        locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" />
+
+                            <p:outputLabel value="Entidad bancaria:"></p:outputLabel>
+                            <p:selectOneMenu value="#{patentesUtilidadesRegaliasCtrl.patentesRegaliasUtilidades.codigoBanco.codigoCatalogoDetalle}" 
+                                             style="width: 93%">
+                                <f:selectItem itemValue="" itemLabel="--Seleccione una opción--" />
+                                <f:selectItems value="#{selectItemCtrl.entidadesBancarias}" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel for="numTramiteIng" value="Número trámite ingreso:"></p:outputLabel>
+                            <p:inputText id="numTramiteIng" value="#{patentesUtilidadesRegaliasCtrl.patentesRegaliasUtilidades.numeroTramite}" 
+                                         required="true" requiredMessage="Número trámite ingreso" size="25" 
+                                         maxlength="60"/>
+
+                            <p:outputLabel for="observaciones" value="Observaciones:"></p:outputLabel>
+                            <p:inputTextarea id="observaciones" value="#{patentesUtilidadesRegaliasCtrl.patentesRegaliasUtilidades.observacionCoordinadorRegional}" 
+                                             required="true" requiredMessage="Observaciones es requerida" rows="4"
+                                             maxlength="60"/>
 
                             <f:facet name="footer">
                                 <h:panelGroup style="display:block; text-align:center; height: 24px">
@@ -161,6 +198,24 @@
                         </p:panelGrid>
                     </h:panelGrid>
                 </div>
+                <div align="center" >
+                    <h:panelGroup id="botones">
+                        <h:panelGrid style="text-align:center" columns="2">
+                            <p:commandLink action="#{patentesUtilidadesRegaliasCtrl.guardarRegistro}" title="Guardar">
+                                <h:panelGrid style="text-align:center">
+                                    <h:graphicImage value="resources/images/guardar.png" title="Guardar" style="width: 60px; height: 60px"/>
+                                    <h:outputText value="Guardar"/>
+                                </h:panelGrid>
+                            </p:commandLink>
+                            <p:commandLink action="patentesUtilidadesRegalias?faces-redirect=true" title="Cancelar" immediate="true" update="growl">
+                                <h:panelGrid style="text-align:center">
+                                    <h:graphicImage value="resources/images/cancelar.png" title="Cancelar" style="width: 60px; height: 60px"/>
+                                    <h:outputText value="Cancelar"/>
+                                </h:panelGrid>
+                            </p:commandLink>
+                        </h:panelGrid>
+                    </h:panelGroup>
+                </div>
             </h:form>
             <p:dialog header="Persona Natural" widgetVar="dlgPerNat" modal="true" dynamic="true" resizable="false" draggable="false">
                 <h:form id="form4">
@@ -168,39 +223,39 @@
                     <div align="center">
                         <h:panelGrid columns="2">
                             <p:outputLabel value="Cédula/RUC titular:" />
-                            <p:inputMask id="numDoc" mask="9?999999999" value="#{licenciaComercializacionCtrl.personaNatural.numeroDocumento}" size="50" placeHolder=""
+                            <p:inputMask id="numDoc" mask="9?999999999" value="#{licenciaComercializacionCtrl.personaNatural.numeroDocumento}" size="25" placeHolder=""
                                          maxlength="10" required="true" requiredMessage="Cédula/RUC requerido"  >
                                 <p:ajax event="blur" update="@form" listener="#{licenciaComercializacionCtrl.validarCedulaPersonaNatural}"  />
                             </p:inputMask>
                             <p:outputLabel value="Nombres del titular:"></p:outputLabel>
-                            <p:inputText value="#{licenciaComercializacionCtrl.personaNatural.nombre}" required="true" requiredMessage="Nombres titular es requerido" size="50" 
+                            <p:inputText value="#{licenciaComercializacionCtrl.personaNatural.nombre}" required="true" requiredMessage="Nombres titular es requerido" size="25" 
                                          maxlength="60" onkeypress="return acceptText(event)"/>
 
                             <p:outputLabel value="Apellidos del titular:"></p:outputLabel>
-                            <p:inputText value="#{licenciaComercializacionCtrl.personaNatural.apellido}" required="true" requiredMessage="Nombres titular es requerido" size="50" 
+                            <p:inputText value="#{licenciaComercializacionCtrl.personaNatural.apellido}" required="true" requiredMessage="Nombres titular es requerido" size="25" 
                                          maxlength="60" onkeypress="return acceptText(event)"/>
 
                             <p:outputLabel value="Teléfono celular:"></p:outputLabel>
-                            <p:inputMask mask="9?999999999" value="#{licenciaComercializacionCtrl.personaNatural.celular}" size="50" placeholder=""
+                            <p:inputMask mask="9?999999999" value="#{licenciaComercializacionCtrl.personaNatural.celular}" size="25" placeholder=""
                                          validatorMessage="Teléfono celular debe tener 10 dígitos" >
                                 <f:validateLength minimum="10" maximum="10" />
                             </p:inputMask>
 
                             <p:outputLabel value="Teléfono convencional:"></p:outputLabel>
-                            <p:inputMask mask="9?99999999" value="#{licenciaComercializacionCtrl.personaNatural.telefono}" size="50" placeholder=""
+                            <p:inputMask mask="9?99999999" value="#{licenciaComercializacionCtrl.personaNatural.telefono}" size="25" placeholder=""
                                          validatorMessage="Teléfono convencional debe tener 9 dígitos">
                                 <f:validateLength minimum="9" maximum="9" />
                             </p:inputMask>
 
                             <p:outputLabel value="Casillero judicial:"></p:outputLabel>
-                            <p:inputMask mask="9?99999999999" value="#{licenciaComercializacionCtrl.personaNatural.casilleroJudicial}" size="50" placeHolder=""
+                            <p:inputMask mask="9?99999999999" value="#{licenciaComercializacionCtrl.personaNatural.casilleroJudicial}" size="25" placeHolder=""
                                          maxlength="12" required="true" requiredMessage="Casillero judicial requerido" />
 
                             <p:outputLabel value="Dirección:"></p:outputLabel>
-                            <p:inputText size="50" value="#{licenciaComercializacionCtrl.personaNatural.direccion}" required="true" requiredMessage="Dirección es requerida" maxlength="90"></p:inputText>
+                            <p:inputText size="25" value="#{licenciaComercializacionCtrl.personaNatural.direccion}" required="true" requiredMessage="Dirección es requerida" maxlength="90"></p:inputText>
 
                             <p:outputLabel value="Correo electrónico:"></p:outputLabel>
-                            <p:inputText size="50" value="#{licenciaComercializacionCtrl.personaNatural.email}" required="true" requiredMessage="Correo electrónico es requerido"
+                            <p:inputText size="25" value="#{licenciaComercializacionCtrl.personaNatural.email}" required="true" requiredMessage="Correo electrónico es requerido"
                                          validatorMessage="Correo electrónico inválido" label="Correo electrónico" maxlength="50">
                                 <f:validateRegex
                                     pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
@@ -233,54 +288,54 @@
                     <div align="center">
                         <h:panelGrid columns="2">
                             <p:outputLabel value="Cédula/RUC titular:" />
-                            <p:inputMask id="numDoc" mask="9?999999999999" value="#{licenciaComercializacionCtrl.personaJuridica.ruc}" size="50" placeHolder=""
+                            <p:inputMask id="numDoc" mask="9?999999999999" value="#{licenciaComercializacionCtrl.personaJuridica.ruc}" size="25" placeHolder=""
                                          maxlength="13" required="true" requiredMessage="Cédula/RUC requerido"  >
                                 <p:ajax event="blur" update="@form" listener="#{licenciaComercializacionCtrl.validarCedulaPersonaJuridica}"  />
                             </p:inputMask>
                             <p:outputLabel value="Nombre legal:"></p:outputLabel>
-                            <p:inputText value="#{licenciaComercializacionCtrl.personaJuridica.nombreLegal}" required="true" requiredMessage="Nombre legal es requerido" size="50" 
+                            <p:inputText value="#{licenciaComercializacionCtrl.personaJuridica.nombreLegal}" required="true" requiredMessage="Nombre legal es requerido" size="25" 
                                          maxlength="60" onkeypress="return acceptText(event)"/>
 
                             <p:outputLabel value="Nombre comercial:"></p:outputLabel>
-                            <p:inputText value="#{licenciaComercializacionCtrl.personaJuridica.nombreComercial}" required="true" requiredMessage="Nombre comercial es requerido" size="50" 
+                            <p:inputText value="#{licenciaComercializacionCtrl.personaJuridica.nombreComercial}" required="true" requiredMessage="Nombre comercial es requerido" size="25" 
                                          maxlength="60" onkeypress="return acceptText(event)"/>
 
                             <p:outputLabel value="Teléfono celular:"></p:outputLabel>
-                            <p:inputMask mask="9?999999999" value="#{licenciaComercializacionCtrl.personaJuridica.celular}" size="50" placeholder=""
+                            <p:inputMask mask="9?999999999" value="#{licenciaComercializacionCtrl.personaJuridica.celular}" size="25" placeholder=""
                                          validatorMessage="Teléfono celular debe tener 10 dígitos" >
                                 <f:validateLength minimum="10" maximum="10" />
                             </p:inputMask>
 
                             <p:outputLabel value="Teléfono convencional:"></p:outputLabel>
-                            <p:inputMask mask="9?99999999" value="#{licenciaComercializacionCtrl.personaJuridica.telefono}" size="50" placeholder=""
+                            <p:inputMask mask="9?99999999" value="#{licenciaComercializacionCtrl.personaJuridica.telefono}" size="25" placeholder=""
                                          validatorMessage="Teléfono convencional debe tener 9 dígitos">
                                 <f:validateLength minimum="9" maximum="9" />
                             </p:inputMask>
 
                             <p:outputLabel value="Casillero judicial:"></p:outputLabel>
-                            <p:inputMask mask="9?99999999999" value="#{licenciaComercializacionCtrl.personaJuridica.casilleroJudicial}" size="50" placeHolder=""
+                            <p:inputMask mask="9?99999999999" value="#{licenciaComercializacionCtrl.personaJuridica.casilleroJudicial}" size="25" placeHolder=""
                                          maxlength="12" required="true" requiredMessage="Casillero judicial requerido" />
 
                             <p:outputLabel value="Dirección:"></p:outputLabel>
-                            <p:inputText size="50" value="#{licenciaComercializacionCtrl.personaJuridica.direccion}" required="true" requiredMessage="Dirección es requerida" maxlength="90"></p:inputText>
+                            <p:inputText size="25" value="#{licenciaComercializacionCtrl.personaJuridica.direccion}" required="true" requiredMessage="Dirección es requerida" maxlength="90"></p:inputText>
 
                             <p:outputLabel value="Correo electrónico:"></p:outputLabel>
-                            <p:inputText size="50" value="#{licenciaComercializacionCtrl.personaJuridica.email}" required="true" requiredMessage="Correo electrónico es requerido"
+                            <p:inputText size="25" value="#{licenciaComercializacionCtrl.personaJuridica.email}" required="true" requiredMessage="Correo electrónico es requerido"
                                          validatorMessage="Correo electrónico inválido" label="Correo electrónico" maxlength="50">
                                 <f:validateRegex
                                     pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
                             </p:inputText>
                             <p:outputLabel value="Documento Rep. Legal:"></p:outputLabel>
-                            <p:inputMask id="numDoc2" mask="9?999999999999" value="#{licenciaComercializacionCtrl.personaJuridica.documentoRepresentanteLegal}" size="50" placeHolder=""
+                            <p:inputMask id="numDoc2" mask="9?999999999999" value="#{licenciaComercializacionCtrl.personaJuridica.documentoRepresentanteLegal}" size="25" placeHolder=""
                                          maxlength="13" required="true" requiredMessage="Cédula/RUC requerido" >
                                 <p:ajax event="blur" update="numDoc2" listener="#{licenciaComercializacionCtrl.validarCedulaRepresentanteLegal()}"  />
                             </p:inputMask>
                             <p:outputLabel value="Nombre Representante Legal:"></p:outputLabel>
-                            <p:inputText value="#{licenciaComercializacionCtrl.personaJuridica.nombreRepresentanteLegal}" required="true" requiredMessage="Nombre Rep. legal es requerido" size="50" 
+                            <p:inputText value="#{licenciaComercializacionCtrl.personaJuridica.nombreRepresentanteLegal}" required="true" requiredMessage="Nombre Rep. legal es requerido" size="25" 
                                          maxlength="60" onkeypress="return acceptText(event)"/>
 
                             <p:outputLabel value="Apellido Representante Legal:"></p:outputLabel>
-                            <p:inputText value="#{licenciaComercializacionCtrl.personaJuridica.apellidoRepresentanteLegal}" required="true" requiredMessage="Apellido Rep. legal es requerido" size="50" 
+                            <p:inputText value="#{licenciaComercializacionCtrl.personaJuridica.apellidoRepresentanteLegal}" required="true" requiredMessage="Apellido Rep. legal es requerido" size="25" 
                                          maxlength="60" onkeypress="return acceptText(event)"/>
                         </h:panelGrid>
                         <p:spacer/>
@@ -344,7 +399,7 @@
                                 <p:outputLabel value="#{patentesUtilidadesRegaliasCtrl.parroquia.nombre}" />
                             </p:panelGrid>
                             <h:commandButton actionListener="#{patentesUtilidadesRegaliasCtrl.seleccionarConcesion}" image="resources/images/select.png" style="width: 150px; height: 150px;" title="Seleccionar">
-                                <p:ajax update=":form:panelCodigo2" />
+                                <p:ajax update=":form:codDerMin :form:panelInf" />
                             </h:commandButton>
                         </h:panelGrid>
                         <p:panelGrid columns="2" rendered="#{patentesUtilidadesRegaliasCtrl.licenciaComercializacionPopup != null}">
@@ -372,7 +427,7 @@
                                 <p:outputLabel value="#{patentesUtilidadesRegaliasCtrl.parroquia.nombre}" />
                             </p:panelGrid>
                             <h:commandButton actionListener="#{patentesUtilidadesRegaliasCtrl.seleccionarLicencia}" image="resources/images/select.png" style="width: 150px; height: 150px;" title="Seleccionar">
-                                <p:ajax update=":form:panelCodigo2" />
+                                <p:ajax update=":form:panelInf" />
                             </h:commandButton>
                         </p:panelGrid>
                         <p:panelGrid columns="2" rendered="#{patentesUtilidadesRegaliasCtrl.plantaBeneficioPopup != null}">
@@ -400,7 +455,7 @@
                                 <p:outputLabel value="#{patentesUtilidadesRegaliasCtrl.parroquia.nombre}" />
                             </p:panelGrid>
                             <h:commandButton actionListener="#{patentesUtilidadesRegaliasCtrl.seleccionarPlanta}" image="resources/images/select.png" style="width: 150px; height: 150px;" title="Seleccionar" >
-                                <p:ajax update=":form:panelCodigo2" />
+                                <p:ajax update=":form:panelInf" />
                             </h:commandButton>
                         </p:panelGrid>
                     </h:panelGroup> 

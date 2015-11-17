@@ -157,3 +157,11 @@ h2 {
 h2 {
     color: white;
 }
+
+.form-input-bold {
+    text-align: left;
+    padding: 3px;
+    vertical-align: middle;
+    width: 93%;
+    font-weight: bolder !important;
+}
