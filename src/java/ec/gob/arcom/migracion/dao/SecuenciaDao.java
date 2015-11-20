@@ -19,4 +19,6 @@ public interface SecuenciaDao extends GenericDao<Secuencia, Long> {
 
     Secuencia obtenerPorTabla(String nombreTabla);
 
+    Secuencia obtenerPorNemonico(String nemonico);
+
 }

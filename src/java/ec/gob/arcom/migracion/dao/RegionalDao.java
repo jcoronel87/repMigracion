@@ -23,6 +23,6 @@ public interface RegionalDao extends GenericDao<Regional, Long> {
 
     Regional findByNombre(String nombre);
 
-    String findByCedulaRuc(String cedulaRuc);
+    String[] findByCedulaRuc(String cedulaRuc);
     
 }

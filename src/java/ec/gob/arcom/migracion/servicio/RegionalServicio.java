@@ -20,6 +20,6 @@ public interface RegionalServicio extends GenericService<Regional, Long> {
 
     Regional findByNombre(String nombre);
 
-    String findByCedulaRucUsuario(String cedulaRucUsuario);
+    String[] findByCedulaRucUsuario(String cedulaRucUsuario);
     
 }

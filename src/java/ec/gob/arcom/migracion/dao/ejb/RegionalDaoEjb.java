@@ -8,6 +8,7 @@ package ec.gob.arcom.migracion.dao.ejb;
 import com.saviasoft.persistence.util.dao.eclipselink.GenericDaoEjbEl;
 import ec.gob.arcom.migracion.dao.RegionalDao;
 import ec.gob.arcom.migracion.modelo.Regional;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -67,14 +68,19 @@ public class RegionalDaoEjb extends GenericDaoEjbEl<Regional, Long> implements
     }
 
     @Override
-    public String findByCedulaRuc(String cedulaRuc) {
-        String sql = "select nombre_regional from catmin.regional r, catmin.localidad_regional lr\n"
+    public String[] findByCedulaRuc(String cedulaRuc) {
+        String sql = "select nombre_regional, prefijo_codigo from catmin.regional r, catmin.localidad_regional lr\n"
                 + "where lr.codigo_localidad =  (select codigo_provincia from catmin.usuario where numero_documento = '" + cedulaRuc + "') \n"
                 + "and lr.codigo_regional = r.codigo_regional";
         try {
+            String[] resultado = null;
             Query query = em.createNativeQuery(sql);
-            String regional = query.getSingleResult().toString();
-            return regional;
+            List<Object[]> listaTmp = query.getResultList();
+            if (listaTmp != null && !listaTmp.isEmpty()) {
+                resultado[0] = listaTmp.get(0)[0].toString();
+                resultado[1] = listaTmp.get(0)[1].toString();
+            }
+            return resultado;
         } catch (NoResultException nrEx) {
             return null;
         }

@@ -34,4 +34,9 @@ public class SecuenciaServicioImpl extends GenericServiceImpl<Secuencia, Long>
         return secuenciaDao.obtenerPorTabla(nombreTabla);
     }
 
+    @Override
+    public Secuencia obtenerPorNemonico(String nemonico) {
+        return secuenciaDao.obtenerPorNemonico(nemonico);
+    }
+
 }

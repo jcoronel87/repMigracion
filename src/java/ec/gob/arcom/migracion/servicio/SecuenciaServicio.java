@@ -18,4 +18,6 @@ public interface SecuenciaServicio extends GenericService<Secuencia, Long> {
 
     Secuencia obtenerPorTabla(String nombreTabla);
 
+    Secuencia obtenerPorNemonico(String nemonico);
+
 }

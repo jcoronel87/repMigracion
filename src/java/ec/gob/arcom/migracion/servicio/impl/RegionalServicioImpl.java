@@ -40,7 +40,7 @@ public class RegionalServicioImpl extends GenericServiceImpl<Regional, Long>
     }
 
     @Override
-    public String findByCedulaRucUsuario(String cedulaRucUsuario) {
+    public String[] findByCedulaRucUsuario(String cedulaRucUsuario) {
         return regionalDao.findByCedulaRuc(cedulaRucUsuario);
     }
     

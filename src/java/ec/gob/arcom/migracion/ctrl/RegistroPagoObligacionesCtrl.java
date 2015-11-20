@@ -11,7 +11,6 @@ import ec.gob.arcom.migracion.dao.UsuarioDao;
 import ec.gob.arcom.migracion.modelo.Auditoria;
 import ec.gob.arcom.migracion.modelo.ConceptoPago;
 import ec.gob.arcom.migracion.modelo.ConcesionMinera;
-import static ec.gob.arcom.migracion.modelo.Instrumento_.licenciaComercializacion;
 import ec.gob.arcom.migracion.modelo.LicenciaComercializacion;
 import ec.gob.arcom.migracion.modelo.Localidad;
 import ec.gob.arcom.migracion.modelo.PlantaBeneficio;
@@ -24,6 +23,7 @@ import ec.gob.arcom.migracion.servicio.LicenciaComercializacionServicio;
 import ec.gob.arcom.migracion.servicio.LocalidadServicio;
 import ec.gob.arcom.migracion.servicio.PlantaBeneficioServicio;
 import ec.gob.arcom.migracion.servicio.RegistroPagoObligacionesServicio;
+import ec.gob.arcom.migracion.servicio.SecuenciaServicio;
 import ec.gob.arcom.migracion.servicio.SujetoMineroServicio;
 import java.math.BigInteger;
 import java.util.Date;
@@ -60,6 +60,8 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
     private SujetoMineroServicio sujetoMineroServicio;
     @EJB
     private AuditoriaServicio auditoriaServicio;
+    @EJB
+    private SecuenciaServicio secuenciaServicio;
     @ManagedProperty(value = "#{loginCtrl}")
     private LoginCtrl login;
     private RegistroPagoObligaciones registroPagoObligacionesAutoGestion;
@@ -153,10 +155,11 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
                     pb.setCodigoPlantaBeneficio(registroPagoObligacionesAutoGestion.getCodigoDerechoMinero());
                     registroPagoObligacionesAutoGestion.setCodigoPlantaBeneficio(pb);
                 }
+                //Secuencia secuencia = secuenciaServicio.obtenerPorNemonico(codigoFiltro)
                 registroPagoObligacionesServicio.create(registroPagoObligacionesAutoGestion);
                 Auditoria auditoria = new Auditoria();
                 auditoria.setAccion("INSERT");
-                auditoria.setDetalleAnterior(licenciaComercializacion.toString());
+                auditoria.setDetalleAnterior(registroPagoObligacionesAutoGestion.toString());
                 auditoria.setDetalleCambios(null);
                 auditoria.setFecha(getCurrentTimeStamp());
                 auditoria.setUsuario(BigInteger.valueOf(us.getCodigoUsuario()));
@@ -171,7 +174,7 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
                 Auditoria auditoria = new Auditoria();
                 auditoria.setAccion("UPDATE");
                 auditoria.setDetalleAnterior(registroPagoObligacionesAutoGestionAnterior.toString());
-                auditoria.setDetalleCambios(licenciaComercializacion.toString());
+                auditoria.setDetalleCambios(registroPagoObligacionesAutoGestion.toString());
                 auditoria.setFecha(getCurrentTimeStamp());
                 auditoria.setUsuario(BigInteger.valueOf(us.getCodigoUsuario()));
                 auditoriaServicio.create(auditoria);
@@ -410,6 +413,16 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
 
     public void setSujetoMineroPopUpAnterior(SujetoMinero sujetoMineroPopUpAnterior) {
         this.sujetoMineroPopUpAnterior = sujetoMineroPopUpAnterior;
+    }
+    
+    protected String formarCodigoComprobante(String prefijoComprobante, Long secuencial) {
+        //prefijoComprobante es el prefijo de la regional
+        String codigo = secuencial.toString();
+        while (codigo.length() < 8) {
+            codigo = "0" + codigo;
+        }
+        codigo = "A-" + prefijoComprobante + codigo;
+        return codigo;
     }
 
 }

@@ -8,7 +8,6 @@ package ec.gob.arcom.migracion.ctrl;
 import ec.gob.arcom.migracion.constantes.ConstantesEnum;
 import ec.gob.arcom.migracion.ctrl.base.BaseCtrl;
 import ec.gob.arcom.migracion.dao.UsuarioDao;
-import ec.gob.arcom.migracion.modelo.AreaMinera;
 import ec.gob.arcom.migracion.modelo.Auditoria;
 import ec.gob.arcom.migracion.modelo.CatalogoDetalle;
 import ec.gob.arcom.migracion.modelo.ConcesionMinera;
@@ -110,7 +109,6 @@ public class InstrumentoCtrl extends BaseCtrl {
                 instrumento.getConcesionMinera();
                 instrumento.getLicenciaComercializacion();
                 instrumento.getPlantaBeneficio();
-                cambiarPopUp();
                 if (instrumento.getClaseInscripcion() == null) {
                     instrumento.setClaseInscripcion(new CatalogoDetalle());
                 }
@@ -123,6 +121,7 @@ public class InstrumentoCtrl extends BaseCtrl {
                 if (instrumento.getLibroInscripcion() == null) {
                     instrumento.setLibroInscripcion(new CatalogoDetalle());
                 }
+                cambiarPopUp();
             }
         }
         return instrumento;

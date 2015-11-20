@@ -9,6 +9,7 @@ import com.saviasoft.persistence.util.dao.eclipselink.GenericDaoEjbEl;
 import ec.gob.arcom.migracion.dao.SecuenciaDao;
 import ec.gob.arcom.migracion.modelo.Secuencia;
 import javax.ejb.Stateless;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 /**
@@ -25,12 +26,30 @@ public class SecuenciaDaoEjb extends GenericDaoEjbEl<Secuencia, Long> implements
 
     @Override
     public Secuencia obtenerPorTabla(String nombreTabla) {
-        String hql = "select s from Secuencia s where s.tabla = :nombreTabla";
-        Query query = em.createQuery(hql);
-        query.setParameter("nombreTabla", nombreTabla);
-        Secuencia secuencia = (Secuencia) query.getSingleResult();
-        this.refresh(secuencia);
-        return secuencia;
+        try {
+            String hql = "select s from Secuencia s where s.tabla = :nombreTabla";
+            Query query = em.createQuery(hql);
+            query.setParameter("nombreTabla", nombreTabla);
+            Secuencia secuencia = (Secuencia) query.getSingleResult();
+            this.refresh(secuencia);
+            return secuencia;
+        } catch (NoResultException nrEx) {
+            return null;
+        }
+    }
+
+    @Override
+    public Secuencia obtenerPorNemonico(String nemonico) {
+        try {
+            String hql = "select s from Secuencia s where s.nemonico = :nemonico";
+            Query query = em.createQuery(hql);
+            query.setParameter("nemonico", nemonico);
+            Secuencia secuencia = (Secuencia) query.getSingleResult();
+            this.refresh(secuencia);
+            return secuencia;
+        } catch (NoResultException nrEx) {
+            return null;
+        }
     }
 
 }
