@@ -175,6 +175,12 @@ public class LicenciaComercializacionCtrl extends BaseCtrl {
         System.out.println("licenciaComercializacionItem.getCodigoLicenciaComercializacion(): " + licenciaComercializacionDtoItem.getCodigoLicenciaComercializacion());
         return "licenciacomercializacionform?faces-redirect=true&idItem=" + licenciaComercializacionDtoItem.getCodigoLicenciaComercializacion();
     }
+    
+    public String verRegistro() {
+        LicenciaComercializacionDto licenciaComercializacionDtoItem = (LicenciaComercializacionDto) getExternalContext().getRequestMap().get("reg");
+        System.out.println("licenciaComercializacionItem.getCodigoLicenciaComercializacion(): " + licenciaComercializacionDtoItem.getCodigoLicenciaComercializacion());
+        return "licenciacomercializacionformro?faces-redirect=true&idItem=" + licenciaComercializacionDtoItem.getCodigoLicenciaComercializacion();
+    }
 
     public String guardarRegistro() {
         Usuario us = usuarioDao.obtenerPorLogin(login.getUserName());

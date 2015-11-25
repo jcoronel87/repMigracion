@@ -1,6 +1,6 @@
- /* 
-    Created on : 04/03/2015, 03:30:07 PM
-    Author     : mejiaw
+/* 
+   Created on : 04/03/2015, 03:30:07 PM
+   Author     : mejiaw
 */
 body {
     width: 100%;
@@ -163,5 +163,6 @@ h2 {
     padding: 3px;
     vertical-align: middle;
     width: 93%;
-    font-weight: bolder !important;
+    color: black;
+    font-weight: bolder;
 }

@@ -12,7 +12,7 @@
         </ui:define>
 
         <ui:define name="content">
-            
+
             <h:form id="form">
 
                 <p:growl id="growl" showDetail="true" showSummary="false" life="8000" autoUpdate="true"/>
@@ -44,10 +44,6 @@
                             <p:outputLabel value="DATOS DE REGISTRO MINERO"/>
                         </h:panelGroup>
                     </f:facet>
-                    <p:outputLabel value="Número de repertorio:"></p:outputLabel>
-                    <p:inputText id="numRep" value="#{instrumentoCtrl.instrumento.numeroRepertorio}" size="50" 
-                                 required="true" requiredMessage="Número de repertorio requerido" onkeypress="return acceptNum(event)" 
-                                 maxlength="9"/>
 
                     <p:outputLabel value="Tipo de registro:"></p:outputLabel>
                     <p:selectOneMenu id="tipRegistro" value="#{instrumentoCtrl.instrumento.codigoTipoMineria.codigoTipoMineria}" required="true" requiredMessage="Tipo de registro es requerido" style="width: 93%">
@@ -99,8 +95,11 @@
                                  maxlength="30"/>
 
                     <p:outputLabel value="Cédula/RUC compareciente:"></p:outputLabel>
-                    <p:inputText value="#{instrumentoCtrl.instrumento.numeroDocumentoCompareciente}" size="50" required="false" requiredMessage="Cédula/RUC compareciente requerido" onkeypress="return acceptNum(event)"
-                                 maxlength="13"/>
+                    <p:inputText id="cedComp" value="#{instrumentoCtrl.instrumento.numeroDocumentoCompareciente}" 
+                                 size="50" required="false" requiredMessage="Cédula/RUC compareciente requerido" 
+                                 onkeypress="return acceptNum(event)" maxlength="13">
+                        <p:ajax event="blur" listener="#{instrumentoCtrl.validarCedulaCompareciente}" update="cedComp"/>
+                    </p:inputText>
 
                     <p:outputLabel value="Apellidos otorgante:"></p:outputLabel>
                     <p:inputText value="#{instrumentoCtrl.instrumento.apellidoOtorgante}" size="50" onkeypress="return acceptText(event)" style="text-transform: uppercase"
@@ -127,12 +126,6 @@
                     <p:inputText value="#{instrumentoCtrl.instrumento.naturalezaActo}" size="50" required="true" requiredMessage="Naturaleza del acto requerido" style="text-transform: uppercase"
                                  maxlength="30"/>
 
-                    <p:outputLabel value="Clase de inscripción:"></p:outputLabel>
-                    <p:selectOneMenu value="#{instrumentoCtrl.instrumento.claseInscripcion.codigoCatalogoDetalle}" required="true" requiredMessage="Clase de inscripción es requerido" style="width: 93%">
-                        <f:selectItem itemValue="" itemLabel="--Seleccione una opción--" />
-                        <f:selectItems value="#{selectItemCtrl.clasesInscripcion}" />
-                    </p:selectOneMenu>
-
                     <p:outputLabel value="Valor inscripción:"></p:outputLabel>
                     <pe:inputNumber thousandSeparator="," decimalSeparator="." decimalPlaces="2" maxValue="99999.99" value="#{instrumentoCtrl.instrumento.valorInstrumento}" 
                                     required="true" requiredMessage="Valor inscripción es requerido" style="width: 93%"/>
@@ -142,11 +135,22 @@
                                 value="#{instrumentoCtrl.instrumento.fechaInscripcion}"  
                                 locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" required="true" requiredMessage="Fecha inscripcion requerida"/>
 
+                    <p:outputLabel value="Clase de inscripción:"></p:outputLabel>
+                    <p:selectOneMenu value="#{instrumentoCtrl.instrumento.claseInscripcion.codigoCatalogoDetalle}" required="true" requiredMessage="Clase de inscripción es requerido" style="width: 93%">
+                        <f:selectItem itemValue="" itemLabel="--Seleccione una opción--" />
+                        <f:selectItems value="#{selectItemCtrl.clasesInscripcion}" />
+                    </p:selectOneMenu>
+
                     <p:outputLabel value="Libro de inscripción:"></p:outputLabel>
                     <p:selectOneMenu value="#{instrumentoCtrl.instrumento.libroInscripcion.codigoCatalogoDetalle}" required="true" requiredMessage="Libro de inscripción es requerido" style="width: 93%">
                         <f:selectItem itemValue="" itemLabel="--Seleccione una opción--" />
                         <f:selectItems value="#{selectItemCtrl.librosInscripcion}" />
                     </p:selectOneMenu>
+
+                    <p:outputLabel value="Número de repertorio:"></p:outputLabel>
+                    <p:inputText id="numRep" value="#{instrumentoCtrl.instrumento.numeroRepertorio}" size="50" 
+                                 required="true" requiredMessage="Número de repertorio requerido" onkeypress="return acceptNum(event)" 
+                                 maxlength="9"/>
 
                 </p:panelGrid>
                 <p:panelGrid columns="2" styleClass="panel_grid_center" columnClasses="form-label-width, form-input">

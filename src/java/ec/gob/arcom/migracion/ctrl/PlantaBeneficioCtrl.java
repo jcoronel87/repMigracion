@@ -178,6 +178,11 @@ public class PlantaBeneficioCtrl extends BaseCtrl {
         PlantaBeneficioDto plantaBeneficioDtoItem = (PlantaBeneficioDto) getExternalContext().getRequestMap().get("reg");
         return "plantabeneficioform?faces-redirect=true&idItem=" + plantaBeneficioDtoItem.getCodigoPlantaBeneficio();
     }
+    
+    public String verRegistro() {
+        PlantaBeneficioDto plantaBeneficioDtoItem = (PlantaBeneficioDto) getExternalContext().getRequestMap().get("reg");
+        return "plantabeneficioformro?faces-redirect=true&idItem=" + plantaBeneficioDtoItem.getCodigoPlantaBeneficio();
+    }
 
     public String guardarRegistro() {
         Usuario us = usuarioDao.obtenerPorLogin(login.getUserName());

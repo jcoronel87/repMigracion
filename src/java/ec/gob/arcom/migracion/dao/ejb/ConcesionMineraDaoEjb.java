@@ -171,7 +171,7 @@ public class ConcesionMineraDaoEjb extends GenericDaoEjbEl<ConcesionMinera, Long
                 + "and codigo not in (select codigo_arcom from catmin.licencia_comercializacion l where l.migrada = true)\n"
                 + "and codigo not in (select codigo_arcom from catmin.planta_beneficio p where p.migrada = true)\n"
                 + "and ('-1' = '" + codigoFiltro + "' or catmin.sadmin_data_.codigo = '" + codigoFiltro + "')\n"
-                + "and ('-1' = '" + cedulaTitularFiltro + "' or catmin.sadmin_data_.cedula___ruc = '" + cedulaTitularFiltro + "')\n"
+                + "and ('-1' = '" + cedulaTitularFiltro + "' or catmin.sadmin_data_.cedula___ruc like '%" + cedulaTitularFiltro + "%')\n"
                 + "and ('-1' = '" + nombreAreaFiltro + "' or lower(catmin.sadmin_data_.nombre) like lower('%" + nombreAreaFiltro + "%'))\n"
                 + "union all\n"
                 + "\n"
@@ -218,7 +218,7 @@ public class ConcesionMineraDaoEjb extends GenericDaoEjbEl<ConcesionMinera, Long
                 + "                                 and r.codigo_regional = lr.codigo_regional and lr.codigo_localidad = codigo_provincia)) "
                 + "and cm.migrada = true\n"
                 + "and ('-1' = '" + codigoFiltro + "' or cm.codigo_arcom = '" + codigoFiltro + "')\n"
-                + "and ('-1' = '" + cedulaTitularFiltro + "' or cm.documento_concesionario_principal = '" + cedulaTitularFiltro + "')\n"
+                + "and ('-1' = '" + cedulaTitularFiltro + "' or cm.documento_concesionario_principal like '%" + cedulaTitularFiltro + "%')\n"
                 + "and ('-1' = '" + nombreAreaFiltro + "' or lower(cm.nombre_concesion) like lower('%" + nombreAreaFiltro + "%'))\n"
                 + "order by 2";
         System.out.println("sql concesion: " + sql);

@@ -41,7 +41,7 @@
                                 <h:outputText value="Inicio"/>
                             </h:panelGrid>
                         </h:commandLink>
-                        <h:commandLink action="concesionmineraform" title="Nuevo" styleClass="boton_salir" >
+                        <h:commandLink action="concesionmineraform" title="Nuevo" styleClass="boton_salir" rendered="false">
                             <h:panelGrid style="text-align:center">
                                 <h:graphicImage value="resources/images/plus.png" title="Nuevo" style="width: 50px; height: 50px"/>
                                 <h:outputText value="Nuevo"/>
@@ -89,7 +89,7 @@
                     <p:column headerText="REGIONAL" style="width: 85px">
                         <h:outputText value="#{reg.nombreRegional}" />
                     </p:column>
-                    
+
                     <p:column headerText="PROVINCIA" style="width: 85px">
                         <h:outputText value="#{reg.provincia}" />
                     </p:column>
@@ -103,7 +103,8 @@
                     </p:column>
 
                     <p:column headerText="EDITAR" style="width:37px; text-align: right">
-                        <p:commandButton action="#{concesionMineraCtrl.editarRegistro}" icon="ui-icon-pencil" title="Editar" ajax="false"></p:commandButton>
+                        <p:commandButton action="#{concesionMineraCtrl.verRegistro}" 
+                                         icon="ui-button-icon-left ui-icon ui-c ui-icon-search" title="Ver" ajax="false"/>
                     </p:column>
                 </p:dataTable>
 

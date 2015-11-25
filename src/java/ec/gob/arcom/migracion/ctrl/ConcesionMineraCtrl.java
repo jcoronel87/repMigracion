@@ -361,6 +361,21 @@ public class ConcesionMineraCtrl extends BaseCtrl {
             return null;
         }
     }
+    
+    public String verRegistro() {
+        mostrarCoordenadas = true;
+        existeCodigoArcom = true;
+        ConcesionMineraDto concesionMineraDtoItem = (ConcesionMineraDto) getExternalContext().getRequestMap().get("reg");
+        if (concesionMineraDtoItem.getTipoTabla().equals("C")) {
+            return "concesionmineraformro?faces-redirect=true&idItem=" + concesionMineraDtoItem.getCodigoConcesion();
+        } else if (concesionMineraDtoItem.getTipoTabla().equals("S")) {
+            return "areamineraformro?faces-redirect=true&idItem=" + concesionMineraDtoItem.getCodigoConcesion();
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "No se encuentra el registro seleccionado", null));
+            return null;
+        }
+    }
 
     public String guardarRegistro() {
         Usuario us = usuarioDao.obtenerPorLogin(login.getUserName());

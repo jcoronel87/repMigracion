@@ -72,8 +72,9 @@ public class RegionalDaoEjb extends GenericDaoEjbEl<Regional, Long> implements
         String sql = "select nombre_regional, prefijo_codigo from catmin.regional r, catmin.localidad_regional lr\n"
                 + "where lr.codigo_localidad =  (select codigo_provincia from catmin.usuario where numero_documento = '" + cedulaRuc + "') \n"
                 + "and lr.codigo_regional = r.codigo_regional";
+        System.out.println("sql usuario findByCedulaRuc: " + sql);
         try {
-            String[] resultado = null;
+            String[] resultado = new String[2]; 
             Query query = em.createNativeQuery(sql);
             List<Object[]> listaTmp = query.getResultList();
             if (listaTmp != null && !listaTmp.isEmpty()) {

@@ -26,6 +26,7 @@ import ec.gob.arcom.migracion.servicio.LicenciaComercializacionServicio;
 import ec.gob.arcom.migracion.servicio.LocalidadServicio;
 import ec.gob.arcom.migracion.servicio.PlantaBeneficioServicio;
 import ec.gob.arcom.migracion.servicio.SujetoMineroServicio;
+import ec.gob.arcom.migracion.util.CedulaValidator;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
@@ -568,6 +569,12 @@ public class InstrumentoCtrl extends BaseCtrl {
                 sujetoMinero = false;
             }
         }
+        instrumento.setConcesionMinera(null);
+        instrumento.setLicenciaComercializacion(null);
+        instrumento.setPlantaBeneficio(null);
+        instrumento.setSujetoMinero(null);
+        instrumento.setCodigoArcomTransient(null);
+        instrumento.setDocumentoTitular(null);
     }
 
     public boolean isSujetoMinero() {
@@ -640,6 +647,37 @@ public class InstrumentoCtrl extends BaseCtrl {
 
     public void setSujetoMineroPopUpAnterior(SujetoMinero sujetoMineroPopUpAnterior) {
         this.sujetoMineroPopUpAnterior = sujetoMineroPopUpAnterior;
+    }
+    
+    public void validarCedulaCompareciente() {
+        if (instrumento.getNumeroDocumentoCompareciente() != null) {
+            if (instrumento.getNumeroDocumentoCompareciente().length() >= 10) {
+                if (instrumento.getNumeroDocumentoCompareciente().length() == 13) {
+                    String nuevaCed = instrumento.getNumeroDocumentoCompareciente().substring(
+                            0, instrumento.getNumeroDocumentoCompareciente().length() - 3);
+                    if (CedulaValidator.validate(nuevaCed)) {
+                        return;
+                    } else {
+                        instrumento.setNumeroDocumentoCompareciente(null);
+                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+                                "Número de ruc inválido", null));
+                        return;
+                    }
+                }
+                if (CedulaValidator.validate(instrumento.getNumeroDocumentoCompareciente())) {
+                    //cedulaValida = true;
+                } else {
+                    //cedulaValida = false;
+                    instrumento.setNumeroDocumentoCompareciente(null);
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+                            "Número de cédula inválida", null));
+                }
+            } else {
+                instrumento.setNumeroDocumentoCompareciente(null);
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+                        "Número de cédula inválida", null));
+            }
+        }
     }
 
 }

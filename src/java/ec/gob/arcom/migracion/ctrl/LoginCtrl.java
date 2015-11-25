@@ -43,6 +43,7 @@ public class LoginCtrl extends BaseCtrl {
     private boolean admin = false;
     private String regional;
     private String prefijoRegional;
+    private boolean usuarioLectura;
 
     public String getUserName() {
         return userName;
@@ -110,7 +111,12 @@ public class LoginCtrl extends BaseCtrl {
                 this.logged = true;
                 this.admin = true;
                 this.regional = regionalServicio.findByCedulaRucUsuario(userName)[0];
-                //this.prefijoRegional = ;
+                this.prefijoRegional = regionalServicio.findByCedulaRucUsuario(userName)[1];
+                if (usr.getCampoReservado01() != null && usr.getCampoReservado01().equals("UL")) {
+                    this.usuarioLectura = true;
+                } else {
+                    this.usuarioLectura = false;
+                }
                 return true;
             }
         }
@@ -131,6 +137,14 @@ public class LoginCtrl extends BaseCtrl {
 
     public void setPrefijoRegional(String prefijoRegional) {
         this.prefijoRegional = prefijoRegional;
+    }
+
+    public boolean isUsuarioLectura() {
+        return usuarioLectura;
+    }
+
+    public void setUsuarioLectura(boolean usuarioLectura) {
+        this.usuarioLectura = usuarioLectura;
     }
 
 }
