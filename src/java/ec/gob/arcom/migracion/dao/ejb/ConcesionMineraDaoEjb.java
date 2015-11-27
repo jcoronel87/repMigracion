@@ -8,6 +8,7 @@ package ec.gob.arcom.migracion.dao.ejb;
 import com.saviasoft.persistence.util.dao.eclipselink.GenericDaoEjbEl;
 import ec.gob.arcom.migracion.dao.ConcesionMineraDao;
 import ec.gob.arcom.migracion.dto.ConcesionMineraDto;
+import ec.gob.arcom.migracion.dto.DerechoMineroDto;
 import ec.gob.arcom.migracion.modelo.ConcesionMinera;
 import java.util.ArrayList;
 import java.util.Date;
@@ -396,7 +397,7 @@ public class ConcesionMineraDaoEjb extends GenericDaoEjbEl<ConcesionMinera, Long
             sql = sql + "    volumen_diario_explotacion = " + concesionMinera.getVolumenDiarioExplotacion() + ",\n";
         }
         //if (concesionMinera.getVolumenTotalExplotacion() != null) {
-            sql = sql + "    volumen_total_explotacion = " + concesionMinera.getVolumenTotalExplotacion() + ",\n";
+        sql = sql + "    volumen_total_explotacion = " + concesionMinera.getVolumenTotalExplotacion() + ",\n";
         //} 
         if (concesionMinera.getCasilleroJudicial() != null) {
             sql = sql + "    casillero_judicial = '" + concesionMinera.getCasilleroJudicial() + "',\n";
@@ -498,6 +499,43 @@ public class ConcesionMineraDaoEjb extends GenericDaoEjbEl<ConcesionMinera, Long
 
         Query query = em.createNativeQuery(sql);
         query.executeUpdate();
+    }
+
+    public List<DerechoMineroDto> busquedaGeneralNacional() {
+        String sql = "select sd.codigo, sd.nombre, sd.regional, sd.provincia, sd.fase, sd.estado, sd.tipo_solicitud,\n"
+                + "COALESCE(sd.titular, '') as beneficiario_principal, case when char_length (sd.cedula___ruc) = 10 then 'PN' else 'PJ' end,\n"
+                + "sd.fecha_informe\n"
+                + "from catmin.sadmin_data_ sd\n"
+                + "union\n"
+                + "select cm.codigo_arcom, cm.nombre_concesion, r.nombre_regional, prov.nombre, f.nombre_fase, est.nombre, tm.nombre_tipo_mineria,\n"
+                + "COALESCE(cm.nombre_concesionario_principal || ' ' || cm.apellido_concesionario_principal, '') as beneficiario_principal, \n"
+                + "case when char_length (cm.documento_concesionario_principal) = 10 then 'PN' else 'PJ' end, cm.fecha_creacion\n"
+                + "from catmin.concesion_minera cm, catmin.regional r, catmin.localidad prov, catmin.fase f, catmin.catalogo_detalle est,\n"
+                + "catmin.solicitud s, catmin.tipo_mineria tm\n"
+                + "where cm.codigo_regional = r.codigo_regional\n"
+                + "and prov.codigo_localidad = cm.codigo_provincia\n"
+                + "and f.codigo_fase = cm.codigo_fase\n"
+                + "and est.codigo_catalogo_detalle = cm.estado_concesion\n"
+                + "and s.tipo_solicitud = tm.nemonico_tipo_mineria\n"
+                + "union\n"
+                + "select l.codigo_arcom, l.nombre || ' ' || l.apellido as nombre, rl.nombre_regional, ll.nombre, '', cd.nombre, 'LICENCIA COMERCIALIZACION',\n"
+                + "COALESCE(l.nombre || ' ' || l.apellido, '') as beneficiario_principal,\n"
+                + "case when char_length (l.numero_documento) = 10 then 'PN' else 'PJ' end, l.fecha_creacion\n"
+                + "from catmin.licencia_comercializacion l, catmin.regional rl, catmin.localidad ll, catmin.localidad_regional lrl, catmin.catalogo_detalle cd\n"
+                + "where lrl.codigo_localidad = l.codigo_provincia\n"
+                + "and rl.codigo_regional = lrl.codigo_regional\n"
+                + "and ll.codigo_localidad = l.codigo_provincia\n"
+                + "and cd.codigo_catalogo_detalle = l.estado_licencia\n"
+                + "union\n"
+                + "select pb.codigo_arcom, pb.nombre_planta_beneficio, rl.nombre_regional, prov.nombre, '', cd.nombre, 'PLANTA BENEFICIO',\n"
+                + "COALESCE(pb.nombre_representante_legal || ' ' || pb.apellido_representante_legal, '') as beneficiario_principal,\n"
+                + "case when char_length (pb.numero_documento_representante_legal) = 10 then 'PN' else 'PJ' end, pb.fecha_creacion\n"
+                + "from catmin.planta_beneficio pb, catmin.regional rl, catmin.localidad prov, catmin.localidad_regional lrl, catmin.catalogo_detalle cd\n"
+                + "where lrl.codigo_localidad = pb.codigo_provincia\n"
+                + "and rl.codigo_regional = lrl.codigo_regional\n"
+                + "and prov.codigo_localidad = pb.codigo_provincia\n"
+                + "and cd.codigo_catalogo_detalle = pb.estado_planta";
+        return null;
     }
 
 }
