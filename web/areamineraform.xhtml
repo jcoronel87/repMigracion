@@ -163,7 +163,8 @@
                         </p:selectOneMenu>
 
                         <p:outputLabel for="tipoSolicitud" value="Tipo solicitud:"></p:outputLabel>
-                        <p:selectOneMenu id="tipoSolicitud" value="#{sadminDataCtrl.sadminData.tipoSolicitud}" required="true" requiredMessage="Tipo solicitud es requerido" style="width: 93%">
+                        <p:selectOneMenu id="tipoSolicitud" value="#{sadminDataCtrl.sadminData.tipoSolicitud}" required="true" 
+                                         requiredMessage="Tipo solicitud es requerido" style="width: 93%">
                             <f:selectItem itemValue="" itemLabel="--Seleccione una opción--" />
                             <f:selectItems value="#{selectItemCtrl.tiposMineria}" />
                             <p:ajax listener="#{sadminDataCtrl.validarRegimenFase}" update="reg1 reg2 fas1 fas2"/>

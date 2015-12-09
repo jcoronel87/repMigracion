@@ -21,6 +21,8 @@ public class DerechoMineroDto {
     private String beneficiarioPrincipal;
     private String tipoPersona;
     private String fechaSolicitud;
+    private String tipoDerechoMinero;
+    private Long id;
 
     public String getCodigo() {
         return codigo;
@@ -101,6 +103,21 @@ public class DerechoMineroDto {
     public void setFechaSolicitud(String fechaSolicitud) {
         this.fechaSolicitud = fechaSolicitud;
     }
-    
+
+    public String getTipoDerechoMinero() {
+        return tipoDerechoMinero;
+    }
+
+    public void setTipoDerechoMinero(String tipoDerechoMinero) {
+        this.tipoDerechoMinero = tipoDerechoMinero;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
     
 }

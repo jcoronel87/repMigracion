@@ -4,17 +4,17 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/dao/ejb/ConcesionMineraDaoEjb.java</file>
+            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/dto/DerechoMineroDto.java</file>
             <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/ctrl/ConcesionMineraCtrl.java</file>
-            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/web/instrumentoform.xhtml</file>
-            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/ctrl/InstrumentoCtrl.java</file>
+            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/servicio/impl/ConcesionMineraServicioImpl.java</file>
             <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/web/concesionmineraform.xhtml</file>
             <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/ctrl/SelectItemCtrl.java</file>
-            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/web/licenciascomercializacionro.xhtml</file>
-            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/modelo/Instrumento.java</file>
-            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/web/plantasbeneficioro.xhtml</file>
+            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/web/concesionesmineras.xhtml</file>
+            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/web/derechosMinerosNacional.xhtml</file>
+            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/servicio/ConcesionMineraServicio.java</file>
             <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/web/concesionesminerasro.xhtml</file>
-            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/modelo/Solicitud.java</file>
-            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/web/index.xhtml</file>
+            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/ctrl/DerechosMinerosCtrl.java</file>
+            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/dao/ConcesionMineraDao.java</file>
             <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/web/areamineraform.xhtml</file>
         </group>
     </open-files>

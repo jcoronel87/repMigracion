@@ -5,11 +5,13 @@
  */
 package ec.gob.arcom.migracion.ctrl;
 
+import com.novell.ldap.LDAPEntry;
+import com.novell.ldap.LDAPException;
 import ec.gob.arcom.migracion.ctrl.base.BaseCtrl;
 import ec.gob.arcom.migracion.dao.UsuarioDao;
-import ec.gob.arcom.migracion.modelo.Usuario;
 import ec.gob.arcom.migracion.servicio.RegionalServicio;
-import ec.gob.arcom.migracionsadmin.utils.Crypt;
+import ec.gob.arcom.migracion.util.LDAPConexion;
+import ec.gob.arcom.migracion.util.SSHA;
 import ec.gob.arcom.migracionsadmin.utils.FacesUtil;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -78,18 +80,24 @@ public class LoginCtrl extends BaseCtrl {
             return null;
         }
 
-        result = this.obtenerUsuario(userName, userPassword);
-        if (result) {
-            HttpSession session = FacesUtil.getSession();
-            session.setAttribute("username", userName);
-            session.setAttribute("logged", logged);
-            session.setAttribute("admin", admin);
-            session.setAttribute("regional", regional);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenid@", userName));
-            return "index.xhtml?faces-redirect=true";
+        try {
+            result = this.obtenerUsuario(userName, userPassword);
+            if (result) {
+                HttpSession session = FacesUtil.getSession();
+                session.setAttribute("username", userName);
+                session.setAttribute("logged", logged);
+                session.setAttribute("admin", admin);
+                session.setAttribute("regional", regional);
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenid@", userName));
+                return "index.xhtml?faces-redirect=true";
+            }
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "¡ERROR!", "Usuario o clave incorrectos"));
+        } catch (LDAPException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "¡ERROR!", ex.getMessage()));
+            ex.printStackTrace();
         }
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                "¡ERROR!", "Usuario o clave incorrectos"));
         return null;
     }
 
@@ -100,26 +108,42 @@ public class LoginCtrl extends BaseCtrl {
     }
 
     @SuppressWarnings("null")
-    private boolean obtenerUsuario(String userName, String userPassword) {
+    private boolean obtenerUsuario(String userName, String userPassword) throws LDAPException {
         System.out.println("username: " + userName);
         System.out.println("userpwd: " + userPassword);
-        Usuario usr = this.usuarioDao.obtenerPorLogin(userName);
+        //Usuario usr = this.usuarioDao.obtenerPorLogin(userName);
         //System.out.println("usr: " + usr.getApellido() + " " + usr.getNombre());
 
-        if (usr != null && usr.getCampoReservado05() != null) {
-            if (usr.getCampoReservado05().equals(Crypt.cryptMD5(userPassword))) {
-                this.logged = true;
-                this.admin = true;
-                this.regional = regionalServicio.findByCedulaRucUsuario(userName)[0];
-                this.prefijoRegional = regionalServicio.findByCedulaRucUsuario(userName)[1];
-                if (usr.getCampoReservado01() != null && usr.getCampoReservado01().equals("UL")) {
-                    this.usuarioLectura = true;
-                } else {
-                    this.usuarioLectura = false;
+        LDAPEntry usr = null;
+        try {
+            usr = LDAPConexion.buscarUsuario(LDAPConexion.conectar(), userName);
+            if (usr != null) {
+                if (validarCredenciales(usr.getAttribute("userPassword").getStringValue(), userPassword)) {
+                    this.logged = true;
+                    this.admin = true;
+                    this.regional = regionalServicio.findByCedulaRucUsuario(userName)[0];
+                    this.prefijoRegional = regionalServicio.findByCedulaRucUsuario(userName)[1];
+                    return true;
                 }
-                return true;
             }
+        } catch (LDAPException ex) {
+            ex.printStackTrace();
+            throw new LDAPException();
         }
+        /*if (usr != null && usr.getCampoReservado05() != null) {
+         if (usr.getCampoReservado05().equals(Crypt.cryptMD5(userPassword))) {
+         this.logged = true;
+         this.admin = true;
+         this.regional = regionalServicio.findByCedulaRucUsuario(userName)[0];
+         this.prefijoRegional = regionalServicio.findByCedulaRucUsuario(userName)[1];
+         if (usr.getCampoReservado01() != null && usr.getCampoReservado01().equals("UL")) {
+         this.usuarioLectura = true;
+         } else {
+         this.usuarioLectura = false;
+         }
+         return true;
+         }
+         }*/
         return false;
     }
 
@@ -145,6 +169,14 @@ public class LoginCtrl extends BaseCtrl {
 
     public void setUsuarioLectura(boolean usuarioLectura) {
         this.usuarioLectura = usuarioLectura;
+    }
+
+    private boolean validarCredenciales(String ldapPassword, String userPassword) {
+        SSHA ssha = SSHA.getInstance();
+        if (ssha.checkDigest(ldapPassword, userPassword)) {
+            return true;
+        }
+        return false;
     }
 
 }

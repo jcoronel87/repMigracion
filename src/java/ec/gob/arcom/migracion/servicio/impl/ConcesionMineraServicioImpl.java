@@ -9,12 +9,9 @@ import com.saviasoft.persistence.util.dao.GenericDao;
 import com.saviasoft.persistence.util.service.impl.GenericServiceImpl;
 import ec.gob.arcom.migracion.dao.ConcesionMineraDao;
 import ec.gob.arcom.migracion.dto.ConcesionMineraDto;
+import ec.gob.arcom.migracion.dto.DerechoMineroDto;
 import ec.gob.arcom.migracion.modelo.AreaMinera;
-import ec.gob.arcom.migracion.modelo.CatalogoDetalle;
 import ec.gob.arcom.migracion.modelo.ConcesionMinera;
-import ec.gob.arcom.migracion.modelo.Localidad;
-import ec.gob.arcom.migracion.modelo.PersonaJuridica;
-import ec.gob.arcom.migracion.modelo.PersonaNatural;
 import ec.gob.arcom.migracion.modelo.Solicitud;
 import ec.gob.arcom.migracion.modelo.Usuario;
 import ec.gob.arcom.migracion.servicio.AreaMineraServicio;
@@ -23,7 +20,6 @@ import ec.gob.arcom.migracion.servicio.ConcesionMineraServicio;
 import ec.gob.arcom.migracion.servicio.PersonaJuridicaServicio;
 import ec.gob.arcom.migracion.servicio.PersonaNaturalServicio;
 import ec.gob.arcom.migracion.servicio.SolicitudServicio;
-import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
@@ -147,6 +143,30 @@ public class ConcesionMineraServicioImpl extends GenericServiceImpl<ConcesionMin
     @Override
     public ConcesionMinera obtenerPorCodigoArcom(String codigoArcom) {
         return concesionMineraDao.findByCodigoArcom(codigoArcom);
+    }
+
+    /**
+     * 
+     * Método que obtiene todos los derechos mineros registrados en la base de datos
+     * en base a todos los parámetros que se muestran a continuación.
+     * 
+     * @param codigo
+     * @param nombreDerechoMinero
+     * @param codigoRegional
+     * @param codigoProvincia
+     * @param codigoFase
+     * @param codigoEstado
+     * @param tipoSolicitud
+     * @param beneficiarioPrincipal
+     * @param tipoPersona
+     * @param fecha
+     * @return 
+     */
+    @Override
+    public List<DerechoMineroDto> obtenerDerechosMinerosNacional(String codigo, String nombreDerechoMinero, Long codigoRegional, Long codigoProvincia, 
+            Long codigoFase, Long codigoEstado, String tipoSolicitud, String beneficiarioPrincipal, String tipoPersona, Date fecha) {
+        return concesionMineraDao.busquedaGeneralNacional(codigo, nombreDerechoMinero, codigoRegional, codigoProvincia, codigoFase, codigoEstado, 
+                tipoSolicitud, beneficiarioPrincipal, tipoPersona, fecha, fecha);
     }
 
 }

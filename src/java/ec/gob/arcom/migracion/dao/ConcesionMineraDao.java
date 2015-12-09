@@ -7,7 +7,9 @@ package ec.gob.arcom.migracion.dao;
 
 import com.saviasoft.persistence.util.dao.GenericDao;
 import ec.gob.arcom.migracion.dto.ConcesionMineraDto;
+import ec.gob.arcom.migracion.dto.DerechoMineroDto;
 import ec.gob.arcom.migracion.modelo.ConcesionMinera;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -28,5 +30,8 @@ public interface ConcesionMineraDao extends GenericDao<ConcesionMinera, Long> {
     ConcesionMinera findByCodigoArcom(String codigoArcom);
 
     void actualizarConcesionMinera(ConcesionMinera concesionMinera) throws Exception;
+    
+    List<DerechoMineroDto> busquedaGeneralNacional(String codigo, String nombre, Long codigoRegional, Long codigoProvincia, Long codigoFase, 
+            Long codigoEstado, String tipoSolicitud, String beneficiarioPrincipal, String tipoPersona, Date fechaDesde, Date fechaHasta);
     
 }
