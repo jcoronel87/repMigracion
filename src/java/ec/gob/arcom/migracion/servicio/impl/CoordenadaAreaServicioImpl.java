@@ -11,6 +11,7 @@ import ec.gob.arcom.migracion.dao.CoordenadaAreaDao;
 import ec.gob.arcom.migracion.modelo.CoordenadaArea;
 import ec.gob.arcom.migracion.servicio.CoordenadaAreaServicio;
 import java.math.BigInteger;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -33,6 +34,11 @@ public class CoordenadaAreaServicioImpl extends GenericServiceImpl<CoordenadaAre
     @Override
     public CoordenadaArea findByCodigoAreaOrden(Long codigoArea, BigInteger orden) {
         return coordenadaAreaDao.findByCodigoAreaOrden(codigoArea, orden);
+    }
+
+    @Override
+    public List<CoordenadaArea> findByCodigoArea(Long codigoArea) {
+        return coordenadaAreaDao.findByCodigoArea(codigoArea);
     }
 
 }

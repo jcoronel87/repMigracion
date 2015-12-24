@@ -7,6 +7,7 @@ package ec.gob.arcom.migracion.servicio;
 
 import com.saviasoft.persistence.util.service.GenericService;
 import ec.gob.arcom.migracion.modelo.RegistroPagoObligaciones;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -19,5 +20,7 @@ public interface RegistroPagoObligacionesServicio extends GenericService<Registr
     RegistroPagoObligaciones obtenerPorCodigoRegistroPagoObligaciones(Long codigoRegistroPagoObligaciones);
 
     void actualizarRegistroPagoObligaciones(RegistroPagoObligaciones registroPagoObligaciones) throws Exception;
+
+    List<RegistroPagoObligaciones> obtenerPRUNacional();
 
 }

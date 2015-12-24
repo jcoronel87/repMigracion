@@ -124,14 +124,14 @@ public class ConcesionMineraServicioImpl extends GenericServiceImpl<ConcesionMin
          personaJuridicaServicio.create(pjNuevo);
          }*/
         this.create(concesionMinera);
-        solicitudServicio.create(solicitud);
+        //solicitudServicio.create(solicitud);
         areaMineraServicio.create(areaMinera);
     }
 
     @Override
     public void actualizarTodo(ConcesionMinera concesionMinera, Solicitud solicitud, AreaMinera AreaMinera) throws Exception {
         this.actualizarConcecionMinera(concesionMinera);
-        solicitudServicio.actualizarServicio(solicitud);
+        //solicitudServicio.actualizarServicio(solicitud);
         areaMineraServicio.actualizarAreaMinera(AreaMinera);
     }
 

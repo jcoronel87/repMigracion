@@ -61,7 +61,8 @@
                         <p:inputText id="codigoArcom" value="#{instrumentoCtrl.instrumento.codigoArcomTransient}" size="47" 
                                      required="true" requiredMessage="Número de repertorio requerido" onkeypress="return acceptNum(event)" 
                                      maxlength="9" readonly="true" rendered="#{!instrumentoCtrl.sujetoMinero}"/>
-                        <p:inputText value="#{instrumentoCtrl.instrumento.documentoTitular}" readonly="true" size="47" rendered="#{instrumentoCtrl.sujetoMinero}"/>
+                        <p:inputText value="#{instrumentoCtrl.instrumento.documentoTitular}" readonly="true" size="47" 
+                                     rendered="#{instrumentoCtrl.sujetoMinero}"/>
                         <p:commandLink id="botonBusquedaCodigo" onclick="PF('dlgBusqCod').show();" 
                                        title="Buscar código" immediate="true" rendered="#{!instrumentoCtrl.sujetoMinero}">
                             <h:panelGrid style="text-align:center">

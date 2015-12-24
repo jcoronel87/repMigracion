@@ -45,6 +45,12 @@
                                 <p:outputLabel value="INGRESE CODIGO DE AREA"/>
                             </h:panelGroup>
                         </f:facet>
+                        <p:outputLabel value="Tipo de pago:"></p:outputLabel>
+                        <p:selectOneMenu id="tipPago" value="#{patentesUtilidadesRegaliasCtrl.patentesRegaliasUtilidades.tipoPago.codigoCatalogoDetalle}" 
+                                         required="true" requiredMessage="Tipo de pago es requerido" style="width: 93%">
+                            <f:selectItem itemValue="" itemLabel="--Seleccione una opción--" />
+                            <f:selectItems value="#{selectItemCtrl.tipoPago}" />
+                        </p:selectOneMenu>
                         <p:outputLabel value="Tipo de registro:"></p:outputLabel>
                         <p:selectOneMenu id="tipRegistro" value="#{patentesUtilidadesRegaliasCtrl.patentesRegaliasUtilidades.codigoTipoRegistro}" 
                                          required="true" requiredMessage="Tipo de registro es requerido" style="width: 93%">

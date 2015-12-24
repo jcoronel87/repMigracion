@@ -76,6 +76,9 @@ public class SelectItemCtrl {
     private List<SelectItem> conceptosDePago;
     private List<SelectItem> tiposMaterial;
     private List<SelectItem> entidadesBancarias;
+    private List<SelectItem> tipoPago;
+    private List<SelectItem> zonas;
+    private List<SelectItem> tiposMineriaCodigo;
 
     public List<SelectItem> getEstadosCatalogo() {
         if (estadosCatalogo == null) {
@@ -138,7 +141,8 @@ public class SelectItemCtrl {
             tiposMineria = new ArrayList<>();
 
             for (TipoMineria tm : tipoMineriaServicio.findAll()) {
-                tiposMineria.add(new SelectItem(tm.getNombreTipoMineria().toUpperCase(), tm.getNombreTipoMineria().toUpperCase()));
+                tiposMineria.add(new SelectItem(tm.getNombreTipoMineria().toUpperCase(),
+                        tm.getNombreTipoMineria().toUpperCase()));
             }
         }
         return tiposMineria;
@@ -486,6 +490,59 @@ public class SelectItemCtrl {
 
     public void setEntidadesBancarias(List<SelectItem> entidadesBancarias) {
         this.entidadesBancarias = entidadesBancarias;
+    }
+
+    public List<SelectItem> getTipoPago() {
+        if (tipoPago == null) {
+            tipoPago = new ArrayList<>();
+            Catalogo catalogoTipoPago = catalogoServicio.findByNemonico("TIPCAL");
+            List<CatalogoDetalle> tipoPagoCat = catalogoDetalleServicio.obtenerPorCatalogo(catalogoTipoPago.getCodigoCatalogo());
+
+            for (CatalogoDetalle tipPg : tipoPagoCat) {
+                tipoPago.add(new SelectItem(tipPg.getCodigoCatalogoDetalle(), tipPg.getNombre().toUpperCase()));
+            }
+        }
+        return tipoPago;
+    }
+
+    public void setTipoPago(List<SelectItem> tipoPago) {
+        this.tipoPago = tipoPago;
+    }
+
+    public List<SelectItem> getZonas() {
+        if (zonas == null) {
+            zonas = new ArrayList<>();
+            Catalogo catalogoZona = catalogoServicio.findByNemonico("ZONGEO");
+            List<CatalogoDetalle> zonaCat = catalogoDetalleServicio.obtenerPorCatalogo(catalogoZona.getCodigoCatalogo());
+
+            for (CatalogoDetalle zona : zonaCat) {
+                zonas.add(new SelectItem(zona.getCodigoCatalogoDetalle(), zona.getNombre().toUpperCase()));
+            }
+        }
+        return zonas;
+    }
+
+    public void setZonas(List<SelectItem> zonas) {
+        this.zonas = zonas;
+    }
+
+    public List<SelectItem> getTiposMineriaCodigo() {
+        if (tiposMineriaCodigo == null) {
+            tiposMineriaCodigo = new ArrayList<>();
+
+            for (TipoMineria tm : tipoMineriaServicio.findAll()) {
+                if (tm.getCodigoTipoMineria().equals(ConstantesEnum.TIPO_SOLICITUD_CONS_MIN.getCodigo())
+                        || tm.getCodigoTipoMineria().equals(ConstantesEnum.TIPO_SOLICITUD_LIB_APR.getCodigo())
+                        || tm.getCodigoTipoMineria().equals(ConstantesEnum.TIPO_SOLICITUD_MIN_ART.getCodigo()))
+                tiposMineriaCodigo.add(new SelectItem(tm.getCodigoTipoMineria(), 
+                        tm.getNombreTipoMineria().toUpperCase()));
+            }
+        }
+        return tiposMineriaCodigo;
+    }
+
+    public void setTiposMineriaCodigo(List<SelectItem> tiposMineriaCodigo) {
+        this.tiposMineriaCodigo = tiposMineriaCodigo;
     }
 
 }

@@ -7,6 +7,7 @@ package ec.gob.arcom.migracion.dao;
 
 import com.saviasoft.persistence.util.dao.GenericDao;
 import ec.gob.arcom.migracion.modelo.Catalogo;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -22,5 +23,7 @@ public interface CatalogoDao extends GenericDao<Catalogo, Long> {
     Catalogo findByNemonico(String nemonico);
 
     Catalogo findByNombre(String nombre);
+
+    List<Catalogo> findByCatalogoPadre(Long catalogoPadre);
     
 }

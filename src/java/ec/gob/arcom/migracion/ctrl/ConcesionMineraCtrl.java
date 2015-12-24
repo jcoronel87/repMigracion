@@ -6,7 +6,6 @@
 package ec.gob.arcom.migracion.ctrl;
 
 import ec.gob.arcom.migracion.constantes.ConstantesEnum;
-import ec.gob.arcom.migracion.constantes.ConversionEstadosEnum;
 import ec.gob.arcom.migracion.ctrl.base.BaseCtrl;
 import ec.gob.arcom.migracion.dao.CatalogoDetalleDao;
 import ec.gob.arcom.migracion.dao.ConcesionMineraDao;
@@ -29,7 +28,6 @@ import ec.gob.arcom.migracion.modelo.PersonaNatural;
 import ec.gob.arcom.migracion.modelo.Regimen;
 import ec.gob.arcom.migracion.modelo.Regional;
 import ec.gob.arcom.migracion.modelo.Secuencia;
-import ec.gob.arcom.migracion.modelo.Solicitud;
 import ec.gob.arcom.migracion.modelo.SolicitudDetalle;
 import ec.gob.arcom.migracion.modelo.TipoMaquinaria;
 import ec.gob.arcom.migracion.modelo.TipoMineria;
@@ -50,7 +48,6 @@ import ec.gob.arcom.migracion.servicio.RegimenServicio;
 import ec.gob.arcom.migracion.servicio.RegionalServicio;
 import ec.gob.arcom.migracion.servicio.SecuenciaServicio;
 import ec.gob.arcom.migracion.servicio.SolicitudDetalleServicio;
-import ec.gob.arcom.migracion.servicio.SolicitudServicio;
 import ec.gob.arcom.migracion.util.CedulaValidator;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -80,8 +77,8 @@ public class ConcesionMineraCtrl extends BaseCtrl {
     private ConcesionMineraServicio concesionMineraServicio;
     @EJB
     private AreaMineraServicio areaMineraServicio;
-    @EJB
-    private SolicitudServicio solicitudServicio;
+    //@EJB
+    //private SolicitudServicio solicitudServicio;
     @EJB
     private LocalidadServicio localidadServicio;
     @EJB
@@ -126,7 +123,7 @@ public class ConcesionMineraCtrl extends BaseCtrl {
     private ConcesionMinera concesionMinera;
     private AreaMinera areaMinera;
     private CoordenadaArea coordenadaArea;
-    private Solicitud solicitud;
+    //private Solicitud solicitud;
     private SolicitudDetalle solicitudDetalle;
     private PersonaJuridica personaJuridica;
     private PersonaNatural personaNatural;
@@ -148,7 +145,7 @@ public class ConcesionMineraCtrl extends BaseCtrl {
     private boolean perNatural;
     private String tipoPersona = "N";
 
-    private List<SolicitudDetalle> coordenadasSolicitud;
+    //private List<SolicitudDetalle> coordenadasSolicitud;
     private String coordenadaX;
     private String coordenadaY;
     private boolean mostrarCoordenadas = false;
@@ -165,12 +162,14 @@ public class ConcesionMineraCtrl extends BaseCtrl {
     private boolean tipSolConcMin;
 
     private ConcesionMinera concesionMineraAnterior;
-    private Solicitud solicitudAnterior;
+    //private Solicitud solicitudAnterior;
     private AreaMinera areaMineraAnterior;
 
     private boolean tipoSolMineriaArtesanal;
     private int cantidadMaquinaria = 1;
     //private Resolucion resolucion;
+    
+    private List<CoordenadaArea> coordenadasPorArea;
 
     public ConcesionMinera getConcesionMinera() {
         if (concesionMinera == null) {
@@ -190,10 +189,14 @@ public class ConcesionMineraCtrl extends BaseCtrl {
                 concesionMinera.setCodigoModalidadTrabajo(new CatalogoDetalle());
                 concesionMinera.setCodigoFormaExplotacion(new CatalogoDetalle());
                 concesionMinera.setCodigoCasilleroLocalidad(new Localidad());
+                concesionMinera.setCodigoTipoMaterial(new Catalogo());
+                concesionMinera.setCodigoMaterialInteres(new CatalogoDetalle());
                 areaMinera = new AreaMinera();
                 areaMinera.setCodigoLocalidad(new Localidad());
-                solicitud = new Solicitud();
+                //solicitud = new Solicitud();
             } else {
+                System.out.println("entra else getConcesion");
+                System.out.println("idconcesionMinera: " + idconcesionMinera);
                 concesionMinera = concesionMineraDao.findByPk(idconcesionMinera);
                 concesionMineraAnterior = concesionMineraDao.findByPk(idconcesionMinera);
                 if (concesionMinera.getEstadoConcesion() == null) {
@@ -223,15 +226,37 @@ public class ConcesionMineraCtrl extends BaseCtrl {
                     provincia.setCodigoLocalidad(concesionMinera.getCodigoProvincia().longValue());
                     concesionMinera.setCodigoCasilleroLocalidad(provincia);
                 }
-                solicitud = solicitudServicio.obtenerPorCodigoArcom(concesionMinera.getCodigoArcom());
-                solicitudAnterior = solicitudServicio.obtenerPorCodigoArcom(concesionMinera.getCodigoArcom());
-                if (solicitud.getTipoPersona() != null) {
-                    if (solicitud.getTipoPersona().equals("PNA")) {
-                        tipoPersona = "N";
-                    } else if (solicitud.getTipoPersona().equals("PJU")) {
-                        tipoPersona = "J";
-                    }
+                //solicitud = solicitudServicio.obtenerPorCodigoArcom(concesionMinera.getCodigoArcom());
+                //solicitudAnterior = solicitudServicio.obtenerPorCodigoArcom(concesionMinera.getCodigoArcom());
+                if (concesionMinera.getDocumentoConcesionarioPrincipal() != null
+                        && concesionMinera.getDocumentoConcesionarioPrincipal().length() == 10) {
+                    tipoPersona = "N";
+                    PersonaNatural personaNatural = personaNaturalServicio
+                            .findByNumeroDocumento(concesionMinera.getDocumentoConcesionarioPrincipal());
+                    concesionMinera.setPersonaNaturalTransient(personaNatural);
+                    concesionMinera.getPersonaNaturalTransient();
+                } else if (concesionMinera.getDocumentoConcesionarioPrincipal() != null
+                        && concesionMinera.getDocumentoConcesionarioPrincipal().length() == 13) {
+                    tipoPersona = "J";
+                    PersonaJuridica personaJuridica = personaJuridicaServicio
+                            .findByRuc(concesionMinera.getDocumentoConcesionarioPrincipal());
+                    concesionMinera.setPersonaJuridicaTransient(personaJuridica);
+                    concesionMinera.getPersonaJuridicaTransient();
                 }
+                if (concesionMinera.getCodigoTipoMaterial() == null) {
+                    concesionMinera.setCodigoTipoMaterial(new Catalogo());
+                }
+                if (concesionMinera.getCodigoMaterialInteres() == null) {
+                    concesionMinera.setCodigoMaterialInteres(new CatalogoDetalle());
+                }
+                /*if (solicitud.getTipoPersona() != null) {
+                 if (solicitud.getTipoPersona().equals("PNA")) {
+                 tipoPersona = "N";
+                 } else if (solicitud.getTipoPersona().equals("PJU")) {
+                 tipoPersona = "J";
+                 }
+                 }*/
+                System.out.println("concesionMinera.getCodigoConcesion(): " + concesionMinera.getCodigoConcesion());
                 areaMinera = areaMineraServicio.obtenerPorConcesionMinera(concesionMinera.getCodigoConcesion());
                 areaMineraAnterior = areaMineraServicio.obtenerPorConcesionMinera(concesionMinera.getCodigoConcesion());
                 existeCodigoArcom = false;
@@ -263,14 +288,13 @@ public class ConcesionMineraCtrl extends BaseCtrl {
         this.coordenadaArea = coordenadaArea;
     }
 
-    public Solicitud getSolicitud() {
-        return solicitud;
-    }
+    /*public Solicitud getSolicitud() {
+     return solicitud;
+     }
 
-    public void setSolicitud(Solicitud solicitud) {
-        this.solicitud = solicitud;
-    }
-
+     public void setSolicitud(Solicitud solicitud) {
+     this.solicitud = solicitud;
+     }*/
     public SolicitudDetalle getSolicitudDetalle() {
         return solicitudDetalle;
     }
@@ -359,7 +383,7 @@ public class ConcesionMineraCtrl extends BaseCtrl {
             return null;
         }
     }
-    
+
     public String verRegistro() {
         mostrarCoordenadas = true;
         existeCodigoArcom = true;
@@ -376,20 +400,27 @@ public class ConcesionMineraCtrl extends BaseCtrl {
     }
 
     public String guardarRegistro() {
+        System.out.println("codigoRegimen: " + concesionMinera.getCodigoRegimen().getCodigoRegimen());
+        System.out.println("codigoFase: " + concesionMinera.getCodigoFase().getCodigoFase());
         Usuario us = usuarioDao.obtenerPorLogin(login.getUserName());
-        LocalidadRegional localidadRegional = localidadRegionalServicio.obtenerPorCodigoLocalidad(Long.valueOf(concesionMinera.getCodigoProvincia().toString()));
+        LocalidadRegional localidadRegional = localidadRegionalServicio
+                .obtenerPorCodigoLocalidad(Long.valueOf(concesionMinera.getCodigoProvincia().toString()));
         Regional regional = regionalServicio.findByPk(localidadRegional.getLocalidadRegionalPK().getCodigoRegional());
-        System.out.println("solicitud.getTipoSolicitud(): " + solicitud.getTipoSolicitud());
-        TipoMineria tipoMineria = tipoMineriaDao.findByNemonico(solicitud.getTipoSolicitud());
-        CatalogoDetalle codigoZona = catalogoDetalleDao.obtenerPorValor(String.valueOf(solicitud.getZona()));
+        //System.out.println("solicitud.getTipoSolicitud(): " + solicitud.getTipoSolicitud());
+        //TipoMineria tipoMineria = tipoMineriaDao.findByNemonico(solicitud.getTipoSolicitud());
+        //CatalogoDetalle codigoZona = catalogoDetalleDao.obtenerPorValor(String.valueOf(solicitud.getZona()));
 
         if (concesionMinera.getCodigoRegimen() != null && concesionMinera.getCodigoFase() != null) {
-            if (!solicitud.getTipoSolicitud().equals(ConstantesEnum.TIPO_SOLICITUD_CONS_MIN.getNemonico())) {
+            //if (!solicitud.getTipoSolicitud().equals(ConstantesEnum.TIPO_SOLICITUD_CONS_MIN.getNemonico())) {
+            if (concesionMinera.getCodigoTipoMineria() != null 
+                    && concesionMinera.getCodigoTipoMineria().getCodigoTipoMineria() != null)
+            if (!concesionMinera.getCodigoTipoMineria().getCodigoTipoMineria()
+                    .equals(ConstantesEnum.TIPO_SOLICITUD_CONS_MIN.getCodigo())) {
                 concesionMinera.setCodigoRegimen(null);
                 concesionMinera.setCodigoFase(null);
             }
         }
-        
+
         if (concesionMinera.getCodigoRegimen() != null && concesionMinera.getCodigoRegimen().getCodigoRegimen() != null) {
             if (concesionMinera.getCodigoRegimen().getCodigoRegimen().equals(1000L)) {
                 concesionMinera.setCodigoRegimen(null);
@@ -447,11 +478,10 @@ public class ConcesionMineraCtrl extends BaseCtrl {
          return null;
          }
          }*/
-
-        solicitud.setNombreArea(concesionMinera.getNombreConcesion());
-        solicitud.setCasilleroJudicial(concesionMinera.getCasilleroJudicial());
-        solicitud.setDocumentoSolicitante(concesionMinera.getDocumentoConcesionarioPrincipal());
-        if (concesionMinera.getDocumentoConcesionarioPrincipal().length() == 10) {
+        //solicitud.setNombreArea(concesionMinera.getNombreConcesion());
+        //solicitud.setCasilleroJudicial(concesionMinera.getCasilleroJudicial());
+        //solicitud.setDocumentoSolicitante(concesionMinera.getDocumentoConcesionarioPrincipal());
+        /*if (concesionMinera.getDocumentoConcesionarioPrincipal().length() == 10) {
             solicitud.setTipoDocumento("Cedula");
         } else if (concesionMinera.getDocumentoConcesionarioPrincipal().length() == 13) {
             solicitud.setTipoDocumento("Ruc");
@@ -460,43 +490,43 @@ public class ConcesionMineraCtrl extends BaseCtrl {
             solicitud.setTipoPersona("PNA");
         } else if (tipoPersona.equals("J")) {
             solicitud.setTipoPersona("PJU");
-        }
-        concesionMinera.setNombreConcesionarioPrincipal(solicitud.getNombreSolicitante());
-        concesionMinera.setApellidoConcesionarioPrincipal(solicitud.getApellidoSolicitante());
-        solicitud.setCampoReservado10(concesionMinera.getCodigoArcom());
-        solicitud.setPlazoConcesion(concesionMinera.getPlazoConcesion());
-        solicitud.setCodigoCensal(concesionMinera.getCodigoCensal());
+        }*/
+        concesionMinera.setNombreConcesionarioPrincipal(concesionMinera.getNombreTitular());
+        concesionMinera.setApellidoConcesionarioPrincipal(concesionMinera.getApellidoTitular());
+        //solicitud.setCampoReservado10(concesionMinera.getCodigoArcom());
+        //solicitud.setPlazoConcesion(concesionMinera.getPlazoConcesion());
+        //solicitud.setCodigoCensal(concesionMinera.getCodigoCensal());
         concesionMinera.setCodigoRegional(regional);
-        concesionMinera.setNumeroHectareasConcesion(solicitud.getNumeroHectareas());
-        concesionMinera.getCodigoTipoMineria().setCodigoTipoMineria(tipoMineria.getCodigoTipoMineria());
-        concesionMinera.setCodigoZona(codigoZona);
+        //concesionMinera.setNumeroHectareasConcesion(solicitud.getNumeroHectareas());
+        //concesionMinera.getCodigoTipoMineria().setCodigoTipoMineria(tipoMineria.getCodigoTipoMineria());
+        //concesionMinera.setCodigoZona(codigoZona);
         concesionMinera.setFechaModificacion(new Date());
         concesionMinera.setUsuarioCreacion(BigInteger.valueOf(-1));
         concesionMinera.setUsuarioModificacion(BigInteger.valueOf(us.getCodigoUsuario()));
         concesionMinera.setMigrada(true);
-        solicitud.setTipoMaterial(concesionMinera.getTipoMaterial());
-        solicitud.setMaterialInteres(concesionMinera.getMaterialInteres());
-        solicitud.setCodigoProvincia(concesionMinera.getCodigoProvincia());
-        solicitud.setCodigoCanton(concesionMinera.getCodigoCanton());
-        solicitud.setCodigoParroquia(concesionMinera.getCodigoParroquia());
-        solicitud.setFechaModificacion(new Date());
-        solicitud.setUsuarioCreacion(BigInteger.valueOf(-1));
-        solicitud.setUsuarioModificacion(BigInteger.valueOf(us.getCodigoUsuario()));
-        solicitud.setMigrada(true);
-        CatalogoDetalle estadoArea = new CatalogoDetalle();
+        //solicitud.setTipoMaterial(concesionMinera.getTipoMaterial());
+        //solicitud.setMaterialInteres(concesionMinera.getMaterialInteres());
+        //solicitud.setCodigoProvincia(concesionMinera.getCodigoProvincia());
+        //solicitud.setCodigoCanton(concesionMinera.getCodigoCanton());
+        //solicitud.setCodigoParroquia(concesionMinera.getCodigoParroquia());
+        //solicitud.setFechaModificacion(new Date());
+        ///olicitud.setUsuarioCreacion(BigInteger.valueOf(-1));
+        //solicitud.setUsuarioModificacion(BigInteger.valueOf(us.getCodigoUsuario()));
+        //solicitud.setMigrada(true);
+        //CatalogoDetalle estadoArea = new CatalogoDetalle();
         /*if (concesionMinera.getEstadoConcesion().getCodigoCatalogoDetalle().equals(ConversionEstadosEnum.CADUCADO.getCodigo4())) {
          estadoArea.setCodigoCatalogoDetalle(ConversionEstadosEnum.CADUCADO.getCodigo19());
          }*/
-        if (concesionMinera.getEstadoConcesion().getCodigoCatalogoDetalle().equals(ConversionEstadosEnum.INSCRITA.getCodigo4())) {
+        /*if (concesionMinera.getEstadoConcesion().getCodigoCatalogoDetalle().equals(ConversionEstadosEnum.INSCRITA.getCodigo4())) {
             estadoArea.setCodigoCatalogoDetalle(ConversionEstadosEnum.INSCRITA.getCodigo19());
         }
         if (concesionMinera.getEstadoConcesion().getCodigoCatalogoDetalle().equals(ConversionEstadosEnum.OTORGADO.getCodigo4())) {
             estadoArea.setCodigoCatalogoDetalle(ConversionEstadosEnum.OTORGADO.getCodigo19());
-        }
+        }*/
         /*if (concesionMinera.getEstadoConcesion().getCodigoCatalogoDetalle().equals(ConversionEstadosEnum.SOLICITUD_EXPIRADA.getCodigo4())) {
          estadoArea.setCodigoCatalogoDetalle(ConversionEstadosEnum.SOLICITUD_EXPIRADA.getCodigo19());
          }*/
-        if (concesionMinera.getEstadoConcesion().getCodigoCatalogoDetalle().equals(ConversionEstadosEnum.TRAMITE.getCodigo4())) {
+        /*if (concesionMinera.getEstadoConcesion().getCodigoCatalogoDetalle().equals(ConversionEstadosEnum.TRAMITE.getCodigo4())) {
             estadoArea.setCodigoCatalogoDetalle(ConversionEstadosEnum.TRAMITE.getCodigo19());
         }
         if (concesionMinera.getEstadoConcesion().getCodigoCatalogoDetalle().equals(ConversionEstadosEnum.ACUMULADA.getCodigo4())) {
@@ -510,8 +540,8 @@ public class ConcesionMineraCtrl extends BaseCtrl {
         }
         if (estadoArea.getCodigoCatalogoDetalle() == null) {
             estadoArea = null;
-        }
-        areaMinera.setEstadoArea(estadoArea);
+        }*/
+        areaMinera.setEstadoArea(concesionMinera.getEstadoConcesion());
         areaMinera.setCodigoConcesion(concesionMinera);
         areaMinera.setNombreAreaMinera(concesionMinera.getNombreConcesion());
         areaMinera.setSuperficieAreaMinera(BigDecimal.valueOf(concesionMinera.getNumeroHectareasConcesion()));
@@ -527,9 +557,9 @@ public class ConcesionMineraCtrl extends BaseCtrl {
                 Secuencia secuenciaConcesion = secuenciaServicio.obtenerPorTabla("CONCESION_MINERA");
                 Long codigoConcesionSiguiente = secuenciaConcesion.getValor();
                 concesionMinera.setCodigoConcesion(codigoConcesionSiguiente);
-                solicitud.setSecuenciaSolicitud(codigoConcesionSiguiente);
+                //solicitud.setSecuenciaSolicitud(codigoConcesionSiguiente);
                 //mostrarCoordenadas = true;
-                concesionMineraServicio.guardarTodo(concesionMinera, solicitud, areaMinera, us);
+                concesionMineraServicio.guardarTodo(concesionMinera, null, areaMinera, us);
                 secuenciaConcesion.setValor(codigoConcesionSiguiente + 1);
                 secuenciaServicio.update(secuenciaConcesion);
 
@@ -540,7 +570,7 @@ public class ConcesionMineraCtrl extends BaseCtrl {
                     mostrarMaquinaria = true;
                 }
                 System.out.println("concesionMinera.getCodigoConcesion(): " + concesionMinera.getCodigoConcesion());
-                System.out.println("solicitud.getCodigoSolicitud(): " + solicitud.getCodigoSolicitud());
+                //System.out.println("solicitud.getCodigoSolicitud(): " + solicitud.getCodigoSolicitud());
                 System.out.println("mostrarCoordenadas: " + mostrarCoordenadas);
                 Auditoria auditoria = new Auditoria();
                 auditoria.setAccion("INSERT");
@@ -549,13 +579,13 @@ public class ConcesionMineraCtrl extends BaseCtrl {
                 auditoria.setFecha(getCurrentTimeStamp());
                 auditoria.setUsuario(BigInteger.valueOf(us.getCodigoUsuario()));
                 auditoriaServicio.create(auditoria);
-                Auditoria auditoria2 = new Auditoria();
+                /*Auditoria auditoria2 = new Auditoria();
                 auditoria2.setAccion("INSERT");
                 auditoria2.setDetalleAnterior(solicitud.toString());
                 auditoria2.setDetalleCambios(null);
                 auditoria2.setFecha(getCurrentTimeStamp());
                 auditoria2.setUsuario(BigInteger.valueOf(us.getCodigoUsuario()));
-                auditoriaServicio.create(auditoria2);
+                auditoriaServicio.create(auditoria2);*/
                 Auditoria auditoria3 = new Auditoria();
                 auditoria3.setAccion("INSERT");
                 auditoria3.setDetalleAnterior(areaMinera.toString());
@@ -567,7 +597,7 @@ public class ConcesionMineraCtrl extends BaseCtrl {
                         "El registro ha sido guardado", null));
                 return null;
             } else {
-                concesionMineraServicio.actualizarTodo(concesionMinera, solicitud, areaMinera);
+                concesionMineraServicio.actualizarTodo(concesionMinera, null, areaMinera);
                 Auditoria auditoria = new Auditoria();
                 auditoria.setAccion("UPDATE");
                 auditoria.setDetalleAnterior(getConcesionMineraAnterior().toString());
@@ -575,13 +605,13 @@ public class ConcesionMineraCtrl extends BaseCtrl {
                 auditoria.setFecha(getCurrentTimeStamp());
                 auditoria.setUsuario(BigInteger.valueOf(us.getCodigoUsuario()));
                 auditoriaServicio.create(auditoria);
-                Auditoria auditoria2 = new Auditoria();
+                /*Auditoria auditoria2 = new Auditoria();
                 auditoria2.setAccion("UPDATE");
                 auditoria2.setDetalleAnterior(getSolicitudAnterior().toString());
                 auditoria2.setDetalleCambios(solicitud.toString());
                 auditoria2.setFecha(getCurrentTimeStamp());
                 auditoria2.setUsuario(BigInteger.valueOf(us.getCodigoUsuario()));
-                auditoriaServicio.create(auditoria2);
+                auditoriaServicio.create(auditoria2);*/
                 Auditoria auditoria3 = new Auditoria();
                 auditoria3.setAccion("UPDATE");
                 auditoria3.setDetalleAnterior(getAreaMineraAnterior().toString());
@@ -682,11 +712,12 @@ public class ConcesionMineraCtrl extends BaseCtrl {
     public List<SelectItem> getTipoMaterial() {
         if (tipoMaterial == null) {
             tipoMaterial = new ArrayList<>();
-            Catalogo catalogoTipoMaterial = catalogoServicio.findByNemonico("MATEXP");
-            List<CatalogoDetalle> tipMatCat = catalogoDetalleServicio.obtenerPorCatalogo(catalogoTipoMaterial.getCodigoCatalogo());
+            //Catalogo catalogoTipoMaterial = catalogoServicio.findByNemonico("MATEXP");
+            List<Catalogo> catalogoTipoMaterial = catalogoServicio.findByCatalogoPadre(Long.valueOf(9));
+            //List<CatalogoDetalle> tipMatCat = catalogoDetalleServicio.obtenerPorCatalogo(catalogoTipoMaterial.getCodigoCatalogo());
 
-            for (CatalogoDetalle tipMat : tipMatCat) {
-                tipoMaterial.add(new SelectItem(tipMat.getCodigoCatalogoDetalle(), tipMat.getNombre().toUpperCase()));
+            for (Catalogo tipMat : catalogoTipoMaterial) {
+                tipoMaterial.add(new SelectItem(tipMat.getCodigoCatalogo(), tipMat.getNombre().toUpperCase()));
             }
         }
         return tipoMaterial;
@@ -708,12 +739,13 @@ public class ConcesionMineraCtrl extends BaseCtrl {
              || concesionMinera.getTipoMaterial().toUpperCase().equals("MATERIAL DE CONSTRUCCION")) {
              return tipoMaterialDetalle;
              }*/
-            if (concesionMinera.getTipoMaterial() == null || concesionMinera.getTipoMaterial().toUpperCase().equals("MATERIALES DE CONSTRUCCIO")) {
+            if (concesionMinera.getCodigoTipoMaterial() == null 
+                    || concesionMinera.getCodigoTipoMaterial().getCodigoCatalogo() == null) {
                 return tipoMaterialDetalle;
             }
-            System.out.println("concesionMinera.getTipoMaterial(): " + concesionMinera.getTipoMaterial());
-            CatalogoDetalle catalogoDetalleTipoMaterial = catalogoDetalleServicio.findByPk(Long.valueOf(concesionMinera.getTipoMaterial()));
-            Catalogo catalogo = catalogoServicio.findByNemonico(catalogoDetalleTipoMaterial.getNemonico());
+            System.out.println("concesionMinera.getCodigoTipoMaterial(): " + concesionMinera.getCodigoTipoMaterial());
+            //CatalogoDetalle catalogoDetalleTipoMaterial = catalogoDetalleServicio.findByPk(Long.valueOf(concesionMinera.getTipoMaterial()));
+            Catalogo catalogo = catalogoServicio.findByPk(concesionMinera.getCodigoTipoMaterial().getCodigoCatalogo());
             if (catalogo != null) {
                 List<CatalogoDetalle> tipMatCatDet = catalogoDetalleServicio.obtenerPorCatalogo(catalogo.getCodigoCatalogo());
 
@@ -802,7 +834,7 @@ public class ConcesionMineraCtrl extends BaseCtrl {
     }
 
     public boolean isCedulaRepLegalValida() {
-        if (solicitud.getRepresentanteLegal() != null) {
+        /*if (solicitud.getRepresentanteLegal() != null) {
             if (solicitud.getRepresentanteLegal().length() >= 10) {
                 if (solicitud.getRepresentanteLegal().length() == 13) {
                     String nuevaCed = solicitud.getRepresentanteLegal().substring(0, solicitud.getRepresentanteLegal().length() - 3);
@@ -828,7 +860,7 @@ public class ConcesionMineraCtrl extends BaseCtrl {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
                         "Número de cédula inválida", null));
             }
-        }
+        }*/
         return cedulaRepLegalValida;
     }
 
@@ -865,8 +897,8 @@ public class ConcesionMineraCtrl extends BaseCtrl {
         isPerNatural();
     }
 
-    public List<SolicitudDetalle> getCoordenadasSolicitud() {
-        System.out.println("solicitud.getCodigoSolicitud(): " + solicitud.getCodigoSolicitud());
+    /*public List<SolicitudDetalle> getCoordenadasSolicitud() {
+        //System.out.println("solicitud.getCodigoSolicitud(): " + solicitud.getCodigoSolicitud());
         System.out.println("coordenadasSolicitud: " + coordenadasSolicitud);
         if (coordenadasSolicitud == null) {
             coordenadasSolicitud = solicitudDetalleDao.findByCodigoSolicitud(solicitud.getCodigoSolicitud());
@@ -876,15 +908,27 @@ public class ConcesionMineraCtrl extends BaseCtrl {
 
     public void setCoordenadasSolicitud(List<SolicitudDetalle> coordenadasSolicitud) {
         this.coordenadasSolicitud = coordenadasSolicitud;
+    }*/
+
+    public List<CoordenadaArea> getCoordenadasPorArea() {
+        if (coordenadasPorArea == null) {
+            System.out.println("codigoAreaMinera: " + areaMinera.getCodigoAreaMinera());
+            coordenadasPorArea = coordenadaAreaServicio.findByCodigoArea(areaMinera.getCodigoAreaMinera());
+        }
+        return coordenadasPorArea;
+    }
+
+    public void setCoordenadasPorArea(List<CoordenadaArea> coordenadasPorArea) {
+        this.coordenadasPorArea = coordenadasPorArea;
     }
 
     public void guardarCoordenadas() {
         Usuario us = usuarioDao.obtenerPorLogin(login.getUserName());
         int orden = 0;
-        if (coordenadasSolicitud.size() > 0) {
-            orden = coordenadasSolicitud.size();
+        if (coordenadasPorArea.size() > 0) {
+            orden = coordenadasPorArea.size();
         }
-        SolicitudDetalle sd = new SolicitudDetalle();
+        /*SolicitudDetalle sd = new SolicitudDetalle();
         sd.setTipoDetalle("INFCOOR");
         sd.setCoordenadaUtmEste(coordenadaX);
         sd.setCoordenadaUtmNorte(coordenadaY);
@@ -899,7 +943,7 @@ public class ConcesionMineraCtrl extends BaseCtrl {
         sd.setUsuarioCreacion(BigInteger.valueOf(us.getCodigoUsuario()));
         sd.setFechaCreacion(new Date());
         sd.setMigrada(true);
-        sd.setEstadoRegistro(true);
+        sd.setEstadoRegistro(true);*/
         CoordenadaArea ca = new CoordenadaArea();
         ca.setUtmEste(coordenadaX);
         ca.setUtmNorte(coordenadaY);
@@ -915,13 +959,13 @@ public class ConcesionMineraCtrl extends BaseCtrl {
         ca.setMigrada(true);
         ca.setEstadoRegistro(true);
         try {
-            solicitudDetalleServicio.guardarTodo(sd, ca);
-            Auditoria auditoria = new Auditoria();
+            solicitudDetalleServicio.guardarTodo(null, ca);
+            /*Auditoria auditoria = new Auditoria();
             auditoria.setAccion("INSERT");
             auditoria.setFecha(getCurrentTimeStamp());
             auditoria.setUsuario(BigInteger.valueOf(us.getCodigoUsuario()));
             auditoria.setDetalleAnterior(sd.toString());
-            auditoriaServicio.create(auditoria);
+            auditoriaServicio.create(auditoria);*/
             Auditoria auditoria2 = new Auditoria();
             auditoria2.setAccion("INSERT");
             auditoria2.setFecha(getCurrentTimeStamp());
@@ -935,8 +979,8 @@ public class ConcesionMineraCtrl extends BaseCtrl {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
                     "No se pudo guardar el registro", ex.getMessage()));
         }
-        coordenadasSolicitud = null;
-        getCoordenadasSolicitud();
+        coordenadasPorArea = null;
+        getCoordenadasPorArea();
         //return "concesionesmineras";
     }
 
@@ -947,24 +991,26 @@ public class ConcesionMineraCtrl extends BaseCtrl {
     public void eliminarCoordenadas() {
         Usuario us = usuarioDao.obtenerPorLogin(login.getUserName());
         try {
-            SolicitudDetalle solicitudDetalleItem = (SolicitudDetalle) getExternalContext().getRequestMap().get("crd");
+            //SolicitudDetalle solicitudDetalleItem = (SolicitudDetalle) getExternalContext().getRequestMap().get("crd");
             // solicitudDetalleServicio.delete(solicitudDetalleItem.getCodigoSolicitudDetalle());
-            CoordenadaArea ca = coordenadaAreaServicio.findByCodigoAreaOrden(areaMinera.getCodigoAreaMinera(), solicitudDetalleItem.getNumeroCoordenada());
-            solicitudDetalleServicio.eliminarTodo(solicitudDetalleItem.getCodigoSolicitudDetalle(), ca.getCodigoCoordenada());
-            Auditoria auditoria = new Auditoria();
+            CoordenadaArea ca = (CoordenadaArea) getExternalContext().getRequestMap().get("crd");
+            //CoordenadaArea ca = coordenadaAreaServicio.findByCodigoAreaOrden(areaMinera.getCodigoAreaMinera(), solicitudDetalleItem.getNumeroCoordenada());
+            solicitudDetalleServicio.eliminarTodo(null, ca.getCodigoCoordenada());
+            /*Auditoria auditoria = new Auditoria();
             auditoria.setAccion("DELETE");
             auditoria.setFecha(getCurrentTimeStamp());
             auditoria.setUsuario(BigInteger.valueOf(us.getCodigoUsuario()));
             auditoria.setDetalleAnterior(solicitudDetalleItem.toString());
-            auditoriaServicio.create(auditoria);
+            auditoriaServicio.create(auditoria);*/
             Auditoria auditoria2 = new Auditoria();
             auditoria2.setAccion("DELETE");
             auditoria2.setFecha(getCurrentTimeStamp());
             auditoria2.setUsuario(BigInteger.valueOf(us.getCodigoUsuario()));
             auditoria2.setDetalleAnterior(ca.toString());
             auditoriaServicio.create(auditoria2);
-            coordenadasSolicitud = null;
-            getCoordenadasSolicitud();
+            //coordenadasSolicitud = null;
+            coordenadasPorArea = null;
+            getCoordenadasPorArea();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "Coordenadas eliminadas", null));
         } catch (Exception ex) {
@@ -1089,7 +1135,7 @@ public class ConcesionMineraCtrl extends BaseCtrl {
     }
 
     public int getLongitudCoordenadas() {
-        longitudCoordenadas = getCoordenadasSolicitud().size();
+        longitudCoordenadas = getCoordenadasPorArea().size();
         return longitudCoordenadas;
     }
 
@@ -1176,8 +1222,9 @@ public class ConcesionMineraCtrl extends BaseCtrl {
     }
 
     public void validarRegimenFase() {
-        if (solicitud.getTipoSolicitud() != null) {
-            if (solicitud.getTipoSolicitud().equals(ConstantesEnum.TIPO_SOLICITUD_CONS_MIN.getNemonico())) {
+        if (concesionMinera.getCodigoTipoMineria() != null 
+                && concesionMinera.getCodigoTipoMineria().getCodigoTipoMineria() != null) {
+            if (concesionMinera.getCodigoTipoMineria().getCodigoTipoMineria().equals(ConstantesEnum.TIPO_SOLICITUD_CONS_MIN.getCodigo())) {
                 tipSolConcMin = true;
             } else {
                 tipSolConcMin = false;
@@ -1197,7 +1244,7 @@ public class ConcesionMineraCtrl extends BaseCtrl {
         this.concesionMineraAnterior = concesionMineraAnterior;
     }
 
-    public Solicitud getSolicitudAnterior() {
+    /*public Solicitud getSolicitudAnterior() {
         if (solicitudAnterior == null) {
             solicitudAnterior = solicitudServicio.obtenerPorCodigoArcom(concesionMineraAnterior.getCodigoArcom());
         }
@@ -1206,7 +1253,7 @@ public class ConcesionMineraCtrl extends BaseCtrl {
 
     public void setSolicitudAnterior(Solicitud solicitudAnterior) {
         this.solicitudAnterior = solicitudAnterior;
-    }
+    }*/
 
     public AreaMinera getAreaMineraAnterior() {
         if (areaMineraAnterior == null) {
@@ -1269,13 +1316,15 @@ public class ConcesionMineraCtrl extends BaseCtrl {
     public void guardarPersonaNatural() {
         Usuario us = usuarioDao.obtenerPorLogin(login.getUserName());
         concesionMinera.setDocumentoConcesionarioPrincipal(personaNatural.getNumeroDocumento());
-        solicitud.setNombreSolicitante(personaNatural.getNombre());
-        solicitud.setApellidoSolicitante(personaNatural.getApellido());
-        solicitud.setTelefonoCelularSolicitante(personaNatural.getCelular());
-        solicitud.setTelefonoConvencionalSolicitante(personaNatural.getTelefono());
+        concesionMinera.setPersonaNaturalTransient(personaNatural);
+        concesionMinera.getPersonaNaturalTransient();
+        //solicitud.setNombreSolicitante(personaNatural.getNombre());
+        //solicitud.setApellidoSolicitante(personaNatural.getApellido());
+        //solicitud.setTelefonoCelularSolicitante(personaNatural.getCelular());
+        //solicitud.setTelefonoConvencionalSolicitante(personaNatural.getTelefono());
         concesionMinera.setCasilleroJudicial(personaNatural.getCasilleroJudicial());
-        solicitud.setDireccionSolicitante(personaNatural.getDireccion());
-        solicitud.setEmailSolicitante(personaNatural.getEmail());
+        //solicitud.setDireccionSolicitante(personaNatural.getDireccion());
+        //solicitud.setEmailSolicitante(personaNatural.getEmail());
         PersonaNatural pn = personaNaturalServicio.findByNumeroDocumento(personaNatural.getNumeroDocumento());
         try {
             if (pn == null) {
@@ -1360,16 +1409,18 @@ public class ConcesionMineraCtrl extends BaseCtrl {
     public void guardarPersonaJuridica() {
         Usuario us = usuarioDao.obtenerPorLogin(login.getUserName());
         concesionMinera.setDocumentoConcesionarioPrincipal(personaJuridica.getRuc());
-        solicitud.setNombreSolicitante(personaJuridica.getNombreLegal());
+        concesionMinera.setPersonaJuridicaTransient(personaJuridica);
+        concesionMinera.getPersonaJuridicaTransient();
+        //solicitud.setNombreSolicitante(personaJuridica.getNombreLegal());
         //solicitud.setApellidoSolicitante(personaJuridica.getNombreComercial());
-        solicitud.setTelefonoCelularSolicitante(personaJuridica.getCelular());
-        solicitud.setTelefonoConvencionalSolicitante(personaJuridica.getTelefono());
+        //solicitud.setTelefonoCelularSolicitante(personaJuridica.getCelular());
+        //solicitud.setTelefonoConvencionalSolicitante(personaJuridica.getTelefono());
         concesionMinera.setCasilleroJudicial(personaJuridica.getCasilleroJudicial());
-        solicitud.setDireccionSolicitante(personaJuridica.getDireccion());
-        solicitud.setEmailSolicitante(personaJuridica.getEmail());
-        solicitud.setRepresentanteLegal(personaJuridica.getDocumentoRepresentanteLegal());
-        solicitud.setNombreRepresentanteLegal(personaJuridica.getNombreRepresentanteLegal());
-        solicitud.setApellidoRepresentanteLegal(personaJuridica.getApellidoRepresentanteLegal());
+        //solicitud.setDireccionSolicitante(personaJuridica.getDireccion());
+        //solicitud.setEmailSolicitante(personaJuridica.getEmail());
+        //solicitud.setRepresentanteLegal(personaJuridica.getDocumentoRepresentanteLegal());
+        //solicitud.setNombreRepresentanteLegal(personaJuridica.getNombreRepresentanteLegal());
+        //solicitud.setApellidoRepresentanteLegal(personaJuridica.getApellidoRepresentanteLegal());
         PersonaJuridica pj = personaJuridicaServicio.findByRuc(personaJuridica.getRuc());
         try {
             if (pj == null) {
@@ -1451,10 +1502,13 @@ public class ConcesionMineraCtrl extends BaseCtrl {
 
     public void muestraModalidadTrabajo() {
         System.out.println("entra muestraModalidadTrabajo");
-        System.out.println("solicitud.getTipoSolicitud(): " + solicitud.getTipoSolicitud());
-        if (solicitud.getTipoSolicitud() != null) {
-            System.out.println("ConstantesEnum.TIPO_SOLICITUD_MIN_ART.getDescripcion(): " + ConstantesEnum.TIPO_SOLICITUD_MIN_ART.getDescripcion());
-            if (solicitud.getTipoSolicitud().equals(ConstantesEnum.TIPO_SOLICITUD_MIN_ART.getDescripcion())) {
+        //System.out.println("solicitud.getTipoSolicitud(): " + solicitud.getTipoSolicitud());
+        //if (solicitud.getTipoSolicitud() != null) {
+        if (concesionMinera.getCodigoTipoMineria() != null
+                && concesionMinera.getCodigoTipoMineria().getCodigoTipoMineria() != null) {
+            //System.out.println("ConstantesEnum.TIPO_SOLICITUD_MIN_ART.getDescripcion(): " + ConstantesEnum.TIPO_SOLICITUD_MIN_ART.getDescripcion());
+            if (concesionMinera.getCodigoTipoMineria().getCodigoTipoMineria()
+                    .equals(ConstantesEnum.TIPO_SOLICITUD_MIN_ART.getCodigo())) {
                 tipoSolMineriaArtesanal = true;
                 concesionMinera.setCodigoModalidadTrabajo(null);
             } else {

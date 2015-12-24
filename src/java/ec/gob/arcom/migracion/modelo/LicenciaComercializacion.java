@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Date;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,10 +18,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
 /**
@@ -136,6 +135,14 @@ public class LicenciaComercializacion implements Serializable {
     private boolean migrada;
     //@OneToOne(cascade = CascadeType.ALL, mappedBy = "licenciaComercializacion")
     //private Resolucion resolucion;
+    @Transient
+    private String tipoPersonaString;
+    @Transient
+    private String provinciaString;
+    @Transient
+    private String cantonString;
+    @Transient
+    private String parroquiaString;
 
     public LicenciaComercializacion() {
     }
@@ -417,6 +424,13 @@ public class LicenciaComercializacion implements Serializable {
     }
 
     public String getTipoPersona() {
+        if (tipoPersona != null && !tipoPersona.isEmpty()) {
+            if (tipoPersona.equals("PN")) {
+                tipoPersonaString = "Persona Natural";
+            } else if (tipoPersona.equals("PJ")) {
+                tipoPersonaString = "Persona Jurídica";
+            }
+        }
         return tipoPersona;
     }
 
@@ -432,13 +446,43 @@ public class LicenciaComercializacion implements Serializable {
         this.migrada = migrada;
     }
 
-    /*public Resolucion getResolucion() {
-        return resolucion;
+    public String getTipoPersonaString() {
+        return tipoPersonaString;
     }
 
+    public void setTipoPersonaString(String tipoPersonaString) {
+        this.tipoPersonaString = tipoPersonaString;
+    }
+    /*public Resolucion getResolucion() {
+    return resolucion;
+    }
     public void setResolucion(Resolucion resolucion) {
-        this.resolucion = resolucion;
+    this.resolucion = resolucion;
     }*/
+
+    public String getProvinciaString() {
+        return provinciaString;
+    }
+
+    public void setProvinciaString(String provinciaString) {
+        this.provinciaString = provinciaString;
+    }
+
+    public String getCantonString() {
+        return cantonString;
+    }
+
+    public void setCantonString(String cantonString) {
+        this.cantonString = cantonString;
+    }
+
+    public String getParroquiaString() {
+        return parroquiaString;
+    }
+
+    public void setParroquiaString(String parroquiaString) {
+        this.parroquiaString = parroquiaString;
+    }
 
     @Override
     public int hashCode() {

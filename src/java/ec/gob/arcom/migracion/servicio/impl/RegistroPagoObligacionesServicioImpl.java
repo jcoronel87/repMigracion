@@ -10,6 +10,7 @@ import com.saviasoft.persistence.util.service.impl.GenericServiceImpl;
 import ec.gob.arcom.migracion.dao.RegistroPagoObligacionesDao;
 import ec.gob.arcom.migracion.modelo.RegistroPagoObligaciones;
 import ec.gob.arcom.migracion.servicio.RegistroPagoObligacionesServicio;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -37,6 +38,11 @@ public class RegistroPagoObligacionesServicioImpl extends GenericServiceImpl<Reg
     @Override
     public void actualizarRegistroPagoObligaciones(RegistroPagoObligaciones registroPagoObligaciones) throws Exception {
         registroPagoObligacionesDao.actualizarRegistroPagoObligaciones(registroPagoObligaciones);
+    }
+
+    @Override
+    public List<RegistroPagoObligaciones> obtenerPRUNacional() {
+        return registroPagoObligacionesDao.obtenerPRUNacional();
     }
 
 }

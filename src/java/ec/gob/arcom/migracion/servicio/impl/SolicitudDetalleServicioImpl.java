@@ -35,13 +35,13 @@ public class SolicitudDetalleServicioImpl extends GenericServiceImpl<SolicitudDe
 
     @Override
     public void guardarTodo(SolicitudDetalle solicitudDetalle, CoordenadaArea coordenadaArea) throws Exception{
-        this.create(solicitudDetalle);
+        //this.create(solicitudDetalle);
         coordenadaAreaServicio.create(coordenadaArea);
     }
 
     @Override
     public void eliminarTodo(Long codigoSolicitudDetalle, Long codigoCoordenadaArea) {
-        this.delete(codigoSolicitudDetalle);
+        //this.delete(codigoSolicitudDetalle);
         coordenadaAreaServicio.delete(codigoCoordenadaArea);
     }
 

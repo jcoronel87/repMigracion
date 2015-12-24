@@ -37,7 +37,6 @@ import ec.gob.arcom.migracion.servicio.SadminDataMaquinariaServicio;
 import ec.gob.arcom.migracion.servicio.SadminDataServicio;
 import ec.gob.arcom.migracion.util.CedulaValidator;
 import java.math.BigInteger;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

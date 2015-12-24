@@ -8,6 +8,7 @@ package ec.gob.arcom.migracion.dao.ejb;
 import com.saviasoft.persistence.util.dao.eclipselink.GenericDaoEjbEl;
 import ec.gob.arcom.migracion.dao.CatalogoDao;
 import ec.gob.arcom.migracion.modelo.Catalogo;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -28,7 +29,7 @@ public class CatalogoDaoEjb extends GenericDaoEjbEl<Catalogo, Long> implements
     public Catalogo findByPk(Long id) {
         StringBuilder hql = new StringBuilder(100);
         hql.append("select c from Catalogo c where ");
-        hql.append("c.id = :id ");
+        hql.append("c.codigoCatalogo = :id ");
 
         Query query = em.createQuery(hql.toString());
         query.setParameter("id", id);
@@ -69,6 +70,15 @@ public class CatalogoDaoEjb extends GenericDaoEjbEl<Catalogo, Long> implements
             catalogo = null;
         }
         return catalogo;
+    }
+
+    @Override
+    public List<Catalogo> findByCatalogoPadre(Long catalogoPadre) {
+        String jpql = "select c from Catalogo c where c.catalogoPadre = :catalogoPadre";
+        Query query = em.createQuery(jpql);
+        query.setParameter("catalogoPadre", catalogoPadre);
+        List<Catalogo> catalogos = query.getResultList();
+        return catalogos;
     }
 
 }

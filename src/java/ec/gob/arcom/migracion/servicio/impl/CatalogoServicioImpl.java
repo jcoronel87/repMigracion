@@ -10,6 +10,7 @@ import com.saviasoft.persistence.util.service.impl.GenericServiceImpl;
 import ec.gob.arcom.migracion.dao.CatalogoDao;
 import ec.gob.arcom.migracion.modelo.Catalogo;
 import ec.gob.arcom.migracion.servicio.CatalogoServicio;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -37,6 +38,11 @@ public class CatalogoServicioImpl extends GenericServiceImpl<Catalogo, Long>
     @Override
     public Catalogo findByNombre(String nombre) {
         return catalogoDao.findByNombre(nombre);
+    }
+
+    @Override
+    public List<Catalogo> findByCatalogoPadre(Long codigoCatalogoPadre) {
+        return catalogoDao.findByCatalogoPadre(codigoCatalogoPadre);
     }
     
 }

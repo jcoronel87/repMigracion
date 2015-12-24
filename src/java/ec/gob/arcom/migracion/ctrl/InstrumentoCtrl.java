@@ -14,6 +14,7 @@ import ec.gob.arcom.migracion.modelo.ConcesionMinera;
 import ec.gob.arcom.migracion.modelo.Instrumento;
 import ec.gob.arcom.migracion.modelo.LicenciaComercializacion;
 import ec.gob.arcom.migracion.modelo.Localidad;
+import ec.gob.arcom.migracion.modelo.LocalidadRegional;
 import ec.gob.arcom.migracion.modelo.PlantaBeneficio;
 import ec.gob.arcom.migracion.modelo.SujetoMinero;
 import ec.gob.arcom.migracion.modelo.TipoMineria;
@@ -23,6 +24,7 @@ import ec.gob.arcom.migracion.servicio.CatalogoDetalleServicio;
 import ec.gob.arcom.migracion.servicio.ConcesionMineraServicio;
 import ec.gob.arcom.migracion.servicio.InstrumentoServicio;
 import ec.gob.arcom.migracion.servicio.LicenciaComercializacionServicio;
+import ec.gob.arcom.migracion.servicio.LocalidadRegionalServicio;
 import ec.gob.arcom.migracion.servicio.LocalidadServicio;
 import ec.gob.arcom.migracion.servicio.PlantaBeneficioServicio;
 import ec.gob.arcom.migracion.servicio.SujetoMineroServicio;
@@ -66,6 +68,8 @@ public class InstrumentoCtrl extends BaseCtrl {
     private CatalogoDetalleServicio catalogoDetalleServicio;
     @EJB
     private SujetoMineroServicio sujetoMineroServicio;
+    @EJB
+    private LocalidadRegionalServicio localidadRegionalServicio;
     @ManagedProperty(value = "#{loginCtrl}")
     private LoginCtrl login;
 
@@ -449,7 +453,12 @@ public class InstrumentoCtrl extends BaseCtrl {
             concesionMineraPopupAnterior = concesionMineraServicio.obtenerPorCodigoArcom(codigoFiltro);
             System.out.println("concesionMineraPopup: " + concesionMineraPopup);
             if (concesionMineraPopup != null) {
-                if (concesionMineraPopup.getCodigoProvincia().equals(us.getCodigoProvincia())) {
+                LocalidadRegional localidadRegionalConcesion = localidadRegionalServicio
+                        .obtenerPorCodigoLocalidad(concesionMineraPopup.getCodigoProvincia().longValue());
+                LocalidadRegional localidadRegionalUsuario = localidadRegionalServicio
+                        .obtenerPorCodigoLocalidad(us.getCodigoProvincia().longValue());
+                if (localidadRegionalConcesion.getRegional().getCodigoRegional()
+                        .equals(localidadRegionalUsuario.getRegional().getCodigoRegional())) {
                     provincia = localidadServicio.findByPk(concesionMineraPopup.getCodigoProvincia().longValue());
                     canton = localidadServicio.findByPk(concesionMineraPopup.getCodigoCanton().longValue());
                     parroquia = localidadServicio.findByPk(concesionMineraPopup.getCodigoParroquia().longValue());
@@ -463,7 +472,12 @@ public class InstrumentoCtrl extends BaseCtrl {
             licenciaComercializacionPopup = licenciaComercializacionServicio.obtenerPorCodigoArcom(codigoFiltro);
             licenciaComercializacionPopupAnterior = licenciaComercializacionServicio.obtenerPorCodigoArcom(codigoFiltro);
             if (licenciaComercializacionPopup != null) {
-                if (licenciaComercializacionPopup.getCodigoProvincia().equals(us.getCodigoProvincia())) {
+                LocalidadRegional localidadRegionalLicencia = localidadRegionalServicio
+                        .obtenerPorCodigoLocalidad(licenciaComercializacionPopup.getCodigoProvincia().longValue());
+                LocalidadRegional localidadRegionalUsuario = localidadRegionalServicio
+                        .obtenerPorCodigoLocalidad(us.getCodigoProvincia().longValue());
+                if (localidadRegionalLicencia.getRegional().getCodigoRegional()
+                        .equals(localidadRegionalUsuario.getRegional().getCodigoRegional())) {
                     provincia = localidadServicio.findByPk(licenciaComercializacionPopup.getCodigoProvincia().longValue());
                     canton = localidadServicio.findByPk(licenciaComercializacionPopup.getCodigoCanton().longValue());
                     parroquia = localidadServicio.findByPk(licenciaComercializacionPopup.getCodigoParroquida().longValue());
@@ -477,7 +491,12 @@ public class InstrumentoCtrl extends BaseCtrl {
             plantaBeneficioPopup = plantaBeneficioServicio.obtenerPorCodigoArcom(codigoFiltro);
             plantaBeneficioPopupAnterior = plantaBeneficioServicio.obtenerPorCodigoArcom(codigoFiltro);
             if (plantaBeneficioPopup != null) {
-                if (plantaBeneficioPopup.getCodigoProvincia().equals(us.getCodigoProvincia())) {
+                LocalidadRegional localidadRegionalPlanta = localidadRegionalServicio
+                        .obtenerPorCodigoLocalidad(plantaBeneficioPopup.getCodigoProvincia().longValue());
+                LocalidadRegional localidadRegionalUsuario = localidadRegionalServicio
+                        .obtenerPorCodigoLocalidad(us.getCodigoProvincia().longValue());
+                if (localidadRegionalPlanta.getRegional().getCodigoRegional()
+                        .equals(localidadRegionalUsuario.getRegional().getCodigoRegional())) {
                     provincia = localidadServicio.findByPk(plantaBeneficioPopup.getCodigoProvincia().longValue());
                     canton = localidadServicio.findByPk(plantaBeneficioPopup.getCodigoCanton().longValue());
                     parroquia = localidadServicio.findByPk(plantaBeneficioPopup.getCodigoParroquida().longValue());
@@ -568,13 +587,30 @@ public class InstrumentoCtrl extends BaseCtrl {
             } else {
                 sujetoMinero = false;
             }
+            if (instrumento.getCodigoTipoMineria().getCodigoTipoMineria().equals(ConstantesEnum.TIPO_SOLICITUD_CONS_MIN.getCodigo())
+                    || instrumento.getCodigoTipoMineria().getCodigoTipoMineria().equals(ConstantesEnum.TIPO_SOLICITUD_LIB_APR.getCodigo())
+                    || instrumento.getCodigoTipoMineria().getCodigoTipoMineria().equals(ConstantesEnum.TIPO_SOLICITUD_MIN_ART.getCodigo())) {
+                instrumento.setLicenciaComercializacion(null);
+                instrumento.setPlantaBeneficio(null);
+                instrumento.setSujetoMinero(null);
+            }
+            if (instrumento.getCodigoTipoMineria().getCodigoTipoMineria().equals(ConstantesEnum.TIPO_SOLICITUD_LIC_COM.getCodigo())) {
+                instrumento.setConcesionMinera(null);
+                instrumento.setPlantaBeneficio(null);
+                instrumento.setSujetoMinero(null);
+            }
+            if (instrumento.getCodigoTipoMineria().getCodigoTipoMineria().equals(ConstantesEnum.TIPO_SOLICITUD_PLAN_BEN.getCodigo())) {
+                instrumento.setConcesionMinera(null);
+                instrumento.setLicenciaComercializacion(null);
+                instrumento.setSujetoMinero(null);
+            }
         }
-        instrumento.setConcesionMinera(null);
-        instrumento.setLicenciaComercializacion(null);
-        instrumento.setPlantaBeneficio(null);
-        instrumento.setSujetoMinero(null);
-        instrumento.setCodigoArcomTransient(null);
-        instrumento.setDocumentoTitular(null);
+        /*instrumento.setConcesionMinera(null);
+         instrumento.setLicenciaComercializacion(null);
+         instrumento.setPlantaBeneficio(null);
+         instrumento.setSujetoMinero(null);
+         instrumento.setCodigoArcomTransient(null);
+         instrumento.setDocumentoTitular(null);*/
     }
 
     public boolean isSujetoMinero() {
@@ -648,7 +684,7 @@ public class InstrumentoCtrl extends BaseCtrl {
     public void setSujetoMineroPopUpAnterior(SujetoMinero sujetoMineroPopUpAnterior) {
         this.sujetoMineroPopUpAnterior = sujetoMineroPopUpAnterior;
     }
-    
+
     public void validarCedulaCompareciente() {
         if (instrumento.getNumeroDocumentoCompareciente() != null) {
             if (instrumento.getNumeroDocumentoCompareciente().length() >= 10) {

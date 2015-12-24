@@ -8,6 +8,7 @@ package ec.gob.arcom.migracion.servicio;
 import com.saviasoft.persistence.util.service.GenericService;
 import ec.gob.arcom.migracion.modelo.CoordenadaArea;
 import java.math.BigInteger;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -18,5 +19,7 @@ import javax.ejb.Local;
 public interface CoordenadaAreaServicio extends GenericService<CoordenadaArea, Long> {
 
     CoordenadaArea findByCodigoAreaOrden(Long codigoArea, BigInteger orden);
+
+    List<CoordenadaArea> findByCodigoArea(Long codigoArea);
     
 }

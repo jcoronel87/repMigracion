@@ -8,7 +8,6 @@ package ec.gob.arcom.migracion.modelo;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,10 +15,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
 /**
@@ -169,6 +168,18 @@ public class SadminData implements Serializable {
     private Double volumenTotalExplotacion;
     @Column(name = "plazo_dias")
     private Integer dias;
+    @Transient
+    private String regimen;
+    @Transient
+    private String tipoPersonaString;
+    @Transient
+    private String zonaString;
+    @Transient
+    private String provinciaString;
+    @Transient
+    private String cantonString;
+    @Transient
+    private String parroquiaString;
 
     public SadminData() {
     }
@@ -282,6 +293,19 @@ public class SadminData implements Serializable {
     }
 
     public Double getZona() {
+        if (zona != null) {
+            if (zona.equals(Double.valueOf("15"))) {
+                zonaString = "Zona 15";
+            } else if (zona.equals(Double.valueOf("16"))) {
+                zonaString = "Zona 16";
+            } else if (zona.equals(Double.valueOf("17"))) {
+                zonaString = "Zona 17";
+            } else if (zona.equals(Double.valueOf("18"))) {
+                zonaString = "Zona 18";
+            } else {
+                zonaString = "Sin zona";
+            }
+        }
         return zona;
     }
 
@@ -550,6 +574,13 @@ public class SadminData implements Serializable {
     }
 
     public String getTipoPersona() {
+        if (tipoPersona != null) {
+            if (tipoPersona.equals("PNA")) {
+                tipoPersonaString = "Persona Natural";
+            } else if (tipoPersona.equals("PJU")) {
+                tipoPersonaString = "Persona Jurídica";
+            }
+        }
         return tipoPersona;
     }
 
@@ -587,6 +618,54 @@ public class SadminData implements Serializable {
 
     public void setDias(Integer dias) {
         this.dias = dias;
+    }
+
+    public String getRegimen() {
+        return regimen;
+    }
+
+    public void setRegimen(String regimen) {
+        this.regimen = regimen;
+    }
+
+    public String getTipoPersonaString() {
+        return tipoPersonaString;
+    }
+
+    public void setTipoPersonaString(String tipoPersonaString) {
+        this.tipoPersonaString = tipoPersonaString;
+    }
+
+    public String getZonaString() {
+        return zonaString;
+    }
+
+    public void setZonaString(String zonaString) {
+        this.zonaString = zonaString;
+    }
+
+    public String getProvinciaString() {
+        return provinciaString;
+    }
+
+    public void setProvinciaString(String provinciaString) {
+        this.provinciaString = provinciaString;
+    }
+
+    public String getCantonString() {
+        return cantonString;
+    }
+
+    public void setCantonString(String cantonString) {
+        this.cantonString = cantonString;
+    }
+
+    public String getParroquiaString() {
+        return parroquiaString;
+    }
+
+    public void setParroquiaString(String parroquiaString) {
+        this.parroquiaString = parroquiaString;
     }
 
     /*public Resolucion getResolucion() {

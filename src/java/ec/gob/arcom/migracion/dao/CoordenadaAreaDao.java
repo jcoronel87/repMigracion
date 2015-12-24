@@ -8,6 +8,7 @@ package ec.gob.arcom.migracion.dao;
 import com.saviasoft.persistence.util.dao.GenericDao;
 import ec.gob.arcom.migracion.modelo.CoordenadaArea;
 import java.math.BigInteger;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -19,5 +20,7 @@ import javax.ejb.Local;
 public interface CoordenadaAreaDao extends GenericDao<CoordenadaArea, Long> {
 
     CoordenadaArea findByCodigoAreaOrden(Long codigoArea, BigInteger orden);
+
+    List<CoordenadaArea> findByCodigoArea(Long codigoArea);
     
 }

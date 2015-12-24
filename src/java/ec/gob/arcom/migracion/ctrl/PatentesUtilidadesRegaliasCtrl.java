@@ -10,11 +10,11 @@ import ec.gob.arcom.migracion.ctrl.base.BaseCtrl;
 import ec.gob.arcom.migracion.dao.UsuarioDao;
 import ec.gob.arcom.migracion.modelo.Auditoria;
 import ec.gob.arcom.migracion.modelo.CatalogoDetalle;
-import ec.gob.arcom.migracion.modelo.ConceptoPago;
 import ec.gob.arcom.migracion.modelo.ConcesionMinera;
 import static ec.gob.arcom.migracion.modelo.Instrumento_.licenciaComercializacion;
 import ec.gob.arcom.migracion.modelo.LicenciaComercializacion;
 import ec.gob.arcom.migracion.modelo.Localidad;
+import ec.gob.arcom.migracion.modelo.LocalidadRegional;
 import ec.gob.arcom.migracion.modelo.PlantaBeneficio;
 import ec.gob.arcom.migracion.modelo.RegistroPagoObligaciones;
 import ec.gob.arcom.migracion.modelo.SujetoMinero;
@@ -22,6 +22,7 @@ import ec.gob.arcom.migracion.modelo.Usuario;
 import ec.gob.arcom.migracion.servicio.AuditoriaServicio;
 import ec.gob.arcom.migracion.servicio.ConcesionMineraServicio;
 import ec.gob.arcom.migracion.servicio.LicenciaComercializacionServicio;
+import ec.gob.arcom.migracion.servicio.LocalidadRegionalServicio;
 import ec.gob.arcom.migracion.servicio.LocalidadServicio;
 import ec.gob.arcom.migracion.servicio.PlantaBeneficioServicio;
 import ec.gob.arcom.migracion.servicio.RegistroPagoObligacionesServicio;
@@ -63,6 +64,8 @@ public class PatentesUtilidadesRegaliasCtrl extends BaseCtrl {
     private SujetoMineroServicio sujetoMineroServicio;
     @EJB
     private AuditoriaServicio auditoriaServicio;
+    @EJB
+    private LocalidadRegionalServicio localidadRegionalServicio;
     @ManagedProperty(value = "#{loginCtrl}")
     private LoginCtrl login;
     private RegistroPagoObligaciones patentesRegaliasUtilidades;
@@ -104,12 +107,16 @@ public class PatentesUtilidadesRegaliasCtrl extends BaseCtrl {
                 patentesRegaliasUtilidades = new RegistroPagoObligaciones();
                 //patentesRegaliasUtilidades.setCodigoConceptoPago(new ConceptoPago());
                 patentesRegaliasUtilidades.setCodigoBanco(new CatalogoDetalle());
+                patentesRegaliasUtilidades.setTipoPago(new CatalogoDetalle());
             } else {
                 patentesRegaliasUtilidades = registroPagoObligacionesServicio.obtenerPorCodigoRegistroPagoObligaciones(idRegistroPagoObligaciones);
                 patentesRegaliasUtilidadesAnterior = registroPagoObligacionesServicio.obtenerPorCodigoRegistroPagoObligaciones(idRegistroPagoObligaciones);
                 patentesRegaliasUtilidades.getCodigoConcesion();
                 patentesRegaliasUtilidades.getCodigoLicenciaComercializacion();
                 patentesRegaliasUtilidades.getCodigoPlantaBeneficio();
+                if (patentesRegaliasUtilidades.getTipoPago() == null) {
+                    patentesRegaliasUtilidades.setTipoPago(new CatalogoDetalle());
+                }
             }
         }
         return patentesRegaliasUtilidades;
@@ -199,8 +206,13 @@ public class PatentesUtilidadesRegaliasCtrl extends BaseCtrl {
             concesionMineraPopup = concesionMineraServicio.obtenerPorCodigoArcom(codigoFiltro);
             concesionMineraPopupAnterior = concesionMineraServicio.obtenerPorCodigoArcom(codigoFiltro);
             System.out.println("concesionMineraPopup: " + concesionMineraPopup);
+            LocalidadRegional localidadRegionalConcesion = localidadRegionalServicio
+                    .obtenerPorCodigoLocalidad(concesionMineraPopup.getCodigoProvincia().longValue());
+            LocalidadRegional localidadRegionalUsuario = localidadRegionalServicio
+                    .obtenerPorCodigoLocalidad(us.getCodigoProvincia().longValue());
             if (concesionMineraPopup != null) {
-                if (concesionMineraPopup.getCodigoProvincia().equals(us.getCodigoProvincia())) {
+                if (localidadRegionalConcesion.getRegional().getCodigoRegional()
+                        .equals(localidadRegionalUsuario.getRegional().getCodigoRegional())) {
                     provincia = localidadServicio.findByPk(concesionMineraPopup.getCodigoProvincia().longValue());
                     canton = localidadServicio.findByPk(concesionMineraPopup.getCodigoCanton().longValue());
                     parroquia = localidadServicio.findByPk(concesionMineraPopup.getCodigoParroquia().longValue());
@@ -214,7 +226,12 @@ public class PatentesUtilidadesRegaliasCtrl extends BaseCtrl {
             licenciaComercializacionPopup = licenciaComercializacionServicio.obtenerPorCodigoArcom(codigoFiltro);
             licenciaComercializacionPopupAnterior = licenciaComercializacionServicio.obtenerPorCodigoArcom(codigoFiltro);
             if (licenciaComercializacionPopup != null) {
-                if (licenciaComercializacionPopup.getCodigoProvincia().equals(us.getCodigoProvincia())) {
+                LocalidadRegional localidadRegionalLicencia = localidadRegionalServicio
+                        .obtenerPorCodigoLocalidad(licenciaComercializacionPopup.getCodigoProvincia().longValue());
+                LocalidadRegional localidadRegionalUsuario = localidadRegionalServicio
+                        .obtenerPorCodigoLocalidad(us.getCodigoProvincia().longValue());
+                if (localidadRegionalLicencia.getRegional().getCodigoRegional()
+                        .equals(localidadRegionalUsuario.getRegional().getCodigoRegional())) {
                     provincia = localidadServicio.findByPk(licenciaComercializacionPopup.getCodigoProvincia().longValue());
                     canton = localidadServicio.findByPk(licenciaComercializacionPopup.getCodigoCanton().longValue());
                     parroquia = localidadServicio.findByPk(licenciaComercializacionPopup.getCodigoParroquida().longValue());
@@ -228,7 +245,12 @@ public class PatentesUtilidadesRegaliasCtrl extends BaseCtrl {
             plantaBeneficioPopup = plantaBeneficioServicio.obtenerPorCodigoArcom(codigoFiltro);
             plantaBeneficioPopupAnterior = plantaBeneficioServicio.obtenerPorCodigoArcom(codigoFiltro);
             if (plantaBeneficioPopup != null) {
-                if (plantaBeneficioPopup.getCodigoProvincia().equals(us.getCodigoProvincia())) {
+                LocalidadRegional localidadRegionalPlanta = localidadRegionalServicio
+                        .obtenerPorCodigoLocalidad(plantaBeneficioPopup.getCodigoProvincia().longValue());
+                LocalidadRegional localidadRegionalUsuario = localidadRegionalServicio
+                        .obtenerPorCodigoLocalidad(us.getCodigoProvincia().longValue());
+                if (localidadRegionalPlanta.getRegional().getCodigoRegional()
+                        .equals(localidadRegionalUsuario.getRegional().getCodigoRegional())) {
                     provincia = localidadServicio.findByPk(plantaBeneficioPopup.getCodigoProvincia().longValue());
                     canton = localidadServicio.findByPk(plantaBeneficioPopup.getCodigoCanton().longValue());
                     parroquia = localidadServicio.findByPk(plantaBeneficioPopup.getCodigoParroquida().longValue());
@@ -421,7 +443,7 @@ public class PatentesUtilidadesRegaliasCtrl extends BaseCtrl {
 
     public List<SelectItem> getCantones() {
         if (cantones == null || cantones.isEmpty()) {
-            cantones = new ArrayList<>(); 
+            cantones = new ArrayList<>();
             if (patentesRegaliasUtilidades.getCodigoProvincia() == null) {
                 return cantones;
             }

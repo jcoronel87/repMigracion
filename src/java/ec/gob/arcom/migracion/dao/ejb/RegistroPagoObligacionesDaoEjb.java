@@ -8,6 +8,7 @@ package ec.gob.arcom.migracion.dao.ejb;
 import com.saviasoft.persistence.util.dao.eclipselink.GenericDaoEjbEl;
 import ec.gob.arcom.migracion.dao.RegistroPagoObligacionesDao;
 import ec.gob.arcom.migracion.modelo.RegistroPagoObligaciones;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -195,6 +196,11 @@ public class RegistroPagoObligacionesDaoEjb extends GenericDaoEjbEl<RegistroPago
         } else {
             sql += "fecha_presentacion = " + null + ", \n";
         }
+        if (registroPagoObligaciones.getTipoPago() != null) {
+            sql += "tipo_pago = " + registroPagoObligaciones.getTipoPago().getCodigoCatalogoDetalle() + ", \n";
+        } else {
+            sql += "tipo_pago = " + null + ", \n";
+        }
         sql += "codigo_tipo_registro = " + registroPagoObligaciones.getCodigoTipoRegistro() + " \n";
         sql += "WHERE codigo_registro = " + registroPagoObligaciones.getCodigoRegistro();
 
@@ -202,4 +208,12 @@ public class RegistroPagoObligacionesDaoEjb extends GenericDaoEjbEl<RegistroPago
         query.executeUpdate();
     }
 
+    @Override
+    public List<RegistroPagoObligaciones> obtenerPRUNacional() {
+        String jpql = "select rpo from RegistroPagoObligaciones rpo";
+        Query query = em.createQuery(jpql);
+        List<RegistroPagoObligaciones> registrosNacional = query.getResultList();
+        return registrosNacional;
+    }
+    
 }

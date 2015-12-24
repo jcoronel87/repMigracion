@@ -570,6 +570,7 @@ public class Instrumento implements Serializable {
     public ConcesionMinera getConcesionMinera() {
         if (concesionMinera != null) {
             codigoArcomTransient = concesionMinera.getCodigoArcom();
+            documentoTitular = concesionMinera.getDocumentoConcesionarioPrincipal();
         }
         return concesionMinera;
     }
@@ -581,6 +582,7 @@ public class Instrumento implements Serializable {
     public PlantaBeneficio getPlantaBeneficio() {
         if (plantaBeneficio != null) {
             codigoArcomTransient = plantaBeneficio.getCodigoArcom();
+            documentoTitular = plantaBeneficio.getNumeroDocumentoRepresentanteLegal();
         }
         return plantaBeneficio;
     }
@@ -592,6 +594,7 @@ public class Instrumento implements Serializable {
     public LicenciaComercializacion getLicenciaComercializacion() {
         if (licenciaComercializacion != null) {
             codigoArcomTransient = licenciaComercializacion.getCodigoArcom();
+            documentoTitular = licenciaComercializacion.getNumeroDocumento();
         }
         return licenciaComercializacion;
     }

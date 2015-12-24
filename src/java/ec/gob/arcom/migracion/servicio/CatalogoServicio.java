@@ -7,6 +7,7 @@ package ec.gob.arcom.migracion.servicio;
 
 import com.saviasoft.persistence.util.service.GenericService;
 import ec.gob.arcom.migracion.modelo.Catalogo;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -19,5 +20,7 @@ public interface CatalogoServicio extends GenericService<Catalogo, Long> {
     Catalogo findByNemonico(String nemonico);
 
     Catalogo findByNombre(String nombre);
+
+    List<Catalogo> findByCatalogoPadre(Long codigoCatalogoPadre);
     
 }

@@ -14,7 +14,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -24,6 +23,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -211,6 +211,34 @@ public class ConcesionMinera implements Serializable {
     private Date fechaInscripcionSustitucion;
     @Column(name = "plazo_dias")
     private Integer dias;
+    @Transient
+    private PersonaNatural personaNaturalTransient;
+    @Transient
+    private PersonaJuridica personaJuridicaTransient;
+    @Transient
+    private String nombreTitular;
+    @Transient
+    private String apellidoTitular;
+    @Transient
+    private String correoElectronico;
+    @Transient
+    private String celular;
+    @Transient
+    private String convencional;
+    @Transient
+    private String direccion;
+    @Transient
+    private String cedulaRucRepLegal;
+    @Transient
+    private String nombreRepLegal;
+    @Transient
+    private String apellidoRepLegal;
+    @JoinColumn(name = "codigo_tipo_material", referencedColumnName = "codigo_catalogo")
+    @ManyToOne(optional = true)
+    private Catalogo codigoTipoMaterial;
+    @JoinColumn(name = "codigo_material_interes", referencedColumnName = "codigo_catalogo_detalle")
+    @ManyToOne(optional = true)
+    private CatalogoDetalle codigoMaterialInteres;
 
     public ConcesionMinera() {
     }
@@ -749,13 +777,12 @@ public class ConcesionMinera implements Serializable {
     }
 
     /*public Resolucion getResolucion() {
-        return resolucion;
-    }
+     return resolucion;
+     }
 
-    public void setResolucion(Resolucion resolucion) {
-        this.resolucion = resolucion;
-    }*/
-
+     public void setResolucion(Resolucion resolucion) {
+     this.resolucion = resolucion;
+     }*/
     public Date getFechaSustitucion() {
         return fechaSustitucion;
     }
@@ -778,6 +805,127 @@ public class ConcesionMinera implements Serializable {
 
     public void setDias(Integer dias) {
         this.dias = dias;
+    }
+
+    public PersonaNatural getPersonaNaturalTransient() {
+        if (personaNaturalTransient != null) {
+            nombreTitular = personaNaturalTransient.getNombre();
+            apellidoTitular = personaNaturalTransient.getApellido();
+            correoElectronico = personaNaturalTransient.getEmail();
+            celular = personaNaturalTransient.getCelular();
+            convencional = personaNaturalTransient.getTelefono();
+            direccion = personaNaturalTransient.getDireccion();
+        }
+        return personaNaturalTransient;
+    }
+
+    public void setPersonaNaturalTransient(PersonaNatural personaNaturalTransient) {
+        this.personaNaturalTransient = personaNaturalTransient;
+    }
+
+    public PersonaJuridica getPersonaJuridicaTransient() {
+        nombreTitular = personaJuridicaTransient.getNombreComercial();
+        //apellidoTitular = personaNaturalTransient.getApellido();
+        correoElectronico = personaJuridicaTransient.getEmail();
+        celular = personaJuridicaTransient.getCelular();
+        convencional = personaJuridicaTransient.getTelefono();
+        direccion = personaJuridicaTransient.getDireccion();
+        cedulaRucRepLegal = personaJuridicaTransient.getDocumentoRepresentanteLegal();
+        nombreRepLegal = personaJuridicaTransient.getNombreRepresentanteLegal();
+        apellidoRepLegal = personaJuridicaTransient.getApellidoRepresentanteLegal();
+        return personaJuridicaTransient;
+    }
+
+    public void setPersonaJuridicaTransient(PersonaJuridica personaJuridicaTransient) {
+        this.personaJuridicaTransient = personaJuridicaTransient;
+    }
+
+    public String getNombreTitular() {
+        return nombreTitular;
+    }
+
+    public void setNombreTitular(String nombreTitular) {
+        this.nombreTitular = nombreTitular;
+    }
+
+    public String getApellidoTitular() {
+        return apellidoTitular;
+    }
+
+    public void setApellidoTitular(String apellidoTitular) {
+        this.apellidoTitular = apellidoTitular;
+    }
+
+    public String getCorreoElectronico() {
+        return correoElectronico;
+    }
+
+    public void setCorreoElectronico(String correoElectronico) {
+        this.correoElectronico = correoElectronico;
+    }
+
+    public String getCelular() {
+        return celular;
+    }
+
+    public void setCelular(String celular) {
+        this.celular = celular;
+    }
+
+    public String getConvencional() {
+        return convencional;
+    }
+
+    public void setConvencional(String convencional) {
+        this.convencional = convencional;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public String getCedulaRucRepLegal() {
+        return cedulaRucRepLegal;
+    }
+
+    public void setCedulaRucRepLegal(String cedulaRucRepLegal) {
+        this.cedulaRucRepLegal = cedulaRucRepLegal;
+    }
+
+    public String getNombreRepLegal() {
+        return nombreRepLegal;
+    }
+
+    public void setNombreRepLegal(String nombreRepLegal) {
+        this.nombreRepLegal = nombreRepLegal;
+    }
+
+    public String getApellidoRepLegal() {
+        return apellidoRepLegal;
+    }
+
+    public void setApellidoRepLegal(String apellidoRepLegal) {
+        this.apellidoRepLegal = apellidoRepLegal;
+    }
+
+    public Catalogo getCodigoTipoMaterial() {
+        return codigoTipoMaterial;
+    }
+
+    public void setCodigoTipoMaterial(Catalogo codigoTipoMaterial) {
+        this.codigoTipoMaterial = codigoTipoMaterial;
+    }
+
+    public CatalogoDetalle getCodigoMaterialInteres() {
+        return codigoMaterialInteres;
+    }
+
+    public void setCodigoMaterialInteres(CatalogoDetalle codigoMaterialInteres) {
+        this.codigoMaterialInteres = codigoMaterialInteres;
     }
 
 }

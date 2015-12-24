@@ -204,6 +204,14 @@ public class PlantaBeneficio implements Serializable {
     private boolean concesionMinera;
     //@OneToOne(cascade = CascadeType.ALL, mappedBy = "plantaBeneficio")
     //private Resolucion resolucion;
+    @Transient
+    private String tipoPersonaString;
+    @Transient
+    private String provinciaString;
+    @Transient
+    private String cantonString;
+    @Transient
+    private String parroquiaString;
 
     public PlantaBeneficio() {
     }
@@ -654,6 +662,13 @@ public class PlantaBeneficio implements Serializable {
     }
 
     public String getTipoPersona() {
+        if (tipoPersona != null && !tipoPersona.isEmpty()) {
+            if (tipoPersona.equals("PN")) {
+                tipoPersonaString = "Persona Natural";
+            } else if (tipoPersona.equals("PJ")) {
+                tipoPersonaString = "Persona Jurídica";
+            }
+        }
         return tipoPersona;
     }
 
@@ -661,6 +676,13 @@ public class PlantaBeneficio implements Serializable {
         this.tipoPersona = tipoPersona;
     }
 
+    public String getTipoPersonaString() {
+        return tipoPersonaString;
+    }
+
+    public void setTipoPersonaString(String tipoPersonaString) {
+        this.tipoPersonaString = tipoPersonaString;
+    }
 
     @Override
     public int hashCode() {
@@ -759,5 +781,29 @@ public class PlantaBeneficio implements Serializable {
     public void setResolucion(Resolucion resolucion) {
         this.resolucion = resolucion;
     }*/
+
+    public String getProvinciaString() {
+        return provinciaString;
+    }
+
+    public void setProvinciaString(String provinciaString) {
+        this.provinciaString = provinciaString;
+    }
+
+    public String getCantonString() {
+        return cantonString;
+    }
+
+    public void setCantonString(String cantonString) {
+        this.cantonString = cantonString;
+    }
+
+    public String getParroquiaString() {
+        return parroquiaString;
+    }
+
+    public void setParroquiaString(String parroquiaString) {
+        this.parroquiaString = parroquiaString;
+    }
 
 }

@@ -13,6 +13,7 @@ import ec.gob.arcom.migracion.modelo.ConceptoPago;
 import ec.gob.arcom.migracion.modelo.ConcesionMinera;
 import ec.gob.arcom.migracion.modelo.LicenciaComercializacion;
 import ec.gob.arcom.migracion.modelo.Localidad;
+import ec.gob.arcom.migracion.modelo.LocalidadRegional;
 import ec.gob.arcom.migracion.modelo.PlantaBeneficio;
 import ec.gob.arcom.migracion.modelo.RegistroPagoObligaciones;
 import ec.gob.arcom.migracion.modelo.SujetoMinero;
@@ -20,6 +21,7 @@ import ec.gob.arcom.migracion.modelo.Usuario;
 import ec.gob.arcom.migracion.servicio.AuditoriaServicio;
 import ec.gob.arcom.migracion.servicio.ConcesionMineraServicio;
 import ec.gob.arcom.migracion.servicio.LicenciaComercializacionServicio;
+import ec.gob.arcom.migracion.servicio.LocalidadRegionalServicio;
 import ec.gob.arcom.migracion.servicio.LocalidadServicio;
 import ec.gob.arcom.migracion.servicio.PlantaBeneficioServicio;
 import ec.gob.arcom.migracion.servicio.RegistroPagoObligacionesServicio;
@@ -62,6 +64,8 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
     private AuditoriaServicio auditoriaServicio;
     @EJB
     private SecuenciaServicio secuenciaServicio;
+    @EJB
+    private LocalidadRegionalServicio localidadRegionalServicio;
     @ManagedProperty(value = "#{loginCtrl}")
     private LoginCtrl login;
     private RegistroPagoObligaciones registroPagoObligacionesAutoGestion;
@@ -87,6 +91,8 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
     private SujetoMinero sujetoMineroPopUpAnterior;
 
     private String identificacionSujetoMinero;
+    
+    private List<RegistroPagoObligaciones> registrosPRUNacional;
 
     public RegistroPagoObligaciones getRegistroPagoObligacionesAutoGestion() {
         if (registroPagoObligacionesAutoGestion == null) {
@@ -104,6 +110,9 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
                 registroPagoObligacionesAutoGestion.getCodigoConcesion();
                 registroPagoObligacionesAutoGestion.getCodigoLicenciaComercializacion();
                 registroPagoObligacionesAutoGestion.getCodigoPlantaBeneficio();
+                if (registroPagoObligacionesAutoGestion.getCodigoConceptoPago() == null) {
+                    registroPagoObligacionesAutoGestion.setCodigoConceptoPago(new ConceptoPago());
+                }
             }
         }
         return registroPagoObligacionesAutoGestion;
@@ -215,7 +224,12 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
             concesionMineraPopupAnterior = concesionMineraServicio.obtenerPorCodigoArcom(codigoFiltro);
             System.out.println("concesionMineraPopup: " + concesionMineraPopup);
             if (concesionMineraPopup != null) {
-                if (concesionMineraPopup.getCodigoProvincia().equals(us.getCodigoProvincia())) {
+                LocalidadRegional localidadRegionalConcesion = localidadRegionalServicio
+                        .obtenerPorCodigoLocalidad(concesionMineraPopup.getCodigoProvincia().longValue());
+                LocalidadRegional localidadRegionalUsuario = localidadRegionalServicio
+                        .obtenerPorCodigoLocalidad(us.getCodigoProvincia().longValue());
+                if (localidadRegionalConcesion.getRegional().getCodigoRegional()
+                        .equals(localidadRegionalUsuario.getRegional().getCodigoRegional())) {
                     provincia = localidadServicio.findByPk(concesionMineraPopup.getCodigoProvincia().longValue());
                     canton = localidadServicio.findByPk(concesionMineraPopup.getCodigoCanton().longValue());
                     parroquia = localidadServicio.findByPk(concesionMineraPopup.getCodigoParroquia().longValue());
@@ -229,7 +243,12 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
             licenciaComercializacionPopup = licenciaComercializacionServicio.obtenerPorCodigoArcom(codigoFiltro);
             licenciaComercializacionPopupAnterior = licenciaComercializacionServicio.obtenerPorCodigoArcom(codigoFiltro);
             if (licenciaComercializacionPopup != null) {
-                if (licenciaComercializacionPopup.getCodigoProvincia().equals(us.getCodigoProvincia())) {
+                LocalidadRegional localidadRegionalLicencia = localidadRegionalServicio
+                        .obtenerPorCodigoLocalidad(licenciaComercializacionPopup.getCodigoProvincia().longValue());
+                LocalidadRegional localidadRegionalUsuario = localidadRegionalServicio
+                        .obtenerPorCodigoLocalidad(us.getCodigoProvincia().longValue());
+                if (localidadRegionalLicencia.getRegional().getCodigoRegional()
+                        .equals(localidadRegionalUsuario.getRegional().getCodigoRegional())) {
                     provincia = localidadServicio.findByPk(licenciaComercializacionPopup.getCodigoProvincia().longValue());
                     canton = localidadServicio.findByPk(licenciaComercializacionPopup.getCodigoCanton().longValue());
                     parroquia = localidadServicio.findByPk(licenciaComercializacionPopup.getCodigoParroquida().longValue());
@@ -243,7 +262,12 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
             plantaBeneficioPopup = plantaBeneficioServicio.obtenerPorCodigoArcom(codigoFiltro);
             plantaBeneficioPopupAnterior = plantaBeneficioServicio.obtenerPorCodigoArcom(codigoFiltro);
             if (plantaBeneficioPopup != null) {
-                if (plantaBeneficioPopup.getCodigoProvincia().equals(us.getCodigoProvincia())) {
+                LocalidadRegional localidadRegionalPlanta = localidadRegionalServicio
+                        .obtenerPorCodigoLocalidad(plantaBeneficioPopup.getCodigoProvincia().longValue());
+                LocalidadRegional localidadRegionalUsuario = localidadRegionalServicio
+                        .obtenerPorCodigoLocalidad(us.getCodigoProvincia().longValue());
+                if (localidadRegionalPlanta.getRegional().getCodigoRegional()
+                        .equals(localidadRegionalUsuario.getRegional().getCodigoRegional())) {
                     provincia = localidadServicio.findByPk(plantaBeneficioPopup.getCodigoProvincia().longValue());
                     canton = localidadServicio.findByPk(plantaBeneficioPopup.getCodigoCanton().longValue());
                     parroquia = localidadServicio.findByPk(plantaBeneficioPopup.getCodigoParroquida().longValue());
@@ -425,4 +449,15 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
         return codigo;
     }
 
+    public List<RegistroPagoObligaciones> getRegistrosPRUNacional() {
+        if (registrosPRUNacional == null) {
+            registrosPRUNacional = registroPagoObligacionesServicio.obtenerPRUNacional();
+        }
+        return registrosPRUNacional;
+    }
+
+    public void setRegistrosPRUNacional(List<RegistroPagoObligaciones> registrosPRUNacional) {
+        this.registrosPRUNacional = registrosPRUNacional;
+    }
+    
 }

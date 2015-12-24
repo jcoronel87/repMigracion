@@ -55,7 +55,9 @@
                                 locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" />
 
                     <p:outputLabel value="Número depósito:"></p:outputLabel>
-                    <p:inputMask id="numDoc" mask="9?9999999" value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.numeroComprobanteBanco}" size="50" placeHolder=""
+                    <p:inputMask id="numDoc" mask="9?9999999" 
+                                 value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.numeroComprobanteBanco}" 
+                                 size="50" placeHolder=""
                                  maxlength="8" required="true" requiredMessage="Número documento requerido">
                     </p:inputMask>
 
@@ -123,7 +125,7 @@
                     <p:inputText value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.valorPago}"/>
 
                     <p:outputLabel value="Nro. comprobante:"></p:outputLabel>
-                    <p:inputText  value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.numeroComprobanteBanco}"/>
+                    <p:inputText  value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.numeroComprobanteArcom}"/>
 
                     <f:facet name="footer">
                         <h:panelGroup style="display:block; text-align:center">
