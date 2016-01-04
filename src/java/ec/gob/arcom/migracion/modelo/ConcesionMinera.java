@@ -239,6 +239,14 @@ public class ConcesionMinera implements Serializable {
     @JoinColumn(name = "codigo_material_interes", referencedColumnName = "codigo_catalogo_detalle")
     @ManyToOne(optional = true)
     private CatalogoDetalle codigoMaterialInteres;
+    @Transient
+    private String tipoPersona;
+    @Transient
+    private String provinciaString;
+    @Transient
+    private String cantonString;
+    @Transient
+    private String parroquiaString;
 
     public ConcesionMinera() {
     }
@@ -686,7 +694,10 @@ public class ConcesionMinera implements Serializable {
             return false;
         }
         ConcesionMinera other = (ConcesionMinera) object;
-        if ((this.codigoConcesion == null && other.codigoConcesion != null) || (this.codigoConcesion != null && !this.codigoConcesion.equals(other.codigoConcesion))) {
+        if ((this.codigoConcesion == null 
+                && other.codigoConcesion != null) 
+                || (this.codigoConcesion != null 
+                && !this.codigoConcesion.equals(other.codigoConcesion))) {
             return false;
         }
         return true;
@@ -926,6 +937,38 @@ public class ConcesionMinera implements Serializable {
 
     public void setCodigoMaterialInteres(CatalogoDetalle codigoMaterialInteres) {
         this.codigoMaterialInteres = codigoMaterialInteres;
+    }
+
+    public String getTipoPersona() {
+        return tipoPersona;
+    }
+
+    public void setTipoPersona(String tipoPersona) {
+        this.tipoPersona = tipoPersona;
+    }
+
+    public String getProvinciaString() {
+        return provinciaString;
+    }
+
+    public void setProvinciaString(String provinciaString) {
+        this.provinciaString = provinciaString;
+    }
+
+    public String getCantonString() {
+        return cantonString;
+    }
+
+    public void setCantonString(String cantonString) {
+        this.cantonString = cantonString;
+    }
+
+    public String getParroquiaString() {
+        return parroquiaString;
+    }
+
+    public void setParroquiaString(String parroquiaString) {
+        this.parroquiaString = parroquiaString;
     }
 
 }

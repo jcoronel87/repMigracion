@@ -12,11 +12,15 @@ import ec.gob.arcom.migracion.modelo.CatalogoDetalle;
 import ec.gob.arcom.migracion.modelo.ConcesionMinera;
 import ec.gob.arcom.migracion.modelo.LicenciaComercializacion;
 import ec.gob.arcom.migracion.modelo.Localidad;
+import ec.gob.arcom.migracion.modelo.PersonaJuridica;
+import ec.gob.arcom.migracion.modelo.PersonaNatural;
 import ec.gob.arcom.migracion.modelo.PlantaBeneficio;
 import ec.gob.arcom.migracion.modelo.SadminData;
 import ec.gob.arcom.migracion.servicio.ConcesionMineraServicio;
 import ec.gob.arcom.migracion.servicio.LicenciaComercializacionServicio;
 import ec.gob.arcom.migracion.servicio.LocalidadServicio;
+import ec.gob.arcom.migracion.servicio.PersonaJuridicaServicio;
+import ec.gob.arcom.migracion.servicio.PersonaNaturalServicio;
 import ec.gob.arcom.migracion.servicio.PlantaBeneficioServicio;
 import ec.gob.arcom.migracion.servicio.RegimenServicio;
 import java.math.BigInteger;
@@ -51,6 +55,10 @@ public class DerechosMinerosCtrl extends BaseCtrl {
     private LicenciaComercializacionServicio licenciaComercializacionServicio;
     @EJB
     private PlantaBeneficioServicio plantaBeneficioServicio;
+    @EJB
+    private PersonaNaturalServicio personaNaturalServicio;
+    @EJB
+    private PersonaJuridicaServicio personaJuridicaServicio;
 
     private String codigo;
     private String nombreDerechoMinero;
@@ -252,11 +260,11 @@ public class DerechosMinerosCtrl extends BaseCtrl {
         DerechoMineroDto derechoMineroDtoItem = (DerechoMineroDto) getExternalContext().getRequestMap().get("reg");
         sadminData = sadminDataDao.findByPk(derechoMineroDtoItem.getId());
         /*if (sadminData.getCodigoRegimen() != null && sadminData.getCodigoRegimen().getCodigoRegimen() != null) {
-            Regimen regimen = regimenServicio.findByPk(sadminData.getCodigoRegimen().getCodigoRegimen());
-            if (regimen != null) {
-                sadminData.setRegimen(regimen.getNombre());
-            }
-        }*/
+         Regimen regimen = regimenServicio.findByPk(sadminData.getCodigoRegimen().getCodigoRegimen());
+         if (regimen != null) {
+         sadminData.setRegimen(regimen.getNombre());
+         }
+         }*/
         if (sadminData.getCodigoModalidadTrabajo() == null) {
             sadminData.setCodigoModalidadTrabajo(new CatalogoDetalle());
         } else if (sadminData.getCodigoModalidadTrabajo().getCodigoCatalogoDetalle() == null) {
@@ -289,12 +297,55 @@ public class DerechosMinerosCtrl extends BaseCtrl {
         }
         RequestContext.getCurrentInstance().execute("PF('dlgSadmin').show()");
     }
-    
+
     public void verConcesionMinera() {
         DerechoMineroDto derechoMineroDtoItem = (DerechoMineroDto) getExternalContext().getRequestMap().get("reg");
         concesionMinera = concesionMineraServicio.findByPk(derechoMineroDtoItem.getId());
+        if (concesionMinera.getDocumentoConcesionarioPrincipal() != null) {
+            if (concesionMinera.getDocumentoConcesionarioPrincipal().length() == 10) {
+                PersonaNatural personaNatural = personaNaturalServicio
+                        .findByNumeroDocumento(concesionMinera.getDocumentoConcesionarioPrincipal());
+                if (personaNatural != null) {
+                    concesionMinera.setPersonaNaturalTransient(personaNatural);
+                    concesionMinera.getPersonaNaturalTransient();
+                }
+            } else if (concesionMinera.getDocumentoConcesionarioPrincipal().length() == 13) {
+                PersonaJuridica personaJuridica = personaJuridicaServicio
+                        .findByRuc(concesionMinera.getDocumentoConcesionarioPrincipal());
+                if (personaJuridica != null) {
+                    concesionMinera.setPersonaJuridicaTransient(personaJuridica);
+                    concesionMinera.getPersonaJuridicaTransient();
+                }
+            }
+        }
+        if (concesionMinera.getDocumentoConcesionarioPrincipal() != null
+                && concesionMinera.getDocumentoConcesionarioPrincipal().length() == 10) {
+            concesionMinera.setTipoPersona("N");
+        } else if (concesionMinera.getDocumentoConcesionarioPrincipal() != null
+                && concesionMinera.getDocumentoConcesionarioPrincipal().length() == 13) {
+            concesionMinera.setTipoPersona("J");
+        }
+        if (concesionMinera.getCodigoProvincia() != null) {
+            Localidad provincia = localidadServicio.findByPk(concesionMinera.getCodigoProvincia().longValue());
+            if (provincia != null) {
+                concesionMinera.setProvinciaString(provincia.getNombre());
+            }
+        }
+        if (concesionMinera.getCodigoCanton() != null) {
+            Localidad canton = localidadServicio.findByPk(concesionMinera.getCodigoCanton().longValue());
+            if (canton != null) {
+                concesionMinera.setCantonString(canton.getNombre());
+            }
+        }
+        if (concesionMinera.getCodigoParroquia() != null) {
+            Localidad parroquia = localidadServicio.findByPk(concesionMinera.getCodigoParroquia().longValue());
+            if (parroquia != null) {
+                concesionMinera.setParroquiaString(parroquia.getNombre());
+            }
+        }
+        RequestContext.getCurrentInstance().execute("PF('dlgConcesionMinera').show()");
     }
-    
+
     public void verLicenciaComercializacion() {
         DerechoMineroDto derechoMineroDtoItem = (DerechoMineroDto) getExternalContext().getRequestMap().get("reg");
         licenciaComercializacion = licenciaComercializacionServicio.findByPk(derechoMineroDtoItem.getId());
@@ -310,7 +361,7 @@ public class DerechosMinerosCtrl extends BaseCtrl {
                 licenciaComercializacion.setCantonString(canton.getNombre());
             }
         }
-        if (licenciaComercializacion.getCodigoParroquida()!= null) {
+        if (licenciaComercializacion.getCodigoParroquida() != null) {
             Localidad parroquia = localidadServicio.findByPk(licenciaComercializacion.getCodigoParroquida().longValue());
             if (parroquia != null && parroquia.getNombre() != null) {
                 licenciaComercializacion.setParroquiaString(parroquia.getNombre());
@@ -318,7 +369,7 @@ public class DerechosMinerosCtrl extends BaseCtrl {
         }
         RequestContext.getCurrentInstance().execute("PF('dlgLicenciasComercializacion').show()");
     }
-    
+
     public void verPlantaBeneficio() {
         DerechoMineroDto derechoMineroDtoItem = (DerechoMineroDto) getExternalContext().getRequestMap().get("reg");
         plantaBeneficio = plantaBeneficioServicio.findByPk(derechoMineroDtoItem.getId());
@@ -334,7 +385,7 @@ public class DerechosMinerosCtrl extends BaseCtrl {
                 plantaBeneficio.setCantonString(canton.getNombre());
             }
         }
-        if (plantaBeneficio.getCodigoParroquida()!= null) {
+        if (plantaBeneficio.getCodigoParroquida() != null) {
             Localidad parroquia = localidadServicio.findByPk(plantaBeneficio.getCodigoParroquida().longValue());
             if (parroquia != null && parroquia.getNombre() != null) {
                 plantaBeneficio.setParroquiaString(parroquia.getNombre());

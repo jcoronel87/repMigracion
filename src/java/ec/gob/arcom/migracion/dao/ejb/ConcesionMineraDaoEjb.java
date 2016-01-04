@@ -47,7 +47,7 @@ public class ConcesionMineraDaoEjb extends GenericDaoEjbEl<ConcesionMinera, Long
     public ConcesionMineraDaoEjb() {
         super(ConcesionMinera.class);
     }
-
+    
     @Override
     public List<ConcesionMineraDto> obtenerRegistrosPorUsuario(String cedulaRuc, String codigoFiltro, String cedulaTitularFiltro, String nombreAreaFiltro) {
         if (codigoFiltro == null || codigoFiltro.trim().isEmpty()) {
@@ -196,14 +196,14 @@ public class ConcesionMineraDaoEjb extends GenericDaoEjbEl<ConcesionMinera, Long
          + "union all\n"
          + "\n"*/
         String sql = "SELECT\n"
-                + "cm.codigo_concesion as id,                       cm.codigo_arcom as codigo_arcom,                cm.nombre_concesion as nombre_concesion,     s.casillero_judicial,\n"
+                + "cm.codigo_concesion as id,                       cm.codigo_arcom as codigo_arcom,                cm.nombre_concesion as nombre_concesion,     cm.casillero_judicial,\n"
                 + "\n"
                 + "    \n"
                 + "               cm.documento_concesionario_principal AS titular_documento,\n"
                 + "               \n"
                 + "            \n"
                 + "               \n"
-                + "    s.plazo_concesion,                    cast(null as date) as fecha_informe,                                       \n"
+                + "    cm.plazo_concesion,                    cast(null as date) as fecha_informe,                                       \n"
                 + "    \n"
                 + "               (select superficie_area_minera from catmin.catalogo_detalle, catmin.area_minera where codigo_catalogo_detalle = estado_area \n"
                 + "        and codigo_area_minera = (select max(codigo_area_minera) from catmin.area_minera where codigo_concesion = cm.codigo_concesion)) as superficie,\n"
@@ -229,11 +229,11 @@ public class ConcesionMineraDaoEjb extends GenericDaoEjbEl<ConcesionMinera, Long
                 + "\n"
                 + "    'C' tipo_tabla \n"
                 + "FROM\n"
-                + "    catmin.solicitud s,\n"
+                + "    --catmin.solicitud s,\n"
                 + "    catmin.concesion_minera cm\n"
                 + "    \n"
-                + "where cm.codigo_arcom = s.campo_reservado_10\n"
-                + "and cm.codigo_provincia in (select lcr.codigo_localidad from catmin.localidad_regional lcr where lcr.codigo_regional = "
+                + "where --cm.codigo_arcom = s.campo_reservado_10\n"
+                + " cm.codigo_provincia in (select lcr.codigo_localidad from catmin.localidad_regional lcr where lcr.codigo_regional = "
                 + "(select r.codigo_regional from catmin.regional r, catmin.localidad_regional lr, catmin.usuario where numero_documento = '" + cedulaRuc + "'\n"
                 + "                                 and r.codigo_regional = lr.codigo_regional and lr.codigo_localidad = codigo_provincia)) "
                 + "and cm.migrada = true\n"
@@ -529,179 +529,184 @@ public class ConcesionMineraDaoEjb extends GenericDaoEjbEl<ConcesionMinera, Long
     @Override
     public List<DerechoMineroDto> busquedaGeneralNacional(String codigo, String nombre, Long codigoRegional, Long codigoProvincia, Long codigoFase,
             Long codigoEstado, String tipoSolicitud, String beneficiarioPrincipal, String tipoPersona, Date fechaDesde, Date fechaHasta) {
-        String sql = "";
+        String sql1 = "";
         if (tipoSolicitud == null || tipoSolicitud.equals(ConstantesEnum.TIPO_SOLICITUD_CONS_MIN.getNemonico())
                 || tipoSolicitud.equals(ConstantesEnum.TIPO_SOLICITUD_LIB_APR.getNemonico())
                 || tipoSolicitud.equals(ConstantesEnum.TIPO_SOLICITUD_MIN_ART.getNemonico())) {
-            /*sql += "select sd.codigo, sd.nombre, sd.regional, sd.provincia, sd.fase, sd.estado, sd.tipo_solicitud,\n"
-                    + "COALESCE(sd.titular, '') as beneficiario_principal, case when char_length (sd.cedula___ruc) = 10 then 'PN' else 'PJ' end as tipo_persona,\n"
-                    + "sd.fecha_informe, 'S', sd.id\n"
-                    + "from catmin.sadmin_data_ sd where 1=1\n";
-            if (codigo != null && !codigo.isEmpty()) {
-                sql += "and sd.codigo ilike '%" + codigo + "%'\n";
-            }
-            if (nombre != null && !nombre.isEmpty()) {
-                sql += "and sd.nombre ilike '%" + nombre + "%'\n";
-            }
-            if (codigoRegional != null) {
-                Regional regional = regionalServicio.findByPk(codigoRegional);
-                if (regional != null && regional.getNombreRegional() != null) {
-                    sql += "and sd.regional ilike '%" + regional.getNombreRegional() + "%'\n";
-                }
-            }
-            if (codigoProvincia != null) {
-                Localidad localidad = localidadServicio.findByPk(codigoProvincia);
-                if (localidad != null && localidad.getNombre() != null) {
-                    sql += "and sd.provincia ilike '%" + localidad.getNombre() + "%'\n";
-                }
-            }
-            if (codigoFase != null) {
-                Fase fase = faseServicio.findByPk(codigoFase);
-                if (fase != null && fase.getNombreFase() != null) {
-                    sql += "and sd.fase ilike '%" + fase.getNombreFase() + "%'\n";
-                }
-            }
-            if (codigoEstado != null) {
-                CatalogoDetalle catalogoDetalle = catalogoDetalleServicio.findByPk(codigoEstado);
-                if (catalogoDetalle != null && catalogoDetalle.getNombre() != null) {
-                    sql += "and sd.estado ilike '%" + catalogoDetalle.getNombre() + "%'\n";
-                }
-            }
-            if (beneficiarioPrincipal != null) {
-                sql += "and beneficiario_principal ilike '%" + beneficiarioPrincipal + "%'\n";
-            }
-            if (tipoPersona != null) {
-                sql += "and tipo_persona = '" + tipoPersona + "'\n";
-            }
-            if (fechaDesde != null) {
-//Pendiente            
-//sql += "and "
-            }
-            sql += "union\n";*/
-            sql += "select cm.codigo_arcom, cm.nombre_concesion, r.nombre_regional, prov.nombre, COALESCE(f.nombre_fase, '') as fase, est.nombre as estado, tm.nombre_tipo_mineria,\n"
-                    + "COALESCE(cm.nombre_concesionario_principal || ' ' || cm.apellido_concesionario_principal, '') as beneficiario_principal, \n"
-                    + "case when char_length (cm.documento_concesionario_principal) = 10 then 'PN' else 'PJ' end as tipo_persona, cm.fecha_creacion, 'C', cm.codigo_concesion\n"
-                    + "from catmin.concesion_minera cm, catmin.regional r, catmin.localidad prov, catmin.fase f, catmin.catalogo_detalle est,\n"
-                    + "catmin.solicitud s, catmin.tipo_mineria tm\n"
-                    + "where cm.codigo_regional = r.codigo_regional\n"
-                    + "and prov.codigo_localidad = cm.codigo_provincia\n"
-                    + "and f.codigo_fase = cm.codigo_fase\n"
+            sql1 = "select concesiones.codigo_arcom, concesiones.nombre_concesion,\n"
+                    + "concesiones.nombre_regional, concesiones.provincia, concesiones.fase,\n"
+                    + "concesiones.estado, concesiones.nombre_tipo_mineria, concesiones.beneficiario_principal,\n"
+                    + "concesiones.tipo_persona, concesiones.fecha_creacion, concesiones.tipo_form, concesiones.codigo_concesion\n"
+                    + "from\n"
+                    + "(\n"
+                    + "select cm.codigo_arcom as codigo_arcom, \n"
+                    + "cm.nombre_concesion as nombre_concesion, \n"
+                    + "(select r.codigo_regional from catmin.regional r, catmin.localidad_regional l "
+                    + "where cm.codigo_provincia = l.codigo_localidad and r.codigo_regional = l.codigo_regional) as codigo_regional,\n"
+                    + "--r.nombre_regional, \n"
+                    + "prov.nombre as provincia, \n"
+                    + "COALESCE((select nombre_fase from catmin.fase where codigo_fase = cm.codigo_fase),'') as fase,\n"
+                    + "--COALESCE(f.nombre_fase, '') as fase, \n"
+                    + "est.nombre as estado, \n"
+                    + "tm.nombre_tipo_mineria,\n"
+                    + "case when p.apellido is null then p.nombre else p.apellido || ' ' || p.nombre end as beneficiario_principal,\n"
+                    + "--COALESCE(cm.nombre_concesionario_principal || ' ' || cm.apellido_concesionario_principal, '') as beneficiario_principal, \n"
+                    + "--case when char_length (cm.documento_concesionario_principal) = 10 then 'PN' else 'PJ' end as tipo_persona, \n"
+                    + "p.tipo_persona,\n"
+                    + "cm.fecha_creacion, \n"
+                    + "'C' as tipo_form, \n"
+                    + "cm.codigo_concesion,\n"
+                    + "prov.codigo_localidad as codigo_provincia,\n"
+                    + "(select codigo_fase from catmin.fase where codigo_fase = cm.codigo_fase) as codigo_fase,\n"
+                    + "est.codigo_catalogo_detalle as codigo_estado,\n"
+                    + "(select r.nombre_regional from catmin.regional r, catmin.localidad_regional l where cm.codigo_provincia = l.codigo_localidad and r.codigo_regional = l.codigo_regional) as nombre_regional\n"
+                    + "from catmin.concesion_minera cm, catmin.localidad prov, catmin.catalogo_detalle est, catmin.tipo_mineria tm, catmin.personas p\n"
+                    + "where prov.codigo_localidad = cm.codigo_provincia\n"
                     + "and est.codigo_catalogo_detalle = cm.estado_concesion\n"
-                    + "and s.tipo_solicitud = tm.nemonico_tipo_mineria\n";
+                    + "and cm.codigo_tipo_mineria = tm.codigo_tipo_mineria\n"
+                    + "and cm.documento_concesionario_principal = p.numero_documento\n"
+                    + "and cm.codigo_arcom not like '%FALLIDA%'\n"
+                    + ") as concesiones where 1=1\n";
             if (codigo != null && !codigo.isEmpty()) {
-                sql += "and cm.codigo_arcom ilike '%" + codigo + "%'\n";
+                sql1 += "and concesiones.codigo_arcom ilike '%" + codigo + "%'\n";
             }
             if (nombre != null && !nombre.isEmpty()) {
-                sql += "and cm.nombre_concesion ilike '%" + nombre + "%'\n";
+                sql1 += "and concesiones.nombre_concesion ilike '%" + nombre + "%'\n";
             }
             if (codigoRegional != null) {
-                sql += "and cm.codigo_regional = " + codigoRegional + "\n";
+                sql1 += "and concesiones.codigo_regional = " + codigoRegional + "\n";
             }
             if (codigoProvincia != null) {
-                sql += "and cm.codigo_provincia = " + codigoProvincia + "\n";
+                sql1 += "and concesiones.codigo_provincia = " + codigoProvincia + "\n";
             }
             if (codigoFase != null) {
-                sql += "and cm.codigo_fase = " + codigoFase + "\n";
+                sql1 += "and concesiones.codigo_fase = " + codigoFase + "\n";
             }
             if (codigoEstado != null) {
-                sql += "and cm.estado_concesion = " + codigoEstado + "\n";
+                sql1 += "and concesiones.codigo_estado = " + codigoEstado + "\n";
             }
-            if (beneficiarioPrincipal != null) {
-                sql += "and beneficiario_principal ilike '%" + beneficiarioPrincipal + "%'\n";
+            if (beneficiarioPrincipal != null && !beneficiarioPrincipal.isEmpty()) {
+                sql1 += "and concesiones.beneficiario_principal ilike '%" + beneficiarioPrincipal + "%'\n";
             }
-            if (tipoPersona != null) {
-                sql += "and tipo_persona = '" + tipoPersona + "'\n";
-            }
-            if (fechaDesde != null) {
-//Pendiente            
-//sql += "and "
+            if (tipoPersona != null && !tipoPersona.isEmpty()) {
+                sql1 += "and concesiones.tipo_persona = '" + tipoPersona + "'\n";
             }
         }
         if (tipoSolicitud == null) {
-            sql += "union\n";
+            sql1 += "union\n";
         }
         if (tipoSolicitud == null || tipoSolicitud.equals(ConstantesEnum.TIPO_SOLICITUD_LIC_COM.getNemonico())) {
-            sql += "select licencias.codigo_arcom, licencias.nombre_licencia, licencias.nombre_regional, licencias.provincia,\n"
-                    + "licencias.fase, licencias.estado, licencias.tipo_solicitud, licencias.beneficiario_principal,\n"
-                    + "licencias.tipo_persona, licencias.fecha_creacion, licencias.tipo_form, licencias.codigo_licencia_comercializacion from \n"
-                    + "(select l.codigo_arcom as codigo_arcom, COALESCE(l.nombre || ' ' || l.apellido, '') as nombre_licencia, rl.nombre_regional as nombre_regional,"
-                    + "ll.nombre as provincia, '' as fase, cd.nombre as estado, 'LICENCIA COMERCIALIZACION' as tipo_solicitud,\n"
-                    + "COALESCE(l.nombre || ' ' || l.apellido, '') as beneficiario_principal,\n"
-                    + "case when char_length (l.numero_documento) = 10 then 'PN' else 'PJ' end as tipo_persona, l.fecha_creacion as fecha_creacion,\n"
-                    + "'L' as tipo_form, l.codigo_licencia_comercializacion as codigo_licencia_comercializacion,\n"
-                    + "rl.codigo_regional as codigo_regional, ll.codigo_localidad as codigo_localidad, cd.codigo_catalogo_detalle as codigo_catalogo_detalle\n"
-                    + "from catmin.licencia_comercializacion l, catmin.regional rl, catmin.localidad ll, catmin.localidad_regional lrl, catmin.catalogo_detalle cd\n"
-                    + "where lrl.codigo_localidad = l.codigo_provincia\n"
-                    + "and rl.codigo_regional = lrl.codigo_regional\n"
-                    + "and ll.codigo_localidad = l.codigo_provincia\n"
-                    + "and cd.codigo_catalogo_detalle = l.estado_licencia) as licencias where 1=1\n";
+            sql1 += "select licencias.codigo_arcom, licencias.nombre_licencia, licencias.nombre_regional, licencias.provincia, \n"
+                    + "licencias.fase, licencias.estado, licencias.tipo_solicitud, licencias.beneficiario_principal, \n"
+                    + "licencias.tipo_persona, licencias.fecha_creacion, licencias.tipo_form, licencias.codigo_licencia_comercializacion \n"
+                    + "from \n"
+                    + "(select\n"
+                    + "l.codigo_arcom, \n"
+                    + "l.nombre as nombre_licencia, \n"
+                    + "(select nombre_regional from catmin.regional r, catmin.localidad_regional lc where l.codigo_provincia = lc.codigo_localidad and r.codigo_regional = lc.codigo_regional) as nombre_regional,\n"
+                    + "--licencias.nombre_regional, \n"
+                    + "prov.nombre as provincia,\n"
+                    + "'' as fase,\n"
+                    + "--licencias.fase, \n"
+                    + "est.nombre as estado,\n"
+                    + "(select nombre_tipo_mineria from catmin.tipo_mineria where nemonico_tipo_mineria = 'LICCOM') as tipo_solicitud, \n"
+                    + "case when p.apellido is null then p.nombre else p.apellido || ' ' || p.nombre end as beneficiario_principal,\n"
+                    + "--licencias.beneficiario_principal,\n"
+                    + "p.tipo_persona,\n"
+                    + "--licencias.tipo_persona, \n"
+                    + "l.fecha_creacion, \n"
+                    + "'L' as tipo_form, \n"
+                    + "l.codigo_licencia_comercializacion, \n"
+                    + "(select r.codigo_regional from catmin.regional r, catmin.localidad_regional lc where l.codigo_provincia = lc.codigo_localidad and r.codigo_regional = lc.codigo_regional) as codigo_regional, \n"
+                    + "l.codigo_provincia as codigo_localidad, \n"
+                    + "l.estado_licencia as codigo_catalogo_detalle \n"
+                    + "from catmin.licencia_comercializacion l, catmin.localidad prov, catmin.catalogo_detalle est, catmin.personas p\n"
+                    + "where prov.codigo_localidad = l.codigo_provincia\n"
+                    + "and est.codigo_catalogo_detalle = l.estado_licencia\n"
+                    + "and l.numero_documento = p.numero_documento\n"
+                    + ") as licencias where 1=1\n";
             if (codigo != null && !codigo.isEmpty()) {
-                sql += "and licencias.codigo_arcom ilike '%" + codigo + "%'\n";
+                sql1 += "and licencias.codigo_arcom ilike '%" + codigo + "%'\n";
             }
             if (nombre != null && !nombre.isEmpty()) {
-                sql += "and licencias.nombre_licencia ilike '%" + nombre + "%'\n";
+                sql1 += "and licencias.nombre_licencia ilike '%" + nombre + "%'\n";
             }
             if (codigoRegional != null) {
-                sql += "and licencias.codigo_regional = " + codigoRegional + "\n";
+                sql1 += "and licencias.codigo_regional = " + codigoRegional + "\n";
             }
             if (codigoProvincia != null) {
-                sql += "and licencias.codigo_localidad = " + codigoProvincia + "\n";
+                sql1 += "and licencias.codigo_localidad = " + codigoProvincia + "\n";
             }
             if (codigoEstado != null) {
-                sql += "and licencias.codigo_catalogo_detalle = " + codigoEstado + "\n";
+                sql1 += "and licencias.codigo_catalogo_detalle = " + codigoEstado + "\n";
             }
-            if (beneficiarioPrincipal != null) {
-                sql += "and licencias.beneficiario_principal ilike '%" + beneficiarioPrincipal + "%'\n";
+            if (beneficiarioPrincipal != null && !beneficiarioPrincipal.isEmpty()) {
+                sql1 += "and licencias.beneficiario_principal ilike '%" + beneficiarioPrincipal + "%'\n";
             }
-            if (tipoPersona != null) {
-                sql += "and licencias.tipo_persona = '" + tipoPersona + "'\n";
-            }
-            if (fechaDesde != null) {
-//Pendiente            
-//sql += "and "
+            if (tipoPersona != null && !tipoPersona.isEmpty()) {
+                sql1 += "and licencias.tipo_persona = '" + tipoPersona + "'\n";
             }
         }
         if (tipoSolicitud == null) {
-            sql += "union\n";
+            sql1 += "union\n";
         }
         if (tipoSolicitud == null || tipoSolicitud.equals(ConstantesEnum.TIPO_SOLICITUD_PLAN_BEN.getNemonico())) {
-            sql += "select pb.codigo_arcom, pb.nombre_planta_beneficio, rl.nombre_regional, prov.nombre, '', cd.nombre, 'PLANTA BENEFICIO',\n"
-                    + "COALESCE(pb.nombre_representante_legal || ' ' || pb.apellido_representante_legal, '') as beneficiario_principal,\n"
-                    + "case when char_length (pb.numero_documento_representante_legal) = 10 then 'PN' else 'PJ' end, pb.fecha_creacion, 'P', pb.codigo_planta_beneficio\n"
-                    + "from catmin.planta_beneficio pb, catmin.regional rl, catmin.localidad prov, catmin.localidad_regional lrl, catmin.catalogo_detalle cd\n"
-                    + "where lrl.codigo_localidad = pb.codigo_provincia\n"
-                    + "and rl.codigo_regional = lrl.codigo_regional\n"
-                    + "and prov.codigo_localidad = pb.codigo_provincia\n"
-                    + "and cd.codigo_catalogo_detalle = pb.estado_planta\n";
+            sql1 += "select plantas.codigo_arcom, plantas.nombre_planta_beneficio, plantas.nombre_regional, plantas.provincia, plantas.fase, \n"
+                    + "plantas.estado, plantas.tipo_solicitud, plantas.beneficiario_principal, plantas.tipo_persona, plantas.fecha_creacion, plantas.tipo_form, \n"
+                    + "plantas.codigo_planta_beneficio \n"
+                    + "from\n"
+                    + "(select \n"
+                    + "pb.codigo_arcom, \n"
+                    + "pb.nombre_planta_beneficio, \n"
+                    + "(select nombre_regional from catmin.regional r, catmin.localidad_regional lc where pb.codigo_provincia = lc.codigo_localidad and r.codigo_regional = lc.codigo_regional) as nombre_regional,\n"
+                    + "--rl.nombre_regional, \n"
+                    + "prov.nombre as provincia, \n"
+                    + "'' as fase,\n"
+                    + "est.nombre as estado, \n"
+                    + "--cd.nombre as estado, \n"
+                    + "(select nombre_tipo_mineria from catmin.tipo_mineria where nemonico_tipo_mineria = 'PLANBEN') as tipo_solicitud, \n"
+                    + "--'PLANTA BENEFICIO' as tipo_derecho,\n"
+                    + "--COALESCE(pb.nombre_representante_legal || ' ' || pb.apellido_representante_legal, '') as beneficiario_principal,\n"
+                    + "case when p.apellido is null then p.nombre else p.apellido || ' ' || p.nombre end as beneficiario_principal,\n"
+                    + "p.tipo_persona,\n"
+                    + "--case when char_length (pb.numero_documento_representante_legal) = 10 then 'PN' else 'PJ' end as tipo_persona, \n"
+                    + "pb.fecha_creacion, \n"
+                    + "'P' as tipo_form, \n"
+                    + "pb.codigo_planta_beneficio, \n"
+                    + "(select r.codigo_regional from catmin.regional r, catmin.localidad_regional lc where pb.codigo_provincia = lc.codigo_localidad and r.codigo_regional = lc.codigo_regional) as codigo_regional, \n"
+                    + "pb.codigo_provincia as codigo_localidad, \n"
+                    + "pb.estado_planta as codigo_catalogo_detalle \n"
+                    + "from catmin.planta_beneficio pb, catmin.localidad prov, catmin.catalogo_detalle est, catmin.personas p\n"
+                    + "where prov.codigo_localidad = pb.codigo_provincia\n"
+                    + "and est.codigo_catalogo_detalle = pb.estado_planta\n"
+                    + "and p.numero_documento = pb.numero_documento_representante_legal\n"
+                    + "and pb.codigo_arcom is not null\n"
+                    + ") as plantas where 1=1\n";
             if (codigo != null && !codigo.isEmpty()) {
-                sql += "and pb.codigo_arcom ilike '%" + codigo + "%'\n";
+                sql1 += "and plantas.codigo_arcom ilike '%" + codigo + "%'\n";
             }
             if (nombre != null && !nombre.isEmpty()) {
-                sql += "and pb.nombre_planta_beneficio ilike '%" + nombre + "%'\n";
+                sql1 += "and plantas.nombre_planta_beneficio ilike '%" + nombre + "%'\n";
             }
             if (codigoRegional != null) {
-                sql += "and rl.codigo_regional = " + codigoRegional + "\n";
+                sql1 += "and plantas.codigo_regional = " + codigoRegional + "\n";
             }
             if (codigoProvincia != null) {
-                sql += "and prov.codigo_localidad = " + codigoProvincia + "\n";
+                sql1 += "and plantas.codigo_localidad = " + codigoProvincia + "\n";
             }
             if (codigoEstado != null) {
-                sql += "and cd.codigo_catalogo_detalle = " + codigoEstado + "\n";
+                sql1 += "and plantas.codigo_catalogo_detalle = " + codigoEstado + "\n";
             }
-            if (beneficiarioPrincipal != null) {
-                sql += "and beneficiario_principal ilike '%" + beneficiarioPrincipal + "%'\n";
+            if (beneficiarioPrincipal != null && !beneficiarioPrincipal.isEmpty()) {
+                sql1 += "and plantas.beneficiario_principal ilike '%" + beneficiarioPrincipal + "%'\n";
             }
-            if (tipoPersona != null) {
-                sql += "and tipo_persona = '" + tipoPersona + "'\n";
-            }
-            if (fechaDesde != null) {
-//Pendiente            
-//sql += "and "
+            if (tipoPersona != null && !tipoPersona.isEmpty()) {
+                sql1 += "and plantas.tipo_persona = '" + tipoPersona + "'\n";
             }
         }
-        System.out.println("sql derechos mineros nacional: " + sql);
-        Query query = em.createNativeQuery(sql);
-
+        System.out.println("sql derechos mineros nacional: " + sql1);
+        Query query = em.createNativeQuery(sql1);
+        System.out.println("query: " + query);
         List<Object[]> listaTmp = query.getResultList();
         List<DerechoMineroDto> listaFinal = new ArrayList<>();
 
@@ -723,5 +728,4 @@ public class ConcesionMineraDaoEjb extends GenericDaoEjbEl<ConcesionMinera, Long
         }
         return listaFinal;
     }
-
 }

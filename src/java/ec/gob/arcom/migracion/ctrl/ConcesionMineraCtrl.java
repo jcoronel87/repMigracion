@@ -191,6 +191,7 @@ public class ConcesionMineraCtrl extends BaseCtrl {
                 concesionMinera.setCodigoCasilleroLocalidad(new Localidad());
                 concesionMinera.setCodigoTipoMaterial(new Catalogo());
                 concesionMinera.setCodigoMaterialInteres(new CatalogoDetalle());
+                concesionMinera.setCodigoZona(new CatalogoDetalle());
                 areaMinera = new AreaMinera();
                 areaMinera.setCodigoLocalidad(new Localidad());
                 //solicitud = new Solicitud();
@@ -248,6 +249,9 @@ public class ConcesionMineraCtrl extends BaseCtrl {
                 }
                 if (concesionMinera.getCodigoMaterialInteres() == null) {
                     concesionMinera.setCodigoMaterialInteres(new CatalogoDetalle());
+                }
+                if (concesionMinera.getCodigoZona() == null) {
+                    concesionMinera.setCodigoZona(new CatalogoDetalle());
                 }
                 /*if (solicitud.getTipoPersona() != null) {
                  if (solicitud.getTipoPersona().equals("PNA")) {
