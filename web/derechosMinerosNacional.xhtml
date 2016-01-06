@@ -254,11 +254,11 @@
                             <p:outputLabel for="superficie" value="Superficie (Hectáreas):"></p:outputLabel>
                             <pe:inputNumber id="superficie" thousandSeparator="," decimalSeparator="." decimalPlaces="2" maxValue="99999.99" 
                                             value="#{derechosMinerosCtrl.sadminData.superficie}" readOnly="true"
-                                            required="true" requiredMessage="Superficie es requerida" style="width: 93%"/>
+                                            required="true" requiredMessage="Superficie es requerida" />
                             <p:outputLabel for="volumen" value="Volumen total (m3):"></p:outputLabel>
                             <pe:inputNumber id="volumen" thousandSeparator="," decimalSeparator="." decimalPlaces="2" maxValue="9999999999.99" 
                                             value="#{derechosMinerosCtrl.sadminData.volumenTotalExplotacion}" 
-                                            style="width: 93%" readOnly="true"/>
+                                            readOnly="true"/>
 
                             <p:outputLabel for="estadoArea" value="Estado:"></p:outputLabel>
                             <p:inputText id="estadoArea" value="#{derechosMinerosCtrl.sadminData.estado}" required="true" 
@@ -333,64 +333,89 @@
                                 <p:outputLabel value="Datos Derecho Minero"/>
                             </h:panelGroup>
                         </f:facet>
-                        <h:panelGrid columns="2" columnClasses="form-label, form-input">
+                        <h:panelGrid columns="2" columnClasses="form-label, form-input_ancho" style="width: 500px">
                             <h:outputText value="Código:" />
                             <p:inputText value="#{derechosMinerosCtrl.concesionMinera.codigoArcom}"
-                                         readonly="true"/>
+                                         readonly="true" size="40"/>
                             <h:outputText value="Código censal:"/>
-                            <p:inputText value="#{derechosMinerosCtrl.concesionMinera.codigoCensal}" readonly="true"/>
+                            <p:inputText value="#{derechosMinerosCtrl.concesionMinera.codigoCensal}" 
+                                         readonly="true" size="40"/>
                             <h:outputText value="Nombre concesión:"/>
-                            <p:inputText value="#{derechosMinerosCtrl.concesionMinera.nombreConcesion}" readonly="true"/>
+                            <p:inputText value="#{derechosMinerosCtrl.concesionMinera.nombreConcesion}" 
+                                         readonly="true" size="40"/>
                             <h:outputText value="Sector:"/>
-                            <p:inputText value="#{derechosMinerosCtrl.concesionMinera.sector}" readonly="true"/>
+                            <p:inputText value="#{derechosMinerosCtrl.concesionMinera.sector}" 
+                                         readonly="true" size="40"/>
                             <h:outputText value="Nro. Documento Titular:"/>
-                            <p:inputText value="#{derechosMinerosCtrl.concesionMinera.documentoConcesionarioPrincipal}" readonly="true"/>
+                            <p:inputText value="#{derechosMinerosCtrl.concesionMinera.documentoConcesionarioPrincipal}" 
+                                         readonly="true" size="40"/>
                             <h:outputText value="Nombre Titular:"/>
-                            <p:inputText value="#{derechosMinerosCtrl.concesionMinera.nombreTitular}" readonly="true"/>
+                            <p:inputText value="#{derechosMinerosCtrl.concesionMinera.nombreTitular}" 
+                                         readonly="true" size="40"/>
                             <h:outputText value="Apellido Titular:"/>
-                            <p:inputText value="#{derechosMinerosCtrl.concesionMinera.apellidoTitular}" readonly="true"/>
+                            <p:inputText value="#{derechosMinerosCtrl.concesionMinera.apellidoTitular}" 
+                                         readonly="true" size="40"/>
                             <h:outputText value="Email:"/>
-                            <p:inputText value="#{derechosMinerosCtrl.concesionMinera.correoElectronico}" readonly="true"/>
+                            <p:inputText value="#{derechosMinerosCtrl.concesionMinera.correoElectronico}" 
+                                         readonly="true" size="40"/>
                             <h:outputText value="Tlfno. Celular:"/>
-                            <p:inputText value="#{derechosMinerosCtrl.concesionMinera.celular}" readonly="true"/>
+                            <p:inputText value="#{derechosMinerosCtrl.concesionMinera.celular}" 
+                                         readonly="true" size="40"/>
                             <h:outputText value="Tlfno. Convencional:"/>
-                            <p:inputText value="#{derechosMinerosCtrl.concesionMinera.convencional}" readonly="true"/>
+                            <p:inputText value="#{derechosMinerosCtrl.concesionMinera.convencional}" 
+                                         readonly="true" size="40"/>
                             <h:outputText value="Casillero Judicial:"/>
-                            <p:inputText value="#{derechosMinerosCtrl.concesionMinera.convencional}" readonly="true"/>
+                            <p:inputText value="#{derechosMinerosCtrl.concesionMinera.convencional}" 
+                                         readonly="true" size="40"/>
                             <h:outputText value="Dirección:"/>
-                            <p:inputText value="#{derechosMinerosCtrl.concesionMinera.direccion}" readonly="true"/>
+                            <p:inputText value="#{derechosMinerosCtrl.concesionMinera.direccion}" 
+                                         readonly="true" size="40"/>
                             <h:outputText value="Cédula Rep. Legal:"/>
-                            <p:inputText value="#{derechosMinerosCtrl.concesionMinera.cedulaRucRepLegal}" readonly="true"/>
+                            <p:inputText value="#{derechosMinerosCtrl.concesionMinera.cedulaRucRepLegal}" 
+                                         readonly="true" size="40"/>
                             <h:outputText value="Nombre Rep. Legal:"/>
-                            <p:inputText value="#{derechosMinerosCtrl.concesionMinera.nombreRepLegal}" readonly="true"/>
+                            <p:inputText value="#{derechosMinerosCtrl.concesionMinera.nombreRepLegal}" 
+                                         readonly="true" size="40"/>
                             <h:outputText value="Apellido Rep. Legal:"/>
-                            <p:inputText value="#{derechosMinerosCtrl.concesionMinera.apellidoRepLegal}" readonly="true"/>
+                            <p:inputText value="#{derechosMinerosCtrl.concesionMinera.apellidoRepLegal}" 
+                                         readonly="true" size="40"/>
                             <h:outputText value="Plazo:"/>
-                            <p:inputText value="#{derechosMinerosCtrl.concesionMinera.plazoConcesion}" readonly="true"/>
+                            <p:inputText value="#{derechosMinerosCtrl.concesionMinera.plazoConcesion}" 
+                                         readonly="true" size="40"/>
                             <h:outputText value="Fecha Otorga:"/>
-                            <p:inputText value="#{derechosMinerosCtrl.concesionMinera.fechaOtorga}" readonly="true"/>
+                            <p:inputText value="#{derechosMinerosCtrl.concesionMinera.fechaOtorga}" 
+                                         readonly="true" size="40">
+                                <f:convertDateTime pattern="yyyy-MM-dd"/>
+                            </p:inputText>
                             <h:outputText value="Fecha Inscribe:"/>
-                            <p:inputText value="#{derechosMinerosCtrl.concesionMinera.fechaInscribe}" readonly="true"/>
+                            <p:inputText value="#{derechosMinerosCtrl.concesionMinera.fechaInscribe}" 
+                                         readonly="true" size="40">
+                                <f:convertDateTime pattern="yyyy-MM-dd"/>
+                            </p:inputText>
                             <h:outputText value="Fecha Sustitución:"/>
-                            <p:inputText value="#{derechosMinerosCtrl.concesionMinera.fechaSustitucion}" readonly="true"/>
+                            <p:inputText value="#{derechosMinerosCtrl.concesionMinera.fechaSustitucion}" 
+                                         readonly="true" size="40">
+                                <f:convertDateTime pattern="yyyy-MM-dd"/>
+                            </p:inputText>
                             <h:outputText value="Fecha Inscripción Sustitución:"/>
-                            <p:inputText value="#{derechosMinerosCtrl.concesionMinera.fechaInscripcionSustitucion}" readonly="true"/>
+                            <p:inputText value="#{derechosMinerosCtrl.concesionMinera.fechaInscripcionSustitucion}" 
+                                         readonly="true" size="40">
+                                <f:convertDateTime pattern="yyyy-MM-dd"/>
+                            </p:inputText>
                         </h:panelGrid>
                         <h:panelGrid columns="2" columnClasses="form-label, form-input">
-                            <p:outputLabel for="console" value="Zona:"></p:outputLabel>
-                            <p:selectOneRadio id="console" value="#{concesionMineraCtrl.concesionMinera.codigoZona.codigoCatalogoDetalle}" 
-                                              required="true" requiredMessage="Zona es requerida">
+                            <p:outputLabel value="Zona:"></p:outputLabel>
+                            <p:selectOneRadio value="#{derechosMinerosCtrl.concesionMinera.codigoZona.codigoCatalogoDetalle}"
+                                              disabled="true">
                                 <f:selectItems value="#{selectItemCtrl.zonas}"/>
                             </p:selectOneRadio>
-                            <p:outputLabel for="superficieConc" value="Superficie (Hectáreas):"></p:outputLabel>
-                            <pe:inputNumber id="superficieConc" thousandSeparator="," decimalSeparator="." decimalPlaces="2" 
-                                            maxValue="99999.99" value="#{concesionMineraCtrl.concesionMinera.numeroHectareasConcesion}" 
-                                            required="true" requiredMessage="Superficie es requerida" style="width: 93%" readOnly="true"/>
+                            <p:outputLabel value="Superficie (Hectáreas):"></p:outputLabel>
+                            <p:inputText value="#{derechosMinerosCtrl.concesionMinera.numeroHectareasConcesion}" 
+                                            readonly="true"/>
 
                             <p:outputLabel value="Volumen total (m3):"></p:outputLabel>
-                            <pe:inputNumber thousandSeparator="," decimalSeparator="." decimalPlaces="2" 
-                                            maxValue="9999999999.99" value="#{concesionMineraCtrl.concesionMinera.volumenTotalExplotacion}" 
-                                            style="width: 93%" readOnly="true"/>
+                            <p:inputText value="#{derechosMinerosCtrl.concesionMinera.volumenTotalExplotacion}" 
+                                            readonly="true"/>
                             <h:outputText value="Estado:"/>
                             <p:inputText value="#{derechosMinerosCtrl.concesionMinera.estadoConcesion.nombre}" readonly="true"/>
                             <h:outputText value="Tipo Solicitud:"/>
@@ -414,12 +439,12 @@
                             <h:outputText value="Mineral Interés:"/>
                             <p:inputText value="#{derechosMinerosCtrl.concesionMinera.codigoMaterialInteres.nombre}" readonly="true"/>
                             <h:outputText value="MAE:" />
-                            <p:selectBooleanCheckbox value="#{derechosMinerosCtrl.concesionMinera.mae}" />
+                            <p:selectBooleanCheckbox value="#{derechosMinerosCtrl.concesionMinera.mae}" disabled="true"/>
                             <h:outputText value="SENAGUA:" />
-                            <p:selectBooleanCheckbox value="#{derechosMinerosCtrl.concesionMinera.senagua}" />
+                            <p:selectBooleanCheckbox value="#{derechosMinerosCtrl.concesionMinera.senagua}" disabled="true"/>
                             <h:outputText value="Observaciones generales:" />
                             <p:inputTextarea value="#{derechosMinerosCtrl.concesionMinera.obsActosAdmPrevios}" 
-                                             cols="52" maxlength="500"/>
+                                             readonly="true"/>
                         </h:panelGrid>
                     </h:panelGrid>
                 </h:form>
@@ -434,33 +459,47 @@
                                 <p:outputLabel value="Datos Licencia Comercialización"/>
                             </h:panelGroup>
                         </f:facet>
-                        <h:panelGrid columns="2" columnClasses="form-label, form-input">
+                        <h:panelGrid columns="2" columnClasses="form-label, form-input" style="width: 500px">
                             <h:outputText value="Código:" />
-                            <p:inputText value="#{derechosMinerosCtrl.licenciaComercializacion.codigoArcom}" readonly="true"/>
+                            <p:inputText value="#{derechosMinerosCtrl.licenciaComercializacion.codigoArcom}" 
+                                         readonly="true" size="40"/>
                             <h:outputText value="Tipo Persona:" />
-                            <p:inputText value="#{derechosMinerosCtrl.licenciaComercializacion.tipoPersonaString}" readonly="true"/>
+                            <p:inputText value="#{derechosMinerosCtrl.licenciaComercializacion.tipoPersonaString}" 
+                                         readonly="true" size="40"/>
                             <h:outputText value="Número Documento:" />
-                            <p:inputText value="#{derechosMinerosCtrl.licenciaComercializacion.numeroDocumento}" readonly="true"/>
+                            <p:inputText value="#{derechosMinerosCtrl.licenciaComercializacion.numeroDocumento}" 
+                                         readonly="true" size="40"/>
                             <h:outputText value="Nombre:" />
-                            <p:inputText value="#{derechosMinerosCtrl.licenciaComercializacion.nombre}" readonly="true"/>
+                            <p:inputText value="#{derechosMinerosCtrl.licenciaComercializacion.nombre}" 
+                                         readonly="true" size="40"/>
                             <h:outputText value="Apellido:" />
-                            <p:inputText value="#{derechosMinerosCtrl.licenciaComercializacion.apellido}" readonly="true"/>
+                            <p:inputText value="#{derechosMinerosCtrl.licenciaComercializacion.apellido}" 
+                                         readonly="true" size="40"/>
                             <h:outputText value="Correo Electrónico:" />
-                            <p:inputText value="#{derechosMinerosCtrl.licenciaComercializacion.correoElectronico}" readonly="true"/>
+                            <p:inputText value="#{derechosMinerosCtrl.licenciaComercializacion.correoElectronico}" 
+                                         readonly="true" size="40"/>
                             <h:outputText value="Dirección:" />
-                            <p:inputText value="#{derechosMinerosCtrl.licenciaComercializacion.direccion}" readonly="true"/>
+                            <p:inputText value="#{derechosMinerosCtrl.licenciaComercializacion.direccion}" 
+                                         readonly="true" size="40"/>
                             <h:outputText value="Teléfono:" />
-                            <p:inputText value="#{derechosMinerosCtrl.licenciaComercializacion.telefono}" readonly="true"/>
+                            <p:inputText value="#{derechosMinerosCtrl.licenciaComercializacion.telefono}" 
+                                         readonly="true" size="40"/>
                             <h:outputText value="Casillero Judicial:" />
-                            <p:inputText value="#{derechosMinerosCtrl.licenciaComercializacion.casilleroJudicial}" readonly="true"/>
+                            <p:inputText value="#{derechosMinerosCtrl.licenciaComercializacion.casilleroJudicial}" 
+                                         readonly="true" size="40"/>
                             <h:outputText value="Estado:" />
-                            <p:inputText value="#{derechosMinerosCtrl.licenciaComercializacion.estadoLicencia.nombre}" readonly="true"/>
+                            <p:inputText value="#{derechosMinerosCtrl.licenciaComercializacion.estadoLicencia.nombre}" 
+                                         readonly="true" size="40"/>
                         </h:panelGrid>
                         <h:panelGrid columns="2" columnClasses="form-label, form-input">
                             <h:outputText value="Fecha Otorgamiento:" />
-                            <p:inputText value="#{derechosMinerosCtrl.licenciaComercializacion.fechaOtorgamientoLicencia}" readonly="true"/>
+                            <p:inputText value="#{derechosMinerosCtrl.licenciaComercializacion.fechaOtorgamientoLicencia}" readonly="true">
+                                <f:convertDateTime pattern="yyyy-MM-dd"/>
+                            </p:inputText>
                             <h:outputText value="Fecha Inscribe:" />
-                            <p:inputText value="#{derechosMinerosCtrl.licenciaComercializacion.fechaInscribe}" readonly="true"/>
+                            <p:inputText value="#{derechosMinerosCtrl.licenciaComercializacion.fechaInscribe}" readonly="true">
+                                <f:convertDateTime pattern="yyyy-MM-dd"/>
+                            </p:inputText>
                             <h:outputText value="Provincia:" />
                             <p:inputText value="#{derechosMinerosCtrl.licenciaComercializacion.provinciaString}" readonly="true"/>
                             <h:outputText value="Cantón:" />
@@ -488,39 +527,56 @@
                                 <p:outputLabel value="Datos Planta Beneficio"/>
                             </h:panelGroup>
                         </f:facet>
-                        <h:panelGrid columns="2" columnClasses="form-label, form-input">
+                        <h:panelGrid columns="2" columnClasses="form-label, form-input" style="width: 500px">
                             <h:outputText value="Código:" />
-                            <p:inputText value="#{derechosMinerosCtrl.plantaBeneficio.codigoArcom}" readonly="true"/>
+                            <p:inputText value="#{derechosMinerosCtrl.plantaBeneficio.codigoArcom}" 
+                                         readonly="true" size="40"/>
                             <h:outputText value="Tipo Persona:" />
-                            <p:inputText value="#{derechosMinerosCtrl.plantaBeneficio.tipoPersonaString}" readonly="true"/>
+                            <p:inputText value="#{derechosMinerosCtrl.plantaBeneficio.tipoPersonaString}" 
+                                         readonly="true" size="40"/>
                             <h:outputText value="Número Documento:" />
-                            <p:inputText value="#{derechosMinerosCtrl.plantaBeneficio.numeroDocumentoRepresentanteLegal}" readonly="true"/>
+                            <p:inputText value="#{derechosMinerosCtrl.plantaBeneficio.numeroDocumentoRepresentanteLegal}" 
+                                         readonly="true" size="40"/>
                             <h:outputText value="Nombre:" />
-                            <p:inputText value="#{derechosMinerosCtrl.plantaBeneficio.nombreRepresentanteLegal}" readonly="true"/>
+                            <p:inputText value="#{derechosMinerosCtrl.plantaBeneficio.nombreRepresentanteLegal}" 
+                                         readonly="true" size="40"/>
                             <h:outputText value="Apellido:" />
-                            <p:inputText value="#{derechosMinerosCtrl.plantaBeneficio.apellidoRepresentanteLegal}" readonly="true"/>
+                            <p:inputText value="#{derechosMinerosCtrl.plantaBeneficio.apellidoRepresentanteLegal}" 
+                                         readonly="true" size="40"/>
                             <h:outputText value="Correo Electrónico:" />
-                            <p:inputText value="#{derechosMinerosCtrl.plantaBeneficio.correoElectronico}" readonly="true"/>
+                            <p:inputText value="#{derechosMinerosCtrl.plantaBeneficio.correoElectronico}" 
+                                         readonly="true" size="40"/>
                             <h:outputText value="Dirección:" />
-                            <p:inputText value="#{derechosMinerosCtrl.plantaBeneficio.direccionPlanta}" readonly="true"/>
+                            <p:inputText value="#{derechosMinerosCtrl.plantaBeneficio.direccionPlanta}" 
+                                         readonly="true" size="40"/>
                             <h:outputText value="Teléfono:" />
-                            <p:inputText value="#{derechosMinerosCtrl.plantaBeneficio.telefonoPlanta}" readonly="true"/>
+                            <p:inputText value="#{derechosMinerosCtrl.plantaBeneficio.telefonoPlanta}" 
+                                         readonly="true" size="40"/>
                             <h:outputText value="Casillero Judicial:" />
-                            <p:inputText value="#{derechosMinerosCtrl.plantaBeneficio.casilleroJudicial}" readonly="true"/>
+                            <p:inputText value="#{derechosMinerosCtrl.plantaBeneficio.casilleroJudicial}" 
+                                         readonly="true" size="40"/>
                             <h:outputText value="Nombre Planta Beneficio:" />
-                            <p:inputText value="#{derechosMinerosCtrl.plantaBeneficio.nombrePlantaBeneficio}" readonly="true"/>
+                            <p:inputText value="#{derechosMinerosCtrl.plantaBeneficio.nombrePlantaBeneficio}" 
+                                         readonly="true" size="40"/>
                             <h:outputText value="Zona:" />
-                            <p:inputText value="#{derechosMinerosCtrl.plantaBeneficio.zona}" readonly="true"/>
+                            <p:inputText value="#{derechosMinerosCtrl.plantaBeneficio.zona}" 
+                                         readonly="true" size="40"/>
                             <h:outputText value="Plazo:" />
-                            <p:inputText value="#{derechosMinerosCtrl.plantaBeneficio.plazo}" readonly="true"/>
+                            <p:inputText value="#{derechosMinerosCtrl.plantaBeneficio.plazo}" 
+                                         readonly="true" size="40"/>
+                            <h:outputText value="Capacidad Instalada:" />
+                            <p:inputText value="#{derechosMinerosCtrl.plantaBeneficio.capacidadInstalada}" 
+                                         readonly="true" size="40"/>
                         </h:panelGrid>
                         <h:panelGrid columns="2" columnClasses="form-label, form-input">
-                            <h:outputText value="Capacidad Instalada:" />
-                            <p:inputText value="#{derechosMinerosCtrl.plantaBeneficio.capacidadInstalada}" readonly="true"/>
                             <h:outputText value="Fecha Otorgamiento:" />
-                            <p:inputText value="#{derechosMinerosCtrl.plantaBeneficio.fechaOtorga}" readonly="true"/>
+                            <p:inputText value="#{derechosMinerosCtrl.plantaBeneficio.fechaOtorga}" readonly="true">
+                                <f:convertDateTime pattern="yyyy-MM-dd"/>
+                            </p:inputText>
                             <h:outputText value="Fecha Inscribe:" />
-                            <p:inputText value="#{derechosMinerosCtrl.plantaBeneficio.fechaInscribe}" readonly="true"/>
+                            <p:inputText value="#{derechosMinerosCtrl.plantaBeneficio.fechaInscribe}" readonly="true">
+                                <f:convertDateTime pattern="yyyy-MM-dd"/>
+                            </p:inputText>
                             <h:outputText value="Estado:" />
                             <p:inputText value="#{derechosMinerosCtrl.plantaBeneficio.estadoPlanta.nombre}" readonly="true"/>
                             <h:outputText value="Procedencia Material:" />

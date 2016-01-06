@@ -9,6 +9,7 @@ import com.novell.ldap.LDAPEntry;
 import com.novell.ldap.LDAPException;
 import ec.gob.arcom.migracion.ctrl.base.BaseCtrl;
 import ec.gob.arcom.migracion.dao.UsuarioDao;
+import ec.gob.arcom.migracion.modelo.Usuario;
 import ec.gob.arcom.migracion.servicio.RegionalServicio;
 import ec.gob.arcom.migracion.util.LDAPConexion;
 import ec.gob.arcom.migracion.util.SSHA;
@@ -119,10 +120,18 @@ public class LoginCtrl extends BaseCtrl {
             usr = LDAPConexion.buscarUsuario(LDAPConexion.conectar(), userName);
             if (usr != null) {
                 if (validarCredenciales(usr.getAttribute("userPassword").getStringValue(), userPassword)) {
+                    Usuario uBd = usuarioDao.obtenerPorLogin(userName);
                     this.logged = true;
                     this.admin = true;
                     this.regional = regionalServicio.findByCedulaRucUsuario(userName)[0];
                     this.prefijoRegional = regionalServicio.findByCedulaRucUsuario(userName)[1];
+                    if (uBd != null) {
+                        if (uBd.getCampoReservado01() != null && uBd.getCampoReservado01().equals("UL")) {
+                            this.usuarioLectura = true;
+                        } else {
+                            this.usuarioLectura = false;
+                        }
+                    }
                     return true;
                 }
             }

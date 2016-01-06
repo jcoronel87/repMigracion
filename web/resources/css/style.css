@@ -137,6 +137,12 @@ h2 {
     width: 93%;
 }
 
+.textarea {
+    text-align: left;
+    padding: 3px;
+    vertical-align: middle;
+}
+
 .columnHome{
     width:184px;
     text-align: center;
@@ -165,4 +171,11 @@ h2 {
     width: 93%;
     color: black;
     font-weight: bolder;
+}
+
+.form-input_ancho {
+    text-align: left;
+    padding: 3px;
+    vertical-align: middle;
+    width: 95%;
 }

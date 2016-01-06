@@ -6,6 +6,7 @@
 package ec.gob.arcom.migracion.ctrl;
 
 import ec.gob.arcom.migracion.ctrl.base.BaseCtrl;
+import ec.gob.arcom.migracion.dao.ConcesionMineraDao;
 import ec.gob.arcom.migracion.dao.SadminDataDao;
 import ec.gob.arcom.migracion.dto.DerechoMineroDto;
 import ec.gob.arcom.migracion.modelo.CatalogoDetalle;
@@ -59,6 +60,8 @@ public class DerechosMinerosCtrl extends BaseCtrl {
     private PersonaNaturalServicio personaNaturalServicio;
     @EJB
     private PersonaJuridicaServicio personaJuridicaServicio;
+    @EJB
+    private ConcesionMineraDao concesionMineraDao;
 
     private String codigo;
     private String nombreDerechoMinero;
@@ -300,7 +303,13 @@ public class DerechosMinerosCtrl extends BaseCtrl {
 
     public void verConcesionMinera() {
         DerechoMineroDto derechoMineroDtoItem = (DerechoMineroDto) getExternalContext().getRequestMap().get("reg");
-        concesionMinera = concesionMineraServicio.findByPk(derechoMineroDtoItem.getId());
+        concesionMinera = concesionMineraDao.findByPk(derechoMineroDtoItem.getId());
+        if (concesionMinera.getCodigoZona() != null) {
+            System.out.println("zona: " + concesionMinera.getCodigoZona().getCodigoCatalogoDetalle() 
+                    + " " + concesionMinera.getCodigoZona().getNombre());
+        }
+        System.out.println("superficie: " + concesionMinera.getNumeroHectareasConcesion());
+        System.out.println("volumen: " + concesionMinera.getVolumenTotalExplotacion());
         if (concesionMinera.getDocumentoConcesionarioPrincipal() != null) {
             if (concesionMinera.getDocumentoConcesionarioPrincipal().length() == 10) {
                 PersonaNatural personaNatural = personaNaturalServicio
@@ -342,6 +351,10 @@ public class DerechosMinerosCtrl extends BaseCtrl {
             if (parroquia != null) {
                 concesionMinera.setParroquiaString(parroquia.getNombre());
             }
+        }
+        if (concesionMinera.getCodigoZona() != null) {
+            System.out.println("zona222222: " + concesionMinera.getCodigoZona().getCodigoCatalogoDetalle() 
+                    + " " + concesionMinera.getCodigoZona().getNombre());
         }
         RequestContext.getCurrentInstance().execute("PF('dlgConcesionMinera').show()");
     }
