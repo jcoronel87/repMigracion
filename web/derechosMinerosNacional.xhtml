@@ -463,9 +463,6 @@
                             <h:outputText value="Código:" />
                             <p:inputText value="#{derechosMinerosCtrl.licenciaComercializacion.codigoArcom}" 
                                          readonly="true" size="40"/>
-                            <h:outputText value="Tipo Persona:" />
-                            <p:inputText value="#{derechosMinerosCtrl.licenciaComercializacion.tipoPersonaString}" 
-                                         readonly="true" size="40"/>
                             <h:outputText value="Número Documento:" />
                             <p:inputText value="#{derechosMinerosCtrl.licenciaComercializacion.numeroDocumento}" 
                                          readonly="true" size="40"/>
@@ -490,12 +487,13 @@
                             <h:outputText value="Estado:" />
                             <p:inputText value="#{derechosMinerosCtrl.licenciaComercializacion.estadoLicencia.nombre}" 
                                          readonly="true" size="40"/>
-                        </h:panelGrid>
-                        <h:panelGrid columns="2" columnClasses="form-label, form-input">
                             <h:outputText value="Fecha Otorgamiento:" />
-                            <p:inputText value="#{derechosMinerosCtrl.licenciaComercializacion.fechaOtorgamientoLicencia}" readonly="true">
+                            <p:inputText value="#{derechosMinerosCtrl.licenciaComercializacion.fechaOtorgamientoLicencia}" 
+                                         readonly="true" size="40">
                                 <f:convertDateTime pattern="yyyy-MM-dd"/>
                             </p:inputText>
+                        </h:panelGrid>
+                        <h:panelGrid columns="2" columnClasses="form-label, form-input">
                             <h:outputText value="Fecha Inscribe:" />
                             <p:inputText value="#{derechosMinerosCtrl.licenciaComercializacion.fechaInscribe}" readonly="true">
                                 <f:convertDateTime pattern="yyyy-MM-dd"/>
@@ -508,7 +506,7 @@
                             <p:inputText value="#{derechosMinerosCtrl.licenciaComercializacion.parroquiaString}" readonly="true"/>
                             <h:outputText value="Mineral:" />
                             <p:inputText value="#{derechosMinerosCtrl.licenciaComercializacion.codigoMineralInteres.nombre}" readonly="true"/>
-                            <h:outputText value="Parroquia:" />
+                            <h:outputText value="Tipo Mineral:" />
                             <p:inputText value="#{derechosMinerosCtrl.licenciaComercializacion.codigoTipoMineral.nombre}" readonly="true"/>
                             <h:outputText value="Observaciones generales:" />
                             <p:inputTextarea value="#{derechosMinerosCtrl.licenciaComercializacion.observaciones}" cols="47" maxlength="200"
@@ -530,9 +528,6 @@
                         <h:panelGrid columns="2" columnClasses="form-label, form-input" style="width: 500px">
                             <h:outputText value="Código:" />
                             <p:inputText value="#{derechosMinerosCtrl.plantaBeneficio.codigoArcom}" 
-                                         readonly="true" size="40"/>
-                            <h:outputText value="Tipo Persona:" />
-                            <p:inputText value="#{derechosMinerosCtrl.plantaBeneficio.tipoPersonaString}" 
                                          readonly="true" size="40"/>
                             <h:outputText value="Número Documento:" />
                             <p:inputText value="#{derechosMinerosCtrl.plantaBeneficio.numeroDocumentoRepresentanteLegal}" 
@@ -567,12 +562,13 @@
                             <h:outputText value="Capacidad Instalada:" />
                             <p:inputText value="#{derechosMinerosCtrl.plantaBeneficio.capacidadInstalada}" 
                                          readonly="true" size="40"/>
-                        </h:panelGrid>
-                        <h:panelGrid columns="2" columnClasses="form-label, form-input">
                             <h:outputText value="Fecha Otorgamiento:" />
-                            <p:inputText value="#{derechosMinerosCtrl.plantaBeneficio.fechaOtorga}" readonly="true">
+                            <p:inputText value="#{derechosMinerosCtrl.plantaBeneficio.fechaOtorga}" 
+                                         readonly="true" size="40">
                                 <f:convertDateTime pattern="yyyy-MM-dd"/>
                             </p:inputText>
+                        </h:panelGrid>
+                        <h:panelGrid columns="2" columnClasses="form-label, form-input">
                             <h:outputText value="Fecha Inscribe:" />
                             <p:inputText value="#{derechosMinerosCtrl.plantaBeneficio.fechaInscribe}" readonly="true">
                                 <f:convertDateTime pattern="yyyy-MM-dd"/>
@@ -588,9 +584,9 @@
                             <h:outputText value="Parroquia:" />
                             <p:inputText value="#{derechosMinerosCtrl.plantaBeneficio.parroquiaString}" readonly="true"/>
                             <h:outputText value="MAE:" />
-                            <p:inputText value="#{derechosMinerosCtrl.plantaBeneficio.mae}" readonly="true"/>
+                            <p:inputText value="#{derechosMinerosCtrl.plantaBeneficio.maeString}" readonly="true"/>
                             <h:outputText value="SENAGUA:" />
-                            <p:inputText value="#{derechosMinerosCtrl.plantaBeneficio.senagua}" readonly="true"/>
+                            <p:inputText value="#{derechosMinerosCtrl.plantaBeneficio.senaguaString}" readonly="true"/>
                             <h:outputText value="Observaciones generales:" />
                             <p:inputTextarea value="#{derechosMinerosCtrl.plantaBeneficio.obsActoAdministrativo}" cols="47" maxlength="200"
                                              readonly="true"/>

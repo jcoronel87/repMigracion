@@ -212,6 +212,10 @@ public class PlantaBeneficio implements Serializable {
     private String cantonString;
     @Transient
     private String parroquiaString;
+    @Transient
+    private String maeString;
+    @Transient
+    private String senaguaString;
 
     public PlantaBeneficio() {
     }
@@ -804,6 +808,22 @@ public class PlantaBeneficio implements Serializable {
 
     public void setParroquiaString(String parroquiaString) {
         this.parroquiaString = parroquiaString;
+    }
+
+    public String getMaeString() {
+        return maeString;
+    }
+
+    public void setMaeString(String maeString) {
+        this.maeString = maeString;
+    }
+
+    public String getSenaguaString() {
+        return senaguaString;
+    }
+
+    public void setSenaguaString(String senaguaString) {
+        this.senaguaString = senaguaString;
     }
 
 }

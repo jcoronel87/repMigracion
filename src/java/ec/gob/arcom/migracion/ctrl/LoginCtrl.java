@@ -47,6 +47,7 @@ public class LoginCtrl extends BaseCtrl {
     private String regional;
     private String prefijoRegional;
     private boolean usuarioLectura;
+    private boolean registroMinero;
 
     public String getUserName() {
         return userName;
@@ -131,6 +132,11 @@ public class LoginCtrl extends BaseCtrl {
                         } else {
                             this.usuarioLectura = false;
                         }
+                        if (uBd.getCampoReservado01() != null && uBd.getCampoReservado01().equals("RM")) {
+                            this.registroMinero = true;
+                        } else {
+                            this.registroMinero = false;
+                        }
                     }
                     return true;
                 }
@@ -186,6 +192,14 @@ public class LoginCtrl extends BaseCtrl {
             return true;
         }
         return false;
+    }
+
+    public boolean isRegistroMinero() {
+        return registroMinero;
+    }
+
+    public void setRegistroMinero(boolean registroMinero) {
+        this.registroMinero = registroMinero;
     }
 
 }

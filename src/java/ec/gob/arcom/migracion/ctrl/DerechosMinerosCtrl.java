@@ -404,6 +404,16 @@ public class DerechosMinerosCtrl extends BaseCtrl {
                 plantaBeneficio.setParroquiaString(parroquia.getNombre());
             }
         }
+        if (plantaBeneficio.getMae()) {
+            plantaBeneficio.setMaeString("SI");
+        } else {
+            plantaBeneficio.setMaeString("NO");
+        }
+        if (plantaBeneficio.getSenagua()) {
+            plantaBeneficio.setSenaguaString("SI");
+        } else {
+            plantaBeneficio.setSenaguaString("NO");
+        }
         RequestContext.getCurrentInstance().execute("PF('dlgPlantaBeneficio').show()");
     }
 

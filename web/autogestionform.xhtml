@@ -44,6 +44,16 @@
                             <p:outputLabel value="DATOS DE AUTOGESTION"/>
                         </h:panelGroup>
                     </f:facet>
+                    <p:outputLabel value="Número depósito:"></p:outputLabel>
+                    <p:inputMask id="numDoc" mask="9?9999999" 
+                                 value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.numeroComprobanteBanco}" 
+                                 size="50" placeHolder=""
+                                 maxlength="8" required="true" requiredMessage="Número documento requerido">
+                    </p:inputMask>
+                    
+                    <p:outputLabel value="Valor:"></p:outputLabel>
+                    <p:inputText value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.valorPago}"/>
+                    
                     <p:outputLabel value="Fecha creación:"></p:outputLabel>
                     <p:calendar id="fecCreacion" readonlyInput="true" placeholder="aaaa-mm-dd" navigator="true"
                                 value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.fechaCreacion}"  
@@ -54,12 +64,6 @@
                                 value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.fechaEmisionPago}"  
                                 locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" />
 
-                    <p:outputLabel value="Número depósito:"></p:outputLabel>
-                    <p:inputMask id="numDoc" mask="9?9999999" 
-                                 value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.numeroComprobanteBanco}" 
-                                 size="50" placeHolder=""
-                                 maxlength="8" required="true" requiredMessage="Número documento requerido">
-                    </p:inputMask>
 
                     <p:outputLabel value="Tipo de ingreso/concepto:"></p:outputLabel>
                     <p:selectOneMenu value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.codigoConceptoPago.codigoConceptoPago}" 
@@ -120,9 +124,6 @@
                     <p:outputLabel value="Apellido otros servicios:"></p:outputLabel>
                     <p:inputText id="apOtServ" value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.nombrePersonaPago}"
                                  readonly="true"/>
-
-                    <p:outputLabel value="Valor:"></p:outputLabel>
-                    <p:inputText value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.valorPago}"/>
 
                     <p:outputLabel value="Nro. comprobante:"></p:outputLabel>
                     <p:inputText  value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.numeroComprobanteArcom}"/>
