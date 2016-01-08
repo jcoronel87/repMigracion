@@ -45,4 +45,9 @@ public class RegistroPagoObligacionesServicioImpl extends GenericServiceImpl<Reg
         return registroPagoObligacionesDao.obtenerPRUNacional();
     }
 
+    @Override
+    public List<RegistroPagoObligaciones> obtenerPorNumeroComprobanteArcom(String numeroComprobanteArcom) {
+        return registroPagoObligacionesDao.obtenerPorCodigoComprobanteArcom(numeroComprobanteArcom);
+    }
+
 }

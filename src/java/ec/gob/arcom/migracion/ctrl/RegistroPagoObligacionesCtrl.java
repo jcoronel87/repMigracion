@@ -9,6 +9,7 @@ import ec.gob.arcom.migracion.constantes.ConstantesEnum;
 import ec.gob.arcom.migracion.ctrl.base.BaseCtrl;
 import ec.gob.arcom.migracion.dao.UsuarioDao;
 import ec.gob.arcom.migracion.modelo.Auditoria;
+import ec.gob.arcom.migracion.modelo.CatalogoDetalle;
 import ec.gob.arcom.migracion.modelo.ConceptoPago;
 import ec.gob.arcom.migracion.modelo.ConcesionMinera;
 import ec.gob.arcom.migracion.modelo.LicenciaComercializacion;
@@ -16,6 +17,7 @@ import ec.gob.arcom.migracion.modelo.Localidad;
 import ec.gob.arcom.migracion.modelo.LocalidadRegional;
 import ec.gob.arcom.migracion.modelo.PlantaBeneficio;
 import ec.gob.arcom.migracion.modelo.RegistroPagoObligaciones;
+import ec.gob.arcom.migracion.modelo.Secuencia;
 import ec.gob.arcom.migracion.modelo.SujetoMinero;
 import ec.gob.arcom.migracion.modelo.Usuario;
 import ec.gob.arcom.migracion.servicio.AuditoriaServicio;
@@ -91,8 +93,10 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
     private SujetoMinero sujetoMineroPopUpAnterior;
 
     private String identificacionSujetoMinero;
-    
+
     private List<RegistroPagoObligaciones> registrosPRUNacional;
+
+    private Secuencia secuenciaComPago;
 
     public RegistroPagoObligaciones getRegistroPagoObligacionesAutoGestion() {
         if (registroPagoObligacionesAutoGestion == null) {
@@ -104,6 +108,10 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
             if (idRegistroPagoObligaciones == null) {
                 registroPagoObligacionesAutoGestion = new RegistroPagoObligaciones();
                 registroPagoObligacionesAutoGestion.setCodigoConceptoPago(new ConceptoPago());
+                registroPagoObligacionesAutoGestion.setCodigoBanco(new CatalogoDetalle());
+                secuenciaComPago = secuenciaServicio.obtenerPorNemonico("SETCOMPAGORGL" + login.getPrefijoRegional());
+                registroPagoObligacionesAutoGestion.setNumeroComprobanteArcom(
+                        formarCodigoComprobante(login.getPrefijoRegional(), secuenciaComPago.getValor()));
             } else {
                 registroPagoObligacionesAutoGestion = registroPagoObligacionesServicio.obtenerPorCodigoRegistroPagoObligaciones(idRegistroPagoObligaciones);
                 registroPagoObligacionesAutoGestionAnterior = registroPagoObligacionesServicio.obtenerPorCodigoRegistroPagoObligaciones(idRegistroPagoObligaciones);
@@ -112,6 +120,9 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
                 registroPagoObligacionesAutoGestion.getCodigoPlantaBeneficio();
                 if (registroPagoObligacionesAutoGestion.getCodigoConceptoPago() == null) {
                     registroPagoObligacionesAutoGestion.setCodigoConceptoPago(new ConceptoPago());
+                }
+                if (registroPagoObligacionesAutoGestion.getCodigoBanco() == null) {
+                    registroPagoObligacionesAutoGestion.setCodigoBanco(new CatalogoDetalle());
                 }
             }
         }
@@ -138,7 +149,7 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
     public String guardarRegistroAutoGestion() {
         Usuario us = usuarioDao.obtenerPorLogin(login.getUserName());
         try {
-            if (registroPagoObligacionesAutoGestion.getCodigoRegistro()== null) {
+            if (registroPagoObligacionesAutoGestion.getCodigoRegistro() == null) {
                 System.out.println("entra create");
                 registroPagoObligacionesAutoGestion.setEstadoRegistro(true);
                 registroPagoObligacionesAutoGestion.setFechaCreacion(new Date());
@@ -165,7 +176,9 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
                     registroPagoObligacionesAutoGestion.setCodigoPlantaBeneficio(pb);
                 }
                 //Secuencia secuencia = secuenciaServicio.obtenerPorNemonico(codigoFiltro)
+                secuenciaComPago.setValor(secuenciaComPago.getValor() + 1);
                 registroPagoObligacionesServicio.create(registroPagoObligacionesAutoGestion);
+                secuenciaServicio.update(secuenciaComPago);
                 Auditoria auditoria = new Auditoria();
                 auditoria.setAccion("INSERT");
                 auditoria.setDetalleAnterior(registroPagoObligacionesAutoGestion.toString());
@@ -177,6 +190,19 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
                         "Registro guardado con éxito", null));
             } else {
                 System.out.println("entra update");
+                if (registroPagoObligacionesAutoGestion.getNumeroComprobanteArcom() != null) {
+                    List<RegistroPagoObligaciones> autogestiones = registroPagoObligacionesServicio
+                            .obtenerPorNumeroComprobanteArcom(registroPagoObligacionesAutoGestion.getNumeroComprobanteArcom());
+                    if (!autogestiones.isEmpty()) {
+                        autogestiones.get(0).getCodigoConcesion();
+                        autogestiones.get(0).getCodigoLicenciaComercializacion();
+                        autogestiones.get(0).getCodigoPlantaBeneficio();
+                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+                        "El número de comprobante ya se encuentra atado al derecho minero de código: " 
+                                + autogestiones.get(0).getCodigoDerechoMinero(), null));
+                        return null;
+                    }
+                }
                 registroPagoObligacionesAutoGestion.setFechaModificacion(new Date());
                 registroPagoObligacionesAutoGestion.setUsuarioModificacion(BigInteger.valueOf(us.getCodigoUsuario()));
                 registroPagoObligacionesServicio.actualizarRegistroPagoObligaciones(registroPagoObligacionesAutoGestion);
@@ -438,7 +464,7 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
     public void setSujetoMineroPopUpAnterior(SujetoMinero sujetoMineroPopUpAnterior) {
         this.sujetoMineroPopUpAnterior = sujetoMineroPopUpAnterior;
     }
-    
+
     protected String formarCodigoComprobante(String prefijoComprobante, Long secuencial) {
         //prefijoComprobante es el prefijo de la regional
         String codigo = secuencial.toString();
@@ -459,5 +485,5 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
     public void setRegistrosPRUNacional(List<RegistroPagoObligaciones> registrosPRUNacional) {
         this.registrosPRUNacional = registrosPRUNacional;
     }
-    
+
 }

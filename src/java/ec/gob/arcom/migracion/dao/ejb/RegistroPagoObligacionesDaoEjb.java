@@ -215,5 +215,14 @@ public class RegistroPagoObligacionesDaoEjb extends GenericDaoEjbEl<RegistroPago
         List<RegistroPagoObligaciones> registrosNacional = query.getResultList();
         return registrosNacional;
     }
+
+    @Override
+    public List<RegistroPagoObligaciones> obtenerPorCodigoComprobanteArcom(String numeroComprobanteArcom) {
+        String jpql = "select rpo from RegistroPagoObligaciones rpo where rpo.numeroComprobanteArcom = :numeroComprobanteArcom";
+        Query query = em.createQuery(jpql);
+        query.setParameter("numeroComprobanteArcom", numeroComprobanteArcom);
+        List<RegistroPagoObligaciones> autogestiones = query.getResultList();
+        return autogestiones;
+    }
     
 }

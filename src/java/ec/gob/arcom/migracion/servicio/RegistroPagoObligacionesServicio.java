@@ -23,4 +23,6 @@ public interface RegistroPagoObligacionesServicio extends GenericService<Registr
 
     List<RegistroPagoObligaciones> obtenerPRUNacional();
 
+    List<RegistroPagoObligaciones> obtenerPorNumeroComprobanteArcom(String numeroComprobanteArcom);
+
 }

@@ -12,7 +12,7 @@
         </ui:define>
 
         <ui:define name="content">
-            
+
             <h:form id="form">
 
                 <p:growl id="growl" showDetail="true" showSummary="false" life="8000" autoUpdate="true"/>
@@ -50,10 +50,17 @@
                                  size="50" placeHolder=""
                                  maxlength="8" required="true" requiredMessage="Número documento requerido">
                     </p:inputMask>
-                    
+
                     <p:outputLabel value="Valor:"></p:outputLabel>
                     <p:inputText value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.valorPago}"/>
-                    
+
+                    <p:outputLabel value="Entidad bancaria:"></p:outputLabel>
+                    <p:selectOneMenu value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.codigoBanco.codigoCatalogoDetalle}" 
+                                     style="width: 93%">
+                        <f:selectItem itemValue="" itemLabel="--Seleccione una opción--" />
+                        <f:selectItems value="#{selectItemCtrl.entidadesBancarias}" />
+                    </p:selectOneMenu>
+
                     <p:outputLabel value="Fecha creación:"></p:outputLabel>
                     <p:calendar id="fecCreacion" readonlyInput="true" placeholder="aaaa-mm-dd" navigator="true"
                                 value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.fechaCreacion}"  
@@ -63,7 +70,6 @@
                     <p:calendar id="fecDep" readonlyInput="true" placeholder="aaaa-mm-dd" navigator="true"
                                 value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.fechaEmisionPago}"  
                                 locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" />
-
 
                     <p:outputLabel value="Tipo de ingreso/concepto:"></p:outputLabel>
                     <p:selectOneMenu value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.codigoConceptoPago.codigoConceptoPago}" 
@@ -127,6 +133,10 @@
 
                     <p:outputLabel value="Nro. comprobante:"></p:outputLabel>
                     <p:inputText  value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.numeroComprobanteArcom}"/>
+
+                    <h:outputText value="Observación económico:" />
+                    <p:inputTextarea value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.observacionAnalistaEconomico}"
+                                     cols="52" maxlength="500"/>
 
                     <f:facet name="footer">
                         <h:panelGroup style="display:block; text-align:center">
