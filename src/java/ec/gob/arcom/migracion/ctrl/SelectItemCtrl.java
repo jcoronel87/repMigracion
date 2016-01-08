@@ -553,7 +553,7 @@ public class SelectItemCtrl {
             if (catalogo != null) {
                 List<CatalogoDetalle> tipoServCat = catalogoDetalleServicio.obtenerPorCatalogo(catalogo.getCodigoCatalogo());
                 for (CatalogoDetalle catDet : tipoServCat) {
-                    
+                    tipoServicios.add(new SelectItem(catDet.getCodigoCatalogoDetalle(), catDet.getNombre()));
                 }
             }
         }
