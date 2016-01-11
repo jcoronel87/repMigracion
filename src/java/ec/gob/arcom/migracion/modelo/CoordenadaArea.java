@@ -5,7 +5,6 @@
  */
 package ec.gob.arcom.migracion.modelo;
 
-import ec.gob.arcom.migracion.modelo.CatalogoDetalle;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Date;

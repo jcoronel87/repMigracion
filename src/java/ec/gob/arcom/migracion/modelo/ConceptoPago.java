@@ -33,6 +33,8 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "ConceptoPago.findAll", query = "SELECT c FROM ConceptoPago c")})
 public class ConceptoPago implements Serializable {
+    @OneToMany(mappedBy = "codigoConceptoPago")
+    private List<CostoServicios> costoServiciosList;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -191,6 +193,14 @@ public class ConceptoPago implements Serializable {
     @Override
     public String toString() {
         return "ec.gob.arcom.migracion.modelo.ConceptoPago[ codigoConceptoPago=" + codigoConceptoPago + " ]";
+    }
+
+    public List<CostoServicios> getCostoServiciosList() {
+        return costoServiciosList;
+    }
+
+    public void setCostoServiciosList(List<CostoServicios> costoServiciosList) {
+        this.costoServiciosList = costoServiciosList;
     }
     
 }

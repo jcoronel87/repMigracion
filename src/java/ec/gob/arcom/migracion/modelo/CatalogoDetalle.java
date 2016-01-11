@@ -35,6 +35,8 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "CatalogoDetalle.findAll", query = "SELECT c FROM CatalogoDetalle c")})
 public class CatalogoDetalle implements Serializable {
+    @OneToMany(mappedBy = "tipoServicio")
+    private List<CostoServicios> costoServiciosList;
 
     @OneToMany(mappedBy = "tipoResolucion")
     private Collection<Resolucion> resolucionCollection;
@@ -531,6 +533,14 @@ public class CatalogoDetalle implements Serializable {
 
     public void setResolucionCollection1(Collection<Resolucion> resolucionCollection1) {
         this.resolucionCollection1 = resolucionCollection1;
+    }
+
+    public List<CostoServicios> getCostoServiciosList() {
+        return costoServiciosList;
+    }
+
+    public void setCostoServiciosList(List<CostoServicios> costoServiciosList) {
+        this.costoServiciosList = costoServiciosList;
     }
     
 }

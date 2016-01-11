@@ -238,6 +238,8 @@ public class RegistroPagoObligaciones implements Serializable {
     private String numeroRuc;
     @Transient
     private String concesionario;
+    @Transient
+    private BigDecimal valorReferenciaEntregaImpresa;
 
     public RegistroPagoObligaciones() {
     }
@@ -928,6 +930,14 @@ public class RegistroPagoObligaciones implements Serializable {
 
     public void setConcesionario(String concesionario) {
         this.concesionario = concesionario;
+    }
+
+    public BigDecimal getValorReferenciaEntregaImpresa() {
+        return valorReferenciaEntregaImpresa;
+    }
+
+    public void setValorReferenciaEntregaImpresa(BigDecimal valorReferenciaEntregaImpresa) {
+        this.valorReferenciaEntregaImpresa = valorReferenciaEntregaImpresa;
     }
 
     @Override

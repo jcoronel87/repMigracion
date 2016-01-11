@@ -9,9 +9,11 @@ import ec.gob.arcom.migracion.constantes.ConstantesEnum;
 import ec.gob.arcom.migracion.ctrl.base.BaseCtrl;
 import ec.gob.arcom.migracion.dao.UsuarioDao;
 import ec.gob.arcom.migracion.modelo.Auditoria;
+import ec.gob.arcom.migracion.modelo.Catalogo;
 import ec.gob.arcom.migracion.modelo.CatalogoDetalle;
 import ec.gob.arcom.migracion.modelo.ConceptoPago;
 import ec.gob.arcom.migracion.modelo.ConcesionMinera;
+import ec.gob.arcom.migracion.modelo.CostoServicios;
 import ec.gob.arcom.migracion.modelo.LicenciaComercializacion;
 import ec.gob.arcom.migracion.modelo.Localidad;
 import ec.gob.arcom.migracion.modelo.LocalidadRegional;
@@ -21,7 +23,10 @@ import ec.gob.arcom.migracion.modelo.Secuencia;
 import ec.gob.arcom.migracion.modelo.SujetoMinero;
 import ec.gob.arcom.migracion.modelo.Usuario;
 import ec.gob.arcom.migracion.servicio.AuditoriaServicio;
+import ec.gob.arcom.migracion.servicio.CatalogoDetalleServicio;
+import ec.gob.arcom.migracion.servicio.CatalogoServicio;
 import ec.gob.arcom.migracion.servicio.ConcesionMineraServicio;
+import ec.gob.arcom.migracion.servicio.CostoServiciosServicio;
 import ec.gob.arcom.migracion.servicio.LicenciaComercializacionServicio;
 import ec.gob.arcom.migracion.servicio.LocalidadRegionalServicio;
 import ec.gob.arcom.migracion.servicio.LocalidadServicio;
@@ -30,6 +35,7 @@ import ec.gob.arcom.migracion.servicio.RegistroPagoObligacionesServicio;
 import ec.gob.arcom.migracion.servicio.SecuenciaServicio;
 import ec.gob.arcom.migracion.servicio.SujetoMineroServicio;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
@@ -38,6 +44,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import org.primefaces.context.RequestContext;
 
 /**
@@ -68,6 +75,12 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
     private SecuenciaServicio secuenciaServicio;
     @EJB
     private LocalidadRegionalServicio localidadRegionalServicio;
+    @EJB
+    private CatalogoServicio catalogoServicio;
+    @EJB
+    private CatalogoDetalleServicio catalogoDetalleServicio;
+    @EJB
+    private CostoServiciosServicio costoServiciosServicio;
     @ManagedProperty(value = "#{loginCtrl}")
     private LoginCtrl login;
     private RegistroPagoObligaciones registroPagoObligacionesAutoGestion;
@@ -97,6 +110,11 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
     private List<RegistroPagoObligaciones> registrosPRUNacional;
 
     private Secuencia secuenciaComPago;
+    private List<SelectItem> tipoServicios;
+    private List<SelectItem> conceptosPago;
+    
+    private boolean generacionComprobante;
+    private boolean aplicaCantidad;
 
     public RegistroPagoObligaciones getRegistroPagoObligacionesAutoGestion() {
         if (registroPagoObligacionesAutoGestion == null) {
@@ -110,8 +128,8 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
                 registroPagoObligacionesAutoGestion.setCodigoConceptoPago(new ConceptoPago());
                 registroPagoObligacionesAutoGestion.setCodigoBanco(new CatalogoDetalle());
                 secuenciaComPago = secuenciaServicio.obtenerPorNemonico("SETCOMPAGORGL" + login.getPrefijoRegional());
-                registroPagoObligacionesAutoGestion.setNumeroComprobanteArcom(
-                        formarCodigoComprobante(login.getPrefijoRegional(), secuenciaComPago.getValor()));
+                //generarCodigoComprobante();
+                registroPagoObligacionesAutoGestion.setCodigoTipoServicio(new CatalogoDetalle());
             } else {
                 registroPagoObligacionesAutoGestion = registroPagoObligacionesServicio.obtenerPorCodigoRegistroPagoObligaciones(idRegistroPagoObligaciones);
                 registroPagoObligacionesAutoGestionAnterior = registroPagoObligacionesServicio.obtenerPorCodigoRegistroPagoObligaciones(idRegistroPagoObligaciones);
@@ -124,9 +142,17 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
                 if (registroPagoObligacionesAutoGestion.getCodigoBanco() == null) {
                     registroPagoObligacionesAutoGestion.setCodigoBanco(new CatalogoDetalle());
                 }
+                if (registroPagoObligacionesAutoGestion.getCodigoTipoServicio() == null) {
+                    registroPagoObligacionesAutoGestion.setCodigoTipoServicio(new CatalogoDetalle());
+                }
             }
         }
         return registroPagoObligacionesAutoGestion;
+    }
+    
+    public void generarCodigoComprobante() {
+        registroPagoObligacionesAutoGestion.setNumeroComprobanteArcom(
+                        formarCodigoComprobante(login.getPrefijoRegional(), secuenciaComPago.getValor()));
     }
 
     public void setRegistroPagoObligacionesAutoGestion(RegistroPagoObligaciones registroPagoObligacionesAutoGestion) {
@@ -198,7 +224,7 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
                         autogestiones.get(0).getCodigoLicenciaComercializacion();
                         autogestiones.get(0).getCodigoPlantaBeneficio();
                         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
-                        "El número de comprobante ya se encuentra atado al derecho minero de código: " 
+                                "El número de comprobante ya se encuentra atado al derecho minero de código: "
                                 + autogestiones.get(0).getCodigoDerechoMinero(), null));
                         return null;
                     }
@@ -484,6 +510,87 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
 
     public void setRegistrosPRUNacional(List<RegistroPagoObligaciones> registrosPRUNacional) {
         this.registrosPRUNacional = registrosPRUNacional;
+    }
+
+    public List<SelectItem> getTipoServicios() {
+        if (tipoServicios == null) {
+            tipoServicios = new ArrayList<>();
+            Catalogo catalogo = catalogoServicio.findByNemonico("LISTSERV");
+            if (catalogo != null) {
+                List<CatalogoDetalle> tipoServCat = catalogoDetalleServicio.obtenerPorCatalogo(catalogo.getCodigoCatalogo());
+                for (CatalogoDetalle catDet : tipoServCat) {
+                    tipoServicios.add(new SelectItem(catDet.getCodigoCatalogoDetalle(), catDet.getNombre()));
+                }
+            }
+
+        }
+        return tipoServicios;
+    }
+
+    public void setTipoServicios(List<SelectItem> tipoServicios) {
+        this.tipoServicios = tipoServicios;
+    }
+
+    public List<SelectItem> getConceptosPago() {
+        if (conceptosPago == null) {
+            conceptosPago = new ArrayList<>();
+            if (registroPagoObligacionesAutoGestion.getCodigoTipoServicio() != null
+                    && registroPagoObligacionesAutoGestion.getCodigoTipoServicio().getCodigoCatalogoDetalle() != null) {
+                List<CostoServicios> costoServicios = costoServiciosServicio
+                        .obtenerPorTipoServicio(registroPagoObligacionesAutoGestion.getCodigoTipoServicio().getCodigoCatalogoDetalle());
+                if (costoServicios != null) {
+                    for (CostoServicios costoServicio : costoServicios) {
+                        conceptosPago.add(new SelectItem(costoServicio.getCodigoConceptoPago().getCodigoConceptoPago(),
+                                costoServicio.getCodigoConceptoPago().getDescripcionConceptoPago()));
+                    }
+                }
+
+            }
+        }
+        return conceptosPago;
+    }
+
+    public void setConceptosPago(List<SelectItem> conceptosPago) {
+        this.conceptosPago = conceptosPago;
+    }
+    
+    public void cargarConceptosPago() {
+        conceptosPago = null;
+        getConceptosPago();
+        registroPagoObligacionesAutoGestion.setValorReferenciaEntregaImpresa(null);
+    }
+    
+    public void obtenerValorConceptoPago() {
+        if (registroPagoObligacionesAutoGestion.getCodigoConceptoPago() != null
+                && registroPagoObligacionesAutoGestion.getCodigoConceptoPago().getCodigoConceptoPago() != null) {
+            CostoServicios costoServicios = costoServiciosServicio
+                    .obtenerPorCodigoConceptoPago(registroPagoObligacionesAutoGestion.getCodigoConceptoPago().getCodigoConceptoPago());
+            registroPagoObligacionesAutoGestion.setValorReferenciaEntregaImpresa(costoServicios.getValorReferenciaEntregaImpresa());
+        }
+    }
+
+    public boolean isGeneracionComprobante() {
+        return generacionComprobante;
+    }
+
+    public void setGeneracionComprobante(boolean generacionComprobante) {
+        this.generacionComprobante = generacionComprobante;
+    }
+    
+    public void generarComprobanteArcom() {
+        if (generacionComprobante) {
+            generarCodigoComprobante();
+        } else {
+            registroPagoObligacionesAutoGestion.setNumeroComprobanteArcom(null);
+        }
+    }
+
+    public boolean isAplicaCantidad() {
+        return aplicaCantidad;
+    }
+
+    public void setAplicaCantidad(boolean aplicaCantidad) {
+        this.aplicaCantidad = aplicaCantidad;
     }
 
 }

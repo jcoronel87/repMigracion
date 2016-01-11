@@ -44,6 +44,28 @@
                             <p:outputLabel value="DATOS DE AUTOGESTION"/>
                         </h:panelGroup>
                     </f:facet>
+
+                    <p:outputLabel value="Tipo de servicio:"></p:outputLabel>
+                    <p:selectOneMenu value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.codigoTipoServicio.codigoCatalogoDetalle}" 
+                                     required="true" requiredMessage="Tipo servicio es requerido" style="width: 93%">
+                        <f:selectItem itemValue="" itemLabel="--Seleccione una opción--" />
+                        <f:selectItems value="#{registroPagoObligacionesCtrl.tipoServicios}" />
+                        <p:ajax listener="#{registroPagoObligacionesCtrl.cargarConceptosPago}" update="conPago valorRef" />
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="conPago" value="Concepto pago:"></p:outputLabel>
+                    <p:selectOneMenu id="conPago" 
+                                     value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.codigoConceptoPago.codigoConceptoPago}" 
+                                     required="true" requiredMessage="Concepto pago es requerido" style="width: 93%">
+                        <f:selectItem itemValue="" itemLabel="--Seleccione una opción--" />
+                        <f:selectItems value="#{registroPagoObligacionesCtrl.conceptosPago}" />
+                        <f:ajax listener="#{registroPagoObligacionesCtrl.obtenerValorConceptoPago}" render="valorRef"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="valorRef" value="Valor:"></p:outputLabel>
+                    <p:inputText id="valorRef" 
+                                 value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.valorReferenciaEntregaImpresa}"/>
+
                     <p:outputLabel value="Número depósito:"></p:outputLabel>
                     <p:inputMask id="numDoc" mask="9?9999999" 
                                  value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.numeroComprobanteBanco}" 
@@ -53,6 +75,31 @@
 
                     <p:outputLabel value="Valor:"></p:outputLabel>
                     <p:inputText value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.valorPago}"/>
+
+                    <p:outputLabel value="Generar Nro. comprobante?"/>
+                    <p:selectBooleanCheckbox value="#{registroPagoObligacionesCtrl.generacionComprobante}">
+                        <p:ajax update="numCompPago" listener="#{registroPagoObligacionesCtrl.generarComprobanteArcom}" />
+                    </p:selectBooleanCheckbox>
+
+                    <p:outputLabel for="numCompPago" value="Nro. comprobante:"></p:outputLabel>
+                    <p:inputText id="numCompPago" 
+                                 value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.numeroComprobanteArcom}"
+                                 readonly="#{registroPagoObligacionesCtrl.generacionComprobante}"/>
+
+                    <p:outputLabel value="Aplica cantidad?"/>
+                    <p:selectBooleanCheckbox value="#{registroPagoObligacionesCtrl.aplicaCantidad}">
+                        <p:ajax update="panelCant1 panelCant2"/>
+                    </p:selectBooleanCheckbox>
+
+                    <h:panelGroup id="panelCant1">
+                        <p:outputLabel for="cant" value="Cantidad:"
+                                       rendered="#{registroPagoObligacionesCtrl.aplicaCantidad}"/>
+                    </h:panelGroup>
+                    <h:panelGroup id="panelCant2">
+                    <p:inputText id="cant" 
+                                 value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.cantidad}" 
+                                 rendered="#{registroPagoObligacionesCtrl.aplicaCantidad}"/>
+                    </h:panelGroup>
 
                     <p:outputLabel value="Entidad bancaria:"></p:outputLabel>
                     <p:selectOneMenu value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.codigoBanco.codigoCatalogoDetalle}" 
@@ -70,13 +117,6 @@
                     <p:calendar id="fecDep" readonlyInput="true" placeholder="aaaa-mm-dd" navigator="true"
                                 value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.fechaEmisionPago}"  
                                 locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" />
-
-                    <p:outputLabel value="Tipo de ingreso/concepto:"></p:outputLabel>
-                    <p:selectOneMenu value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.codigoConceptoPago.codigoConceptoPago}" 
-                                     required="true" requiredMessage="Estado es requerido" style="width: 93%">
-                        <f:selectItem itemValue="" itemLabel="--Seleccione una opción--" />
-                        <f:selectItems value="#{selectItemCtrl.conceptosDePago}" />
-                    </p:selectOneMenu>
 
                     <p:outputLabel value="Tipo de registro:"></p:outputLabel>
                     <p:selectOneMenu id="tipRegistro" value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.codigoTipoRegistro}" 
@@ -119,20 +159,17 @@
                                      maxlength="30" readonly="true" rendered="#{!registroPagoObligacionesCtrl.sujetoMinero}"/>
                     </h:panelGroup>
 
-                    <p:outputLabel value="Cédula otros servicios:"></p:outputLabel>
+                    <p:outputLabel value="Cédula titular:"></p:outputLabel>
                     <p:inputText id="cedOtServ" value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.documentoPersonaPago}"
                                  readonly="true"/>
 
-                    <p:outputLabel value="Nombre otros servicios:"></p:outputLabel>
+                    <p:outputLabel value="Nombre titular:"></p:outputLabel>
                     <p:inputText id="nomOtServ" value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.nombrePersonaPago}"
                                  readonly="true"/>
 
-                    <p:outputLabel value="Apellido otros servicios:"></p:outputLabel>
+                    <p:outputLabel value="Apellido titular:"></p:outputLabel>
                     <p:inputText id="apOtServ" value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.nombrePersonaPago}"
                                  readonly="true"/>
-
-                    <p:outputLabel value="Nro. comprobante:"></p:outputLabel>
-                    <p:inputText  value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.numeroComprobanteArcom}"/>
 
                     <h:outputText value="Observación económico:" />
                     <p:inputTextarea value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.observacionAnalistaEconomico}"
