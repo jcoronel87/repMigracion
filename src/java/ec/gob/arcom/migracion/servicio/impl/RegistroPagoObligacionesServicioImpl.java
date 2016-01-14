@@ -10,6 +10,7 @@ import com.saviasoft.persistence.util.service.impl.GenericServiceImpl;
 import ec.gob.arcom.migracion.dao.RegistroPagoObligacionesDao;
 import ec.gob.arcom.migracion.modelo.RegistroPagoObligaciones;
 import ec.gob.arcom.migracion.servicio.RegistroPagoObligacionesServicio;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -48,6 +49,12 @@ public class RegistroPagoObligacionesServicioImpl extends GenericServiceImpl<Reg
     @Override
     public List<RegistroPagoObligaciones> obtenerPorNumeroComprobanteArcom(String numeroComprobanteArcom) {
         return registroPagoObligacionesDao.obtenerPorCodigoComprobanteArcom(numeroComprobanteArcom);
+    }
+
+    @Override
+    public List<RegistroPagoObligaciones> obtenerRegistrosAutogestion(Date fechaInicio, Date fechaFin, String numeroComprobanteArcom, 
+            String cedula, String codigoDerechoMinero) {
+        return registroPagoObligacionesDao.obtenerListaAutogestion(fechaInicio, fechaFin, numeroComprobanteArcom, cedula, codigoDerechoMinero);
     }
 
 }

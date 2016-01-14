@@ -12,6 +12,7 @@ import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -213,8 +214,9 @@ public class RegistroPagoObligaciones implements Serializable {
     @JoinColumn(name = "codigo_planta_beneficio", referencedColumnName = "codigo_planta_beneficio")
     @ManyToOne
     private PlantaBeneficio codigoPlantaBeneficio;
-    @JoinColumn(name = "codigo_sujeto_minero", referencedColumnName = "codigo_sujeto_minero")
-    @ManyToOne
+    //@JoinColumn(name = "codigo_sujeto_minero", referencedColumnName = "codigo_sujeto_minero")
+    //@ManyToOne
+    @Transient
     private SujetoMinero codigoSujetoMinero;
     @Transient
     private Long codigoDerechoMinero;

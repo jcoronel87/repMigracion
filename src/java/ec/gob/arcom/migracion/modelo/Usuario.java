@@ -8,7 +8,9 @@ package ec.gob.arcom.migracion.modelo;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -16,9 +18,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -31,6 +35,8 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u")})
 public class Usuario implements Serializable {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
+    private List<UsuarioRol> usuarioRolList;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -114,6 +120,8 @@ public class Usuario implements Serializable {
     @JoinColumn(name = "codigo_localidad", referencedColumnName = "codigo_localidad")
     @ManyToOne
     private Localidad codigoLocalidad;
+    @Transient
+    private String nombresCompletos;
 
     public Usuario() {
     }
@@ -338,6 +346,17 @@ public class Usuario implements Serializable {
         this.codigoLocalidad = codigoLocalidad;
     }
 
+    public String getNombresCompletos() {
+        if (nombresCompletos == null) {
+            nombresCompletos = nombre + " " + apellido;
+        }
+        return nombresCompletos;
+    }
+
+    public void setNombresCompletos(String nombresCompletos) {
+        this.nombresCompletos = nombresCompletos;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -361,6 +380,14 @@ public class Usuario implements Serializable {
     @Override
     public String toString() {
         return "ec.gob.arcom.migracion.modelo.Usuario[ codigoUsuario=" + codigoUsuario + " ]";
+    }
+
+    public List<UsuarioRol> getUsuarioRolList() {
+        return usuarioRolList;
+    }
+
+    public void setUsuarioRolList(List<UsuarioRol> usuarioRolList) {
+        this.usuarioRolList = usuarioRolList;
     }
     
 }

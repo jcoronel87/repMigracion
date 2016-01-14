@@ -6,9 +6,21 @@
 package ec.gob.arcom.migracion.dao.ejb;
 
 import com.saviasoft.persistence.util.dao.eclipselink.GenericDaoEjbEl;
+import ec.gob.arcom.migracion.dao.ConcesionMineraDao;
+import ec.gob.arcom.migracion.dao.LicenciaComercializacionDao;
+import ec.gob.arcom.migracion.dao.PlantaBeneficioDao;
 import ec.gob.arcom.migracion.dao.RegistroPagoObligacionesDao;
+import ec.gob.arcom.migracion.modelo.ConcesionMinera;
+import ec.gob.arcom.migracion.modelo.LicenciaComercializacion;
+import ec.gob.arcom.migracion.modelo.PlantaBeneficio;
 import ec.gob.arcom.migracion.modelo.RegistroPagoObligaciones;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -20,6 +32,13 @@ import javax.persistence.Query;
 @Stateless(name = "RegistroPagoObligacionesDao")
 public class RegistroPagoObligacionesDaoEjb extends GenericDaoEjbEl<RegistroPagoObligaciones, Long> implements
         RegistroPagoObligacionesDao {
+
+    @EJB
+    private ConcesionMineraDao concesionMineraDao;
+    @EJB
+    private LicenciaComercializacionDao licenciaComercializacionDao;
+    @EJB
+    private PlantaBeneficioDao plantaBeneficioDao;
 
     public RegistroPagoObligacionesDaoEjb() {
         super(RegistroPagoObligaciones.class);
@@ -43,11 +62,11 @@ public class RegistroPagoObligacionesDaoEjb extends GenericDaoEjbEl<RegistroPago
     public void actualizarRegistroPagoObligaciones(RegistroPagoObligaciones registroPagoObligaciones) throws Exception {
         String sql = "UPDATE catmin.registro_pago_obligaciones \n"
                 + "SET codigo_registro = " + registroPagoObligaciones.getCodigoRegistro() + ", \n";
-        if (registroPagoObligaciones.getCodigoConceptoPago() != null) {
+        /*if (registroPagoObligaciones.getCodigoConceptoPago() != null) {
             sql += "codigo_concepto_pago = " + registroPagoObligaciones.getCodigoConceptoPago().getCodigoConceptoPago() + ", \n";
         } else {
             sql += "codigo_concepto_pago = " + null + ", \n";
-        }
+        }*/
         if (registroPagoObligaciones.getCodigoConcesion() != null) {
             sql += "codigo_concesion = " + registroPagoObligaciones.getCodigoConcesion().getCodigoConcesion() + ", \n";
         } else {
@@ -201,6 +220,18 @@ public class RegistroPagoObligacionesDaoEjb extends GenericDaoEjbEl<RegistroPago
         } else {
             sql += "tipo_pago = " + null + ", \n";
         }
+        if (registroPagoObligaciones.getCodigoTipoServicio() != null
+                && registroPagoObligaciones.getCodigoTipoServicio().getCodigoCatalogoDetalle() != null) {
+            sql += "codigo_tipo_servicio = " + registroPagoObligaciones.getCodigoTipoServicio().getCodigoCatalogoDetalle() + ", \n";
+        } else {
+            sql += "codigo_tipo_servicio = " + null + ", \n";
+        }
+        if (registroPagoObligaciones.getCodigoConceptoPago() != null
+                && registroPagoObligaciones.getCodigoConceptoPago().getCodigoConceptoPago() != null ) {
+            sql += "codigo_concepto_pago = " + registroPagoObligaciones.getCodigoConceptoPago().getCodigoConceptoPago() + ", \n";
+        } else {
+            sql += "codigo_concepto_pago = " + null + ", \n";
+        }
         sql += "codigo_tipo_registro = " + registroPagoObligaciones.getCodigoTipoRegistro() + " \n";
         sql += "WHERE codigo_registro = " + registroPagoObligaciones.getCodigoRegistro();
 
@@ -224,5 +255,68 @@ public class RegistroPagoObligacionesDaoEjb extends GenericDaoEjbEl<RegistroPago
         List<RegistroPagoObligaciones> autogestiones = query.getResultList();
         return autogestiones;
     }
-    
+
+    @Override
+    public List<RegistroPagoObligaciones> obtenerListaAutogestion(Date fechaDesde, Date fechaHasta, String numeroComprobanteArcom,
+            String cedula, String codigoDerechoMinero) {
+        System.out.println("fechaDesde: " + fechaDesde);
+        System.out.println("fechaHasta: " + fechaHasta);
+        System.out.println("numeroComprobanteArcom: " + numeroComprobanteArcom);
+        System.out.println("codigoDerechoMinero: " + codigoDerechoMinero);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String fechaD = "";
+        String fechaH = "";
+        ConcesionMinera concesionMinera = null;
+        LicenciaComercializacion licenciaComercializacion = null;
+        PlantaBeneficio plantaBeneficio = null;
+        Long codigoDerMin = null;
+        if (fechaDesde != null) {
+            fechaD = sdf.format(fechaDesde);
+            System.out.println("fechaD: " + fechaD);
+        }
+        if (fechaHasta != null) {
+            fechaH = sdf.format(fechaHasta);
+            System.out.println("fechaH: " + fechaH);
+        }
+        if (codigoDerechoMinero != null) {
+            concesionMinera = concesionMineraDao.findByCodigoArcom(codigoDerechoMinero);
+            licenciaComercializacion = licenciaComercializacionDao.findByCodigoArcom(codigoDerechoMinero);
+            plantaBeneficio = plantaBeneficioDao.findByCodigoArcom(codigoDerechoMinero);
+            if (concesionMinera != null) {
+                codigoDerMin = concesionMinera.getCodigoConcesion();
+            } else if (licenciaComercializacion != null) {
+                codigoDerMin = licenciaComercializacion.getCodigoLicenciaComercializacion();
+            } else if (plantaBeneficio != null) {
+                codigoDerMin = plantaBeneficio.getCodigoPlantaBeneficio();
+            }
+        }
+        String jpql = "select rpo from RegistroPagoObligaciones rpo where 1 = 1 and rpo.estadoPago.codigoCatalogoDetalle = 574";
+        if (fechaDesde != null && fechaHasta != null) {
+            jpql += " and rpo.fechaCreacion >= '" + fechaD + "' and rpo.fechaCreacion <= '" + fechaH + "'";
+        }
+        if (fechaDesde != null && fechaHasta == null) {
+            jpql += " and rpo.fechaCreacion >= '" + fechaD + "'";
+        }
+        if (fechaDesde == null && fechaHasta != null) {
+            jpql += " and rpo.fechaCreacion <= '" + fechaH + "'";
+        }
+        if (numeroComprobanteArcom != null && !numeroComprobanteArcom.isEmpty()) {
+            jpql += " and rpo.numeroComprobanteArcom = :numeroComprobanteArcom";
+        }
+        if (codigoDerMin != null) {
+            jpql += " and (rpo.codigoConcesion.codigoConcesion = :codigoDerMin "
+                    + "or rpo.codigoLicenciaComercializacion.codigoLicenciaComercializacion = :codigoDerMin"
+                    + " or rpo.codigoPlantaBeneficio.codigoPlantaBeneficio = :codigoDerMin)";
+        }
+        jpql += " order by rpo.fechaCreacion desc";
+        Query query = em.createQuery(jpql);
+        if (numeroComprobanteArcom != null && !numeroComprobanteArcom.isEmpty()) {
+            query.setParameter("numeroComprobanteArcom", numeroComprobanteArcom);
+        }
+        if (codigoDerMin != null) {
+            query.setParameter("codigoDerMin", codigoDerMin);
+        }
+        return query.getResultList();
+    }
+
 }

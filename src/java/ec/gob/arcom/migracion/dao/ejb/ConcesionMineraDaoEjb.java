@@ -10,11 +10,7 @@ import ec.gob.arcom.migracion.constantes.ConstantesEnum;
 import ec.gob.arcom.migracion.dao.ConcesionMineraDao;
 import ec.gob.arcom.migracion.dto.ConcesionMineraDto;
 import ec.gob.arcom.migracion.dto.DerechoMineroDto;
-import ec.gob.arcom.migracion.modelo.CatalogoDetalle;
 import ec.gob.arcom.migracion.modelo.ConcesionMinera;
-import ec.gob.arcom.migracion.modelo.Fase;
-import ec.gob.arcom.migracion.modelo.Localidad;
-import ec.gob.arcom.migracion.modelo.Regional;
 import ec.gob.arcom.migracion.servicio.CatalogoDetalleServicio;
 import ec.gob.arcom.migracion.servicio.FaseServicio;
 import ec.gob.arcom.migracion.servicio.LocalidadServicio;
@@ -47,7 +43,7 @@ public class ConcesionMineraDaoEjb extends GenericDaoEjbEl<ConcesionMinera, Long
     public ConcesionMineraDaoEjb() {
         super(ConcesionMinera.class);
     }
-    
+
     @Override
     public List<ConcesionMineraDto> obtenerRegistrosPorUsuario(String cedulaRuc, String codigoFiltro, String cedulaTitularFiltro, String nombreAreaFiltro) {
         if (codigoFiltro == null || codigoFiltro.trim().isEmpty()) {
@@ -532,11 +528,13 @@ public class ConcesionMineraDaoEjb extends GenericDaoEjbEl<ConcesionMinera, Long
         String sql1 = "";
         if (tipoSolicitud == null || tipoSolicitud.equals(ConstantesEnum.TIPO_SOLICITUD_CONS_MIN.getNemonico())
                 || tipoSolicitud.equals(ConstantesEnum.TIPO_SOLICITUD_LIB_APR.getNemonico())
-                || tipoSolicitud.equals(ConstantesEnum.TIPO_SOLICITUD_MIN_ART.getNemonico())) {
+                || tipoSolicitud.equals(ConstantesEnum.TIPO_SOLICITUD_MIN_ART.getNemonico())
+                || tipoSolicitud.equals(ConstantesEnum.TIPO_SOLICITUD_PEQ_MIN.getNemonico())
+                || tipoSolicitud.equals(ConstantesEnum.TIPO_SOLICITUD_MA_PEQ_MIN.getNemonico())) {
             sql1 = "select concesiones.codigo_arcom, concesiones.nombre_concesion,\n"
                     + "concesiones.nombre_regional, concesiones.provincia, concesiones.fase,\n"
                     + "concesiones.estado, concesiones.nombre_tipo_mineria, concesiones.beneficiario_principal,\n"
-                    + "concesiones.tipo_persona, concesiones.fecha_creacion, concesiones.tipo_form, concesiones.codigo_concesion\n"
+                    + "concesiones.tipo_persona, concesiones.fecha_creacion, 'C' as tipo_form, concesiones.codigo_concesion\n"
                     + "from\n"
                     + "(\n"
                     + "select cm.codigo_arcom as codigo_arcom, \n"
@@ -559,7 +557,8 @@ public class ConcesionMineraDaoEjb extends GenericDaoEjbEl<ConcesionMinera, Long
                     + "prov.codigo_localidad as codigo_provincia,\n"
                     + "(select codigo_fase from catmin.fase where codigo_fase = cm.codigo_fase) as codigo_fase,\n"
                     + "est.codigo_catalogo_detalle as codigo_estado,\n"
-                    + "(select r.nombre_regional from catmin.regional r, catmin.localidad_regional l where cm.codigo_provincia = l.codigo_localidad and r.codigo_regional = l.codigo_regional) as nombre_regional\n"
+                    + "(select r.nombre_regional from catmin.regional r, catmin.localidad_regional l where cm.codigo_provincia = l.codigo_localidad and r.codigo_regional = l.codigo_regional) as nombre_regional, \n"
+                    + "cm.codigo_tipo_mineria \n"
                     + "from catmin.concesion_minera cm, catmin.localidad prov, catmin.catalogo_detalle est, catmin.tipo_mineria tm, catmin.personas p\n"
                     + "where prov.codigo_localidad = cm.codigo_provincia\n"
                     + "and est.codigo_catalogo_detalle = cm.estado_concesion\n"
@@ -591,6 +590,23 @@ public class ConcesionMineraDaoEjb extends GenericDaoEjbEl<ConcesionMinera, Long
             if (tipoPersona != null && !tipoPersona.isEmpty()) {
                 sql1 += "and concesiones.tipo_persona = '" + tipoPersona + "'\n";
             }
+            if (tipoSolicitud != null && !tipoSolicitud.isEmpty()) {
+                if (tipoSolicitud.equals(ConstantesEnum.TIPO_SOLICITUD_CONS_MIN.getNemonico())) {
+                    sql1 += "and concesiones.codigo_tipo_mineria = " + ConstantesEnum.TIPO_SOLICITUD_CONS_MIN.getCodigo() + "\n";
+                }
+                if (tipoSolicitud.equals(ConstantesEnum.TIPO_SOLICITUD_LIB_APR.getNemonico())) {
+                    sql1 += "and concesiones.codigo_tipo_mineria = " + ConstantesEnum.TIPO_SOLICITUD_LIB_APR.getCodigo() + "\n";
+                }
+                if (tipoSolicitud.equals(ConstantesEnum.TIPO_SOLICITUD_MIN_ART.getNemonico())) {
+                    sql1 += "and concesiones.codigo_tipo_mineria = " + ConstantesEnum.TIPO_SOLICITUD_MIN_ART.getCodigo() + "\n";
+                }
+                if (tipoSolicitud.equals(ConstantesEnum.TIPO_SOLICITUD_PEQ_MIN.getNemonico())) {
+                    sql1 += "and concesiones.codigo_tipo_mineria = " + ConstantesEnum.TIPO_SOLICITUD_PEQ_MIN.getCodigo() + "\n";
+                }
+                if (tipoSolicitud.equals(ConstantesEnum.TIPO_SOLICITUD_MA_PEQ_MIN.getNemonico())) {
+                    sql1 += "and concesiones.codigo_tipo_mineria = " + ConstantesEnum.TIPO_SOLICITUD_MA_PEQ_MIN.getCodigo() + "\n";
+                }
+            }
         }
         if (tipoSolicitud == null) {
             sql1 += "union\n";
@@ -598,7 +614,7 @@ public class ConcesionMineraDaoEjb extends GenericDaoEjbEl<ConcesionMinera, Long
         if (tipoSolicitud == null || tipoSolicitud.equals(ConstantesEnum.TIPO_SOLICITUD_LIC_COM.getNemonico())) {
             sql1 += "select licencias.codigo_arcom, licencias.nombre_licencia, licencias.nombre_regional, licencias.provincia, \n"
                     + "licencias.fase, licencias.estado, licencias.tipo_solicitud, licencias.beneficiario_principal, \n"
-                    + "licencias.tipo_persona, licencias.fecha_creacion, licencias.tipo_form, licencias.codigo_licencia_comercializacion \n"
+                    + "licencias.tipo_persona, licencias.fecha_creacion, 'L' as tipo_form, licencias.codigo_licencia_comercializacion \n"
                     + "from \n"
                     + "(select\n"
                     + "l.codigo_arcom, \n"
@@ -652,7 +668,7 @@ public class ConcesionMineraDaoEjb extends GenericDaoEjbEl<ConcesionMinera, Long
         }
         if (tipoSolicitud == null || tipoSolicitud.equals(ConstantesEnum.TIPO_SOLICITUD_PLAN_BEN.getNemonico())) {
             sql1 += "select plantas.codigo_arcom, plantas.nombre_planta_beneficio, plantas.nombre_regional, plantas.provincia, plantas.fase, \n"
-                    + "plantas.estado, plantas.tipo_solicitud, plantas.beneficiario_principal, plantas.tipo_persona, plantas.fecha_creacion, plantas.tipo_form, \n"
+                    + "plantas.estado, plantas.tipo_solicitud, plantas.beneficiario_principal, plantas.tipo_persona, plantas.fecha_creacion, 'P' as tipo_form, \n"
                     + "plantas.codigo_planta_beneficio \n"
                     + "from\n"
                     + "(select \n"

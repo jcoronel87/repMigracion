@@ -4,30 +4,19 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/dao/ejb/ConcesionMineraDaoEjb.java</file>
-            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/modelo/SadminData.java</file>
-            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/ctrl/ConcesionMineraCtrl.java</file>
-            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/ctrl/InstrumentoCtrl.java</file>
+            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/modelo/Usuario.java</file>
+            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/modelo/RegistroPagoObligaciones.java</file>
+            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/dao/ejb/LicenciaComercializacionDaoEjb.java</file>
+            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/dao/RegistroPagoObligacionesDao.java</file>
             <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/web/concesionmineraform.xhtml</file>
-            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/servicio/impl/LocalidadRegionalServicioImpl.java</file>
-            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/web/concesionesmineras.xhtml</file>
+            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/servicio/impl/RegistroPagoObligacionesServicioImpl.java</file>
+            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/dao/ejb/RegistroPagoObligacionesDaoEjb.java</file>
+            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/ctrl/SelectItemCtrl.java</file>
             <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/ctrl/RegistroPagoObligacionesCtrl.java</file>
             <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/web/autogestionform.xhtml</file>
-            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/ctrl/DerechosMinerosCtrl.java</file>
-            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/constantes/ConstantesEnum.java</file>
-            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/modelo/Solicitud.java</file>
-            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/web/areamineraform.xhtml</file>
-            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/ctrl/PatentesUtilidadesRegaliasCtrl.java</file>
-            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/web/instrumentoform.xhtml</file>
-            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/servicio/impl/ConcesionMineraServicioImpl.java</file>
-            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/web/patentesUtilidadesRegaliasForm.xhtml</file>
-            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/modelo/RegistroPagoObligaciones.java</file>
-            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/dao/ejb/RegistroPagoObligacionesDaoEjb.java</file>
-            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/modelo/Instrumento.java</file>
-            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/ctrl/SelectItemCtrl.java</file>
-            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/web/derechosMinerosNacional.xhtml</file>
-            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/web/concesionesminerasro.xhtml</file>
-            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/web/plantabeneficioform.xhtml</file>
-            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/web/index.xhtml</file>
+            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/modelo/ConcesionMinera.java</file>
+            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/web/autogestion.xhtml</file>
+            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/dao/ejb/PlantaBeneficioDaoEjb.java</file>
         </group>
     </open-files>
 </project-private>

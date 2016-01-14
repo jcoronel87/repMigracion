@@ -22,6 +22,7 @@ import ec.gob.arcom.migracion.modelo.RegistroPagoObligaciones;
 import ec.gob.arcom.migracion.modelo.Secuencia;
 import ec.gob.arcom.migracion.modelo.SujetoMinero;
 import ec.gob.arcom.migracion.modelo.Usuario;
+import ec.gob.arcom.migracion.modelo.UsuarioRol;
 import ec.gob.arcom.migracion.servicio.AuditoriaServicio;
 import ec.gob.arcom.migracion.servicio.CatalogoDetalleServicio;
 import ec.gob.arcom.migracion.servicio.CatalogoServicio;
@@ -34,6 +35,7 @@ import ec.gob.arcom.migracion.servicio.PlantaBeneficioServicio;
 import ec.gob.arcom.migracion.servicio.RegistroPagoObligacionesServicio;
 import ec.gob.arcom.migracion.servicio.SecuenciaServicio;
 import ec.gob.arcom.migracion.servicio.SujetoMineroServicio;
+import ec.gob.arcom.migracion.servicio.UsuarioRolServicio;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
@@ -81,6 +83,8 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
     private CatalogoDetalleServicio catalogoDetalleServicio;
     @EJB
     private CostoServiciosServicio costoServiciosServicio;
+    @EJB
+    private UsuarioRolServicio usuarioRolServicio;
     @ManagedProperty(value = "#{loginCtrl}")
     private LoginCtrl login;
     private RegistroPagoObligaciones registroPagoObligacionesAutoGestion;
@@ -112,9 +116,23 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
     private Secuencia secuenciaComPago;
     private List<SelectItem> tipoServicios;
     private List<SelectItem> conceptosPago;
-    
+
     private boolean generacionComprobante;
     private boolean aplicaCantidad;
+
+    private Date fechaDesdeFiltro;
+    private Date fechaHastaFiltro;
+    private String numeroComprobanteArcomFiltro;
+    private String codigoArcomFiltro;
+
+    private String urlReporte;
+
+    private List<SelectItem> provincias;
+
+    public void buscar() {
+        listaRegistrosAutoGestion = null;
+        getListaRegistrosAutoGestion();
+    }
 
     public RegistroPagoObligaciones getRegistroPagoObligacionesAutoGestion() {
         if (registroPagoObligacionesAutoGestion == null) {
@@ -130,6 +148,8 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
                 secuenciaComPago = secuenciaServicio.obtenerPorNemonico("SETCOMPAGORGL" + login.getPrefijoRegional());
                 //generarCodigoComprobante();
                 registroPagoObligacionesAutoGestion.setCodigoTipoServicio(new CatalogoDetalle());
+                registroPagoObligacionesAutoGestion.setCantidad(0);
+                registroPagoObligacionesAutoGestion.setLugarEmisionPago(new Localidad());
             } else {
                 registroPagoObligacionesAutoGestion = registroPagoObligacionesServicio.obtenerPorCodigoRegistroPagoObligaciones(idRegistroPagoObligaciones);
                 registroPagoObligacionesAutoGestionAnterior = registroPagoObligacionesServicio.obtenerPorCodigoRegistroPagoObligaciones(idRegistroPagoObligaciones);
@@ -145,14 +165,33 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
                 if (registroPagoObligacionesAutoGestion.getCodigoTipoServicio() == null) {
                     registroPagoObligacionesAutoGestion.setCodigoTipoServicio(new CatalogoDetalle());
                 }
+                obtenerValorConceptoPago();
+                if (registroPagoObligacionesAutoGestion.getCantidad() == null
+                        || registroPagoObligacionesAutoGestion.getCantidad().equals(0)) {
+                    aplicaCantidad = false;
+                } else {
+                    aplicaCantidad = true;
+                }
+                if (registroPagoObligacionesAutoGestion.getLugarEmisionPago() == null) {
+                    registroPagoObligacionesAutoGestion.setLugarEmisionPago(new Localidad());
+                }
+                if (registroPagoObligacionesAutoGestion != null) {
+                    SujetoMinero sm = sujetoMineroServicio.obtenerPorIdentificacion(identificacionSujetoMinero);
+                    if (registroPagoObligacionesAutoGestion.getCodigoConcesion() == null
+                            && registroPagoObligacionesAutoGestion.getCodigoLicenciaComercializacion() == null
+                            && registroPagoObligacionesAutoGestion.getCodigoPlantaBeneficio() == null
+                            && sm != null) {
+                        registroPagoObligacionesAutoGestion.setCodigoSujetoMinero(sm);
+                    }
+                }
             }
         }
         return registroPagoObligacionesAutoGestion;
     }
-    
+
     public void generarCodigoComprobante() {
         registroPagoObligacionesAutoGestion.setNumeroComprobanteArcom(
-                        formarCodigoComprobante(login.getPrefijoRegional(), secuenciaComPago.getValor()));
+                formarCodigoComprobante(login.getPrefijoRegional(), secuenciaComPago.getValor()));
     }
 
     public void setRegistroPagoObligacionesAutoGestion(RegistroPagoObligaciones registroPagoObligacionesAutoGestion) {
@@ -175,32 +214,71 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
     public String guardarRegistroAutoGestion() {
         Usuario us = usuarioDao.obtenerPorLogin(login.getUserName());
         try {
+            if (!isAplicaCantidad()) {
+                registroPagoObligacionesAutoGestion.setCantidad(0);
+            }
+            CatalogoDetalle cd = new CatalogoDetalle();
+            cd.setCodigoCatalogoDetalle(574L);
+            registroPagoObligacionesAutoGestion.setEstadoPago(cd);
+            if (registroPagoObligacionesAutoGestion.getCodigoConcesion() != null) {
+                registroPagoObligacionesAutoGestion.setCodigoLicenciaComercializacion(null);
+                registroPagoObligacionesAutoGestion.setCodigoPlantaBeneficio(null);
+                registroPagoObligacionesAutoGestion.setCodigoSujetoMinero(null);
+            }
+            if (registroPagoObligacionesAutoGestion.getCodigoLicenciaComercializacion() != null) {
+                registroPagoObligacionesAutoGestion.setCodigoConcesion(null);
+                registroPagoObligacionesAutoGestion.setCodigoPlantaBeneficio(null);
+                registroPagoObligacionesAutoGestion.setCodigoSujetoMinero(null);
+            }
+            if (registroPagoObligacionesAutoGestion.getCodigoPlantaBeneficio() != null) {
+                registroPagoObligacionesAutoGestion.setCodigoConcesion(null);
+                registroPagoObligacionesAutoGestion.setCodigoLicenciaComercializacion(null);
+                registroPagoObligacionesAutoGestion.setCodigoSujetoMinero(null);
+            }
+            if (registroPagoObligacionesAutoGestion.getCodigoSujetoMinero() != null) {
+                registroPagoObligacionesAutoGestion.setCodigoConcesion(null);
+                registroPagoObligacionesAutoGestion.setCodigoLicenciaComercializacion(null);
+                registroPagoObligacionesAutoGestion.setCodigoPlantaBeneficio(null);
+            }
             if (registroPagoObligacionesAutoGestion.getCodigoRegistro() == null) {
                 System.out.println("entra create");
+                if (registroPagoObligacionesAutoGestion.getNumeroComprobanteArcom() != null) {
+                    List<RegistroPagoObligaciones> autogestiones = registroPagoObligacionesServicio
+                            .obtenerPorNumeroComprobanteArcom(registroPagoObligacionesAutoGestion.getNumeroComprobanteArcom());
+                    if (autogestiones != null && !autogestiones.isEmpty()) {
+                        autogestiones.get(0).getCodigoConcesion();
+                        autogestiones.get(0).getCodigoLicenciaComercializacion();
+                        autogestiones.get(0).getCodigoPlantaBeneficio();
+                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+                                "El número de comprobante ya se encuentra atado al derecho minero de código: "
+                                + autogestiones.get(0).getCodigoDerechoMinero(), null));
+                        return null;
+                    }
+                }
                 registroPagoObligacionesAutoGestion.setEstadoRegistro(true);
                 registroPagoObligacionesAutoGestion.setFechaCreacion(new Date());
                 registroPagoObligacionesAutoGestion.setUsuarioCreacion(BigInteger.valueOf(us.getCodigoUsuario()));
                 System.out.println("registroPagoObligacionesAutoGestion.getCodigoDerechoMinero(): " + registroPagoObligacionesAutoGestion.getCodigoDerechoMinero());
-                if (registroPagoObligacionesAutoGestion.getCodigoTipoRegistro().equals(ConstantesEnum.TIPO_SOLICITUD_CONS_MIN.getCodigo())
-                        || registroPagoObligacionesAutoGestion.getCodigoTipoRegistro().equals(ConstantesEnum.TIPO_SOLICITUD_LIB_APR.getCodigo())
-                        || registroPagoObligacionesAutoGestion.getCodigoTipoRegistro().equals(ConstantesEnum.TIPO_SOLICITUD_MIN_ART.getCodigo())) {
-                    System.out.println("entra if concesion");
-                    ConcesionMinera cm = new ConcesionMinera();
-                    cm.setCodigoConcesion(registroPagoObligacionesAutoGestion.getCodigoDerechoMinero());
-                    registroPagoObligacionesAutoGestion.setCodigoConcesion(cm);
-                }
-                if (registroPagoObligacionesAutoGestion.getCodigoTipoRegistro().equals(ConstantesEnum.TIPO_SOLICITUD_LIC_COM.getCodigo())) {
-                    System.out.println("entra if licencia");
-                    LicenciaComercializacion lc = new LicenciaComercializacion();
-                    lc.setCodigoLicenciaComercializacion(registroPagoObligacionesAutoGestion.getCodigoDerechoMinero());
-                    registroPagoObligacionesAutoGestion.setCodigoLicenciaComercializacion(lc);
-                }
-                if (registroPagoObligacionesAutoGestion.getCodigoTipoRegistro().equals(ConstantesEnum.TIPO_SOLICITUD_PLAN_BEN.getCodigo())) {
-                    System.out.println("entra if planta");
-                    PlantaBeneficio pb = new PlantaBeneficio();
-                    pb.setCodigoPlantaBeneficio(registroPagoObligacionesAutoGestion.getCodigoDerechoMinero());
-                    registroPagoObligacionesAutoGestion.setCodigoPlantaBeneficio(pb);
-                }
+                /*if (registroPagoObligacionesAutoGestion.getCodigoTipoRegistro().equals(ConstantesEnum.TIPO_SOLICITUD_CONS_MIN.getCodigo())
+                 || registroPagoObligacionesAutoGestion.getCodigoTipoRegistro().equals(ConstantesEnum.TIPO_SOLICITUD_LIB_APR.getCodigo())
+                 || registroPagoObligacionesAutoGestion.getCodigoTipoRegistro().equals(ConstantesEnum.TIPO_SOLICITUD_MIN_ART.getCodigo())) {
+                 System.out.println("entra if concesion");
+                 ConcesionMinera cm = new ConcesionMinera();
+                 cm.setCodigoConcesion(registroPagoObligacionesAutoGestion.getCodigoDerechoMinero());
+                 registroPagoObligacionesAutoGestion.setCodigoConcesion(cm);
+                 }
+                 if (registroPagoObligacionesAutoGestion.getCodigoTipoRegistro().equals(ConstantesEnum.TIPO_SOLICITUD_LIC_COM.getCodigo())) {
+                 System.out.println("entra if licencia");
+                 LicenciaComercializacion lc = new LicenciaComercializacion();
+                 lc.setCodigoLicenciaComercializacion(registroPagoObligacionesAutoGestion.getCodigoDerechoMinero());
+                 registroPagoObligacionesAutoGestion.setCodigoLicenciaComercializacion(lc);
+                 }
+                 if (registroPagoObligacionesAutoGestion.getCodigoTipoRegistro().equals(ConstantesEnum.TIPO_SOLICITUD_PLAN_BEN.getCodigo())) {
+                 System.out.println("entra if planta");
+                 PlantaBeneficio pb = new PlantaBeneficio();
+                 pb.setCodigoPlantaBeneficio(registroPagoObligacionesAutoGestion.getCodigoDerechoMinero());
+                 registroPagoObligacionesAutoGestion.setCodigoPlantaBeneficio(pb);
+                 }*/
                 //Secuencia secuencia = secuenciaServicio.obtenerPorNemonico(codigoFiltro)
                 secuenciaComPago.setValor(secuenciaComPago.getValor() + 1);
                 registroPagoObligacionesServicio.create(registroPagoObligacionesAutoGestion);
@@ -219,7 +297,7 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
                 if (registroPagoObligacionesAutoGestion.getNumeroComprobanteArcom() != null) {
                     List<RegistroPagoObligaciones> autogestiones = registroPagoObligacionesServicio
                             .obtenerPorNumeroComprobanteArcom(registroPagoObligacionesAutoGestion.getNumeroComprobanteArcom());
-                    if (!autogestiones.isEmpty()) {
+                    if (autogestiones != null && autogestiones.size() > 1) {
                         autogestiones.get(0).getCodigoConcesion();
                         autogestiones.get(0).getCodigoLicenciaComercializacion();
                         autogestiones.get(0).getCodigoPlantaBeneficio();
@@ -252,7 +330,8 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
 
     public List<RegistroPagoObligaciones> getListaRegistrosAutoGestion() {
         if (listaRegistrosAutoGestion == null) {
-            listaRegistrosAutoGestion = registroPagoObligacionesServicio.findAll();
+            listaRegistrosAutoGestion = registroPagoObligacionesServicio
+                    .obtenerRegistrosAutogestion(fechaDesdeFiltro, fechaHastaFiltro, numeroComprobanteArcomFiltro, null, codigoArcomFiltro);
         }
         return listaRegistrosAutoGestion;
     }
@@ -280,6 +359,14 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
                         .obtenerPorCodigoLocalidad(concesionMineraPopup.getCodigoProvincia().longValue());
                 LocalidadRegional localidadRegionalUsuario = localidadRegionalServicio
                         .obtenerPorCodigoLocalidad(us.getCodigoProvincia().longValue());
+                System.out.println("concesionMineraPopup.getCodigoProvincia().longValue(): "
+                        + concesionMineraPopup.getCodigoProvincia().longValue());
+                System.out.println("us.getCodigoProvincia().longValue(): "
+                        + us.getCodigoProvincia().longValue());
+                System.out.println("localidadRegionalConcesion.getRegional().getCodigoRegional(): "
+                        + localidadRegionalConcesion.getRegional().getCodigoRegional());
+                System.out.println("localidadRegionalUsuario.getRegional().getCodigoRegional(): "
+                        + localidadRegionalUsuario.getRegional().getCodigoRegional());
                 if (localidadRegionalConcesion.getRegional().getCodigoRegional()
                         .equals(localidadRegionalUsuario.getRegional().getCodigoRegional())) {
                     provincia = localidadServicio.findByPk(concesionMineraPopup.getCodigoProvincia().longValue());
@@ -409,18 +496,21 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
     public void seleccionarConcesion() {
         registroPagoObligacionesAutoGestion.setCodigoConcesion(concesionMineraPopup);
         registroPagoObligacionesAutoGestion.getCodigoConcesion();
+        registroPagoObligacionesAutoGestion.setDocumentoPersonaPago(concesionMineraPopup.getDocumentoConcesionarioPrincipal());
         RequestContext.getCurrentInstance().execute("PF('dlgBusqCod').hide()");
     }
 
     public void seleccionarLicencia() {
         registroPagoObligacionesAutoGestion.setCodigoLicenciaComercializacion(licenciaComercializacionPopup);
         registroPagoObligacionesAutoGestion.getCodigoLicenciaComercializacion();
+        registroPagoObligacionesAutoGestion.setDocumentoPersonaPago(licenciaComercializacionPopup.getNumeroDocumento());
         RequestContext.getCurrentInstance().execute("PF('dlgBusqCod').hide()");
     }
 
     public void seleccionarPlanta() {
         registroPagoObligacionesAutoGestion.setCodigoPlantaBeneficio(plantaBeneficioPopup);
         registroPagoObligacionesAutoGestion.getCodigoPlantaBeneficio();
+        registroPagoObligacionesAutoGestion.setDocumentoPersonaPago(plantaBeneficioPopup.getNumeroDocumentoRepresentanteLegal());
         RequestContext.getCurrentInstance().execute("PF('dlgBusqCod').hide()");
     }
 
@@ -479,8 +569,15 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "Sujeto minero no existe", null));
         } else {
-            registroPagoObligacionesAutoGestion.getCodigoSujetoMinero();
+            //registroPagoObligacionesAutoGestion.getCodigoSujetoMinero();
         }
+    }
+
+    public void seleccionarSujetoMinero() {
+        registroPagoObligacionesAutoGestion.setCodigoSujetoMinero(sujetoMineroPopUp);
+        registroPagoObligacionesAutoGestion.getCodigoSujetoMinero();
+        registroPagoObligacionesAutoGestion.setDocumentoPersonaPago(sujetoMineroPopUp.getNumeroDocumento());
+        RequestContext.getCurrentInstance().execute("PF('dlgBusqSujMin').hide()");
     }
 
     public SujetoMinero getSujetoMineroPopUpAnterior() {
@@ -553,13 +650,13 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
     public void setConceptosPago(List<SelectItem> conceptosPago) {
         this.conceptosPago = conceptosPago;
     }
-    
+
     public void cargarConceptosPago() {
         conceptosPago = null;
         getConceptosPago();
         registroPagoObligacionesAutoGestion.setValorReferenciaEntregaImpresa(null);
     }
-    
+
     public void obtenerValorConceptoPago() {
         if (registroPagoObligacionesAutoGestion.getCodigoConceptoPago() != null
                 && registroPagoObligacionesAutoGestion.getCodigoConceptoPago().getCodigoConceptoPago() != null) {
@@ -576,7 +673,7 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
     public void setGeneracionComprobante(boolean generacionComprobante) {
         this.generacionComprobante = generacionComprobante;
     }
-    
+
     public void generarComprobanteArcom() {
         if (generacionComprobante) {
             generarCodigoComprobante();
@@ -591,6 +688,80 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
 
     public void setAplicaCantidad(boolean aplicaCantidad) {
         this.aplicaCantidad = aplicaCantidad;
+    }
+
+    public Date getFechaDesdeFiltro() {
+        return fechaDesdeFiltro;
+    }
+
+    public void setFechaDesdeFiltro(Date fechaDesdeFiltro) {
+        this.fechaDesdeFiltro = fechaDesdeFiltro;
+    }
+
+    public Date getFechaHastaFiltro() {
+        return fechaHastaFiltro;
+    }
+
+    public void setFechaHastaFiltro(Date fechaHastaFiltro) {
+        this.fechaHastaFiltro = fechaHastaFiltro;
+    }
+
+    public String getNumeroComprobanteArcomFiltro() {
+        return numeroComprobanteArcomFiltro;
+    }
+
+    public void setNumeroComprobanteArcomFiltro(String numeroComprobanteArcomFiltro) {
+        this.numeroComprobanteArcomFiltro = numeroComprobanteArcomFiltro;
+    }
+
+    public String getCodigoArcomFiltro() {
+        return codigoArcomFiltro;
+    }
+
+    public void setCodigoArcomFiltro(String codigoArcomFiltro) {
+        this.codigoArcomFiltro = codigoArcomFiltro;
+    }
+
+    public void descargaPDF() {
+        Usuario us = usuarioDao.obtenerPorLogin(login.getUserName());
+        UsuarioRol usRol = usuarioRolServicio.obtenerPorCodigoUsuuario(us.getCodigoUsuario());
+        RegistroPagoObligaciones registroPagoObligacionesItem = (RegistroPagoObligaciones) getExternalContext().getRequestMap().get("reg");
+        if (registroPagoObligacionesItem.getNumeroComprobanteArcom() != null) {
+            urlReporte = ConstantesEnum.URL_BASE.getDescripcion()
+                    + "/birt/frameset?__report=report/comprobante-ingreso-recaudacion/comprobante-ingreso-recaudacion.rptdesign&numero_comprobante="
+                    + registroPagoObligacionesItem.getNumeroComprobanteArcom() + "&nombre_funcionario=" + us.getNombresCompletos()
+                    + "&cargo_funcionario=" + usRol.getRol().getDescripcion() + "&__format=pdf";
+        }
+        // nombre_funcionario cargo_funcionario
+        /*if (registroPagoObligacionesItem.getComprobanteElectronico() != null) {
+         urlReporte = urlBase + "/birt/frameset?__report=report/comprobante-ingreso-recaudacion/comprobante-ingreso-recaudacion.rptdesign&numero_comprobante=" + registroPagoObligacionesItem.getComprobanteElectronico() + "&nombre_funcionario=" + usuarioLogin.getNombreCompleto() + "&cargo_funcionario=" + descripcionUsuarioRol + "&__format=pdf";
+         }*/
+        System.out.println("URL del Comprobante: " + this.urlReporte);
+    }
+
+    public String getUrlReporte() {
+        return urlReporte;
+    }
+
+    public void setUrlReporte(String urlReporte) {
+        this.urlReporte = urlReporte;
+    }
+
+    public List<SelectItem> getProvincias() {
+        if (provincias == null) {
+            provincias = new ArrayList<>();
+            Localidad catalogoProvincia = localidadServicio.findByNemonico("EC").get(0);
+            List<Localidad> provinciasCat = localidadServicio.findByLocalidadPadre(BigInteger.valueOf(catalogoProvincia.getCodigoLocalidad()));
+
+            for (Localidad provincia : provinciasCat) {
+                provincias.add(new SelectItem(provincia.getCodigoLocalidad().toString(), provincia.getNombre().toUpperCase()));
+            }
+        }
+        return provincias;
+    }
+
+    public void setProvincias(List<SelectItem> provincias) {
+        this.provincias = provincias;
     }
 
 }

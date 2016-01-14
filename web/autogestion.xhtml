@@ -16,14 +16,21 @@
                 <h:panelGrid columns="3">
                     <h:panelGrid columns="2">
                         <h:panelGrid columns="2" >
-                            <p:outputLabel value="Código:"/>
-                            <p:inputText value="#{sadminDataCtrl.codigoFiltro}"/>
-                            <p:outputLabel value="CI Titular:"/>
-                            <p:inputText value="#{sadminDataCtrl.cedulaTitularFiltro}"/>
-                            <p:outputLabel value="Nombre Área:"/>
-                            <p:inputText value="#{sadminDataCtrl.nombreAreaFiltro}"/>
+                            <p:outputLabel value="Fecha Desde:"/>
+                            <p:calendar placeholder="aaaa-mm-dd" navigator="true"
+                                        value="#{registroPagoObligacionesCtrl.fechaDesdeFiltro}"  
+                                        locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" />
+                            <p:outputLabel value="Fecha Hasta:"/>
+                            <p:calendar placeholder="aaaa-mm-dd" navigator="true"
+                                        value="#{registroPagoObligacionesCtrl.fechaHastaFiltro}"  
+                                        locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" />
+                            <p:outputLabel value="Número Comprobante:"/>
+                            <p:inputText value="#{registroPagoObligacionesCtrl.numeroComprobanteArcomFiltro}"/>
+                            <p:outputLabel value="Código Derecho Minero:"/>
+                            <p:inputText value="#{registroPagoObligacionesCtrl.codigoArcomFiltro}"/>
                         </h:panelGrid>
-                        <h:commandButton actionListener="#{sadminDataCtrl.buscar}" image="resources/images/busca.png" style="width: 50px; height: 50px;" title="Buscar"/>
+                        <h:commandButton actionListener="#{registroPagoObligacionesCtrl.buscar}" 
+                                         image="resources/images/busca.png" style="width: 50px; height: 50px;" title="Buscar"/>
                     </h:panelGrid>
                     <p:outputLabel value="&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
                                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
@@ -68,17 +75,17 @@
                         </h:outputText>
                     </p:column>
 
-                    <p:column headerText="FECHA DEPOSITO">
+                    <p:column headerText="FECHA DEPOSITO" style="width: 85px; text-align: right">
                         <h:outputText value="#{reg.fechaEmisionPago}" >
                             <f:convertDateTime pattern="yyyy-MM-dd" />
                         </h:outputText>
                     </p:column>
 
-                    <p:column headerText="No. DEPOSITO" style="width: 100px; text-align: right">
+                    <p:column headerText="No. DEPOSITO" style="width: 85px; text-align: right">
                         <h:outputText value="#{reg.numeroComprobanteBanco}" />
                     </p:column>
 
-                    <p:column headerText="TIPO INGRESO/CONCEPTO" width="300">
+                    <p:column headerText="TIPO INGRESO/CONCEPTO" width="150">
                         <h:outputText value="#{reg.codigoConceptoPago.nombreConceptoPago}" />
                     </p:column>
 
@@ -90,18 +97,38 @@
                         <h:outputText value="#{reg.valorPago}" />
                     </p:column>
 
-                    <p:column headerText="NUMERO COMPROBANTE INGRESO/RECAUDACION">
+                    <p:column headerText="NUMERO COMPROBANTE INGRESO/RECAUDACION" width="85">
                         <h:outputText value="#{reg.numeroComprobanteArcom}" >
                             <f:convertDateTime pattern="yyyy-MM-dd" />
                         </h:outputText>
                     </p:column>
 
-                    <p:column headerText="EDITAR" style="width:37px; text-align: right">
-                        <p:commandButton action="#{registroPagoObligacionesCtrl.editarRegistro}" icon="ui-icon-pencil" title="Editar" ajax="false"></p:commandButton>
+                    <p:column headerText="EDITAR" style="width:37px; text-align: right" rendered="false">
+                        <p:commandButton action="#{registroPagoObligacionesCtrl.editarRegistro}" icon="ui-icon-pencil" 
+                                         title="Editar" ajax="false"></p:commandButton>
+                    </p:column>
+
+                    <p:column headerText="Comprobante" style="width:37px; text-align: right">
+                        <p:commandButton update="@form"
+                                         icon="ui-icon-arrowthickstop-1-s"
+                                         title="Descargar comprobante" 
+                                         oncomplete="PF('visorTramite').show();return false;"
+                                         actionListener="#{registroPagoObligacionesCtrl.descargaPDF}"/>
                     </p:column>
                 </p:dataTable>
-
+                <p:dialog id="dialoVisorTareas" header="Comprobante de Pago" 
+                          widgetVar="visorTramite" width="95%" height="600px"  
+                          showEffect="fade" draggable="false" 
+                          resizable="false" modal="true" >
+                        <iframe frameborder="0"
+                                src="#{registroPagoObligacionesCtrl.urlReporte}"
+                                name="frameTareas" id="frameTareas" scrolling="auto" 
+                                width="100%" height="98%" 
+                                marginheight="0" marginwidth="0">
+                        </iframe>
+                </p:dialog>
             </h:form>
+
         </ui:define>
     </ui:composition>
 </html>

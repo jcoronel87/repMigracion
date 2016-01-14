@@ -62,9 +62,10 @@
                         <f:ajax listener="#{registroPagoObligacionesCtrl.obtenerValorConceptoPago}" render="valorRef"/>
                     </p:selectOneMenu>
 
-                    <p:outputLabel for="valorRef" value="Valor:"></p:outputLabel>
+                    <p:outputLabel for="valorRef" value="Valor concepto pago:"></p:outputLabel>
                     <p:inputText id="valorRef" 
-                                 value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.valorReferenciaEntregaImpresa}"/>
+                                 value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.valorReferenciaEntregaImpresa}"
+                                 readonly="true"/>
 
                     <p:outputLabel value="Número depósito:"></p:outputLabel>
                     <p:inputMask id="numDoc" mask="9?9999999" 
@@ -73,11 +74,13 @@
                                  maxlength="8" required="true" requiredMessage="Número documento requerido">
                     </p:inputMask>
 
-                    <p:outputLabel value="Valor:"></p:outputLabel>
-                    <p:inputText value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.valorPago}"/>
+                    <p:outputLabel value="Valor pago:"></p:outputLabel>
+                    <p:inputText value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.valorPagadoUsuario}"/>
 
-                    <p:outputLabel value="Generar Nro. comprobante?"/>
-                    <p:selectBooleanCheckbox value="#{registroPagoObligacionesCtrl.generacionComprobante}">
+                    <p:outputLabel value="Generar Nro. comprobante?" 
+                                   rendered="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.codigoRegistro == null}"/>
+                    <p:selectBooleanCheckbox value="#{registroPagoObligacionesCtrl.generacionComprobante}"
+                                             rendered="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.codigoRegistro == null}">
                         <p:ajax update="numCompPago" listener="#{registroPagoObligacionesCtrl.generarComprobanteArcom}" />
                     </p:selectBooleanCheckbox>
 
@@ -95,6 +98,7 @@
                         <p:outputLabel for="cant" value="Cantidad:"
                                        rendered="#{registroPagoObligacionesCtrl.aplicaCantidad}"/>
                     </h:panelGroup>
+                    
                     <h:panelGroup id="panelCant2">
                     <p:inputText id="cant" 
                                  value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.cantidad}" 
@@ -108,17 +112,24 @@
                         <f:selectItems value="#{selectItemCtrl.entidadesBancarias}" />
                     </p:selectOneMenu>
 
-                    <p:outputLabel value="Fecha creación:"></p:outputLabel>
+                    <p:outputLabel value="Fecha creación:" rendered="false"></p:outputLabel>
                     <p:calendar id="fecCreacion" readonlyInput="true" placeholder="aaaa-mm-dd" navigator="true"
                                 value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.fechaCreacion}"  
-                                locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" />
+                                locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" rendered="false"/>
 
                     <p:outputLabel value="Fecha depósito:"></p:outputLabel>
                     <p:calendar id="fecDep" readonlyInput="true" placeholder="aaaa-mm-dd" navigator="true"
                                 value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.fechaEmisionPago}"  
                                 locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" />
+                    
+                    <p:outputLabel value="Lugar depósito"/>
+                    <p:selectOneMenu value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.lugarEmisionPago.codigoLocalidad}" 
+                                     style="width: 93%">
+                        <f:selectItem itemValue="" itemLabel="--Seleccione una opción--" />
+                        <f:selectItems value="#{registroPagoObligacionesCtrl.provincias}" />
+                    </p:selectOneMenu>
 
-                    <p:outputLabel value="Tipo de registro:"></p:outputLabel>
+                    <p:outputLabel value="Tipo de derecho minero:"></p:outputLabel>
                     <p:selectOneMenu id="tipRegistro" value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.codigoTipoRegistro}" 
                                      required="true" requiredMessage="Tipo de registro es requerido" style="width: 93%">
                         <f:selectItem itemValue="" itemLabel="--Seleccione una opción--" />

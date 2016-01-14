@@ -33,6 +33,8 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Regional.findAll", query = "SELECT r FROM Regional r")})
 public class Regional implements Serializable {
+    @OneToMany(mappedBy = "codigoRegional")
+    private List<UsuarioRol> usuarioRolList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "regional")
     private Collection<LocalidadRegional> localidadRegionalCollection;
     @OneToMany(mappedBy = "codigoRegional")
@@ -247,6 +249,14 @@ public class Regional implements Serializable {
 
     public void setLocalidadRegionalCollection(Collection<LocalidadRegional> localidadRegionalCollection) {
         this.localidadRegionalCollection = localidadRegionalCollection;
+    }
+
+    public List<UsuarioRol> getUsuarioRolList() {
+        return usuarioRolList;
+    }
+
+    public void setUsuarioRolList(List<UsuarioRol> usuarioRolList) {
+        this.usuarioRolList = usuarioRolList;
     }
     
 }
