@@ -86,15 +86,15 @@
                     </p:column>
 
                     <p:column headerText="TIPO INGRESO/CONCEPTO" width="150">
-                        <h:outputText value="#{reg.codigoConceptoPago.nombreConceptoPago}" />
+                        <h:outputText value="#{reg.codigoConceptoPago.descripcionConceptoPago}" />
                     </p:column>
 
-                    <p:column headerText="NOMBRE AREA MINERA" style="width: 85px">
-                        <h:outputText value="#{reg.codigoArea.nombreAreaMinera}" />
+                    <p:column headerText="ESTADO PAGO" style="width: 85px">
+                        <h:outputText value="#{reg.estadoPago.nombre}" />
                     </p:column>
 
                     <p:column headerText="VALOR" style="width: 85px">
-                        <h:outputText value="#{reg.valorPago}" />
+                        <h:outputText value="#{reg.valorPagadoUsuario}" />
                     </p:column>
 
                     <p:column headerText="NUMERO COMPROBANTE INGRESO/RECAUDACION" width="85">
