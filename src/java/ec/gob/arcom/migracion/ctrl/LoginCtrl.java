@@ -48,6 +48,8 @@ public class LoginCtrl extends BaseCtrl {
     private String prefijoRegional;
     private boolean usuarioLectura;
     private boolean registroMinero;
+    private boolean economico;
+    private boolean economicoNacional;
 
     public String getUserName() {
         return userName;
@@ -137,6 +139,16 @@ public class LoginCtrl extends BaseCtrl {
                         } else {
                             this.registroMinero = false;
                         }
+                        if (uBd.getCampoReservado01() != null && uBd.getCampoReservado01().equals("UE")) {
+                            this.economico = true;
+                        } else {
+                            this.economico = false;
+                        }
+                        if (uBd.getCampoReservado01() != null && uBd.getCampoReservado01().equals("UEN")) {
+                            this.economicoNacional = true;
+                        } else {
+                            this.economicoNacional = false;
+                        }
                     }
                     return true;
                 }
@@ -200,6 +212,22 @@ public class LoginCtrl extends BaseCtrl {
 
     public void setRegistroMinero(boolean registroMinero) {
         this.registroMinero = registroMinero;
+    }
+
+    public boolean isEconomico() {
+        return economico;
+    }
+
+    public void setEconomico(boolean economico) {
+        this.economico = economico;
+    }
+
+    public boolean isEconomicoNacional() {
+        return economicoNacional;
+    }
+
+    public void setEconomicoNacional(boolean economicoNacional) {
+        this.economicoNacional = economicoNacional;
     }
 
 }

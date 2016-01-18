@@ -8,6 +8,7 @@ package ec.gob.arcom.migracion.servicio.impl;
 import com.saviasoft.persistence.util.dao.GenericDao;
 import com.saviasoft.persistence.util.service.impl.GenericServiceImpl;
 import ec.gob.arcom.migracion.dao.PersonaNaturalDao;
+import ec.gob.arcom.migracion.dto.PersonaDto;
 import ec.gob.arcom.migracion.modelo.PersonaNatural;
 import ec.gob.arcom.migracion.servicio.PersonaNaturalServicio;
 import javax.ejb.EJB;
@@ -37,6 +38,11 @@ public class PersonaNaturalServicioImpl extends GenericServiceImpl<PersonaNatura
     @Override
     public void actualizarPersonaNatural(PersonaNatural personaNatural) throws Exception {
         personaNaturalDao.actualizarPersonaNatural(personaNatural);
+    }
+
+    @Override
+    public PersonaDto obtenerPersonaPorNumIdentificacion(String numIdentificacion) {
+        return personaNaturalDao.obtenerPersonaPorNumIdentificacion(numIdentificacion);
     }
 
 }

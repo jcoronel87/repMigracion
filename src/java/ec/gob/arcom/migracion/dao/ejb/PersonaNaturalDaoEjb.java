@@ -7,7 +7,10 @@ package ec.gob.arcom.migracion.dao.ejb;
 
 import com.saviasoft.persistence.util.dao.eclipselink.GenericDaoEjbEl;
 import ec.gob.arcom.migracion.dao.PersonaNaturalDao;
+import ec.gob.arcom.migracion.dto.PersonaDto;
 import ec.gob.arcom.migracion.modelo.PersonaNatural;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -124,11 +127,37 @@ public class PersonaNaturalDaoEjb extends GenericDaoEjbEl<PersonaNatural, String
         }
         sql = sql + "WHERE\n"
                 + "    numero_documento = '" + personaNatural.getNumeroDocumento() + "'";
-        
+
         System.out.println("sql actualiza persona: " + sql);
 
         Query query = em.createNativeQuery(sql);
         query.executeUpdate();
+    }
+
+    @Override
+    public PersonaDto obtenerPersonaPorNumIdentificacion(String numIdentificacion) {
+        String sql = "select * from catmin.personas where numero_documento = '" + numIdentificacion + "'";
+        Query query = em.createNativeQuery(sql);
+        //query.setParameter("numIdentificacion", numIdentificacion);
+        List<Object[]> listaTmp = query.getResultList();
+        List<PersonaDto> listaFinal = new ArrayList<>();
+        if (listaTmp != null && !listaTmp.isEmpty()) {
+            for (Object[] fila : listaTmp) {
+                PersonaDto personaDto = new PersonaDto();
+                personaDto.setIdentificacion(fila[0] != null ? fila[0].toString() : null);
+                personaDto.setNombres(fila[2] != null ? fila[2].toString() : null);
+                personaDto.setApellidos(fila[3] != null ? fila[3].toString() : null);
+                personaDto.setEmail(fila[12] != null ? fila[12].toString() : null);
+                personaDto.setTelefono(fila[13] != null ? fila[13].toString() : null);
+                personaDto.setDireccion(fila[15] != null ? fila[15].toString() : null);
+                listaFinal.add(personaDto);
+            }
+        }
+        if (listaFinal.isEmpty()) {
+            return null;
+        } else {
+            return listaFinal.get(0);
+        }
     }
 
 }

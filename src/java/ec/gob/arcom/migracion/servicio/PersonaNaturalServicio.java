@@ -6,6 +6,7 @@
 package ec.gob.arcom.migracion.servicio;
 
 import com.saviasoft.persistence.util.service.GenericService;
+import ec.gob.arcom.migracion.dto.PersonaDto;
 import ec.gob.arcom.migracion.modelo.PersonaNatural;
 import javax.ejb.Local;
 
@@ -19,5 +20,7 @@ public interface PersonaNaturalServicio extends GenericService<PersonaNatural, S
     PersonaNatural findByNumeroDocumento(String numeroDocumento);
 
     void actualizarPersonaNatural(PersonaNatural personaNatural) throws Exception;
+
+    PersonaDto obtenerPersonaPorNumIdentificacion(String numIdentificacion);
     
 }

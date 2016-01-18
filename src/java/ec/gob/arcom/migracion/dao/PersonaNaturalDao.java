@@ -6,6 +6,7 @@
 package ec.gob.arcom.migracion.dao;
 
 import com.saviasoft.persistence.util.dao.GenericDao;
+import ec.gob.arcom.migracion.dto.PersonaDto;
 import ec.gob.arcom.migracion.modelo.PersonaNatural;
 import javax.ejb.Local;
 
@@ -20,5 +21,7 @@ public interface PersonaNaturalDao extends GenericDao<PersonaNatural, String> {
     PersonaNatural findByNumeroDocumento(String numeroDocumento);
 
     void actualizarPersonaNatural(PersonaNatural personaNatural) throws Exception;
+
+    PersonaDto obtenerPersonaPorNumIdentificacion(String numIdentificacion);
     
 }

@@ -20,14 +20,16 @@ public enum ConstantesEnum {
     
     ESTCONC_TRAMITE("TRAM", "En tramite", 35L), ESTCONC_INSCRITO("CONCINS", "INSCRITA", 46L),
     ESTCONC_SUSPENDIDO("ESTSUSPAREA", "SUSPENDIDO", 7L), ESTCONC_ARCHIVADA("NOOTOR", "ARCHIVADA", 47L), ESTCONC_ACUMULADA("ACMLD4", "ARCHIVADA", 1459L),
-    ESTCONC_OTORGADO("OTOR", "ORGADA", 42L),
+    ESTCONC_OTORGADO("OTOR", "OTORGADA", 42L),
     
     TIPO_SOLICITUD_CONS_MIN("CONCMIN", "CONCESION MINERA", 3L), TIPO_SOLICITUD_MIN_ART("MINART", "MINERIA ARTESANAL", 1L),
     TIPO_SOLICITUD_LIB_APR("LIBAPR", "LIBRE APROVECHAMIENTO", 4L), TIPO_SOLICITUD_LIC_COM("LICCOM", "LICENCIAS DE COMERCIALIZACION", 5L),
     TIPO_SOLICITUD_PLAN_BEN("PLANBEN", "PLANTA DE BENEFICIO", 6L), TIPO_SOLICITUD_PEQ_MIN("PEQMIN", "PEQUEÑA MINERIA", 8L), 
     TIPO_SOLICITUD_MA_PEQ_MIN("MAPEQMIN", "ARTESANAL A PEQUEÑA MINERIA", 2L), SUJETO_MINERO("SUJMIN", "SUJETO MINERO", 100L),
+    TIPO_SOLICITUD_NO_APLICA_DERECHO_MINERO("NOAPLICA", "NO APLICA", 1000L),
     
-    URL_BASE("", "http://181.211.37.237:8380", null);
+    //URL_BASE("", "http://181.211.37.237:8380", null);
+    URL_BASE("", "http://10.10.6.131:8384", null);
     
     private String nemonico;
     private String descripcion;
@@ -90,7 +92,8 @@ public enum ConstantesEnum {
         for (ConstantesEnum ce : ConstantesEnum.values()) {
             if (ce.equals(TIPO_SOLICITUD_CONS_MIN) || ce.equals(TIPO_SOLICITUD_LIC_COM)
                     || ce.equals(TIPO_SOLICITUD_PLAN_BEN) || ce.equals(TIPO_SOLICITUD_LIB_APR)
-                    || ce.equals(TIPO_SOLICITUD_MIN_ART) || ce.equals(SUJETO_MINERO)) {
+                    || ce.equals(TIPO_SOLICITUD_MIN_ART) || ce.equals(SUJETO_MINERO)
+                    || ce.equals(TIPO_SOLICITUD_NO_APLICA_DERECHO_MINERO)) {
                 tipoSolicitudes.add(ce);
             }
         }
