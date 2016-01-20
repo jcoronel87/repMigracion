@@ -9,6 +9,7 @@ import com.saviasoft.persistence.util.dao.eclipselink.GenericDaoEjbEl;
 import ec.gob.arcom.migracion.dao.UsuarioRolDao;
 import ec.gob.arcom.migracion.modelo.UsuarioRol;
 import ec.gob.arcom.migracion.modelo.UsuarioRolPK;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -28,11 +29,10 @@ public class UsuarioRolDaoEjb extends GenericDaoEjbEl<UsuarioRol, UsuarioRolPK> 
     @Override
     public UsuarioRol obtenerPorCodigoUsuario(Long codigoUsuario) {
         try {
-            String jpql = "select ur from UsuarioRol ur where ur.usuarioRolPK.codigoUsuario = :codigoUsuario";
+            String jpql = "select ur from UsuarioRol ur where ur.usuarioRolPK.codigoUsuario = :codigoUsuario and ur.estadoRegistro = true";
             Query query = em.createQuery(jpql);
             query.setParameter("codigoUsuario", codigoUsuario);
             UsuarioRol usuarioRol = (UsuarioRol) query.getSingleResult();
-            this.refresh(usuarioRol);
             return usuarioRol;
         } catch (NoResultException nrEx) {
             return null;

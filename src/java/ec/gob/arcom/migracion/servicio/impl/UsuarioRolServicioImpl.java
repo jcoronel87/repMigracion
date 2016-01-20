@@ -8,10 +8,10 @@ package ec.gob.arcom.migracion.servicio.impl;
 import com.saviasoft.persistence.util.dao.GenericDao;
 import com.saviasoft.persistence.util.service.impl.GenericServiceImpl;
 import ec.gob.arcom.migracion.dao.UsuarioRolDao;
-import ec.gob.arcom.migracion.modelo.AreaMinera;
 import ec.gob.arcom.migracion.modelo.UsuarioRol;
 import ec.gob.arcom.migracion.modelo.UsuarioRolPK;
 import ec.gob.arcom.migracion.servicio.UsuarioRolServicio;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 

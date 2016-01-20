@@ -290,7 +290,7 @@ public class RegistroPagoObligacionesDaoEjb extends GenericDaoEjbEl<RegistroPago
                 codigoDerMin = plantaBeneficio.getCodigoPlantaBeneficio();
             }
         }
-        String jpql = "select rpo from RegistroPagoObligaciones rpo where 1 = 1 and rpo.estadoPago.codigoCatalogoDetalle = 574";
+        String jpql = "select rpo from RegistroPagoObligaciones rpo where 1 = 1 and rpo.estadoPago.codigoCatalogoDetalle = 574 and rpo.entidadTramite = null";
         if (fechaDesde != null && fechaHasta != null) {
             jpql += " and rpo.fechaCreacion >= '" + fechaD + "' and rpo.fechaCreacion <= '" + fechaH + "'";
         }

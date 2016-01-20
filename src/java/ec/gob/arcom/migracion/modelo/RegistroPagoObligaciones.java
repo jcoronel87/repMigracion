@@ -723,6 +723,9 @@ public class RegistroPagoObligaciones implements Serializable {
             }
             numeroRuc = codigoConcesion.getDocumentoConcesionarioPrincipal();
             concesionario = codigoConcesion.getNombreConcesionarioPrincipal() + " " + codigoConcesion.getApellidoConcesionarioPrincipal();
+            documentoPersonaPago = codigoConcesion.getDocumentoConcesionarioPrincipal();
+            nombrePersonaPago = codigoConcesion.getNombreConcesionarioPrincipal();
+            apellidoPersonaPago = codigoConcesion.getApellidoConcesionarioPrincipal();
         }
         return codigoConcesion;
     }
@@ -810,6 +813,10 @@ public class RegistroPagoObligaciones implements Serializable {
              codigoTipoMineral = Long.valueOf(codigoConcesion.getTipoMaterial());*/
             numeroRuc = codigoLicenciaComercializacion.getNumeroDocumento();
             concesionario = codigoLicenciaComercializacion.getNombre() + " " + codigoLicenciaComercializacion.getApellido();
+            
+            documentoPersonaPago = codigoLicenciaComercializacion.getNumeroDocumento();
+            nombrePersonaPago = codigoLicenciaComercializacion.getNombre();
+            apellidoPersonaPago = codigoLicenciaComercializacion.getApellido();
         }
         return codigoLicenciaComercializacion;
     }
@@ -835,6 +842,10 @@ public class RegistroPagoObligaciones implements Serializable {
              codigoTipoMineral = Long.valueOf(codigoConcesion.getTipoMaterial());*/
             numeroRuc = codigoPlantaBeneficio.getNumeroDocumentoRepresentanteLegal();
             concesionario = codigoPlantaBeneficio.getNombreRepresentanteLegal() + " " + codigoPlantaBeneficio.getApellidoRepresentanteLegal();
+            
+            documentoPersonaPago = codigoPlantaBeneficio.getNumeroDocumentoRepresentanteLegal();
+            nombrePersonaPago = codigoPlantaBeneficio.getNombreRepresentanteLegal();
+            apellidoPersonaPago = codigoPlantaBeneficio.getApellidoRepresentanteLegal();
         }
         return codigoPlantaBeneficio;
     }

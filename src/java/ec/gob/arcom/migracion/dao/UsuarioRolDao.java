@@ -8,6 +8,7 @@ package ec.gob.arcom.migracion.dao;
 import com.saviasoft.persistence.util.dao.GenericDao;
 import ec.gob.arcom.migracion.modelo.UsuarioRol;
 import ec.gob.arcom.migracion.modelo.UsuarioRolPK;
+import java.util.List;
 import javax.ejb.Local;
 
 /**

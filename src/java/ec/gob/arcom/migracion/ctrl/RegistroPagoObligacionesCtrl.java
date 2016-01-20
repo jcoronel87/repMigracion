@@ -155,7 +155,7 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
                 secuenciaComPago = secuenciaServicio.obtenerPorNemonico("SETCOMPAGORGL" + login.getPrefijoRegional());
                 //generarCodigoComprobante();
                 registroPagoObligacionesAutoGestion.setCodigoTipoServicio(new CatalogoDetalle());
-                registroPagoObligacionesAutoGestion.setCantidad(0);
+                registroPagoObligacionesAutoGestion.setCantidad(1);
                 registroPagoObligacionesAutoGestion.setLugarEmisionPago(new Localidad());
             } else {
                 registroPagoObligacionesAutoGestion = registroPagoObligacionesServicio.obtenerPorCodigoRegistroPagoObligaciones(idRegistroPagoObligaciones);
@@ -231,7 +231,10 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
         Usuario us = usuarioDao.obtenerPorLogin(login.getUserName());
         try {
             if (!isAplicaCantidad()) {
-                registroPagoObligacionesAutoGestion.setCantidad(0);
+                registroPagoObligacionesAutoGestion.setCantidad(1);
+            }
+            if (generacionComprobante) {
+                generarCodigoComprobante();
             }
             CatalogoDetalle cd = new CatalogoDetalle();
             cd.setCodigoCatalogoDetalle(574L);
@@ -296,8 +299,8 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
                  registroPagoObligacionesAutoGestion.setCodigoPlantaBeneficio(pb);
                  }*/
                 //Secuencia secuencia = secuenciaServicio.obtenerPorNemonico(codigoFiltro)
-                secuenciaComPago.setValor(secuenciaComPago.getValor() + 1);
                 registroPagoObligacionesServicio.create(registroPagoObligacionesAutoGestion);
+                secuenciaComPago.setValor(secuenciaComPago.getValor() + 1);
                 secuenciaServicio.update(secuenciaComPago);
                 Auditoria auditoria = new Auditoria();
                 auditoria.setAccion("INSERT");
@@ -512,22 +515,43 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
 
     public void seleccionarConcesion() {
         registroPagoObligacionesAutoGestion.setCodigoConcesion(concesionMineraPopup);
+        registroPagoObligacionesAutoGestion.setNombrePersonaPago(concesionMineraPopup.getNombreTitular());
+        registroPagoObligacionesAutoGestion.setApellidoPersonaPago(concesionMineraPopup.getApellidoTitular());
         registroPagoObligacionesAutoGestion.getCodigoConcesion();
         registroPagoObligacionesAutoGestion.setDocumentoPersonaPago(concesionMineraPopup.getDocumentoConcesionarioPrincipal());
+        PersonaDto pDto = personaNaturalServicio.obtenerPersonaPorNumIdentificacion(concesionMineraPopup.getDocumentoConcesionarioPrincipal());
+        if (pDto != null) {
+            registroPagoObligacionesAutoGestion.setNombrePersonaPago(pDto.getNombres());
+            registroPagoObligacionesAutoGestion.setApellidoPersonaPago(pDto.getApellidos());
+        }
         RequestContext.getCurrentInstance().execute("PF('dlgBusqCod').hide()");
     }
 
     public void seleccionarLicencia() {
         registroPagoObligacionesAutoGestion.setCodigoLicenciaComercializacion(licenciaComercializacionPopup);
+        registroPagoObligacionesAutoGestion.setNombrePersonaPago(licenciaComercializacionPopup.getNombre());
+        registroPagoObligacionesAutoGestion.setApellidoPersonaPago(licenciaComercializacionPopup.getApellido());
         registroPagoObligacionesAutoGestion.getCodigoLicenciaComercializacion();
         registroPagoObligacionesAutoGestion.setDocumentoPersonaPago(licenciaComercializacionPopup.getNumeroDocumento());
+        PersonaDto pDto = personaNaturalServicio.obtenerPersonaPorNumIdentificacion(licenciaComercializacionPopup.getNumeroDocumento());
+        if (pDto != null) {
+            registroPagoObligacionesAutoGestion.setNombrePersonaPago(pDto.getNombres());
+            registroPagoObligacionesAutoGestion.setApellidoPersonaPago(pDto.getApellidos());
+        }
         RequestContext.getCurrentInstance().execute("PF('dlgBusqCod').hide()");
     }
 
     public void seleccionarPlanta() {
         registroPagoObligacionesAutoGestion.setCodigoPlantaBeneficio(plantaBeneficioPopup);
+        registroPagoObligacionesAutoGestion.setNombrePersonaPago(plantaBeneficioPopup.getNombreRepresentanteLegal());
+        registroPagoObligacionesAutoGestion.setApellidoPersonaPago(plantaBeneficioPopup.getApellidoRepresentanteLegal());
         registroPagoObligacionesAutoGestion.getCodigoPlantaBeneficio();
         registroPagoObligacionesAutoGestion.setDocumentoPersonaPago(plantaBeneficioPopup.getNumeroDocumentoRepresentanteLegal());
+        PersonaDto pDto = personaNaturalServicio.obtenerPersonaPorNumIdentificacion(plantaBeneficioPopup.getNumeroDocumentoRepresentanteLegal());
+        if (pDto != null) {
+            registroPagoObligacionesAutoGestion.setNombrePersonaPago(pDto.getNombres());
+            registroPagoObligacionesAutoGestion.setApellidoPersonaPago(pDto.getApellidos());
+        }
         RequestContext.getCurrentInstance().execute("PF('dlgBusqCod').hide()");
     }
 
@@ -745,8 +769,8 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
         RegistroPagoObligaciones registroPagoObligacionesItem = (RegistroPagoObligaciones) getExternalContext().getRequestMap().get("reg");
         if (registroPagoObligacionesItem.getNumeroComprobanteArcom() != null) {
             urlReporte = ConstantesEnum.URL_BASE.getDescripcion()
-                    + "/birt/frameset?__report=report/comprobante-ingreso-recaudacion/comprobante-ingreso-recaudacion.rptdesign&numero_comprobante="
-                    + registroPagoObligacionesItem.getNumeroComprobanteArcom() + "&nombre_funcionario=" + us.getNombresCompletos()
+                    + "/birt/frameset?__report=report/ComprobatesPago/Comprobante-estandar.rptdesign&codigo_registro="
+                    + registroPagoObligacionesItem.getCodigoRegistro() + "&nombre_funcionario=" + us.getNombresCompletos()
                     + "&cargo_funcionario=" + usRol.getRol().getDescripcion() + "&__format=pdf";
         }
         // nombre_funcionario cargo_funcionario

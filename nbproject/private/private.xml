@@ -3,20 +3,18 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/dao/ejb/ConcesionMineraDaoEjb.java</file>
-            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/modelo/Usuario.java</file>
+            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/ctrl/ConcesionMineraCtrl.java</file>
+            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/dto/PersonaDto.java</file>
             <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/modelo/RegistroPagoObligaciones.java</file>
-            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/dao/ejb/LicenciaComercializacionDaoEjb.java</file>
-            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/dao/RegistroPagoObligacionesDao.java</file>
             <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/web/concesionmineraform.xhtml</file>
-            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/servicio/impl/RegistroPagoObligacionesServicioImpl.java</file>
-            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/dao/ejb/RegistroPagoObligacionesDaoEjb.java</file>
             <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/ctrl/SelectItemCtrl.java</file>
             <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/ctrl/RegistroPagoObligacionesCtrl.java</file>
+            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/servicio/impl/PersonaNaturalServicioImpl.java</file>
+            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/dao/PersonaNaturalDao.java</file>
             <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/web/autogestionform.xhtml</file>
-            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/modelo/ConcesionMinera.java</file>
+            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/dao/ejb/PersonaNaturalDaoEjb.java</file>
+            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/constantes/ConstantesEnum.java</file>
             <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/web/autogestion.xhtml</file>
-            <file>file:/C:/Users/coronelja/Documents/NetBeansProjects/repMigracion/src/java/ec/gob/arcom/migracion/dao/ejb/PlantaBeneficioDaoEjb.java</file>
         </group>
     </open-files>
 </project-private>

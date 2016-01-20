@@ -8,6 +8,7 @@ package ec.gob.arcom.migracion.servicio;
 import com.saviasoft.persistence.util.service.GenericService;
 import ec.gob.arcom.migracion.modelo.UsuarioRol;
 import ec.gob.arcom.migracion.modelo.UsuarioRolPK;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
