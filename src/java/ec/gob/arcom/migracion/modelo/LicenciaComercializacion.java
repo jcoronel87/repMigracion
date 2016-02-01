@@ -517,4 +517,12 @@ public class LicenciaComercializacion implements Serializable {
                 + (codigoMineralInteres != null ? codigoMineralInteres.getCodigoCatalogoDetalle() : null) + ", correoElectronico=" + correoElectronico + ", observaciones=" + observaciones + ", tipoPersona=" + tipoPersona + ", migrada=" + migrada +'}';
     }
 
+    public Boolean getMigrada() {
+        return migrada;
+    }
+
+    public void setMigrada(Boolean migrada) {
+        this.migrada = migrada;
+    }
+
 }

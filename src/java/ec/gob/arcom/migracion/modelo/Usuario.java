@@ -389,5 +389,5 @@ public class Usuario implements Serializable {
     public void setUsuarioRolList(List<UsuarioRol> usuarioRolList) {
         this.usuarioRolList = usuarioRolList;
     }
-    
+
 }

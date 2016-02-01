@@ -293,5 +293,5 @@ public class Localidad implements Serializable {
     public void setConcesionMineraList(List<ConcesionMinera> concesionMineraList) {
         this.concesionMineraList = concesionMineraList;
     }
-    
+
 }

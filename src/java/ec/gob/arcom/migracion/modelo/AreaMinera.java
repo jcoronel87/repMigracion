@@ -37,6 +37,13 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "AreaMinera.findAll", query = "SELECT a FROM AreaMinera a")})
 public class AreaMinera implements Serializable {
+    @Column(name = "limite_frontera")
+    private Boolean limiteFrontera;
+    @JoinColumn(name = "codigo_sistema_referencia", referencedColumnName = "codigo_catalogo_detalle")
+    @ManyToOne
+    private CatalogoDetalle codigoSistemaReferencia;
+    @OneToMany(mappedBy = "codigoArea")
+    private List<RegistroPagoDetalle> registroPagoDetalleList;
     @OneToMany(mappedBy = "codigoArea")
     private List<RegistroPagoObligaciones> registroPagoObligacionesList;
     @Column(name = "migrada")
@@ -297,6 +304,30 @@ public class AreaMinera implements Serializable {
 
     public void setRegistroPagoObligacionesList(List<RegistroPagoObligaciones> registroPagoObligacionesList) {
         this.registroPagoObligacionesList = registroPagoObligacionesList;
+    }
+
+    public Boolean getLimiteFrontera() {
+        return limiteFrontera;
+    }
+
+    public void setLimiteFrontera(Boolean limiteFrontera) {
+        this.limiteFrontera = limiteFrontera;
+    }
+
+    public CatalogoDetalle getCodigoSistemaReferencia() {
+        return codigoSistemaReferencia;
+    }
+
+    public void setCodigoSistemaReferencia(CatalogoDetalle codigoSistemaReferencia) {
+        this.codigoSistemaReferencia = codigoSistemaReferencia;
+    }
+
+    public List<RegistroPagoDetalle> getRegistroPagoDetalleList() {
+        return registroPagoDetalleList;
+    }
+
+    public void setRegistroPagoDetalleList(List<RegistroPagoDetalle> registroPagoDetalleList) {
+        this.registroPagoDetalleList = registroPagoDetalleList;
     }
 
 }

@@ -5,6 +5,8 @@
  */
 package ec.gob.arcom.migracion.dto;
 
+import java.math.BigDecimal;
+
 /**
  *
  * @author CoronelJa
@@ -23,6 +25,8 @@ public class DerechoMineroDto {
     private String fechaSolicitud;
     private String tipoDerechoMinero;
     private Long id;
+    private BigDecimal valorPagoDerechoMinero;
+    private Long codigoTipoSolicitud;
 
     public String getCodigo() {
         return codigo;
@@ -118,6 +122,22 @@ public class DerechoMineroDto {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public BigDecimal getValorPagoDerechoMinero() {
+        return valorPagoDerechoMinero;
+    }
+
+    public void setValorPagoDerechoMinero(BigDecimal valorPagoDerechoMinero) {
+        this.valorPagoDerechoMinero = valorPagoDerechoMinero;
+    }
+
+    public Long getCodigoTipoSolicitud() {
+        return codigoTipoSolicitud;
+    }
+
+    public void setCodigoTipoSolicitud(Long codigoTipoSolicitud) {
+        this.codigoTipoSolicitud = codigoTipoSolicitud;
     }
     
 }

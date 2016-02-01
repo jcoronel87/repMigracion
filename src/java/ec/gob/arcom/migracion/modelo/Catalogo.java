@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -32,6 +33,8 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Catalogo.findAll", query = "SELECT c FROM Catalogo c")})
 public class Catalogo implements Serializable {
+    @OneToMany(mappedBy = "codigoTipoMaterial")
+    private List<ConcesionMinera> concesionMineraList;
     @Column(name = "catalogo_padre")
     private BigInteger catalogoPadre;
     private static final long serialVersionUID = 1L;
@@ -198,6 +201,14 @@ public class Catalogo implements Serializable {
 
     public void setCatalogoPadre(BigInteger catalogoPadre) {
         this.catalogoPadre = catalogoPadre;
+    }
+
+    public List<ConcesionMinera> getConcesionMineraList() {
+        return concesionMineraList;
+    }
+
+    public void setConcesionMineraList(List<ConcesionMinera> concesionMineraList) {
+        this.concesionMineraList = concesionMineraList;
     }
     
 }

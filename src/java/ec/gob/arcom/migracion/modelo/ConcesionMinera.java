@@ -47,8 +47,6 @@ public class ConcesionMinera implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "codigo_concesion")
     private Long codigoConcesion;
     @Size(max = 25)

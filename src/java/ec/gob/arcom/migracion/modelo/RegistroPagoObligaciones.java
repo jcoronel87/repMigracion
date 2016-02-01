@@ -12,7 +12,6 @@ import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -63,10 +62,10 @@ public class RegistroPagoObligaciones implements Serializable {
     @Size(max = 20)
     @Column(name = "documento_persona_pago")
     private String documentoPersonaPago;
-    @Size(max = 20)
+    @Size(max = 60)
     @Column(name = "nombre_persona_pago")
     private String nombrePersonaPago;
-    @Size(max = 20)
+    @Size(max = 40)
     @Column(name = "apellido_persona_pago")
     private String apellidoPersonaPago;
     @Size(max = 20)
@@ -724,8 +723,8 @@ public class RegistroPagoObligaciones implements Serializable {
             numeroRuc = codigoConcesion.getDocumentoConcesionarioPrincipal();
             concesionario = codigoConcesion.getNombreConcesionarioPrincipal() + " " + codigoConcesion.getApellidoConcesionarioPrincipal();
             documentoPersonaPago = codigoConcesion.getDocumentoConcesionarioPrincipal();
-            nombrePersonaPago = codigoConcesion.getNombreConcesionarioPrincipal();
-            apellidoPersonaPago = codigoConcesion.getApellidoConcesionarioPrincipal();
+            //nombrePersonaPago = codigoConcesion.getNombreConcesionarioPrincipal();
+            //apellidoPersonaPago = codigoConcesion.getApellidoConcesionarioPrincipal();
         }
         return codigoConcesion;
     }

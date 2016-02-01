@@ -22,7 +22,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -529,13 +528,12 @@ public class PlantaBeneficio implements Serializable {
     }
 
     /*public Serializable getXmlData() {
-        return xmlData;
-    }
+     return xmlData;
+     }
 
-    public void setXmlData(Serializable xmlData) {
-        this.xmlData = xmlData;
-    }*/
-
+     public void setXmlData(Serializable xmlData) {
+     this.xmlData = xmlData;
+     }*/
     public Boolean getEstadoRegistro() {
         return estadoRegistro;
     }
@@ -623,7 +621,6 @@ public class PlantaBeneficio implements Serializable {
     public void setUnidadPeso(CatalogoDetalle unidadPeso) {
         this.unidadPeso = unidadPeso;
     }
-
 
     public String getObsActoAdministrativo() {
         return obsActoAdministrativo;
@@ -726,13 +723,12 @@ public class PlantaBeneficio implements Serializable {
     }
 
     /*public Serializable getXmlData() {
-        return xmlData;
-    }
+     return xmlData;
+     }
 
-    public void setXmlData(Serializable xmlData) {
-        this.xmlData = xmlData;
-    }*/
-
+     public void setXmlData(Serializable xmlData) {
+     this.xmlData = xmlData;
+     }*/
     public Boolean getMae() {
         return mae;
     }
@@ -779,13 +775,12 @@ public class PlantaBeneficio implements Serializable {
     }
 
     /*public Resolucion getResolucion() {
-        return resolucion;
-    }
+     return resolucion;
+     }
 
-    public void setResolucion(Resolucion resolucion) {
-        this.resolucion = resolucion;
-    }*/
-
+     public void setResolucion(Resolucion resolucion) {
+     this.resolucion = resolucion;
+     }*/
     public String getProvinciaString() {
         return provinciaString;
     }

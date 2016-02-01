@@ -8,6 +8,7 @@ package ec.gob.arcom.migracion.ctrl;
 import ec.gob.arcom.migracion.constantes.ConstantesEnum;
 import ec.gob.arcom.migracion.ctrl.base.BaseCtrl;
 import ec.gob.arcom.migracion.dao.UsuarioDao;
+import ec.gob.arcom.migracion.dto.DerechoMineroDto;
 import ec.gob.arcom.migracion.dto.PersonaDto;
 import ec.gob.arcom.migracion.modelo.Auditoria;
 import ec.gob.arcom.migracion.modelo.Catalogo;
@@ -19,6 +20,7 @@ import ec.gob.arcom.migracion.modelo.LicenciaComercializacion;
 import ec.gob.arcom.migracion.modelo.Localidad;
 import ec.gob.arcom.migracion.modelo.LocalidadRegional;
 import ec.gob.arcom.migracion.modelo.PlantaBeneficio;
+import ec.gob.arcom.migracion.modelo.RegistroPagoDetalle;
 import ec.gob.arcom.migracion.modelo.RegistroPagoObligaciones;
 import ec.gob.arcom.migracion.modelo.Secuencia;
 import ec.gob.arcom.migracion.modelo.SujetoMinero;
@@ -34,10 +36,12 @@ import ec.gob.arcom.migracion.servicio.LocalidadRegionalServicio;
 import ec.gob.arcom.migracion.servicio.LocalidadServicio;
 import ec.gob.arcom.migracion.servicio.PersonaNaturalServicio;
 import ec.gob.arcom.migracion.servicio.PlantaBeneficioServicio;
+import ec.gob.arcom.migracion.servicio.RegistroPagoDetalleServicio;
 import ec.gob.arcom.migracion.servicio.RegistroPagoObligacionesServicio;
 import ec.gob.arcom.migracion.servicio.SecuenciaServicio;
 import ec.gob.arcom.migracion.servicio.SujetoMineroServicio;
 import ec.gob.arcom.migracion.servicio.UsuarioRolServicio;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
@@ -89,6 +93,8 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
     private UsuarioRolServicio usuarioRolServicio;
     @EJB
     private PersonaNaturalServicio personaNaturalServicio;
+    @EJB
+    private RegistroPagoDetalleServicio registroPagoDetalleServicio;
     @ManagedProperty(value = "#{loginCtrl}")
     private LoginCtrl login;
     private RegistroPagoObligaciones registroPagoObligacionesAutoGestion;
@@ -136,6 +142,10 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
     private String numIdentificacionBusqueda;
     private PersonaDto personaDto;
 
+    private List<DerechoMineroDto> derechosMineros;
+
+    private BigDecimal valorPagoDerechoMinero;
+    
     public void buscar() {
         listaRegistrosAutoGestion = null;
         getListaRegistrosAutoGestion();
@@ -157,6 +167,7 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
                 registroPagoObligacionesAutoGestion.setCodigoTipoServicio(new CatalogoDetalle());
                 registroPagoObligacionesAutoGestion.setCantidad(1);
                 registroPagoObligacionesAutoGestion.setLugarEmisionPago(new Localidad());
+                this.generacionComprobante = true;
             } else {
                 registroPagoObligacionesAutoGestion = registroPagoObligacionesServicio.obtenerPorCodigoRegistroPagoObligaciones(idRegistroPagoObligaciones);
                 registroPagoObligacionesAutoGestionAnterior = registroPagoObligacionesServicio.obtenerPorCodigoRegistroPagoObligaciones(idRegistroPagoObligaciones);
@@ -199,6 +210,41 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
                         registroPagoObligacionesAutoGestion.setNombrePersonaPago(pDto.getNombres());
                         registroPagoObligacionesAutoGestion.setApellidoPersonaPago(pDto.getApellidos());
                     }
+                }
+                List<RegistroPagoDetalle> pagos = registroPagoDetalleServicio
+                        .obtenerPorCodigoRegistroPago(registroPagoObligacionesAutoGestion.getCodigoRegistro());
+                List<DerechoMineroDto> listaTmp = new ArrayList<>();
+                if (pagos != null) {
+                    for (RegistroPagoDetalle pago : pagos) {
+                        DerechoMineroDto derechoMineroDto = new DerechoMineroDto();
+                        derechoMineroDto.setValorPagoDerechoMinero(pago.getValorPagado());
+                        if (pago.getCodigoConcesion() != null) {
+                            derechoMineroDto.setCodigo(pago.getCodigoConcesion().getCodigoArcom());
+                            derechoMineroDto.setCodigoTipoSolicitud(pago.getCodigoConcesion().getCodigoTipoMineria().getCodigoTipoMineria());
+                            derechoMineroDto.setTipoSolicitud(pago.getCodigoConcesion().getCodigoTipoMineria().getNombreTipoMineria());
+                            derechoMineroDto.setTipoDerechoMinero(pago.getCodigoConcesion().getCodigoTipoMineria().getNombreTipoMineria());
+                            derechoMineroDto.setId(pago.getCodigoConcesion().getCodigoConcesion());
+                        }
+                        if (pago.getCodigoLicenciaComercializacion()!= null) {
+                            derechoMineroDto.setCodigo(pago.getCodigoLicenciaComercializacion().getCodigoArcom());
+                            derechoMineroDto.setCodigoTipoSolicitud(ConstantesEnum.TIPO_SOLICITUD_LIC_COM.getCodigo());
+                            derechoMineroDto.setTipoSolicitud(ConstantesEnum.TIPO_SOLICITUD_LIC_COM.getDescripcion());
+                            derechoMineroDto.setTipoDerechoMinero(ConstantesEnum.TIPO_SOLICITUD_LIC_COM.getDescripcion());
+                            derechoMineroDto.setId(pago.getCodigoLicenciaComercializacion().getCodigoLicenciaComercializacion());
+                        }
+                        if (pago.getCodigoPlantaBeneficio()!= null) {
+                            derechoMineroDto.setCodigo(pago.getCodigoPlantaBeneficio().getCodigoArcom());
+                            derechoMineroDto.setCodigoTipoSolicitud(ConstantesEnum.TIPO_SOLICITUD_PLAN_BEN.getCodigo());
+                            derechoMineroDto.setTipoSolicitud(ConstantesEnum.TIPO_SOLICITUD_PLAN_BEN.getDescripcion());
+                            derechoMineroDto.setTipoDerechoMinero(ConstantesEnum.TIPO_SOLICITUD_PLAN_BEN.getDescripcion());
+                            derechoMineroDto.setId(pago.getCodigoPlantaBeneficio().getCodigoPlantaBeneficio());
+                        }
+                        listaTmp.add(derechoMineroDto);
+                    }
+                    derechosMineros = listaTmp;
+                    sujetoMinero = true;
+                } else {
+                    sujetoMinero = false;
                 }
             }
         }
@@ -259,6 +305,12 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
                 registroPagoObligacionesAutoGestion.setCodigoLicenciaComercializacion(null);
                 registroPagoObligacionesAutoGestion.setCodigoPlantaBeneficio(null);
             }
+            if (registroPagoObligacionesAutoGestion.getCodigoTipoRegistro() != null) {
+                if (registroPagoObligacionesAutoGestion.getCodigoTipoRegistro().equals(ConstantesEnum.SUJETO_MINERO.getCodigo())
+                        || registroPagoObligacionesAutoGestion.getCodigoTipoRegistro().equals(ConstantesEnum.TIPO_SOLICITUD_NO_APLICA_DERECHO_MINERO.getCodigo())) {
+                    derechosMineros = null;
+                }
+            }
             if (registroPagoObligacionesAutoGestion.getCodigoRegistro() == null) {
                 System.out.println("entra create");
                 if (registroPagoObligacionesAutoGestion.getNumeroComprobanteArcom() != null) {
@@ -299,7 +351,15 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
                  registroPagoObligacionesAutoGestion.setCodigoPlantaBeneficio(pb);
                  }*/
                 //Secuencia secuencia = secuenciaServicio.obtenerPorNemonico(codigoFiltro)
-                registroPagoObligacionesServicio.create(registroPagoObligacionesAutoGestion);
+
+                /*if (registroPagoObligacionesAutoGestion.getCodigoConcesion() != null) {
+                 ConcesionMinera concesionMineraNueva = new ConcesionMinera();
+                 concesionMineraNueva.setCodigoConcesion(registroPagoObligacionesAutoGestion.getCodigoConcesion().getCodigoConcesion());
+                 registroPagoObligacionesAutoGestion.setCodigoConcesion(null);
+                 registroPagoObligacionesAutoGestion.setCodigoConcesion(concesionMineraNueva);
+                 }*/
+                //registroPagoObligacionesServicio.create(registroPagoObligacionesAutoGestion);
+                registroPagoObligacionesServicio.guardarTodo(registroPagoObligacionesAutoGestion, derechosMineros);
                 secuenciaComPago.setValor(secuenciaComPago.getValor() + 1);
                 secuenciaServicio.update(secuenciaComPago);
                 Auditoria auditoria = new Auditoria();
@@ -328,7 +388,8 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
                 }
                 registroPagoObligacionesAutoGestion.setFechaModificacion(new Date());
                 registroPagoObligacionesAutoGestion.setUsuarioModificacion(BigInteger.valueOf(us.getCodigoUsuario()));
-                registroPagoObligacionesServicio.actualizarRegistroPagoObligaciones(registroPagoObligacionesAutoGestion);
+                //registroPagoObligacionesServicio.actualizarRegistroPagoObligaciones(registroPagoObligacionesAutoGestion);
+                registroPagoObligacionesServicio.actualizarTodo(registroPagoObligacionesAutoGestion, derechosMineros);
                 Auditoria auditoria = new Auditoria();
                 auditoria.setAccion("UPDATE");
                 auditoria.setDetalleAnterior(registroPagoObligacionesAutoGestionAnterior.toString());
@@ -360,6 +421,9 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
     }
 
     public void buscarRegistro() {
+        concesionMineraPopup = null;
+        licenciaComercializacionPopup = null;
+        plantaBeneficioPopup = null;
         Usuario us = usuarioDao.obtenerPorLogin(login.getUserName());
         if (registroPagoObligacionesAutoGestion.getCodigoTipoRegistro() == null) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
@@ -396,6 +460,9 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                             "La concesión existe pero no pertenece a su regional", null));
                 }
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+                        "La concesión no existe", null));
             }
         } else if (registroPagoObligacionesAutoGestion.getCodigoTipoRegistro().equals(ConstantesEnum.TIPO_SOLICITUD_LIC_COM.getCodigo())) {
             licenciaComercializacionPopup = licenciaComercializacionServicio.obtenerPorCodigoArcom(codigoFiltro);
@@ -415,6 +482,9 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                             "La licencia existe pero no pertenece a su regional", null));
                 }
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "La licencia no existe", null));
             }
         } else if (registroPagoObligacionesAutoGestion.getCodigoTipoRegistro().equals(ConstantesEnum.TIPO_SOLICITUD_PLAN_BEN.getCodigo())) {
             plantaBeneficioPopup = plantaBeneficioServicio.obtenerPorCodigoArcom(codigoFiltro);
@@ -434,6 +504,9 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                             "La planta existe pero no pertenece a su regional", null));
                 }
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "La planta no existe", null));
             }
         }
     }
@@ -447,6 +520,7 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
                 sujetoMinero = false;
             }
         }
+        valorPagoDerechoMinero = null;
     }
 
     public boolean isSujetoMinero() {
@@ -514,45 +588,76 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
     }
 
     public void seleccionarConcesion() {
-        registroPagoObligacionesAutoGestion.setCodigoConcesion(concesionMineraPopup);
-        registroPagoObligacionesAutoGestion.setNombrePersonaPago(concesionMineraPopup.getNombreTitular());
-        registroPagoObligacionesAutoGestion.setApellidoPersonaPago(concesionMineraPopup.getApellidoTitular());
-        registroPagoObligacionesAutoGestion.getCodigoConcesion();
-        registroPagoObligacionesAutoGestion.setDocumentoPersonaPago(concesionMineraPopup.getDocumentoConcesionarioPrincipal());
-        PersonaDto pDto = personaNaturalServicio.obtenerPersonaPorNumIdentificacion(concesionMineraPopup.getDocumentoConcesionarioPrincipal());
-        if (pDto != null) {
-            registroPagoObligacionesAutoGestion.setNombrePersonaPago(pDto.getNombres());
-            registroPagoObligacionesAutoGestion.setApellidoPersonaPago(pDto.getApellidos());
-        }
+//        registroPagoObligacionesAutoGestion.setCodigoConcesion(concesionMineraPopup);
+//        registroPagoObligacionesAutoGestion.getCodigoConcesion();
+//        registroPagoObligacionesAutoGestion.setNombrePersonaPago(concesionMineraPopup.getNombreConcesionarioPrincipal());
+//        registroPagoObligacionesAutoGestion.setApellidoPersonaPago(concesionMineraPopup.getApellidoConcesionarioPrincipal());
+//        registroPagoObligacionesAutoGestion.setDocumentoPersonaPago(concesionMineraPopup.getDocumentoConcesionarioPrincipal());
+//        PersonaDto pDto = personaNaturalServicio.obtenerPersonaPorNumIdentificacion(concesionMineraPopup.getDocumentoConcesionarioPrincipal());
+//        if (pDto != null) {
+//            registroPagoObligacionesAutoGestion.setNombrePersonaPago(pDto.getNombres());
+//            registroPagoObligacionesAutoGestion.setApellidoPersonaPago(pDto.getApellidos());
+//        }
+        DerechoMineroDto derechoMineroDto = new DerechoMineroDto();
+        derechoMineroDto.setId(concesionMineraPopup.getCodigoConcesion());
+        derechoMineroDto.setCodigo(concesionMineraPopup.getCodigoArcom());
+        derechoMineroDto.setTipoDerechoMinero(concesionMineraPopup.getCodigoTipoMineria().getNombreTipoMineria());
+        derechoMineroDto.setCodigoTipoSolicitud(concesionMineraPopup.getCodigoTipoMineria().getCodigoTipoMineria());
+        System.out.println("valorPagoDerechoMinero: " + valorPagoDerechoMinero);
+        derechoMineroDto.setValorPagoDerechoMinero(valorPagoDerechoMinero);
+        agregarDerechoMinero(derechoMineroDto);
         RequestContext.getCurrentInstance().execute("PF('dlgBusqCod').hide()");
+        concesionMineraPopup = null;
+        licenciaComercializacionPopup = null;
+        plantaBeneficioPopup = null;
     }
 
     public void seleccionarLicencia() {
-        registroPagoObligacionesAutoGestion.setCodigoLicenciaComercializacion(licenciaComercializacionPopup);
-        registroPagoObligacionesAutoGestion.setNombrePersonaPago(licenciaComercializacionPopup.getNombre());
-        registroPagoObligacionesAutoGestion.setApellidoPersonaPago(licenciaComercializacionPopup.getApellido());
-        registroPagoObligacionesAutoGestion.getCodigoLicenciaComercializacion();
-        registroPagoObligacionesAutoGestion.setDocumentoPersonaPago(licenciaComercializacionPopup.getNumeroDocumento());
-        PersonaDto pDto = personaNaturalServicio.obtenerPersonaPorNumIdentificacion(licenciaComercializacionPopup.getNumeroDocumento());
-        if (pDto != null) {
-            registroPagoObligacionesAutoGestion.setNombrePersonaPago(pDto.getNombres());
-            registroPagoObligacionesAutoGestion.setApellidoPersonaPago(pDto.getApellidos());
-        }
+//        registroPagoObligacionesAutoGestion.setCodigoLicenciaComercializacion(licenciaComercializacionPopup);
+//        registroPagoObligacionesAutoGestion.setNombrePersonaPago(licenciaComercializacionPopup.getNombre());
+//        registroPagoObligacionesAutoGestion.setApellidoPersonaPago(licenciaComercializacionPopup.getApellido());
+//        registroPagoObligacionesAutoGestion.getCodigoLicenciaComercializacion();
+//        registroPagoObligacionesAutoGestion.setDocumentoPersonaPago(licenciaComercializacionPopup.getNumeroDocumento());
+//        PersonaDto pDto = personaNaturalServicio.obtenerPersonaPorNumIdentificacion(licenciaComercializacionPopup.getNumeroDocumento());
+//        if (pDto != null) {
+//            registroPagoObligacionesAutoGestion.setNombrePersonaPago(pDto.getNombres());
+//            registroPagoObligacionesAutoGestion.setApellidoPersonaPago(pDto.getApellidos());
+//        }
+        DerechoMineroDto derechoMineroDto = new DerechoMineroDto();
+        derechoMineroDto.setId(licenciaComercializacionPopup.getCodigoLicenciaComercializacion());
+        derechoMineroDto.setCodigo(licenciaComercializacionPopup.getCodigoArcom());
+        derechoMineroDto.setTipoDerechoMinero(ConstantesEnum.TIPO_SOLICITUD_LIC_COM.getDescripcion());
+        derechoMineroDto.setCodigoTipoSolicitud(ConstantesEnum.TIPO_SOLICITUD_LIC_COM.getCodigo());
+        derechoMineroDto.setValorPagoDerechoMinero(valorPagoDerechoMinero);
+        agregarDerechoMinero(derechoMineroDto);
         RequestContext.getCurrentInstance().execute("PF('dlgBusqCod').hide()");
+        concesionMineraPopup = null;
+        licenciaComercializacionPopup = null;
+        plantaBeneficioPopup = null;
     }
 
     public void seleccionarPlanta() {
-        registroPagoObligacionesAutoGestion.setCodigoPlantaBeneficio(plantaBeneficioPopup);
-        registroPagoObligacionesAutoGestion.setNombrePersonaPago(plantaBeneficioPopup.getNombreRepresentanteLegal());
-        registroPagoObligacionesAutoGestion.setApellidoPersonaPago(plantaBeneficioPopup.getApellidoRepresentanteLegal());
-        registroPagoObligacionesAutoGestion.getCodigoPlantaBeneficio();
-        registroPagoObligacionesAutoGestion.setDocumentoPersonaPago(plantaBeneficioPopup.getNumeroDocumentoRepresentanteLegal());
-        PersonaDto pDto = personaNaturalServicio.obtenerPersonaPorNumIdentificacion(plantaBeneficioPopup.getNumeroDocumentoRepresentanteLegal());
-        if (pDto != null) {
-            registroPagoObligacionesAutoGestion.setNombrePersonaPago(pDto.getNombres());
-            registroPagoObligacionesAutoGestion.setApellidoPersonaPago(pDto.getApellidos());
-        }
+//        registroPagoObligacionesAutoGestion.setCodigoPlantaBeneficio(plantaBeneficioPopup);
+//        registroPagoObligacionesAutoGestion.setNombrePersonaPago(plantaBeneficioPopup.getNombreRepresentanteLegal());
+//        registroPagoObligacionesAutoGestion.setApellidoPersonaPago(plantaBeneficioPopup.getApellidoRepresentanteLegal());
+//        registroPagoObligacionesAutoGestion.getCodigoPlantaBeneficio();
+//        registroPagoObligacionesAutoGestion.setDocumentoPersonaPago(plantaBeneficioPopup.getNumeroDocumentoRepresentanteLegal());
+//        PersonaDto pDto = personaNaturalServicio.obtenerPersonaPorNumIdentificacion(plantaBeneficioPopup.getNumeroDocumentoRepresentanteLegal());
+//        if (pDto != null) {
+//            registroPagoObligacionesAutoGestion.setNombrePersonaPago(pDto.getNombres());
+//            registroPagoObligacionesAutoGestion.setApellidoPersonaPago(pDto.getApellidos());
+//        }
+        DerechoMineroDto derechoMineroDto = new DerechoMineroDto();
+        derechoMineroDto.setId(plantaBeneficioPopup.getCodigoPlantaBeneficio());
+        derechoMineroDto.setCodigo(plantaBeneficioPopup.getCodigoArcom());
+        derechoMineroDto.setTipoDerechoMinero(ConstantesEnum.TIPO_SOLICITUD_PLAN_BEN.getDescripcion());
+        derechoMineroDto.setCodigoTipoSolicitud(ConstantesEnum.TIPO_SOLICITUD_PLAN_BEN.getCodigo());
+        derechoMineroDto.setValorPagoDerechoMinero(valorPagoDerechoMinero);
+        agregarDerechoMinero(derechoMineroDto);
         RequestContext.getCurrentInstance().execute("PF('dlgBusqCod').hide()");
+        concesionMineraPopup = null;
+        licenciaComercializacionPopup = null;
+        plantaBeneficioPopup = null;
     }
 
     public SujetoMinero getSujetoMineroPopUp() {
@@ -839,6 +944,35 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
 
     public void setPersonaDto(PersonaDto personaDto) {
         this.personaDto = personaDto;
+    }
+
+    public void agregarDerechoMinero(DerechoMineroDto derechoMineroDto) {
+        if (derechosMineros == null) {
+            derechosMineros = new ArrayList<>();
+        }
+        derechosMineros.add(derechoMineroDto);
+    }
+
+    public void eliminarDerechoMinero() {
+        DerechoMineroDto derechoMineraItem = (DerechoMineroDto) getExternalContext().getRequestMap().get("reg");
+        System.out.println("derechoMineraItem: " + derechoMineraItem.getCodigo());
+        derechosMineros.remove(derechoMineraItem);
+    }
+
+    public List<DerechoMineroDto> getDerechosMineros() {
+        return derechosMineros;
+    }
+
+    public void setDerechosMineros(List<DerechoMineroDto> derechosMineros) {
+        this.derechosMineros = derechosMineros;
+    }
+
+    public BigDecimal getValorPagoDerechoMinero() {
+        return valorPagoDerechoMinero;
+    }
+
+    public void setValorPagoDerechoMinero(BigDecimal valorPagoDerechoMinero) {
+        this.valorPagoDerechoMinero = valorPagoDerechoMinero;
     }
 
 }

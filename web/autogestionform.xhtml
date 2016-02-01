@@ -80,7 +80,8 @@
                     <p:outputLabel value="Generar Nro. comprobante?" 
                                    rendered="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.codigoRegistro == null}"/>
                     <p:selectBooleanCheckbox value="#{registroPagoObligacionesCtrl.generacionComprobante}"
-                                             rendered="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.codigoRegistro == null}">
+                                             rendered="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.codigoRegistro == null}"
+                                             disabled="true">
                         <p:ajax update="numCompPago"/>
                     </p:selectBooleanCheckbox>
 
@@ -134,7 +135,8 @@
                                      required="true" requiredMessage="Tipo de registro es requerido" style="width: 93%">
                         <f:selectItem itemValue="" itemLabel="--Seleccione una opción--" />
                         <f:selectItems value="#{selectItemCtrl.tiposSolicitud}" />
-                        <p:ajax listener="#{registroPagoObligacionesCtrl.cambiarPopUp}" update="panelCodigo panelCodigo2 panelNomArea panelNomArea2" />
+                        <p:ajax listener="#{registroPagoObligacionesCtrl.cambiarPopUp}" 
+                                update="panelCodigo panelCodigo2 :form:panelInfoPersona panelDerechosMineros" />
                     </p:selectOneMenu>
 
                     <h:panelGroup id="panelCodigo">
@@ -143,68 +145,95 @@
                         <p:outputLabel value="Persona:" rendered="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.codigoTipoRegistro == 1000}"/>
                     </h:panelGroup>
 
-                    <h:panelGrid id="panelCodigo2" columns="2">
-                        <p:inputText id="codDerMin" 
-                                     value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.codigoDerechoMinero}"
-                                     readonly="true"
-                                     rendered="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.codigoTipoRegistro != 1000}"/>
-                        <p:inputText id="numIdentificacionBusqueda" 
-                                     value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.documentoPersonaPago}"
-                                     readonly="true"
-                                     rendered="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.codigoTipoRegistro == 1000}"/>
-                        <p:commandLink id="botonBusquedaCodigo" onclick="PF('dlgBusqCod').show();" 
-                                       title="Buscar código" immediate="true" 
-                                       rendered="#{!registroPagoObligacionesCtrl.sujetoMinero and registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.codigoTipoRegistro != 1000}">
-                            <h:panelGrid style="text-align:center">
-                                <h:graphicImage value="resources/images/barcode.png" title="Buscar código" style="width: 40px; height: 40px"/>
-                            </h:panelGrid>
-                            <f:ajax execute="tipRegistro"/>
-                        </p:commandLink>
-                        <p:commandLink id="botonBusquedaSujMin" onclick="PF('dlgBusqSujMin').show();" 
-                                       title="Buscar Sujeto Minero" immediate="true" 
-                                       rendered="#{registroPagoObligacionesCtrl.sujetoMinero and registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.codigoTipoRegistro == 100}">
-                            <h:panelGrid style="text-align:center">
-                                <h:graphicImage value="resources/images/persona.png" title="Buscar Sujeto Minero" style="width: 40px; height: 40px"/>
-                            </h:panelGrid>
-                            <f:ajax execute="tipRegistro"/>
-                        </p:commandLink>
-                        <p:commandLink id="botonBusquedaPersona" onclick="PF('dlgBusqPersona').show();" 
-                                       title="Buscar Persona" immediate="true" 
-                                       rendered="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.codigoTipoRegistro == 1000}">
-                            <h:panelGrid style="text-align:center">
-                                <h:graphicImage value="resources/images/persona.png" title="Buscar Persona" style="width: 40px; height: 40px"/>
-                            </h:panelGrid>
-                            <f:ajax execute="tipRegistro"/>
-                        </p:commandLink>
+                    <h:panelGrid id="panelDerechosMineros" columns="2" width="95%">
+                        <p:dataTable id="derechosMinerosTable" var="reg" value="#{registroPagoObligacionesCtrl.derechosMineros}" 
+                                     styleClass="texto_tabla_datos" rowIndexVar="rowIndex" emptyMessage="No existen registros" style="width: 95%"
+                                     rendered="#{!registroPagoObligacionesCtrl.sujetoMinero}">
+                            <p:column headerText="#" style="width: 25px">
+                                <h:outputText value="#{rowIndex + 1}"/>
+                            </p:column>
+                            <p:column headerText="Código" >
+                                <h:outputText value="#{reg.codigo}"/>
+                            </p:column>
+                            <p:column headerText="Tipo Derecho Minero" >
+                                <h:outputText value="#{reg.tipoDerechoMinero}"/>
+                            </p:column>
+                            <p:column headerText="Valor Pago" >
+                                <h:outputText value="#{reg.valorPagoDerechoMinero}"/>
+                            </p:column>
+                            <p:column headerText="Eliminar" >
+                                <p:commandLink action="#{registroPagoObligacionesCtrl.eliminarDerechoMinero}"
+                                               title="Eliminar" immediate="true" update="derechosMinerosTable">
+                                    <h:panelGrid style="text-align:center">
+                                        <h:graphicImage value="resources/images/delete.png" title="Eliminar" style="width: 25px; height: 25px" />
+                                    </h:panelGrid>
+                                </p:commandLink>
+                            </p:column>
+                        </p:dataTable>
+                        <h:panelGrid id="panelCodigo2" columns="2">
+                            <p:inputText id="numIdentificacionBusqueda" 
+                                         value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.documentoPersonaPago}"
+                                         readonly="true"
+                                         rendered="#{registroPagoObligacionesCtrl.sujetoMinero and registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.codigoTipoRegistro != 1000}"/>
+                            <p:inputText id="numIdentificacionBusqueda2" 
+                                         value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.documentoPersonaPago}"
+                                         readonly="true"
+                                         rendered="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.codigoTipoRegistro == 1000}"/>
+                            <p:commandLink id="botonBusquedaCodigo" onclick="PF('dlgBusqCod').show();" 
+                                           title="Añadir Derecho Minero" immediate="true" style="position: absolute"
+                                           rendered="#{!registroPagoObligacionesCtrl.sujetoMinero and registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.codigoTipoRegistro != 1000}">
+                                <h:panelGrid style="text-align:center">
+                                    <h:graphicImage value="resources/images/plus.png" title="Buscar código" style="width: 30px; height: 30px"/>
+                                </h:panelGrid>
+                                <f:ajax execute="tipRegistro"/>
+                            </p:commandLink>
+                            <p:commandLink id="botonBusquedaSujMin" onclick="PF('dlgBusqSujMin').show();" 
+                                           title="Buscar Sujeto Minero" immediate="true" 
+                                           rendered="#{registroPagoObligacionesCtrl.sujetoMinero and registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.codigoTipoRegistro == 100}">
+                                <h:panelGrid style="text-align:center">
+                                    <h:graphicImage value="resources/images/persona.png" title="Buscar Sujeto Minero" style="width: 40px; height: 40px"/>
+                                </h:panelGrid>
+                                <f:ajax execute="tipRegistro"/>
+                            </p:commandLink>
+                            <p:commandLink id="botonBusquedaPersona" onclick="PF('dlgBusqPersona').show();" 
+                                           title="Buscar Persona" immediate="true" 
+                                           rendered="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.codigoTipoRegistro == 1000}">
+                                <h:panelGrid style="text-align:center">
+                                    <h:graphicImage value="resources/images/persona.png" title="Buscar Persona" style="width: 40px; height: 40px"/>
+                                </h:panelGrid>
+                                <f:ajax execute="tipRegistro"/>
+                            </p:commandLink>
+                        </h:panelGrid>
                     </h:panelGrid>
-
+                </p:panelGrid>
+                <p:panelGrid id="panelInfoPersona" columns="2" styleClass="panel_grid_center" columnClasses="form-label-width, form-input">
                     <h:panelGroup id="panelNomArea">
                         <p:outputLabel value="Nombre área:" 
-                                       rendered="#{!registroPagoObligacionesCtrl.sujetoMinero}"/>
+                                       rendered="#{registroPagoObligacionesCtrl.sujetoMinero}"/>
                     </h:panelGroup>
                     <h:panelGroup id="panelNomArea2">
                         <p:inputText id="nomArea" value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.nombreDerechoMinero}" 
                                      size="50" required="true" requiredMessage="Nombre requerido" onkeypress="return acceptText(event)"
                                      maxlength="30" readonly="true" 
-                                     rendered="#{!registroPagoObligacionesCtrl.sujetoMinero}"/>
+                                     rendered="#{registroPagoObligacionesCtrl.sujetoMinero}"/>
                     </h:panelGroup>
-
-                    <p:outputLabel value="Cédula titular:"></p:outputLabel>
+                    
+                    <p:outputLabel value="Cédula titular:" rendered="#{registroPagoObligacionesCtrl.sujetoMinero}"></p:outputLabel>
                     <p:inputText id="cedOtServ" value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.documentoPersonaPago}"
-                                 readonly="true"/>
+                                 readonly="true" rendered="#{registroPagoObligacionesCtrl.sujetoMinero}"/>
 
-                    <p:outputLabel value="Nombre titular:"></p:outputLabel>
+                    <p:outputLabel value="Nombre titular:" rendered="#{registroPagoObligacionesCtrl.sujetoMinero}"></p:outputLabel>
                     <p:inputText id="nomOtServ" value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.nombrePersonaPago}"
-                                 readonly="true"/>
+                                 readonly="true" rendered="#{registroPagoObligacionesCtrl.sujetoMinero}"/>
 
-                    <p:outputLabel value="Apellido titular:"></p:outputLabel>
+                    <p:outputLabel value="Apellido titular:" rendered="#{registroPagoObligacionesCtrl.sujetoMinero}"></p:outputLabel>
                     <p:inputText id="apOtServ" value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.apellidoPersonaPago}"
-                                 readonly="true"/>
-
+                                 readonly="true" rendered="#{registroPagoObligacionesCtrl.sujetoMinero}"/>
+                    
                     <h:outputText value="Observación económico:" />
                     <p:inputTextarea value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.observacionAnalistaEconomico}"
                                      cols="52" maxlength="500"/>
-
+                    
                     <f:facet name="footer">
                         <h:panelGroup style="display:block; text-align:center">
                             <p:commandButton value="Guardar" action="#{registroPagoObligacionesCtrl.guardarRegistroAutoGestion}" update="growl" ></p:commandButton>
@@ -364,15 +393,15 @@
                             <p:outputLabel value="Código:"/>
                             <p:inputText id="codFiltro" value="#{registroPagoObligacionesCtrl.codigoFiltro}"/>
                         </h:panelGrid>
-                        <p:commandButton actionListener="#{registroPagoObligacionesCtrl.buscarRegistro}" value="Buscar" style="width: 150px; height: 50px;" title="Buscar" update="form6"/>
+                        <p:commandButton actionListener="#{registroPagoObligacionesCtrl.buscarRegistro}" value="Buscar" title="Buscar" update="form6"/>
                     </h:panelGrid>
                     <p:spacer/>
                     <p:spacer/>
                     <h:panelGroup id="panelRespuesta">
                         <p:outputLabel value="No existen registros" rendered="#{registroPagoObligacionesCtrl.concesionMineraPopup == null and registroPagoObligacionesCtrl.licenciaComercializacionPopup == null 
                                                                                 and registroPagoObligacionesCtrl.plantaBeneficioPopup == null}" />
-                        <h:panelGrid columns="2" rendered="#{registroPagoObligacionesCtrl.concesionMineraPopup != null}">
-                            <p:panelGrid columns="2" styleClass="panel_grid_center" columnClasses="form-label-width, form-input" >
+                        <h:panelGrid columns="3" rendered="#{registroPagoObligacionesCtrl.concesionMineraPopup != null}">
+                            <p:panelGrid columns="2" styleClass="panel_grid_center" columnClasses="form-label-width, form-input" style="width: 300px">
                                 <f:facet name="header">
                                     <h:panelGroup style="display:block; text-align:center">
                                         <p:outputLabel value="Registro Encontrado"/>
@@ -395,12 +424,22 @@
                                 <p:outputLabel value="Parroquia:" />
                                 <p:outputLabel value="#{registroPagoObligacionesCtrl.parroquia.nombre}" />
                             </p:panelGrid>
-                            <h:commandButton actionListener="#{registroPagoObligacionesCtrl.seleccionarConcesion}" image="resources/images/select.png" style="width: 150px; height: 150px;" title="Seleccionar">
-                                <p:ajax update=":form:panelCodigo2 :form:panelNomArea2 :form:cedOtServ :form:nomOtServ :form:apOtServ" />
+                            <h:panelGrid columns="1" style="position: relative; right: -22px">
+                                <p:outputLabel value="Valor Pago:"/>
+                                <pe:inputNumber id="valorPagoDerMin" thousandSeparator="," decimalSeparator="." decimalPlaces="2" 
+                                                maxValue="9999999999.99" value="#{registroPagoObligacionesCtrl.valorPagoDerechoMinero}" 
+                                                required="true" requiredMessage="Valor Pago es requerido"
+                                                style="width: 70%"/>
+                            </h:panelGrid>
+                            <h:commandButton actionListener="#{registroPagoObligacionesCtrl.seleccionarConcesion}"
+                                             value="Seleccionar"
+                                             title="Seleccionar"
+                                             style="position: relative; right: 0px" onclick="PF('dlgBusqCod').hide()">
+                                <f:ajax render=":form:derechosMinerosTable" execute="valorPagoDerMin"/>
                             </h:commandButton>
                         </h:panelGrid>
-                        <p:panelGrid columns="2" rendered="#{registroPagoObligacionesCtrl.licenciaComercializacionPopup != null}">
-                            <p:panelGrid columns="2" styleClass="panel_grid_center" columnClasses="form-label-width, form-input" >
+                        <h:panelGrid columns="3" rendered="#{registroPagoObligacionesCtrl.licenciaComercializacionPopup != null}">
+                            <p:panelGrid columns="2" styleClass="panel_grid_center" columnClasses="form-label-width, form-input" style="width: 300px">
                                 <f:facet name="header">
                                     <h:panelGroup style="display:block; text-align:center">
                                         <p:outputLabel value="Registro Encontrado"/>
@@ -423,12 +462,22 @@
                                 <p:outputLabel value="Parroquia:" />
                                 <p:outputLabel value="#{registroPagoObligacionesCtrl.parroquia.nombre}" />
                             </p:panelGrid>
-                            <h:commandButton actionListener="#{registroPagoObligacionesCtrl.seleccionarLicencia}" image="resources/images/select.png" style="width: 150px; height: 150px;" title="Seleccionar">
-                                <p:ajax update=":form:panelCodigo2 :form:panelNomArea2 :form:cedOtServ :form:nomOtServ :form:apOtServ" />
+                            <h:panelGrid columns="1" style="position: relative; right: -22px">
+                                <p:outputLabel value="Valor Pago:"/>
+                                <pe:inputNumber id="valorPagoDerMin2" thousandSeparator="," decimalSeparator="." decimalPlaces="2" 
+                                                maxValue="9999999999.99" value="#{registroPagoObligacionesCtrl.valorPagoDerechoMinero}" 
+                                                required="true" requiredMessage="Valor Pago es requerido"
+                                                style="width: 70%"/>
+                            </h:panelGrid>
+                            <h:commandButton actionListener="#{registroPagoObligacionesCtrl.seleccionarLicencia}"
+                                             value="Seleccionar"
+                                             title="Seleccionar"
+                                             style="position: relative; right: 0px" onclick="PF('dlgBusqCod').hide()">
+                                <f:ajax render=":form:derechosMinerosTable" execute="valorPagoDerMin2"/>
                             </h:commandButton>
-                        </p:panelGrid>
-                        <p:panelGrid columns="2" rendered="#{registroPagoObligacionesCtrl.plantaBeneficioPopup != null}">
-                            <p:panelGrid columns="2" styleClass="panel_grid_center" columnClasses="form-label-width, form-input" >
+                        </h:panelGrid>
+                        <h:panelGrid columns="3" rendered="#{registroPagoObligacionesCtrl.plantaBeneficioPopup != null}">
+                            <p:panelGrid columns="2" styleClass="panel_grid_center" columnClasses="form-label-width, form-input" style="width: 300px">
                                 <f:facet name="header">
                                     <h:panelGroup style="display:block; text-align:center">
                                         <p:outputLabel value="Registro Encontrado"/>
@@ -451,10 +500,20 @@
                                 <p:outputLabel value="Parroquia:" />
                                 <p:outputLabel value="#{registroPagoObligacionesCtrl.parroquia.nombre}" />
                             </p:panelGrid>
-                            <h:commandButton actionListener="#{registroPagoObligacionesCtrl.seleccionarPlanta}" image="resources/images/select.png" style="width: 150px; height: 150px;" title="Seleccionar" >
-                                <p:ajax update=":form:panelCodigo2 :form:panelNomArea2 :form:cedOtServ :form:nomOtServ :form:apOtServ" />
-                            </h:commandButton>
-                        </p:panelGrid>
+                            <h:panelGrid columns="1" style="position: relative; right: -22px">
+                                <p:outputLabel value="Valor Pago:"/>
+                                <pe:inputNumber id="valorPagoDerMin3" thousandSeparator="," decimalSeparator="." decimalPlaces="2" 
+                                                maxValue="9999999999.99" value="#{registroPagoObligacionesCtrl.valorPagoDerechoMinero}" 
+                                                required="true" requiredMessage="Valor Pago es requerido"
+                                                style="width: 70%"/>
+                            </h:panelGrid>
+                            <p:commandButton actionListener="#{registroPagoObligacionesCtrl.seleccionarPlanta}"
+                                             value="Seleccionar"
+                                             title="Seleccionar"
+                                             style="position: relative; right: 0px" onclick="PF('dlgBusqCod').hide()">
+                                <f:ajax render=":form:derechosMinerosTable" execute="valorPagoDerMin3"/>
+                            </p:commandButton>
+                        </h:panelGrid>
                     </h:panelGroup> 
                 </h:form>
             </p:dialog>
