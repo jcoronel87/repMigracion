@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -36,6 +37,7 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Informe.findAll", query = "SELECT i FROM Informe i")})
 public class Informe implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -682,5 +684,5 @@ public class Informe implements Serializable {
     public String toString() {
         return "ec.gob.arcom.migracion.modelo.Informe[ codigoInforme=" + codigoInforme + " ]";
     }
-    
+
 }

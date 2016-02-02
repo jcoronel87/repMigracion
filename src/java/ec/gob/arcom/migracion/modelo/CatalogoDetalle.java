@@ -542,5 +542,5 @@ public class CatalogoDetalle implements Serializable {
     public void setCostoServiciosList(List<CostoServicios> costoServiciosList) {
         this.costoServiciosList = costoServiciosList;
     }
-    
+
 }

@@ -62,22 +62,23 @@ public class RegistroPagoObligacionesServicioImpl extends GenericServiceImpl<Reg
     }
 
     @Override
-    public List<RegistroPagoObligaciones> obtenerRegistrosAutogestion(Date fechaInicio, Date fechaFin, String numeroComprobanteArcom,
-            String cedula, String codigoDerechoMinero) {
-        return registroPagoObligacionesDao.obtenerListaAutogestion(fechaInicio, fechaFin, numeroComprobanteArcom, cedula, codigoDerechoMinero);
+    public List<RegistroPagoObligaciones> obtenerRegistrosAutogestion(Date fechaInicio, Date fechaFin, String numeroComprobanteArcom, 
+            String cedula, String codigoDerechoMinero, String prefijoRegionalParam) {
+        return registroPagoObligacionesDao.obtenerListaAutogestion(fechaInicio, fechaFin, numeroComprobanteArcom, 
+                cedula, codigoDerechoMinero, prefijoRegionalParam);
     }
 
     @Override
-    public void guardarTodo(RegistroPagoObligaciones registroPagoObligaciones, List<DerechoMineroDto> derechosMineros) {
+    public void guardarTodo(RegistroPagoObligaciones registroPagoObligaciones, List<DerechoMineroDto> derechosMineros, Long codigoUsuario) {
         this.create(registroPagoObligaciones);
         System.out.println("registroPagoObligaciones.getCodigoRegistro(): " + registroPagoObligaciones.getCodigoRegistro());
         if (derechosMineros != null) {
-            this.guardarDerechosMineros(registroPagoObligaciones, derechosMineros, null);
+            this.guardarDerechosMineros(registroPagoObligaciones, derechosMineros, codigoUsuario);
         }
     }
 
     @Override
-    public void actualizarTodo(RegistroPagoObligaciones registroPagoObligaciones, List<DerechoMineroDto> derechosMineros) throws Exception {
+    public void actualizarTodo(RegistroPagoObligaciones registroPagoObligaciones, List<DerechoMineroDto> derechosMineros, Long codigoUsuario) throws Exception {
         this.actualizarRegistroPagoObligaciones(registroPagoObligaciones);
         List<RegistroPagoDetalle> pagosAnteriores = registroPagoDetalleServicio.obtenerPorCodigoRegistroPago(registroPagoObligaciones.getCodigoRegistro());
         if (pagosAnteriores != null) {
@@ -86,7 +87,7 @@ public class RegistroPagoObligacionesServicioImpl extends GenericServiceImpl<Reg
             }
         }
         if (derechosMineros != null) {
-            guardarDerechosMineros(registroPagoObligaciones, derechosMineros, null);
+            guardarDerechosMineros(registroPagoObligaciones, derechosMineros, codigoUsuario);
         }
     }
 

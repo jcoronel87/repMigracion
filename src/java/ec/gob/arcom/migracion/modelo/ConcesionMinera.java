@@ -692,9 +692,9 @@ public class ConcesionMinera implements Serializable {
             return false;
         }
         ConcesionMinera other = (ConcesionMinera) object;
-        if ((this.codigoConcesion == null 
-                && other.codigoConcesion != null) 
-                || (this.codigoConcesion != null 
+        if ((this.codigoConcesion == null
+                && other.codigoConcesion != null)
+                || (this.codigoConcesion != null
                 && !this.codigoConcesion.equals(other.codigoConcesion))) {
             return false;
         }

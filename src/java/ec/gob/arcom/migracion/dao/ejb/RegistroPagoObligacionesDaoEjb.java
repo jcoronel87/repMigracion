@@ -16,6 +16,7 @@ import ec.gob.arcom.migracion.modelo.PlantaBeneficio;
 import ec.gob.arcom.migracion.modelo.RegistroPagoObligaciones;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -63,10 +64,10 @@ public class RegistroPagoObligacionesDaoEjb extends GenericDaoEjbEl<RegistroPago
         String sql = "UPDATE catmin.registro_pago_obligaciones \n"
                 + "SET codigo_registro = " + registroPagoObligaciones.getCodigoRegistro() + ", \n";
         /*if (registroPagoObligaciones.getCodigoConceptoPago() != null) {
-            sql += "codigo_concepto_pago = " + registroPagoObligaciones.getCodigoConceptoPago().getCodigoConceptoPago() + ", \n";
-        } else {
-            sql += "codigo_concepto_pago = " + null + ", \n";
-        }*/
+         sql += "codigo_concepto_pago = " + registroPagoObligaciones.getCodigoConceptoPago().getCodigoConceptoPago() + ", \n";
+         } else {
+         sql += "codigo_concepto_pago = " + null + ", \n";
+         }*/
         if (registroPagoObligaciones.getCodigoConcesion() != null) {
             sql += "codigo_concesion = " + registroPagoObligaciones.getCodigoConcesion().getCodigoConcesion() + ", \n";
         } else {
@@ -227,7 +228,7 @@ public class RegistroPagoObligacionesDaoEjb extends GenericDaoEjbEl<RegistroPago
             sql += "codigo_tipo_servicio = " + null + ", \n";
         }
         if (registroPagoObligaciones.getCodigoConceptoPago() != null
-                && registroPagoObligaciones.getCodigoConceptoPago().getCodigoConceptoPago() != null ) {
+                && registroPagoObligaciones.getCodigoConceptoPago().getCodigoConceptoPago() != null) {
             sql += "codigo_concepto_pago = " + registroPagoObligaciones.getCodigoConceptoPago().getCodigoConceptoPago() + ", \n";
         } else {
             sql += "codigo_concepto_pago = " + null + ", \n";
@@ -258,7 +259,7 @@ public class RegistroPagoObligacionesDaoEjb extends GenericDaoEjbEl<RegistroPago
 
     @Override
     public List<RegistroPagoObligaciones> obtenerListaAutogestion(Date fechaDesde, Date fechaHasta, String numeroComprobanteArcom,
-            String cedula, String codigoDerechoMinero) {
+            String cedula, String codigoDerechoMinero, String prefijoRegionalParam) {
         System.out.println("fechaDesde: " + fechaDesde);
         System.out.println("fechaHasta: " + fechaHasta);
         System.out.println("numeroComprobanteArcom: " + numeroComprobanteArcom);
@@ -316,7 +317,17 @@ public class RegistroPagoObligacionesDaoEjb extends GenericDaoEjbEl<RegistroPago
         if (codigoDerMin != null) {
             query.setParameter("codigoDerMin", codigoDerMin);
         }
-        return query.getResultList();
+        List<RegistroPagoObligaciones> listaTmp = query.getResultList();
+        List<RegistroPagoObligaciones> listaFinal = new ArrayList<>();
+        for (RegistroPagoObligaciones rpo : listaTmp) {
+            if (rpo.getNumeroComprobanteArcom() != null) {
+                String prefijoRegional = rpo.getNumeroComprobanteArcom().substring(2, 4);
+                if (prefijoRegional.equals(prefijoRegionalParam)) {
+                    listaFinal.add(rpo);
+                }
+            }
+        }
+        return listaFinal;
     }
 
 }

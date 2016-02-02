@@ -242,9 +242,9 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
                         listaTmp.add(derechoMineroDto);
                     }
                     derechosMineros = listaTmp;
-                    sujetoMinero = true;
-                } else {
                     sujetoMinero = false;
+                } else {
+                    sujetoMinero = true;
                 }
             }
         }
@@ -359,7 +359,7 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
                  registroPagoObligacionesAutoGestion.setCodigoConcesion(concesionMineraNueva);
                  }*/
                 //registroPagoObligacionesServicio.create(registroPagoObligacionesAutoGestion);
-                registroPagoObligacionesServicio.guardarTodo(registroPagoObligacionesAutoGestion, derechosMineros);
+                registroPagoObligacionesServicio.guardarTodo(registroPagoObligacionesAutoGestion, derechosMineros, us.getCodigoUsuario());
                 secuenciaComPago.setValor(secuenciaComPago.getValor() + 1);
                 secuenciaServicio.update(secuenciaComPago);
                 Auditoria auditoria = new Auditoria();
@@ -389,7 +389,7 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
                 registroPagoObligacionesAutoGestion.setFechaModificacion(new Date());
                 registroPagoObligacionesAutoGestion.setUsuarioModificacion(BigInteger.valueOf(us.getCodigoUsuario()));
                 //registroPagoObligacionesServicio.actualizarRegistroPagoObligaciones(registroPagoObligacionesAutoGestion);
-                registroPagoObligacionesServicio.actualizarTodo(registroPagoObligacionesAutoGestion, derechosMineros);
+                registroPagoObligacionesServicio.actualizarTodo(registroPagoObligacionesAutoGestion, derechosMineros, us.getCodigoUsuario());
                 Auditoria auditoria = new Auditoria();
                 auditoria.setAccion("UPDATE");
                 auditoria.setDetalleAnterior(registroPagoObligacionesAutoGestionAnterior.toString());
@@ -411,7 +411,8 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
     public List<RegistroPagoObligaciones> getListaRegistrosAutoGestion() {
         if (listaRegistrosAutoGestion == null) {
             listaRegistrosAutoGestion = registroPagoObligacionesServicio
-                    .obtenerRegistrosAutogestion(fechaDesdeFiltro, fechaHastaFiltro, numeroComprobanteArcomFiltro, null, codigoArcomFiltro);
+                    .obtenerRegistrosAutogestion(fechaDesdeFiltro, fechaHastaFiltro, numeroComprobanteArcomFiltro, null, 
+                            codigoArcomFiltro, login.getPrefijoRegional());
         }
         return listaRegistrosAutoGestion;
     }

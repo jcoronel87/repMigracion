@@ -27,11 +27,10 @@ public interface RegistroPagoObligacionesServicio extends GenericService<Registr
 
     List<RegistroPagoObligaciones> obtenerPorNumeroComprobanteArcom(String numeroComprobanteArcom);
 
-    List<RegistroPagoObligaciones> obtenerRegistrosAutogestion(Date fechaInicio, Date fechaFin, String numeroComprobanteArcom, 
-            String cedula, String codigoDerechoMinero);
+    List<RegistroPagoObligaciones> obtenerRegistrosAutogestion(Date fechaInicio, Date fechaFin, String numeroComprobanteArcom, String cedula, String codigoDerechoMinero, String prefijoRegionalParam);
 
-    void guardarTodo(RegistroPagoObligaciones registroPagoObligaciones, List<DerechoMineroDto> derechosMineros);
+    void guardarTodo(RegistroPagoObligaciones registroPagoObligaciones, List<DerechoMineroDto> derechosMineros, Long codigoUsuario);
 
-    void actualizarTodo(RegistroPagoObligaciones registroPagoObligaciones, List<DerechoMineroDto> derechosMineros) throws Exception;
+    void actualizarTodo(RegistroPagoObligaciones registroPagoObligaciones, List<DerechoMineroDto> derechosMineros, Long codigoUsuario) throws Exception;
 
 }

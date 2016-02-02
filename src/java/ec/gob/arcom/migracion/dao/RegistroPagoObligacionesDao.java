@@ -27,7 +27,6 @@ public interface RegistroPagoObligacionesDao extends GenericDao<RegistroPagoObli
 
     List<RegistroPagoObligaciones> obtenerPorCodigoComprobanteArcom(String numeroComprobanteArcom);
 
-    List<RegistroPagoObligaciones> obtenerListaAutogestion(Date fechaDesde, Date fechaHasta, String numeroComprobanteArcom, 
-            String cedula, String codigoDerechoMinero);
+    List<RegistroPagoObligaciones> obtenerListaAutogestion(Date fechaDesde, Date fechaHasta, String numeroComprobanteArcom, String cedula, String codigoDerechoMinero, String prefijoRegionalParam);
 
 }
