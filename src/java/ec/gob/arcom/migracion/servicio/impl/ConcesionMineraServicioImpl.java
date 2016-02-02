@@ -164,9 +164,9 @@ public class ConcesionMineraServicioImpl extends GenericServiceImpl<ConcesionMin
      */
     @Override
     public List<DerechoMineroDto> obtenerDerechosMinerosNacional(String codigo, String nombreDerechoMinero, Long codigoRegional, Long codigoProvincia, 
-            Long codigoFase, Long codigoEstado, String tipoSolicitud, String beneficiarioPrincipal, String tipoPersona, Date fecha) {
+            Long codigoFase, Long codigoEstado, String tipoSolicitud, String beneficiarioPrincipal, String tipoPersona, Date fecha, String numDocumento) {
         return concesionMineraDao.busquedaGeneralNacional(codigo, nombreDerechoMinero, codigoRegional, codigoProvincia, codigoFase, codigoEstado, 
-                tipoSolicitud, beneficiarioPrincipal, tipoPersona, fecha, fecha);
+                tipoSolicitud, beneficiarioPrincipal, tipoPersona, fecha, fecha, numDocumento);
     }
 
 }

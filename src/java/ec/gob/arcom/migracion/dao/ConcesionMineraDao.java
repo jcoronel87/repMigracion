@@ -31,7 +31,6 @@ public interface ConcesionMineraDao extends GenericDao<ConcesionMinera, Long> {
 
     void actualizarConcesionMinera(ConcesionMinera concesionMinera) throws Exception;
     
-    List<DerechoMineroDto> busquedaGeneralNacional(String codigo, String nombre, Long codigoRegional, Long codigoProvincia, Long codigoFase, 
-            Long codigoEstado, String tipoSolicitud, String beneficiarioPrincipal, String tipoPersona, Date fechaDesde, Date fechaHasta);
+    List<DerechoMineroDto> busquedaGeneralNacional(String codigo, String nombre, Long codigoRegional, Long codigoProvincia, Long codigoFase, Long codigoEstado, String tipoSolicitud, String beneficiarioPrincipal, String tipoPersona, Date fechaDesde, Date fechaHasta, String numDocumento);
     
 }

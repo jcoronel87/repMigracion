@@ -523,8 +523,9 @@ public class ConcesionMineraDaoEjb extends GenericDaoEjbEl<ConcesionMinera, Long
     }
 
     @Override
-    public List<DerechoMineroDto> busquedaGeneralNacional(String codigo, String nombre, Long codigoRegional, Long codigoProvincia, Long codigoFase,
-            Long codigoEstado, String tipoSolicitud, String beneficiarioPrincipal, String tipoPersona, Date fechaDesde, Date fechaHasta) {
+    public List<DerechoMineroDto> busquedaGeneralNacional(String codigo, String nombre, Long codigoRegional, Long codigoProvincia, 
+            Long codigoFase, Long codigoEstado, String tipoSolicitud, String beneficiarioPrincipal, String tipoPersona, Date fechaDesde, 
+            Date fechaHasta, String numDocumento) {
         String sql1 = "";
         if (tipoSolicitud == null || tipoSolicitud.equals(ConstantesEnum.TIPO_SOLICITUD_CONS_MIN.getNemonico())
                 || tipoSolicitud.equals(ConstantesEnum.TIPO_SOLICITUD_LIB_APR.getNemonico())
@@ -534,7 +535,8 @@ public class ConcesionMineraDaoEjb extends GenericDaoEjbEl<ConcesionMinera, Long
             sql1 = "select concesiones.codigo_arcom, concesiones.nombre_concesion,\n"
                     + "concesiones.nombre_regional, concesiones.provincia, concesiones.fase,\n"
                     + "concesiones.estado, concesiones.nombre_tipo_mineria, concesiones.beneficiario_principal,\n"
-                    + "concesiones.tipo_persona, concesiones.fecha_creacion, 'C' as tipo_form, concesiones.codigo_concesion\n"
+                    + "concesiones.tipo_persona, concesiones.fecha_creacion, 'C' as tipo_form, concesiones.codigo_concesion, \n"
+                    + "concesiones.documento_concesionario_principal \n"
                     + "from\n"
                     + "(\n"
                     + "select cm.codigo_arcom as codigo_arcom, \n"
@@ -558,7 +560,8 @@ public class ConcesionMineraDaoEjb extends GenericDaoEjbEl<ConcesionMinera, Long
                     + "(select codigo_fase from catmin.fase where codigo_fase = cm.codigo_fase) as codigo_fase,\n"
                     + "est.codigo_catalogo_detalle as codigo_estado,\n"
                     + "(select r.nombre_regional from catmin.regional r, catmin.localidad_regional l where cm.codigo_provincia = l.codigo_localidad and r.codigo_regional = l.codigo_regional) as nombre_regional, \n"
-                    + "cm.codigo_tipo_mineria \n"
+                    + "cm.codigo_tipo_mineria, \n"
+                    + "cm.documento_concesionario_principal \n"
                     + "from catmin.concesion_minera cm, catmin.localidad prov, catmin.catalogo_detalle est, catmin.tipo_mineria tm, catmin.personas p\n"
                     + "where prov.codigo_localidad = cm.codigo_provincia\n"
                     + "and est.codigo_catalogo_detalle = cm.estado_concesion\n"
@@ -567,7 +570,7 @@ public class ConcesionMineraDaoEjb extends GenericDaoEjbEl<ConcesionMinera, Long
                     + "and cm.codigo_arcom not like '%FALLIDA%'\n"
                     + ") as concesiones where 1=1\n";
             if (codigo != null && !codigo.isEmpty()) {
-                sql1 += "and concesiones.codigo_arcom ilike '%" + codigo + "%'\n";
+                sql1 += "and concesiones.codigo_arcom = '" + codigo + "'\n";
             }
             if (nombre != null && !nombre.isEmpty()) {
                 sql1 += "and concesiones.nombre_concesion ilike '%" + nombre + "%'\n";
@@ -589,6 +592,9 @@ public class ConcesionMineraDaoEjb extends GenericDaoEjbEl<ConcesionMinera, Long
             }
             if (tipoPersona != null && !tipoPersona.isEmpty()) {
                 sql1 += "and concesiones.tipo_persona = '" + tipoPersona + "'\n";
+            }
+            if (numDocumento != null && !numDocumento.isEmpty()) {
+                sql1 += "and concesiones.documento_concesionario_principal = '" + numDocumento + "'\n";
             }
             if (tipoSolicitud != null && !tipoSolicitud.isEmpty()) {
                 if (tipoSolicitud.equals(ConstantesEnum.TIPO_SOLICITUD_CONS_MIN.getNemonico())) {
@@ -614,7 +620,8 @@ public class ConcesionMineraDaoEjb extends GenericDaoEjbEl<ConcesionMinera, Long
         if (tipoSolicitud == null || tipoSolicitud.equals(ConstantesEnum.TIPO_SOLICITUD_LIC_COM.getNemonico())) {
             sql1 += "select licencias.codigo_arcom, licencias.nombre_licencia, licencias.nombre_regional, licencias.provincia, \n"
                     + "licencias.fase, licencias.estado, licencias.tipo_solicitud, licencias.beneficiario_principal, \n"
-                    + "licencias.tipo_persona, licencias.fecha_creacion, 'L' as tipo_form, licencias.codigo_licencia_comercializacion \n"
+                    + "licencias.tipo_persona, licencias.fecha_creacion, 'L' as tipo_form, licencias.codigo_licencia_comercializacion, \n"
+                    + "licencias.numero_documento \n"
                     + "from \n"
                     + "(select\n"
                     + "l.codigo_arcom, \n"
@@ -635,14 +642,15 @@ public class ConcesionMineraDaoEjb extends GenericDaoEjbEl<ConcesionMinera, Long
                     + "l.codigo_licencia_comercializacion, \n"
                     + "(select r.codigo_regional from catmin.regional r, catmin.localidad_regional lc where l.codigo_provincia = lc.codigo_localidad and r.codigo_regional = lc.codigo_regional) as codigo_regional, \n"
                     + "l.codigo_provincia as codigo_localidad, \n"
-                    + "l.estado_licencia as codigo_catalogo_detalle \n"
+                    + "l.estado_licencia as codigo_catalogo_detalle, \n"
+                    + "l.numero_documento \n"
                     + "from catmin.licencia_comercializacion l, catmin.localidad prov, catmin.catalogo_detalle est, catmin.personas p\n"
                     + "where prov.codigo_localidad = l.codigo_provincia\n"
                     + "and est.codigo_catalogo_detalle = l.estado_licencia\n"
                     + "and l.numero_documento = p.numero_documento\n"
                     + ") as licencias where 1=1\n";
             if (codigo != null && !codigo.isEmpty()) {
-                sql1 += "and licencias.codigo_arcom ilike '%" + codigo + "%'\n";
+                sql1 += "and licencias.codigo_arcom = '" + codigo + "'\n";
             }
             if (nombre != null && !nombre.isEmpty()) {
                 sql1 += "and licencias.nombre_licencia ilike '%" + nombre + "%'\n";
@@ -662,6 +670,9 @@ public class ConcesionMineraDaoEjb extends GenericDaoEjbEl<ConcesionMinera, Long
             if (tipoPersona != null && !tipoPersona.isEmpty()) {
                 sql1 += "and licencias.tipo_persona = '" + tipoPersona + "'\n";
             }
+            if (numDocumento != null && !numDocumento.isEmpty()) {
+                sql1 += "and licencias.numero_documento = '" + numDocumento + "'\n";
+            }
         }
         if (tipoSolicitud == null) {
             sql1 += "union\n";
@@ -669,7 +680,7 @@ public class ConcesionMineraDaoEjb extends GenericDaoEjbEl<ConcesionMinera, Long
         if (tipoSolicitud == null || tipoSolicitud.equals(ConstantesEnum.TIPO_SOLICITUD_PLAN_BEN.getNemonico())) {
             sql1 += "select plantas.codigo_arcom, plantas.nombre_planta_beneficio, plantas.nombre_regional, plantas.provincia, plantas.fase, \n"
                     + "plantas.estado, plantas.tipo_solicitud, plantas.beneficiario_principal, plantas.tipo_persona, plantas.fecha_creacion, 'P' as tipo_form, \n"
-                    + "plantas.codigo_planta_beneficio \n"
+                    + "plantas.codigo_planta_beneficio, plantas.numero_documento_representante_legal \n"
                     + "from\n"
                     + "(select \n"
                     + "pb.codigo_arcom, \n"
@@ -691,7 +702,8 @@ public class ConcesionMineraDaoEjb extends GenericDaoEjbEl<ConcesionMinera, Long
                     + "pb.codigo_planta_beneficio, \n"
                     + "(select r.codigo_regional from catmin.regional r, catmin.localidad_regional lc where pb.codigo_provincia = lc.codigo_localidad and r.codigo_regional = lc.codigo_regional) as codigo_regional, \n"
                     + "pb.codigo_provincia as codigo_localidad, \n"
-                    + "pb.estado_planta as codigo_catalogo_detalle \n"
+                    + "pb.estado_planta as codigo_catalogo_detalle, \n"
+                    + "pb.numero_documento_representante_legal \n"
                     + "from catmin.planta_beneficio pb, catmin.localidad prov, catmin.catalogo_detalle est, catmin.personas p\n"
                     + "where prov.codigo_localidad = pb.codigo_provincia\n"
                     + "and est.codigo_catalogo_detalle = pb.estado_planta\n"
@@ -699,7 +711,7 @@ public class ConcesionMineraDaoEjb extends GenericDaoEjbEl<ConcesionMinera, Long
                     + "and pb.codigo_arcom is not null\n"
                     + ") as plantas where 1=1\n";
             if (codigo != null && !codigo.isEmpty()) {
-                sql1 += "and plantas.codigo_arcom ilike '%" + codigo + "%'\n";
+                sql1 += "and plantas.codigo_arcom = '" + codigo + "'\n";
             }
             if (nombre != null && !nombre.isEmpty()) {
                 sql1 += "and plantas.nombre_planta_beneficio ilike '%" + nombre + "%'\n";
@@ -718,6 +730,9 @@ public class ConcesionMineraDaoEjb extends GenericDaoEjbEl<ConcesionMinera, Long
             }
             if (tipoPersona != null && !tipoPersona.isEmpty()) {
                 sql1 += "and plantas.tipo_persona = '" + tipoPersona + "'\n";
+            }
+            if (numDocumento != null && !numDocumento.isEmpty()) {
+                sql1 += "and plantas.numero_documento_representante_legal = '" + numDocumento + "'\n";
             }
         }
         System.out.println("sql derechos mineros nacional: " + sql1);
@@ -740,6 +755,7 @@ public class ConcesionMineraDaoEjb extends GenericDaoEjbEl<ConcesionMinera, Long
             dm.setFechaSolicitud(fila[9] != null ? fila[9].toString() : "Sin fecha");
             dm.setTipoDerechoMinero(fila[10].toString());
             dm.setId(Long.valueOf(fila[11].toString()));
+            dm.setNumDocumentoRepLegal(fila[12] != null ? fila[12].toString() : "Sin número documento");
             listaFinal.add(dm);
         }
         return listaFinal;

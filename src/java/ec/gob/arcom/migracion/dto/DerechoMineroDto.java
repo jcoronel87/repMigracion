@@ -27,6 +27,7 @@ public class DerechoMineroDto {
     private Long id;
     private BigDecimal valorPagoDerechoMinero;
     private Long codigoTipoSolicitud;
+    private String numDocumentoRepLegal;
 
     public String getCodigo() {
         return codigo;
@@ -138,6 +139,14 @@ public class DerechoMineroDto {
 
     public void setCodigoTipoSolicitud(Long codigoTipoSolicitud) {
         this.codigoTipoSolicitud = codigoTipoSolicitud;
+    }
+
+    public String getNumDocumentoRepLegal() {
+        return numDocumentoRepLegal;
+    }
+
+    public void setNumDocumentoRepLegal(String numDocumentoRepLegal) {
+        this.numDocumentoRepLegal = numDocumentoRepLegal;
     }
     
 }

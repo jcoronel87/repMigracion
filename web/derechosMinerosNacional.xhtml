@@ -54,6 +54,8 @@
                             </p:selectOneMenu>
                             <p:outputLabel value="Beneficiario Principal:"/>
                             <p:inputText value="#{derechosMinerosCtrl.beneficiarioPrincipal}" />
+                            <p:outputLabel value="Número Documento:"/>
+                            <p:inputText value="#{derechosMinerosCtrl.numDocumento}" />
                         </h:panelGrid>
                         <h:commandButton actionListener="#{derechosMinerosCtrl.buscar}" 
                                          image="resources/images/busca.png" style="width: 50px; height: 50px;" 
@@ -61,7 +63,7 @@
                     </h:panelGrid>
                     <p:outputLabel value="&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
                                    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
-                                   &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;" style="width: 80%"/>
+                                   &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;" style="width: 80%"/>
                     <h:panelGroup style="text-align: right; right: -93%;">
                         <h:commandLink action="index?faces-redirect=true" title="Inicio" styleClass="boton_salir" >
                             <h:panelGrid style="text-align:center">
@@ -89,48 +91,52 @@
                              rowsPerPageTemplate="20,50,100" paginatorPosition="bottom" styleClass="texto_tabla_datos" rowIndexVar="rowIndex" emptyMessage="No existen registros"
                              style="width: 95%" rendered="#{derechosMinerosCtrl.mostrarLista}">
 
-                    <p:column headerText="#" style="width: 25px">
-                        <h:outputText value="#{rowIndex + 1}"/>
+                    <p:column headerText="#" width="25">
+                        <h:outputText value="#{rowIndex + 1}" style="font-size: 10px"/>
                     </p:column>
 
-                    <p:column headerText="CODIGO" style="width: 85px; text-align: right">
-                        <h:outputText  styleClass="texto_tabla_datos_codigo" value="#{reg.codigo}" />
+                    <p:column headerText="CODIGO" style="width: 85px; text-align: right;">
+                        <h:outputText  styleClass="texto_tabla_datos_codigo" value="#{reg.codigo}" style="font-size: 10px"/>
                     </p:column>
 
                     <p:column headerText="NOMBRE AREA">
-                        <h:outputText value="#{reg.nombreDerechoMinero}" />
+                        <h:outputText value="#{reg.nombreDerechoMinero}" style="font-size: 10px"/>
                     </p:column>
-
+                    
+                    <p:column headerText="NUM. DOCUMENTO REP. LEGAL">
+                        <h:outputText value="#{reg.numDocumentoRepLegal}" style="font-size: 10px"/>
+                    </p:column>
+                    
                     <p:column headerText="REGIONAL">
-                        <h:outputText value="#{reg.regional}" />
+                        <h:outputText value="#{reg.regional}" style="font-size: 10px"/>
                     </p:column>
 
                     <p:column headerText="PROVINCIA">
-                        <h:outputText value="#{reg.provincia}"/>
+                        <h:outputText value="#{reg.provincia}" style="font-size: 10px"/>
                     </p:column>
 
-                    <p:column headerText="FASE" style="width: 100px; text-align: right">
-                        <h:outputText value="#{reg.fase}" />
+                    <p:column headerText="FASE">
+                        <h:outputText value="#{reg.fase}" style="font-size: 10px"/>
                     </p:column>
 
-                    <p:column headerText="ESTADO" width="300">
-                        <h:outputText value="#{reg.estado}" />
+                    <p:column headerText="ESTADO">
+                        <h:outputText value="#{reg.estado}" style="font-size: 10px"/>
                     </p:column>
 
-                    <p:column headerText="TIPO SOLICITUD" style="width: 85px">
-                        <h:outputText value="#{reg.tipoSolicitud}" />
+                    <p:column headerText="TIPO SOLICITUD">
+                        <h:outputText value="#{reg.tipoSolicitud}" style="font-size: 10px"/>
                     </p:column>
 
-                    <p:column headerText="BENEFICIARIO PRINCIPAL" style="width: 85px">
-                        <h:outputText value="#{reg.beneficiarioPrincipal}" />
+                    <p:column headerText="BENEFICIARIO PRINCIPAL">
+                        <h:outputText value="#{reg.beneficiarioPrincipal}" style="font-size: 10px"/>
                     </p:column>
 
-                    <p:column headerText="TIPO PERSONA" style="width: 85px">
-                        <h:outputText value="#{reg.tipoPersona}" />
+                    <p:column headerText="TIPO PERSONA">
+                        <h:outputText value="#{reg.tipoPersona}" style="font-size: 10px"/>
                     </p:column>
 
                     <p:column headerText="FECHA">
-                        <h:outputText value="#{reg.fechaSolicitud}" />
+                        <h:outputText value="#{reg.fechaSolicitud}" style="font-size: 10px"/>
                     </p:column>
 
                     <p:column headerText="VER" style="width:37px; text-align: right">

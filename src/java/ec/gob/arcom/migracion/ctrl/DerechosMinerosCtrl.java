@@ -73,6 +73,7 @@ public class DerechosMinerosCtrl extends BaseCtrl {
     private String beneficiarioPrincipal;
     private String tipoPersona;
     private Date fecha;
+    private String numDocumento;
 
     private boolean mostrarLista = false;
     private List<DerechoMineroDto> listaRegistros;
@@ -182,9 +183,9 @@ public class DerechosMinerosCtrl extends BaseCtrl {
         if (listaRegistros == null) {
             System.out.println(codigo + " " + nombreDerechoMinero + " " + codigoRegional
                     + " " + codigoProvincia + " " + codigoFase + " " + codigoEstado + " " + tipoSolicitudNemonico
-                    + " " + beneficiarioPrincipal + " " + tipoPersona + " " + fecha);
+                    + " " + beneficiarioPrincipal + " " + tipoPersona + " " + fecha + " " + numDocumento);
             listaRegistros = concesionMineraServicio.obtenerDerechosMinerosNacional(codigo, nombreDerechoMinero, codigoRegional,
-                    codigoProvincia, codigoFase, codigoEstado, tipoSolicitudNemonico, beneficiarioPrincipal, tipoPersona, fecha);
+                    codigoProvincia, codigoFase, codigoEstado, tipoSolicitudNemonico, beneficiarioPrincipal, tipoPersona, fecha, numDocumento);
         }
         return listaRegistros;
     }
@@ -415,6 +416,14 @@ public class DerechosMinerosCtrl extends BaseCtrl {
             plantaBeneficio.setSenaguaString("NO");
         }
         RequestContext.getCurrentInstance().execute("PF('dlgPlantaBeneficio').show()");
+    }
+
+    public String getNumDocumento() {
+        return numDocumento;
+    }
+
+    public void setNumDocumento(String numDocumento) {
+        this.numDocumento = numDocumento;
     }
 
 }
