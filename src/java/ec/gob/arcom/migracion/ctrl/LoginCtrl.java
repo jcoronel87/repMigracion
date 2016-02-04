@@ -23,7 +23,7 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author coronelja
+ * @author Javier Coronel
  */
 @ManagedBean(name = "loginCtrl")
 @SessionScoped

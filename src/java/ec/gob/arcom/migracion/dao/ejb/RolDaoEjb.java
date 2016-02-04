@@ -12,7 +12,7 @@ import javax.ejb.Stateless;
 
 /**
  *
- * @author coronelja
+ * @author Javier Coronel
  */
 @Stateless(name = "RolDao")
 public class RolDaoEjb extends GenericDaoEjbEl<Rol, Long> implements

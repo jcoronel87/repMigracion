@@ -57,7 +57,7 @@ import org.primefaces.context.RequestContext;
 
 /**
  *
- * @author CoronelJa
+ * @author Javier Coronel
  */
 @ManagedBean
 @ViewScoped
@@ -145,7 +145,7 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
     private List<DerechoMineroDto> derechosMineros;
 
     private BigDecimal valorPagoDerechoMinero;
-    
+
     public void buscar() {
         listaRegistrosAutoGestion = null;
         getListaRegistrosAutoGestion();
@@ -225,14 +225,14 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
                             derechoMineroDto.setTipoDerechoMinero(pago.getCodigoConcesion().getCodigoTipoMineria().getNombreTipoMineria());
                             derechoMineroDto.setId(pago.getCodigoConcesion().getCodigoConcesion());
                         }
-                        if (pago.getCodigoLicenciaComercializacion()!= null) {
+                        if (pago.getCodigoLicenciaComercializacion() != null) {
                             derechoMineroDto.setCodigo(pago.getCodigoLicenciaComercializacion().getCodigoArcom());
                             derechoMineroDto.setCodigoTipoSolicitud(ConstantesEnum.TIPO_SOLICITUD_LIC_COM.getCodigo());
                             derechoMineroDto.setTipoSolicitud(ConstantesEnum.TIPO_SOLICITUD_LIC_COM.getDescripcion());
                             derechoMineroDto.setTipoDerechoMinero(ConstantesEnum.TIPO_SOLICITUD_LIC_COM.getDescripcion());
                             derechoMineroDto.setId(pago.getCodigoLicenciaComercializacion().getCodigoLicenciaComercializacion());
                         }
-                        if (pago.getCodigoPlantaBeneficio()!= null) {
+                        if (pago.getCodigoPlantaBeneficio() != null) {
                             derechoMineroDto.setCodigo(pago.getCodigoPlantaBeneficio().getCodigoArcom());
                             derechoMineroDto.setCodigoTipoSolicitud(ConstantesEnum.TIPO_SOLICITUD_PLAN_BEN.getCodigo());
                             derechoMineroDto.setTipoSolicitud(ConstantesEnum.TIPO_SOLICITUD_PLAN_BEN.getDescripcion());
@@ -411,7 +411,7 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
     public List<RegistroPagoObligaciones> getListaRegistrosAutoGestion() {
         if (listaRegistrosAutoGestion == null) {
             listaRegistrosAutoGestion = registroPagoObligacionesServicio
-                    .obtenerRegistrosAutogestion(fechaDesdeFiltro, fechaHastaFiltro, numeroComprobanteArcomFiltro, null, 
+                    .obtenerRegistrosAutogestion(fechaDesdeFiltro, fechaHastaFiltro, numeroComprobanteArcomFiltro, null,
                             codigoArcomFiltro, login.getPrefijoRegional());
         }
         return listaRegistrosAutoGestion;
@@ -874,10 +874,19 @@ public class RegistroPagoObligacionesCtrl extends BaseCtrl {
         UsuarioRol usRol = usuarioRolServicio.obtenerPorCodigoUsuuario(us.getCodigoUsuario());
         RegistroPagoObligaciones registroPagoObligacionesItem = (RegistroPagoObligaciones) getExternalContext().getRequestMap().get("reg");
         if (registroPagoObligacionesItem.getNumeroComprobanteArcom() != null) {
-            urlReporte = ConstantesEnum.URL_BASE.getDescripcion()
-                    + "/birt/frameset?__report=report/ComprobatesPago/Comprobante-estandar.rptdesign&codigo_registro="
-                    + registroPagoObligacionesItem.getCodigoRegistro() + "&nombre_funcionario=" + us.getNombresCompletos()
-                    + "&cargo_funcionario=" + usRol.getRol().getDescripcion() + "&__format=pdf";
+            if (registroPagoObligacionesItem.getCodigoConcesion() != null
+                    || registroPagoObligacionesItem.getCodigoLicenciaComercializacion() != null
+                    || registroPagoObligacionesItem.getCodigoPlantaBeneficio() != null) {
+                urlReporte = ConstantesEnum.URL_BASE.getDescripcion()
+                        + "/birt/frameset?__report=report/ComprobatesPago/Comprobante-estandar.rptdesign&codigo_registro="
+                        + registroPagoObligacionesItem.getCodigoRegistro() + "&nombre_funcionario=" + us.getNombresCompletos()
+                        + "&cargo_funcionario=" + usRol.getRol().getDescripcion() + "&__format=pdf";
+            } else {
+                urlReporte = ConstantesEnum.URL_BASE.getDescripcion()
+                        + "/birt/frameset?__report=report/ComprobatesPago/Respuesta-solicitud.rptdesign&codigo_registro="
+                        + registroPagoObligacionesItem.getCodigoRegistro() + "&nombre_funcionario=" + us.getNombresCompletos()
+                        + "&cargo_funcionario=" + usRol.getRol().getDescripcion() + "&__format=pdf";
+            }
         }
         // nombre_funcionario cargo_funcionario
         /*if (registroPagoObligacionesItem.getComprobanteElectronico() != null) {

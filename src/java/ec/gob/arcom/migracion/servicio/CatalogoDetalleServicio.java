@@ -12,7 +12,7 @@ import javax.ejb.Local;
 
 /**
  *
- * @author CoronelJa
+ * @author Javier Coronel
  */
 @Local
 public interface CatalogoDetalleServicio extends GenericService<CatalogoDetalle, Long> {

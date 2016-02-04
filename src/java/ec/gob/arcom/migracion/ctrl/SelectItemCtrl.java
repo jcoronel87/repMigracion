@@ -30,7 +30,7 @@ import javax.faces.model.SelectItem;
 
 /**
  *
- * @author CoronelJa
+ * @author Javier Coronel
  */
 @ManagedBean(name = "selectItemCtrl")
 public class SelectItemCtrl {

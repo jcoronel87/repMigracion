@@ -7,7 +7,7 @@ package ec.gob.arcom.migracion.constantes;
 
 /**
  *
- * @author CoronelJa
+ * @author Javier Coronel
  */
 public enum ConversionEstadosEnum {
 

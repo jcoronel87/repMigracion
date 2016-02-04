@@ -16,7 +16,7 @@ import javax.persistence.Query;
 
 /**
  *
- * @author coronelja
+ * @author Javier Coronel
  */
 @Stateless(name = "UsuarioRolDao")
 public class UsuarioRolDaoEjb extends GenericDaoEjbEl<UsuarioRol, UsuarioRolPK> implements

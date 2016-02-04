@@ -11,7 +11,7 @@ import javax.ejb.Local;
 
 /**
  *
- * @author CoronelJa
+ * @author Javier Coronel
  */
 @Local
 public interface SujetoMineroServicio extends GenericService<SujetoMinero, Long> {

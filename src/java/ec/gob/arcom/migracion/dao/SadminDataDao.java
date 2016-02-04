@@ -12,7 +12,7 @@ import javax.ejb.Local;
 
 /**
  *
- * @author coronelja
+ * @author Javier Coronel
  */
 @Local
 public interface SadminDataDao extends GenericDao<SadminData, Long> {

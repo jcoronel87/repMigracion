@@ -9,7 +9,7 @@ import java.util.Date;
 
 /**
  *
- * @author CoronelJa
+ * @author Javier Coronel
  */
 public class ConcesionMineraDto {
     

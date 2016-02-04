@@ -12,7 +12,7 @@ import javax.ejb.Stateless;
 
 /**
  *
- * @author coronelja
+ * @author Javier Coronel
  */
 @Stateless(name = "TipoMaquinariaDao")
 public class TipoMaquinariaDaoEjb extends GenericDaoEjbEl<TipoMaquinaria, Long> implements

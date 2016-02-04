@@ -16,7 +16,7 @@ import javax.persistence.Query;
 
 /**
  *
- * @author coronelja
+ * @author Javier Coronel
  */
 @Stateless(name = "CoordenadaAreaDao")
 public class CoordenadaAreaDaoEjb extends GenericDaoEjbEl<CoordenadaArea, Long> implements

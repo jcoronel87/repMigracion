@@ -13,7 +13,7 @@ import javax.ejb.Local;
 
 /**
  *
- * @author CoronelJa
+ * @author Javier Coronel
  */
 @Local
 public interface RegistroPagoDetalleServicio extends GenericService<RegistroPagoDetalle, Long> {

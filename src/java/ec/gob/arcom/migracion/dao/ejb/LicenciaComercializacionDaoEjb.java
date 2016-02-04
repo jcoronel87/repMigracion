@@ -17,7 +17,7 @@ import javax.persistence.Query;
 
 /**
  *
- * @author coronelja
+ * @author Javier Coronel
  */
 @Stateless(name = "LicenciaComercializacionDao")
 public class LicenciaComercializacionDaoEjb extends GenericDaoEjbEl<LicenciaComercializacion, Long> implements

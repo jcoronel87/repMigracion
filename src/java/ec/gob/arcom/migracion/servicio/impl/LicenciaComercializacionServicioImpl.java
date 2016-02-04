@@ -26,7 +26,7 @@ import javax.ejb.Stateless;
 
 /**
  *
- * @author CoronelJa
+ * @author Javier Coronel
  */
 @Stateless(name = "LicenciaComercializacionServicio")
 public class LicenciaComercializacionServicioImpl extends GenericServiceImpl<LicenciaComercializacion, Long>

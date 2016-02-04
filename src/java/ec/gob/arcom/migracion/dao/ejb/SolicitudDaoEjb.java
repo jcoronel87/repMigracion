@@ -14,7 +14,7 @@ import javax.persistence.Query;
 
 /**
  *
- * @author coronelja
+ * @author Javier Coronel
  */
 @Stateless(name = "SolicitudDao")
 public class SolicitudDaoEjb extends GenericDaoEjbEl<Solicitud, Long> implements

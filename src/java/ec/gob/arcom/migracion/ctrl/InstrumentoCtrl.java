@@ -44,7 +44,7 @@ import org.primefaces.context.RequestContext;
 
 /**
  *
- * @author coronelja
+ * @author Javier Coronel
  */
 @ManagedBean
 @ViewScoped

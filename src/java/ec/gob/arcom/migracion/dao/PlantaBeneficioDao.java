@@ -14,7 +14,7 @@ import javax.ejb.Local;
 
 /**
  *
- * @author CoronelJa
+ * @author Javier Coronel
  */
 
 @Local

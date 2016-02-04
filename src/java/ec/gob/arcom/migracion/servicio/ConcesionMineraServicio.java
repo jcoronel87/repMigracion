@@ -18,7 +18,7 @@ import javax.ejb.Local;
 
 /**
  *
- * @author CoronelJa
+ * @author Javier Coronel
  */
 @Local
 public interface ConcesionMineraServicio extends GenericService<ConcesionMinera, Long> {

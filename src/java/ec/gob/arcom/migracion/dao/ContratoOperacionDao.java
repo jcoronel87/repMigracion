@@ -6,8 +6,7 @@
 package ec.gob.arcom.migracion.dao;
 
 import com.saviasoft.persistence.util.dao.GenericDao;
-import ec.gob.arcom.migracion.modelo.RegistroPagoDetalle;
-import java.util.List;
+import ec.gob.arcom.migracion.modelo.ContratoOperacion;
 import javax.ejb.Local;
 
 /**
@@ -16,10 +15,8 @@ import javax.ejb.Local;
  */
 
 @Local
-public interface RegistroPagoDetalleDao extends GenericDao<RegistroPagoDetalle, Long> {
+public interface ContratoOperacionDao extends GenericDao<ContratoOperacion, Long> {
 
-    void actualizarRegistroPagoDetalle(RegistroPagoDetalle registroPagoDetalle);
-
-    List<RegistroPagoDetalle> obtenerPorCodigoRegistroPago(Long codigoRegistroPagoDetalle);
+    ContratoOperacion findByPk(Long codigoContratoOperacion);
 
 }

@@ -14,7 +14,7 @@ import javax.persistence.Query;
 
 /**
  *
- * @author coronelja
+ * @author Javier Coronel
  */
 @Stateless(name = "FaseDao")
 public class FaseDaoEjb extends GenericDaoEjbEl<Fase, Long> implements

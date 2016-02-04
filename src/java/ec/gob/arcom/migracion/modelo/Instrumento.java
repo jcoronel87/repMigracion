@@ -27,7 +27,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author coronelja
+ * @author Javier Coronel
  */
 @Entity
 @Table(name = "instrumento", catalog = "arcom_catmin", schema = "catmin")

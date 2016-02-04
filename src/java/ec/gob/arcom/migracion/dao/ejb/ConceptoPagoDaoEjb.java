@@ -12,7 +12,7 @@ import javax.ejb.Stateless;
 
 /**
  *
- * @author coronelja
+ * @author Javier Coronel
  */
 @Stateless(name = "ConceptoPagoDao")
 public class ConceptoPagoDaoEjb extends GenericDaoEjbEl<ConceptoPago, Long> implements

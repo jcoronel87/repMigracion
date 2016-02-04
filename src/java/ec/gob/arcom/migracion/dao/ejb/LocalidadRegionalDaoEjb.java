@@ -14,7 +14,7 @@ import javax.persistence.Query;
 
 /**
  *
- * @author coronelja
+ * @author Javier Coronel
  */
 @Stateless(name = "LocalidadRegionalDao")
 public class LocalidadRegionalDaoEjb extends GenericDaoEjbEl<LocalidadRegional, LocalidadRegionalPK> implements

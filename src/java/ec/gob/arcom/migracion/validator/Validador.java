@@ -9,7 +9,7 @@ import javax.faces.validator.Validator;
 
 /**
  *
- * @author CoronelJa
+ * @author Javier Coronel
  */
 public class Validador {
     

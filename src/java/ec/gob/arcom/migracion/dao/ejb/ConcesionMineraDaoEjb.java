@@ -25,7 +25,7 @@ import javax.persistence.Query;
 
 /**
  *
- * @author coronelja
+ * @author Javier Coronel
  */
 @Stateless(name = "ConcesionMineraDao")
 public class ConcesionMineraDaoEjb extends GenericDaoEjbEl<ConcesionMinera, Long> implements

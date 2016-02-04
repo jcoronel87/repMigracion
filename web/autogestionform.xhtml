@@ -45,8 +45,8 @@
                         </h:panelGroup>
                     </f:facet>
 
-                    <p:outputLabel value="Tipo de servicio:"></p:outputLabel>
-                    <p:selectOneMenu value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.codigoTipoServicio.codigoCatalogoDetalle}" 
+                    <p:outputLabel for="tipServ" value="Tipo de servicio:"></p:outputLabel>
+                    <p:selectOneMenu id="tipServ" value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.codigoTipoServicio.codigoCatalogoDetalle}" 
                                      required="true" requiredMessage="Tipo servicio es requerido" style="width: 93%">
                         <f:selectItem itemValue="" itemLabel="--Seleccione una opción--" />
                         <f:selectItems value="#{registroPagoObligacionesCtrl.tipoServicios}" />
@@ -65,17 +65,18 @@
                     <p:outputLabel for="valorRef" value="Valor concepto pago:"></p:outputLabel>
                     <p:inputText id="valorRef" 
                                  value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.valorReferenciaEntregaImpresa}"
-                                 readonly="true"/>
+                                 readonly="true" required="true" requiredMessage="Valor concepto pago requerido"/>
 
-                    <p:outputLabel value="Número depósito:"></p:outputLabel>
-                    <p:inputMask id="numDoc" mask="9?9999999" 
+                    <p:outputLabel for="numDep" value="Número depósito:"></p:outputLabel>
+                    <p:inputMask id="numDep" mask="9?9999999" 
                                  value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.numeroComprobanteBanco}" 
                                  size="50" placeHolder=""
                                  maxlength="8" required="true" requiredMessage="Número documento requerido">
                     </p:inputMask>
 
-                    <p:outputLabel value="Valor pago:"></p:outputLabel>
-                    <p:inputText value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.valorPagadoUsuario}"/>
+                    <p:outputLabel for="valorPago" value="Valor pago:"></p:outputLabel>
+                    <p:inputText id="valorPago" value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.valorPagadoUsuario}"
+                                 required="true" requiredMessage="Valor pago requerido"/>
 
                     <p:outputLabel value="Generar Nro. comprobante?" 
                                    rendered="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.codigoRegistro == null}"/>
@@ -88,7 +89,8 @@
                     <p:outputLabel for="numCompPago" value="Nro. comprobante:"></p:outputLabel>
                     <p:inputText id="numCompPago" 
                                  value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.numeroComprobanteArcom}"
-                                 readonly="#{registroPagoObligacionesCtrl.generacionComprobante}"/>
+                                 readonly="#{registroPagoObligacionesCtrl.generacionComprobante}"
+                                 required="true" requiredMessage="Nro. comprobante requerido"/>
 
                     <p:outputLabel value="Aplica cantidad?"/>
                     <p:selectBooleanCheckbox value="#{registroPagoObligacionesCtrl.aplicaCantidad}">
@@ -103,12 +105,14 @@
                     <h:panelGroup id="panelCant2">
                         <p:inputText id="cant" 
                                      value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.cantidad}" 
-                                     rendered="#{registroPagoObligacionesCtrl.aplicaCantidad}"/>
+                                     rendered="#{registroPagoObligacionesCtrl.aplicaCantidad}" required="true"
+                                     requiredMessage="Cantidad requerida"/>
                     </h:panelGroup>
 
-                    <p:outputLabel value="Entidad bancaria:"></p:outputLabel>
-                    <p:selectOneMenu value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.codigoBanco.codigoCatalogoDetalle}" 
-                                     style="width: 93%">
+                    <p:outputLabel for="entBanc" value="Entidad bancaria:"></p:outputLabel>
+                    <p:selectOneMenu id="entBanc"
+                                     value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.codigoBanco.codigoCatalogoDetalle}" 
+                                     style="width: 93%" required="true" requiredMessage="Entidad bancaria requerida">
                         <f:selectItem itemValue="" itemLabel="--Seleccione una opción--" />
                         <f:selectItems value="#{selectItemCtrl.entidadesBancarias}" />
                     </p:selectOneMenu>
@@ -118,25 +122,32 @@
                                 value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.fechaCreacion}"  
                                 locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" rendered="false"/>
 
-                    <p:outputLabel value="Fecha depósito:"></p:outputLabel>
+                    <p:outputLabel for="fecDep" value="Fecha depósito:"></p:outputLabel>
                     <p:calendar id="fecDep" readonlyInput="true" placeholder="aaaa-mm-dd" navigator="true"
                                 value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.fechaEmisionPago}"  
-                                locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" />
+                                locale="es" pattern="yyyy-MM-dd" effect="fold" style="width: 93%" 
+                                required="true" requiredMessage="Fecha depósito requerida"/>
 
-                    <p:outputLabel value="Lugar depósito"/>
-                    <p:selectOneMenu value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.lugarEmisionPago.codigoLocalidad}" 
-                                     style="width: 93%">
+                    <p:outputLabel for="lugDep" value="Lugar depósito:"/>
+                    <p:selectOneMenu id="lugDep" 
+                                     value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.lugarEmisionPago.codigoLocalidad}" 
+                                     style="width: 93%"
+                                     required="true"
+                                     requiredMessage="Lugar depósito requerido">
                         <f:selectItem itemValue="" itemLabel="--Seleccione una opción--" />
                         <f:selectItems value="#{registroPagoObligacionesCtrl.provincias}" />
                     </p:selectOneMenu>
 
-                    <p:outputLabel value="Tipo de derecho minero:"></p:outputLabel>
-                    <p:selectOneMenu id="tipRegistro" value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.codigoTipoRegistro}" 
-                                     required="true" requiredMessage="Tipo de registro es requerido" style="width: 93%">
+                    <p:outputLabel for="tipRegistro" value="Tipo de derecho minero:"></p:outputLabel>
+                    <p:selectOneMenu id="tipRegistro" 
+                                     value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.codigoTipoRegistro}" 
+                                     required="true" 
+                                     requiredMessage="Tipo de registro es requerido" 
+                                     style="width: 93%">
                         <f:selectItem itemValue="" itemLabel="--Seleccione una opción--" />
                         <f:selectItems value="#{selectItemCtrl.tiposSolicitud}" />
                         <p:ajax listener="#{registroPagoObligacionesCtrl.cambiarPopUp}" 
-                                update="panelCodigo panelCodigo2 panelDerechosMineros panelCedula" />
+                                update="panelCodigo panelCodigo2 panelDerechosMineros botones" />
                     </p:selectOneMenu>
 
                     <h:panelGroup id="panelCodigo">
@@ -146,7 +157,7 @@
                     <h:panelGrid id="panelDerechosMineros" columns="2" width="95%">
                         <p:dataTable id="derechosMinerosTable" var="reg" value="#{registroPagoObligacionesCtrl.derechosMineros}" 
                                      styleClass="texto_tabla_datos" rowIndexVar="rowIndex" emptyMessage="No existen registros" style="width: 95%"
-                                     rendered="#{!registroPagoObligacionesCtrl.sujetoMinero}">
+                                     rendered="#{!registroPagoObligacionesCtrl.sujetoMinero}" >
                             <p:column headerText="#" style="width: 25px">
                                 <h:outputText value="#{rowIndex + 1}"/>
                             </p:column>
@@ -180,27 +191,30 @@
                         </h:panelGrid>
                     </h:panelGrid>
 
-                    <p:outputLabel value="Cédula titular:"></p:outputLabel>
+                    <p:outputLabel for="cedOtServ" value="Cédula titular:"></p:outputLabel>
                     <h:panelGrid id="panelCedula" columns="2">
                         <p:inputText id="cedOtServ" 
                                      value="#{registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.documentoPersonaPago}"
-                                     readonly="true"/>
-                        <p:commandLink id="botonBusquedaSujMin" onclick="PF('dlgBusqSujMin').show();" 
-                                       title="Buscar Sujeto Minero" immediate="true" 
-                                       rendered="#{registroPagoObligacionesCtrl.sujetoMinero and registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.codigoTipoRegistro == 100}">
-                            <h:panelGrid style="text-align:center">
-                                <h:graphicImage value="resources/images/persona.png" title="Buscar Sujeto Minero" style="width: 40px; height: 40px"/>
-                            </h:panelGrid>
-                            <f:ajax execute="tipRegistro"/>
-                        </p:commandLink>
-                        <p:commandLink id="botonBusquedaPersona" onclick="PF('dlgBusqPersona').show();" 
-                                       title="Buscar Persona" immediate="true" 
-                                       rendered="#{!registroPagoObligacionesCtrl.sujetoMinero or registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.codigoTipoRegistro == 1000}">
-                            <h:panelGrid style="text-align:center">
-                                <h:graphicImage value="resources/images/persona.png" title="Buscar Persona" style="width: 40px; height: 40px"/>
-                            </h:panelGrid>
-                            <f:ajax execute="tipRegistro"/>
-                        </p:commandLink>
+                                     required="true" requiredMessage="Cédula titular requerido"
+                                     readonly="#{facesContext.renderResponse}"/>
+                        <h:panelGroup id="botones">
+                            <p:commandLink id="botonBusquedaSujMin" onclick="PF('dlgBusqSujMin').show();" 
+                                           title="Buscar Sujeto Minero" immediate="true" 
+                                           rendered="#{registroPagoObligacionesCtrl.sujetoMinero and registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.codigoTipoRegistro == 100}">
+                                <h:panelGrid style="text-align:center">
+                                    <h:graphicImage value="resources/images/persona.png" title="Buscar Sujeto Minero" style="width: 40px; height: 40px"/>
+                                </h:panelGrid>
+                                <f:ajax execute="tipRegistro"/>
+                            </p:commandLink>
+                            <p:commandLink id="botonBusquedaPersona" onclick="PF('dlgBusqPersona').show();" 
+                                           title="Buscar Persona" immediate="true" 
+                                           rendered="#{!registroPagoObligacionesCtrl.sujetoMinero or registroPagoObligacionesCtrl.registroPagoObligacionesAutoGestion.codigoTipoRegistro == 1000}">
+                                <h:panelGrid style="text-align:center">
+                                    <h:graphicImage value="resources/images/persona.png" title="Buscar Persona" style="width: 40px; height: 40px"/>
+                                </h:panelGrid>
+                                <f:ajax execute="tipRegistro"/>
+                            </p:commandLink>
+                        </h:panelGroup>
                     </h:panelGrid>
 
                     <p:outputLabel value="Nombre titular:"></p:outputLabel>

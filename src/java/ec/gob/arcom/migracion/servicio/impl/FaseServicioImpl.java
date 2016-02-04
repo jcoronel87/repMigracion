@@ -16,7 +16,7 @@ import javax.ejb.Stateless;
 
 /**
  *
- * @author CoronelJa
+ * @author Javier Coronel
  */
 @Stateless(name = "FaseServicio")
 public class FaseServicioImpl extends GenericServiceImpl<Fase, Long>

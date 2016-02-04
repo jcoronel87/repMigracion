@@ -21,7 +21,7 @@ import javax.persistence.TemporalType;
 
 /**
  *
- * @author CoronelJa
+ * @author Javier Coronel
  */
 @Entity
 @Table(name = "localidad_regional", catalog = "arcom_catmin", schema = "catmin")

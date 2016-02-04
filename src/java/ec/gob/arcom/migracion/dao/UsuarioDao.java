@@ -11,7 +11,7 @@ import javax.ejb.Local;
 
 /**
  *
- * @author coronelja
+ * @author Javier Coronel
  */
 @Local
 public interface UsuarioDao extends GenericDao<Usuario, Long> {

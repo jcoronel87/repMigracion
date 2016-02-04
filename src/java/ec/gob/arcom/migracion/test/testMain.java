@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author CoronelJa
+ * @author Javier Coronel
  */
 public class testMain {
     

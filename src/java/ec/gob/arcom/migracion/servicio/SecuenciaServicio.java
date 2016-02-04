@@ -11,7 +11,7 @@ import javax.ejb.Local;
 
 /**
  *
- * @author CoronelJa
+ * @author Javier Coronel
  */
 @Local
 public interface SecuenciaServicio extends GenericService<Secuencia, Long> {

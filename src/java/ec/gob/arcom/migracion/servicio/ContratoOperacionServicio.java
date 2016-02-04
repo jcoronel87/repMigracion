@@ -6,8 +6,7 @@
 package ec.gob.arcom.migracion.servicio;
 
 import com.saviasoft.persistence.util.service.GenericService;
-import ec.gob.arcom.migracion.modelo.CostoServicios;
-import java.util.List;
+import ec.gob.arcom.migracion.modelo.ContratoOperacion;
 import javax.ejb.Local;
 
 /**
@@ -15,10 +14,8 @@ import javax.ejb.Local;
  * @author Javier Coronel
  */
 @Local
-public interface CostoServiciosServicio extends GenericService<CostoServicios, Long> {
+public interface ContratoOperacionServicio extends GenericService<ContratoOperacion, Long> {
 
-    List<CostoServicios> obtenerPorTipoServicio(Long codigoTipoServicio);
-
-    CostoServicios obtenerPorCodigoConceptoPago(Long codigoConceptoPago);
+    ContratoOperacion findByPk(Long codigoContratoOperacion);
 
 }

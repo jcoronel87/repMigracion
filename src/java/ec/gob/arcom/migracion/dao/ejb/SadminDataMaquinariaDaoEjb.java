@@ -14,7 +14,7 @@ import javax.persistence.Query;
 
 /**
  *
- * @author coronelja
+ * @author Javier Coronel
  */
 @Stateless(name = "SadminDataMaquinariaDao")
 public class SadminDataMaquinariaDaoEjb extends GenericDaoEjbEl<SadminDataMaquinaria, Long> implements

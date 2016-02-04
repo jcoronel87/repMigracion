@@ -16,7 +16,7 @@ import javax.ejb.Stateless;
 
 /**
  *
- * @author CoronelJa
+ * @author Javier Coronel
  */
 @Stateless(name = "CatalogoServicio")
 public class CatalogoServicioImpl extends GenericServiceImpl<Catalogo, Long>

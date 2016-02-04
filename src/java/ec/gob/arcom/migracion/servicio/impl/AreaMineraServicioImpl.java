@@ -15,7 +15,7 @@ import javax.ejb.Stateless;
 
 /**
  *
- * @author CoronelJa
+ * @author Javier Coronel
  */
 @Stateless(name = "AreaMineraServicio")
 public class AreaMineraServicioImpl extends GenericServiceImpl<AreaMinera, Long>

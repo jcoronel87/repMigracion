@@ -15,7 +15,7 @@ import javax.ejb.Stateless;
 
 /**
  *
- * @author CoronelJa
+ * @author Javier Coronel
  */
 @Stateless(name = "SadminDataServicio")
 public class SadminDataServicioImpl extends GenericServiceImpl<SadminData, Long>

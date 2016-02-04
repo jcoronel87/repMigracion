@@ -14,7 +14,7 @@ import javax.persistence.Query;
 
 /**
  *
- * @author coronelja
+ * @author Javier Coronel
  */
 @Stateless(name = "RegistroPagoDetalleDao")
 public class RegistroPagoDetalleDaoEjb extends GenericDaoEjbEl<RegistroPagoDetalle, Long> implements

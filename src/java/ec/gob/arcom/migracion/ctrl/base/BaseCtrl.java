@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  *
- * @author CoronelJa
+ * @author Javier Coronel
  */
 public class BaseCtrl implements Serializable {
 

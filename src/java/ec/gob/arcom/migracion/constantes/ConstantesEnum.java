@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  *
- * @author CoronelJa
+ * @author Javier Coronel
  */
 public enum ConstantesEnum {
     

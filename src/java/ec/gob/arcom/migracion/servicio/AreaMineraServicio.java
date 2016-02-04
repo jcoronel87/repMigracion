@@ -11,7 +11,7 @@ import javax.ejb.Local;
 
 /**
  *
- * @author CoronelJa
+ * @author Javier Coronel
  */
 @Local
 public interface AreaMineraServicio extends GenericService<AreaMinera, Long> {

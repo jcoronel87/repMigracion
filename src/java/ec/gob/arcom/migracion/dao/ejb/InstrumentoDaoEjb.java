@@ -13,7 +13,7 @@ import javax.persistence.Query;
 
 /**
  *
- * @author coronelja
+ * @author Javier Coronel
  */
 @Stateless(name = "InstrumentoDao")
 public class InstrumentoDaoEjb extends GenericDaoEjbEl<Instrumento, Long> implements

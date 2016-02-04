@@ -17,7 +17,7 @@ import javax.persistence.Query;
 
 /**
  *
- * @author coronelja
+ * @author Javier Coronel
  */
 @Stateless(name = "PersonaNaturalDao")
 public class PersonaNaturalDaoEjb extends GenericDaoEjbEl<PersonaNatural, String> implements

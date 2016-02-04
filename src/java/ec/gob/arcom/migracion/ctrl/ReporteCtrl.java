@@ -7,10 +7,19 @@ package ec.gob.arcom.migracion.ctrl;
 
 import ec.gob.arcom.migracion.constantes.ConstantesEnum;
 import ec.gob.arcom.migracion.ctrl.base.BaseCtrl;
+import ec.gob.arcom.migracion.dao.UsuarioDao;
+import ec.gob.arcom.migracion.modelo.Regional;
+import ec.gob.arcom.migracion.modelo.RegistroPagoObligaciones;
+import ec.gob.arcom.migracion.modelo.Usuario;
+import ec.gob.arcom.migracion.modelo.UsuarioRol;
 import ec.gob.arcom.migracion.servicio.RecursoServicio;
+import ec.gob.arcom.migracion.servicio.RegionalServicio;
+import ec.gob.arcom.migracion.servicio.UsuarioRolServicio;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import javax.ejb.EJB;
@@ -30,7 +39,7 @@ import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 
 /**
  *
- * @author CoronelJa
+ * @author Javier Coronel
  */
 @ManagedBean
 @ViewScoped
@@ -38,6 +47,12 @@ public class ReporteCtrl extends BaseCtrl {
 
     @EJB
     private RecursoServicio recursoServicio;
+    @EJB
+    private RegionalServicio regionalServicio;
+    @EJB
+    private UsuarioDao usuarioDao;
+    @EJB
+    private UsuarioRolServicio usuarioRolServicio;
 
     @ManagedProperty(value = "#{loginCtrl}")
     private LoginCtrl login;
@@ -49,6 +64,11 @@ public class ReporteCtrl extends BaseCtrl {
     private Long codigoSubtipoMineria;
     private boolean concesionMinera;
     private List<SelectItem> tipoSolicitudes;
+    private Date fechaDesdeFiltro;
+    private Date fechaHastaFiltro;
+    private List<SelectItem> regionales;
+    private String prefijoRegionalFiltro;
+    private String urlReporte;
 
     public void generarReporteConcesionMineraXls() {
         System.out.println("entra generarReporteConcesionMineraXls");
@@ -219,7 +239,13 @@ public class ReporteCtrl extends BaseCtrl {
         if (tipoSolicitudes == null) {
             tipoSolicitudes = new ArrayList<>();
             for (ConstantesEnum ce : ConstantesEnum.tipoSolicitudes()) {
-                tipoSolicitudes.add(new SelectItem(ce.getCodigo(), ce.getDescripcion()));
+                if (ce.equals(ConstantesEnum.TIPO_SOLICITUD_CONS_MIN)
+                        || ce.equals(ConstantesEnum.TIPO_SOLICITUD_LIB_APR)
+                        || ce.equals(ConstantesEnum.TIPO_SOLICITUD_LIC_COM)
+                        || ce.equals(ConstantesEnum.TIPO_SOLICITUD_MIN_ART)
+                        || ce.equals(ConstantesEnum.TIPO_SOLICITUD_PLAN_BEN)) {
+                    tipoSolicitudes.add(new SelectItem(ce.getCodigo(), ce.getDescripcion()));
+                }
             }
         }
         return tipoSolicitudes;
@@ -227,6 +253,62 @@ public class ReporteCtrl extends BaseCtrl {
 
     public void setTipoSolicitudes(List<SelectItem> tipoSolicitudes) {
         this.tipoSolicitudes = tipoSolicitudes;
+    }
+
+    public Date getFechaDesdeFiltro() {
+        return fechaDesdeFiltro;
+    }
+
+    public void setFechaDesdeFiltro(Date fechaDesdeFiltro) {
+        this.fechaDesdeFiltro = fechaDesdeFiltro;
+    }
+
+    public Date getFechaHastaFiltro() {
+        return fechaHastaFiltro;
+    }
+
+    public void setFechaHastaFiltro(Date fechaHastaFiltro) {
+        this.fechaHastaFiltro = fechaHastaFiltro;
+    }
+
+    public List<SelectItem> getRegionales() {
+        if (regionales == null) {
+            regionales = new ArrayList<>();
+            List<Regional> rgnls = regionalServicio.findAll();
+            for (Regional rgnl : rgnls) {
+                regionales.add(new SelectItem(rgnl.getPrefijoCodigo(), rgnl.getNombreRegional()));
+            }
+        }
+        return regionales;
+    }
+
+    public void setRegionales(List<SelectItem> regionales) {
+        this.regionales = regionales;
+    }
+
+    public String getPrefijoRegionalFiltro() {
+        return prefijoRegionalFiltro;
+    }
+
+    public void setPrefijoRegionalFiltro(String prefijoRegionalFiltro) {
+        this.prefijoRegionalFiltro = prefijoRegionalFiltro;
+    }
+
+    public void generarReporteAutogestion() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        urlReporte = ConstantesEnum.URL_BASE.getDescripcion()
+                + "/birt/frameset?__report=report/ComprobatesPago/Rpt-autogestion.rptdesign&fecha_desde="
+                + sdf.format(fechaDesdeFiltro) + "&fecha_hasta=" + sdf.format(fechaHastaFiltro)
+                + "&regional=" + prefijoRegionalFiltro + "&__format=pdf";
+        System.out.println("URL del Comprobante: " + this.urlReporte);
+    }
+
+    public String getUrlReporte() {
+        return urlReporte;
+    }
+
+    public void setUrlReporte(String urlReporte) {
+        this.urlReporte = urlReporte;
     }
 
 }

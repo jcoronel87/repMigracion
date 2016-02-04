@@ -17,7 +17,7 @@ import javax.ejb.Stateless;
 
 /**
  *
- * @author CoronelJa
+ * @author Javier Coronel
  */
 @Stateless(name = "CoordenadaAreaServicio")
 public class CoordenadaAreaServicioImpl extends GenericServiceImpl<CoordenadaArea, Long>
