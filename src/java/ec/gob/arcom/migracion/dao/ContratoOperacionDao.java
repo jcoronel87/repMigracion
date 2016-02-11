@@ -19,4 +19,6 @@ public interface ContratoOperacionDao extends GenericDao<ContratoOperacion, Long
 
     ContratoOperacion findByPk(Long codigoContratoOperacion);
 
+    void actualizarContratoOperacion(ContratoOperacion contratoOperacion);
+
 }

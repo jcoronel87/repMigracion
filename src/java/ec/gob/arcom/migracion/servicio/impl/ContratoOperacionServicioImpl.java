@@ -34,4 +34,17 @@ public class ContratoOperacionServicioImpl extends GenericServiceImpl<ContratoOp
         return contratoOperacionDao.findByPk(codigoContratoOperacion);
     }
 
+    @Override
+    public void guardarTodo(ContratoOperacion contratoOperacion) {
+        this.create(contratoOperacion);
+        System.out.println("contratoOperacion.getCodigoContratoOperacion(): " + contratoOperacion.getCodigoContratoOperacion());
+        //contratoOperacion.setCodigoArcom(contratoOperacion.getCodigoConcesion().getCodigoArcom() + contratoOperacion.getCodigoContratoOperacion());
+        //contratoOperacionDao.actualizarContratoOperacion(contratoOperacion);
+    }
+
+    @Override
+    public void actualizarContratoOperacion(ContratoOperacion contratoOperacion) {
+        contratoOperacionDao.actualizarContratoOperacion(contratoOperacion);
+    }
+
 }

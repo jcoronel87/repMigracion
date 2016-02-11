@@ -393,7 +393,8 @@
                     <p:spacer/>
                     <p:spacer/>
                     <h:panelGroup id="panelRespuesta">
-                        <p:outputLabel value="No existen registros" rendered="#{registroPagoObligacionesCtrl.concesionMineraPopup == null and registroPagoObligacionesCtrl.licenciaComercializacionPopup == null 
+                        <p:outputLabel value="No existen registros" rendered="#{registroPagoObligacionesCtrl.concesionMineraPopup == null 
+                                                                                and registroPagoObligacionesCtrl.licenciaComercializacionPopup == null 
                                                                                 and registroPagoObligacionesCtrl.plantaBeneficioPopup == null}" />
                         <h:panelGrid columns="3" rendered="#{registroPagoObligacionesCtrl.concesionMineraPopup != null}">
                             <p:panelGrid columns="2" styleClass="panel_grid_center" columnClasses="form-label-width, form-input" style="width: 300px">

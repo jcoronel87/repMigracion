@@ -38,4 +38,89 @@ public class ContratoOperacionDaoEjb extends GenericDaoEjbEl<ContratoOperacion, 
         }
     }
 
+    @Override
+    public void actualizarContratoOperacion(ContratoOperacion contratoOperacion) {
+        String sql = "UPDATE catmin.contrato_operacion\n"
+                + "SET codigo_concesion=" + contratoOperacion.getCodigoConcesion().getCodigoConcesion()+ ", ";
+        if (contratoOperacion.getCodigoArea() != null) {
+            sql += "codigo_area=" + contratoOperacion.getCodigoArea().getCodigoAreaMinera() + ", ";
+        } else {
+            sql += "codigo_area=" + null + ", ";
+        }
+        if (contratoOperacion.getCodigoInforme() != null) {
+            sql += "codigo_informe=" + contratoOperacion.getCodigoInforme().getCodigoInforme() + ", ";
+        } else {
+            sql += "codigo_informe=" + null + ", ";
+        }
+        sql += "codigo_provincia=" + contratoOperacion.getCodigoProvincia().getCodigoLocalidad() + ", ";
+        sql += "codigo_canton=" + contratoOperacion.getCodigoCanton().getCodigoLocalidad() + ", ";
+        sql += "codigo_parroquia=" + contratoOperacion.getCodigoParroquia().getCodigoLocalidad() + ", ";
+        if (contratoOperacion.getSector() != null) {
+            sql += "sector='" + contratoOperacion.getSector() + "', ";
+        } else {
+            sql += "sector=" + null + ", ";
+        }
+        if (contratoOperacion.getNumeroDocumento() != null) {
+            sql += "numero_documento='" + contratoOperacion.getNumeroDocumento() + "', ";
+        } else {
+            sql += "numero_documento=" + null + ", ";
+        }
+        sql += "estado_contrato=" + contratoOperacion.getEstadoContrato().getCodigoCatalogoDetalle() + ", ";
+        if (contratoOperacion.getCampoReservado05() != null) {
+            sql += "campo_reservado_05='" + contratoOperacion.getCampoReservado05() + "', ";
+        } else {
+            sql += "campo_reservado_05=" + null + ", ";
+        }
+        if (contratoOperacion.getCampoReservado04() != null) {
+            sql += "campo_reservado_04='" + contratoOperacion.getCampoReservado04() + "', ";
+        } else {
+            sql += "campo_reservado_04=" + null + ", ";
+        }
+        if (contratoOperacion.getCampoReservado03() != null) {
+            sql += "campo_reservado_03='" + contratoOperacion.getCampoReservado03() + "', ";
+        } else {
+            sql += "campo_reservado_03=" + null + ", ";
+        }
+        if (contratoOperacion.getCampoReservado02() != null) {
+            sql += "campo_reservado_02='" + contratoOperacion.getCampoReservado02() + "', ";
+        } else {
+            sql += "campo_reservado_02=" + null + ", ";
+        }
+        if (contratoOperacion.getCampoReservado01() != null) {
+            sql += "campo_reservado_01='" + contratoOperacion.getCampoReservado01() + "', ";
+        } else {
+            sql += "campo_reservado_01=" + null + ", ";
+        }
+        sql += "estado_registro=" + contratoOperacion.getEstadoRegistro() + ", ";
+        if (contratoOperacion.getFechaCreacion() != null) {
+            sql += "fecha_creacion='" + contratoOperacion.getFechaCreacion() + "', ";
+        } else {
+            sql += "fecha_creacion=" + null + ", ";
+        }
+        if (contratoOperacion.getUsuarioCreacion() != null) {
+            sql += "usuario_creacion=" + contratoOperacion.getUsuarioCreacion() + ", ";
+        } else {
+            sql += "usuario_creacion=" + null + ", ";
+        }
+        if (contratoOperacion.getFechaModificacion() != null) {
+            sql += "fecha_modificacion='" + contratoOperacion.getFechaModificacion() + "', ";
+        } else {
+            sql += "fecha_modificacion=" + null + ", ";
+        }
+        if (contratoOperacion.getUsuarioModificacion() != null) {
+            sql += "usuario_modificacion=" + contratoOperacion.getUsuarioModificacion() + ", \n";
+        } else {
+            sql += "usuario_modificacion=" + null + ", \n";
+        }
+        if (contratoOperacion.getCodigoArcom() != null) {
+            sql += "codigo_arcom='" + contratoOperacion.getCodigoArcom() + "' \n";
+        } else {
+            sql += "codigo_arcom=" + null + " \n";
+        }
+        sql += "WHERE codigo_contrato_operacion=" + contratoOperacion.getCodigoContratoOperacion();
+        
+        Query query = em.createNativeQuery(sql);
+        query.executeUpdate();
+    }
+
 }

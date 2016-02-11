@@ -80,6 +80,7 @@ public class SelectItemCtrl {
     private List<SelectItem> zonas;
     private List<SelectItem> tiposMineriaCodigo;
     private List<SelectItem> tipoServicios;
+    private List<SelectItem> tipoContratos;
 
     public List<SelectItem> getEstadosCatalogo() {
         if (estadosCatalogo == null) {
@@ -562,6 +563,24 @@ public class SelectItemCtrl {
 
     public void setTipoServicios(List<SelectItem> tipoServicios) {
         this.tipoServicios = tipoServicios;
+    }
+
+    public List<SelectItem> getTipoContratos() {
+        if (tipoContratos == null) {
+            tipoContratos = new ArrayList<>();
+            Catalogo catalogo = catalogoServicio.findByNemonico("TIPSCONTR");
+            if (catalogo != null) {
+                List<CatalogoDetalle> tipoCont = catalogoDetalleServicio.obtenerPorCatalogo(catalogo.getCodigoCatalogo());
+                for (CatalogoDetalle catDet : tipoCont) {
+                    tipoContratos.add(new SelectItem(catDet.getCodigoCatalogoDetalle(), catDet.getNombre()));
+                }
+            }
+        }
+        return tipoContratos;
+    }
+
+    public void setTipoContratos(List<SelectItem> tipoContratos) {
+        this.tipoContratos = tipoContratos;
     }
 
 }

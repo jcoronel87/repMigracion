@@ -92,6 +92,13 @@ public class ContratoOperacion implements Serializable {
     @JoinColumn(name = "codigo_area", referencedColumnName = "codigo_area_minera")
     @ManyToOne
     private AreaMinera codigoArea;
+    @Column(name = "codigo_arcom", length = 25)
+    private String codigoArcom;
+    @JoinColumn(name = "tipo_contrato", referencedColumnName = "codigo_catalogo_detalle")
+    @ManyToOne
+    private CatalogoDetalle tipoContrato;
+    @Column(name = "porcentaje", length = 20, precision = 2)
+    private Double porcentaje;
 
     public ContratoOperacion() {
     }
@@ -258,6 +265,30 @@ public class ContratoOperacion implements Serializable {
 
     public void setCodigoArea(AreaMinera codigoArea) {
         this.codigoArea = codigoArea;
+    }
+
+    public String getCodigoArcom() {
+        return codigoArcom;
+    }
+
+    public void setCodigoArcom(String codigoArcom) {
+        this.codigoArcom = codigoArcom;
+    }
+
+    public CatalogoDetalle getTipoContrato() {
+        return tipoContrato;
+    }
+
+    public void setTipoContrato(CatalogoDetalle tipoContrato) {
+        this.tipoContrato = tipoContrato;
+    }
+
+    public Double getPorcentaje() {
+        return porcentaje;
+    }
+
+    public void setPorcentaje(Double porcentaje) {
+        this.porcentaje = porcentaje;
     }
 
     @Override

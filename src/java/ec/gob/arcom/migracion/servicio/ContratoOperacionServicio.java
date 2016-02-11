@@ -18,4 +18,8 @@ public interface ContratoOperacionServicio extends GenericService<ContratoOperac
 
     ContratoOperacion findByPk(Long codigoContratoOperacion);
 
+    void guardarTodo(ContratoOperacion contratoOperacion);
+
+    void actualizarContratoOperacion(ContratoOperacion contratoOperacion);
+
 }
