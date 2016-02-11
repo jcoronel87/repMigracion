@@ -6,13 +6,13 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:pe="http://primefaces.org/ui/extensions">
 
-    <ui:composition template="/templates/basetemplate.xhtml">
+    <ui:composition template="/templates/page-template_pf.xhtml">
         <ui:define name="title">
             <h:outputText value="Actualización de Datos"/>
         </ui:define>
 
         <ui:define name="content">
-            <h2 class="titulo_centrado">AREA MINERA MIGRADA DESDE SADMIN</h2>
+            <h2 class="titulo_centrado" style="width: 55.5%;position: relative;right: -299px;">AREA MINERA MIGRADA DESDE SADMIN</h2>
             <h:form id="form">
 
                 <p:growl id="growl" showDetail="true" showSummary="false" life="8000" autoUpdate="true"/>
@@ -44,7 +44,7 @@
                         <p:outputLabel for="numDoc" value="Cédula/RUC titular:"></p:outputLabel>
                         <h:panelGrid id="panelPersona" columns="2">
                             <p:inputMask id="numDoc" mask="9?999999999999" value="#{sadminDataCtrl.sadminData.cedulaRuc}" size="50"
-                                         maxlength="13" placeHolder="" required="true" requiredMessage="Cédula/RUC es requerido" readonly="true">
+                                         maxlength="13" placeHolder="" required="true" requiredMessage="Cédula/RUC es requerido" readonly="#{facesContext.renderResponse}">
                                 <p:ajax update="numDoc" listener="#{sadminDataCtrl.validarCedula}"  />
                             </p:inputMask>
                             <p:commandLink id="botonPersonaNatural" actionListener="#{sadminDataCtrl.llenaPopUpPersonaNatural}" oncomplete="PF('dlgPerNat').show();" 
@@ -61,18 +61,18 @@
                             </p:commandLink>
                         </h:panelGrid>
 
-                        <p:outputLabel value="Nombres y apellidos del titular:"></p:outputLabel>
+                        <p:outputLabel for="nomApTit" value="Nombres y apellidos del titular:"></p:outputLabel>
                         <p:inputText id="nomApTit" value="#{sadminDataCtrl.sadminData.titular}" required="true" requiredMessage="Nombres titular es requerido" size="50" onkeypress="return acceptText(event)"
                                      maxlength="60" readonly="true"/>
 
-                        <p:outputLabel value="Correo electrónico:"></p:outputLabel>
+                        <p:outputLabel for="email" value="Correo electrónico:"></p:outputLabel>
                         <p:inputText id="email" size="50" value="#{sadminDataCtrl.sadminData.email}" 
                                      validatorMessage="Correo electrónico inválido" label="Correo electrónico" maxlength="50" readonly="true">
                             <!--<f:validateRegex
                                 pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />-->
                         </p:inputText>
 
-                        <p:outputLabel value="Casillero:"></p:outputLabel>
+                        <p:outputLabel for="casJud" value="Casillero:"></p:outputLabel>
                         <h:panelGrid columns="2">
                             <p:inputMask id="casJud" mask="9?99999999999" value="#{sadminDataCtrl.sadminData.casillero}" size="10"
                                          maxlength="12"  />
@@ -83,10 +83,10 @@
                             </p:selectOneMenu>
                         </h:panelGrid>
 
-                        <p:outputLabel value="Dirección:"></p:outputLabel>
+                        <p:outputLabel for="dircc" value="Dirección:"></p:outputLabel>
                         <p:inputText id="dircc" size="50" value="#{sadminDataCtrl.sadminData.direccion}" required="true" requiredMessage="Dirección es requerida" maxlength="200" ></p:inputText>
 
-                        <p:outputLabel value="Teléfono:"></p:outputLabel>
+                        <p:outputLabel for="tlfn" value="Teléfono:"></p:outputLabel>
                         <p:inputMask id="tlfn" mask="9?999999999" value="#{sadminDataCtrl.sadminData.telefono}" size="50" placeholder=""
                                      validatorMessage="Teléfono debe tener mínimo 9 dígitos y máximo 10 dígitos" >
                             <f:validateLength minimum="0" maximum="10"/>
@@ -106,7 +106,7 @@
                     </p:panelGrid>
 
                     <p:panelGrid columns="2" styleClass="panel_grid_center" columnClasses="form-label-width, form-input">
-                        <p:outputLabel value="Plazo (meses - días):"></p:outputLabel>
+                        <p:outputLabel for="plazo" value="Plazo (meses - días):"></p:outputLabel>
                         <h:panelGrid columns="2">
                             <p:inputText id="plazo" placeholder="Meses" maxlength="4" size="14" value="#{sadminDataCtrl.sadminData.plazo}" 
                                          required="true" requiredMessage="Plazo es requerido" onkeypress="return acceptNum(event)"/>
@@ -114,32 +114,32 @@
                                          onkeypress="return acceptNum(event)"/>
                         </h:panelGrid>
 
-                        <p:outputLabel value="Fecha informe:" rendered="false"></p:outputLabel>
+                        <p:outputLabel for="fecInforme" value="Fecha informe:" rendered="false"></p:outputLabel>
                         <p:calendar id="fecInforme" readonlyInput="true" navigator="true" rendered="false"
                                     value="#{sadminDataCtrl.sadminData.fechaInforme}" placeholder="aaaa-mm-dd"
                                     locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" />
 
-                        <p:outputLabel value="Fecha otorga:"></p:outputLabel>
+                        <p:outputLabel for="fecOtorga" value="Fecha otorga:"></p:outputLabel>
                         <p:calendar id="fecOtorga" placeholder="aaaa-mm-dd" navigator="true"
-                                    value="#{sadminDataCtrl.sadminData.fechaOtorga}" required="#{sadminDataCtrl.otorgado}" 
+                                    value="#{sadminDataCtrl.sadminData.fechaOtorga}"  
                                     locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" />
 
-                        <p:outputLabel value="Fecha inscribe:"></p:outputLabel>
+                        <p:outputLabel for="fecInscribe" value="Fecha inscribe:"></p:outputLabel>
                         <p:calendar id="fecInscribe" placeholder="aaaa-mm-dd" navigator="true"
-                                    value="#{sadminDataCtrl.sadminData.fechaInscribe}" required="#{sadminDataCtrl.inscrito}"
+                                    value="#{sadminDataCtrl.sadminData.fechaInscribe}" 
                                     locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" />
 
-                        <p:outputLabel value="Fecha sustitución:"></p:outputLabel>
+                        <p:outputLabel for="fecSustitucion" value="Fecha sustitución:"></p:outputLabel>
                         <p:calendar id="fecSustitucion" navigator="true"
                                     value="#{sadminDataCtrl.sadminData.fechaSustitucion}" placeholder="aaaa-mm-dd"
                                     locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" />
 
-                        <p:outputLabel value="Fecha inscripciòn sustitución:"></p:outputLabel>
+                        <p:outputLabel for="fecInscSustitucion" value="Fecha inscripciòn sustitución:"></p:outputLabel>
                         <p:calendar id="fecInscSustitucion" navigator="true"
                                     value="#{sadminDataCtrl.sadminData.fechaInscripcionSustitucion}" placeholder="aaaa-mm-dd"
                                     locale="es" pattern="yyyy-MM-dd"  effect="fold" style="width: 93%" />
 
-                        <p:outputLabel value="Zona:"></p:outputLabel>
+                        <p:outputLabel for="console" value="Zona:"></p:outputLabel>
                         <p:selectOneRadio id="console" value="#{sadminDataCtrl.sadminData.zona}" required="true" requiredMessage="Zona es requerida">
                             <f:selectItem itemLabel="Zona 15" itemValue="15" />
                             <f:selectItem itemLabel="Zona 16" itemValue="16" />
@@ -147,23 +147,24 @@
                             <f:selectItem itemLabel="Zona 18" itemValue="18" />
                         </p:selectOneRadio>
 
-                        <p:outputLabel value="Superficie (Hectáreas:"></p:outputLabel>
-                        <pe:inputNumber thousandSeparator="," decimalSeparator="." decimalPlaces="2" maxValue="99999.99" value="#{sadminDataCtrl.sadminData.superficie}" 
+                        <p:outputLabel for="superficie" value="Superficie (Hectáreas):"></p:outputLabel>
+                        <pe:inputNumber id="superficie" thousandSeparator="," decimalSeparator="." decimalPlaces="2" maxValue="99999.99" value="#{sadminDataCtrl.sadminData.superficie}" 
                                         required="true" requiredMessage="Superficie es requerida" style="width: 93%"/>
 
-                        <p:outputLabel value="Volumen total (m3):"></p:outputLabel>
-                        <pe:inputNumber thousandSeparator="," decimalSeparator="." decimalPlaces="2" maxValue="9999999999.99" value="#{sadminDataCtrl.sadminData.volumenTotalExplotacion}" 
+                        <p:outputLabel for="volumen" value="Volumen total (m3):"></p:outputLabel>
+                        <pe:inputNumber id="volumen" thousandSeparator="," decimalSeparator="." decimalPlaces="2" maxValue="9999999999.99" value="#{sadminDataCtrl.sadminData.volumenTotalExplotacion}" 
                                         style="width: 93%"/>
 
-                        <p:outputLabel value="Estado:"></p:outputLabel>
-                        <p:selectOneMenu value="#{sadminDataCtrl.sadminData.estado}" required="true" requiredMessage="Estado es requerido" style="width: 93%">
+                        <p:outputLabel for="estadoArea" value="Estado:"></p:outputLabel>
+                        <p:selectOneMenu id="estadoArea" value="#{sadminDataCtrl.sadminData.estado}" required="true" requiredMessage="Estado es requerido" style="width: 93%">
                             <f:selectItem itemValue="" itemLabel="--Seleccione una opción--" />
                             <f:selectItems value="#{selectItemCtrl.estadosCatalogo}" />
-                            <p:ajax process=":form:fecOtorga :form:fecInscribe" update=":form:fecOtorga :form:fecInscribe" />
+                            <p:ajax process=":form:estadoArea :form:fecOtorga :form:fecInscribe" update=":form:fecOtorga :form:fecInscribe" immediate="true"/>
                         </p:selectOneMenu>
 
-                        <p:outputLabel value="Tipo solicitud:"></p:outputLabel>
-                        <p:selectOneMenu value="#{sadminDataCtrl.sadminData.tipoSolicitud}" required="true" requiredMessage="Tipo solicitud es requerido" style="width: 93%">
+                        <p:outputLabel for="tipoSolicitud" value="Tipo solicitud:"></p:outputLabel>
+                        <p:selectOneMenu id="tipoSolicitud" value="#{sadminDataCtrl.sadminData.tipoSolicitud}" required="true" 
+                                         requiredMessage="Tipo solicitud es requerido" style="width: 93%">
                             <f:selectItem itemValue="" itemLabel="--Seleccione una opción--" />
                             <f:selectItems value="#{selectItemCtrl.tiposMineria}" />
                             <p:ajax listener="#{sadminDataCtrl.validarRegimenFase}" update="reg1 reg2 fas1 fas2"/>
@@ -205,40 +206,40 @@
                             <f:selectItems value="#{selectItemCtrl.modalidadesTrabajo}" />
                         </p:selectOneMenu>
 
-                        <p:outputLabel value="Provincia:"></p:outputLabel>
+                        <p:outputLabel for="somProvincia01" value="Provincia:"></p:outputLabel>
                         <p:selectOneMenu id="somProvincia01" value="#{sadminDataCtrl.sadminData.provincia1}" required="true" requiredMessage="Provincia es requerida" style="width: 93%">
                             <f:selectItem itemValue="" itemLabel="--Seleccione una opción--" />
                             <f:selectItems value="#{sadminDataCtrl.provincias}"/>
                             <p:ajax  listener="#{sadminDataCtrl.cargaCantones}" update="somCanton01 somParroquia01" />
                         </p:selectOneMenu>
 
-                        <p:outputLabel value="Cantón:"></p:outputLabel>
+                        <p:outputLabel for="somCanton01" value="Cantón:"></p:outputLabel>
                         <p:selectOneMenu id="somCanton01" value="#{sadminDataCtrl.sadminData.canton}" required="true" requiredMessage="Cantón es requerido" style="width: 93%">
                             <f:selectItem itemValue="" itemLabel="--Seleccione una opción--" />
                             <f:selectItems value="#{sadminDataCtrl.cantones}"/>
                             <p:ajax  listener="#{sadminDataCtrl.cargaParroquias}" update="somParroquia01" />
                         </p:selectOneMenu>
 
-                        <p:outputLabel value="Parroquia:"></p:outputLabel>
+                        <p:outputLabel for="somParroquia01" value="Parroquia:"></p:outputLabel>
                         <p:selectOneMenu id="somParroquia01" value="#{sadminDataCtrl.sadminData.parroquia}" required="true" requiredMessage="Parroquia es requerida" style="width: 93%">
                             <f:selectItem itemValue="" itemLabel="--Seleccione una opción--" />
                             <f:selectItems value="#{sadminDataCtrl.parroquias}"/>
                         </p:selectOneMenu>
 
-                        <p:outputLabel value="Método de Explotación:"></p:outputLabel>
+                        <p:outputLabel for="sisExp" value="Método de Explotación:"></p:outputLabel>
                         <p:selectOneMenu id="sisExp" value="#{sadminDataCtrl.sadminData.metodoExplotacion}" style="width: 93%"> 
                             <f:selectItem itemValue="" itemLabel="--Seleccione una opción--" />
                             <f:selectItems value="#{selectItemCtrl.sistemasExplotacion}"/>
                         </p:selectOneMenu>
 
-                        <p:outputLabel value="Mineral:"></p:outputLabel>
+                        <p:outputLabel for="mineral" value="Mineral:"></p:outputLabel>
                         <p:selectOneMenu id="mineral" value="#{sadminDataCtrl.sadminData.mineral}" required="true" requiredMessage="Mineral es requerido" style="width: 93%"> 
                             <f:selectItem itemValue="" itemLabel="--Seleccione una opción--" />
                             <f:selectItems value="#{sadminDataCtrl.tipoMaterial}"/>
                             <p:ajax listener="#{sadminDataCtrl.cargaTipoMaterialDetalle}" update="tipoMineral"/>
                         </p:selectOneMenu>
 
-                        <p:outputLabel value="Tipo Mineral:"></p:outputLabel>
+                        <p:outputLabel for="tipoMineral" value="Tipo Mineral:"></p:outputLabel>
                         <p:selectOneMenu id="tipoMineral" value="#{sadminDataCtrl.sadminData.tipoMineral}" style="width: 93%"> 
                             <f:selectItem itemValue="" itemLabel="--Seleccione una opción--" />
                             <f:selectItems value="#{sadminDataCtrl.tipoMaterialDetalle}"/>
@@ -290,40 +291,40 @@
                     <p:growl id="message4" showDetail="true" autoUpdate="true"/>
                     <div align="center">
                         <h:panelGrid columns="2">
-                            <p:outputLabel value="Cédula/RUC titular:" />
+                            <p:outputLabel for="numDoc" value="Cédula/RUC titular:" />
                             <p:inputMask id="numDoc" mask="9?999999999" value="#{sadminDataCtrl.personaNatural.numeroDocumento}" size="50" placeHolder=""
                                          maxlength="10" required="true" requiredMessage="Cédula/RUC requerido"  >
                                 <p:ajax event="blur" process=":form4:numDoc" update="@form" listener="#{sadminDataCtrl.validarCedulaPersonaNatural}"  />
                             </p:inputMask>
-                            <p:outputLabel value="Nombres del titular:"></p:outputLabel>
-                            <p:inputText value="#{sadminDataCtrl.personaNatural.nombre}" required="true" requiredMessage="Nombres titular es requerido" size="50" 
+                            <p:outputLabel for="nombreTit" value="Nombres del titular:"></p:outputLabel>
+                            <p:inputText id="nombreTit" value="#{sadminDataCtrl.personaNatural.nombre}" required="true" requiredMessage="Nombres titular es requerido" size="50" 
                                          maxlength="60" onkeypress="return acceptText(event)"/>
 
-                            <p:outputLabel value="Apellidos del titular:"></p:outputLabel>
-                            <p:inputText value="#{sadminDataCtrl.personaNatural.apellido}" required="true" requiredMessage="Nombres titular es requerido" size="50" 
+                            <p:outputLabel for="apellidoTit" value="Apellidos del titular:"></p:outputLabel>
+                            <p:inputText id="apellidoTit" value="#{sadminDataCtrl.personaNatural.apellido}" required="true" requiredMessage="Nombres titular es requerido" size="50" 
                                          maxlength="60" onkeypress="return acceptText(event)"/>
 
-                            <p:outputLabel value="Teléfono celular:"></p:outputLabel>
-                            <p:inputMask mask="9?999999999" value="#{sadminDataCtrl.personaNatural.celular}" size="50" placeholder=""
+                            <p:outputLabel for="celularTit" value="Teléfono celular:"></p:outputLabel>
+                            <p:inputMask id="celularTit" mask="9?999999999" value="#{sadminDataCtrl.personaNatural.celular}" size="50" placeholder=""
                                          validatorMessage="Teléfono celular debe tener 10 dígitos" >
                                 <f:validateLength minimum="0" maximum="10" />
                             </p:inputMask>
 
-                            <p:outputLabel value="Teléfono convencional:"></p:outputLabel>
-                            <p:inputMask mask="9?99999999" value="#{sadminDataCtrl.personaNatural.telefono}" size="50" placeholder=""
+                            <p:outputLabel for="telefonoTit" value="Teléfono convencional:"></p:outputLabel>
+                            <p:inputMask id="telefonoTit" mask="9?99999999" value="#{sadminDataCtrl.personaNatural.telefono}" size="50" placeholder=""
                                          validatorMessage="Teléfono convencional debe tener 9 dígitos">
                                 <f:validateLength minimum="0" maximum="9" />
                             </p:inputMask>
 
-                            <p:outputLabel value="Casillero judicial:"></p:outputLabel>
-                            <p:inputMask mask="9?99999999999" value="#{sadminDataCtrl.personaNatural.casilleroJudicial}" size="50" placeHolder=""
+                            <p:outputLabel for="casilleroTit" value="Casillero judicial:"></p:outputLabel>
+                            <p:inputMask id="casilleroTit" mask="9?99999999999" value="#{sadminDataCtrl.personaNatural.casilleroJudicial}" size="50" placeHolder=""
                                          maxlength="12" required="true" requiredMessage="Casillero judicial requerido" />
 
-                            <p:outputLabel value="Dirección:"></p:outputLabel>
-                            <p:inputText size="50" value="#{sadminDataCtrl.personaNatural.direccion}" required="true" requiredMessage="Dirección es requerida" maxlength="90"></p:inputText>
+                            <p:outputLabel for="dirTit" value="Dirección:"></p:outputLabel>
+                            <p:inputText id="dirTit" size="50" value="#{sadminDataCtrl.personaNatural.direccion}" required="true" requiredMessage="Dirección es requerida" maxlength="90"></p:inputText>
 
-                            <p:outputLabel value="Correo electrónico:"></p:outputLabel>
-                            <p:inputText size="50" value="#{sadminDataCtrl.personaNatural.email}" required="false"
+                            <p:outputLabel for="emailTit" value="Correo electrónico:"></p:outputLabel>
+                            <p:inputText id="emailTit" size="50" value="#{sadminDataCtrl.personaNatural.email}" required="false"
                                          validatorMessage="Correo electrónico inválido" label="Correo electrónico" maxlength="50">
                                 <!--<f:validateRegex
                                     pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />-->
