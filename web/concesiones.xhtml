@@ -44,9 +44,13 @@
                         </h:commandLink>
                     </h:panelGroup>
                 </h:panelGrid>
-
+                
+                <!--
                 <h1 class="titulo_centrado">Lista de Concesiones Mineras - Regional #{concesionMineraCtrl.login.regional}</h1>
-
+                -->
+                
+                <h1 class="titulo_centrado">Lista de Concesiones Mineras</h1>
+                
                 <p:dataTable id="amdt" var="reg" value="#{coordenadaCtrl.concesiones}" paginator="true"
                              currentPageReportTemplate="Mostrando {startRecord}-{endRecord} de {totalRecords}"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
