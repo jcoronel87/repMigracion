@@ -41,4 +41,8 @@ public class CoordenadaAreaServicioImpl extends GenericServiceImpl<CoordenadaAre
         return coordenadaAreaDao.findByCodigoArea(codigoArea);
     }
 
+    @Override
+    public List<CoordenadaArea> list(Long codigoArea) {
+        return coordenadaAreaDao.list(codigoArea);
+    }
 }

@@ -3,7 +3,7 @@
    Author     : mejiaw
 */
 body {
-    width: 100%;
+
 }
 
 form {
@@ -178,4 +178,24 @@ h2 {
     padding: 3px;
     vertical-align: middle;
     width: 95%;
+}
+
+.listaCoordenadas {
+    font-size: 11px;
+    margin: 0 auto;
+    width: 750px;
+}
+
+.panelCentrado {
+    margin: 0 auto;
+    width: 750px;
+}
+
+.panelCentrado {
+    margin: 0 auto;
+    width: 750px;
+}
+
+.panelCentrado.ui-panel-content, .panelCentrado.ui-widget-content{
+    border: none;
 }

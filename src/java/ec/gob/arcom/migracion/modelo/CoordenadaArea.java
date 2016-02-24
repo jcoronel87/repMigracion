@@ -274,5 +274,5 @@ public class CoordenadaArea implements Serializable {
                 + ", fechaCreacion=" + fechaCreacion + ", usuarioCreacion=" + usuarioCreacion + ", fechaModificacion=" + fechaModificacion + ", usuarioModificacion=" + usuarioModificacion
                 + ", sistemaReferencia=" + (sistemaReferencia != null ? sistemaReferencia.getCodigoCatalogoDetalle() : null) + ", codigoArea=" + (codigoArea != null ? codigoArea.getCodigoAreaMinera() : null) + '}';
     }
-
+    
 }

@@ -1003,7 +1003,7 @@ public class ConcesionMineraCtrl extends BaseCtrl {
             /*Auditoria auditoria = new Auditoria();
             auditoria.setAccion("DELETE");
             auditoria.setFecha(getCurrentTimeStamp());
-            auditoria.setUsuario(BigInteger.valueOf(us.getCodigoUsuario()));
+            auditoria.setUsuario(BigInteger.valueOf(us.getCodigoUsuario())+++++++++++++++++++++++++);
             auditoria.setDetalleAnterior(solicitudDetalleItem.toString());
             auditoriaServicio.create(auditoria);*/
             Auditoria auditoria2 = new Auditoria();

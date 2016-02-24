@@ -22,5 +22,7 @@ public interface CoordenadaAreaDao extends GenericDao<CoordenadaArea, Long> {
     CoordenadaArea findByCodigoAreaOrden(Long codigoArea, BigInteger orden);
 
     List<CoordenadaArea> findByCodigoArea(Long codigoArea);
+
+    List<CoordenadaArea> list(Long codigoArea);
     
 }

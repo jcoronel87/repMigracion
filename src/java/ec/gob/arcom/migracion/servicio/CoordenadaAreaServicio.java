@@ -21,5 +21,7 @@ public interface CoordenadaAreaServicio extends GenericService<CoordenadaArea, L
     CoordenadaArea findByCodigoAreaOrden(Long codigoArea, BigInteger orden);
 
     List<CoordenadaArea> findByCodigoArea(Long codigoArea);
+
+    List<CoordenadaArea> list(Long codigoArea);
     
 }
